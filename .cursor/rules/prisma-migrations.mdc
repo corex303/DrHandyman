@@ -1,0 +1,52 @@
+---
+description: Manipulating or migrating the Prisma Database or its configuration
+globs: 
+alwaysApply: false
+---
+- **General Migration Workflow (`prisma migrate dev`):**
+    - **Development Only**: The `prisma migrate dev` command is intended for development environments. It can be destructive (e.g., prompting for database resets).
+    - **Schema Changes**: After modifying `[schema.prisma](mdc:ts-pnpm/prisma/schema.prisma)`, run `pnpm prisma migrate dev --name <migration_name>` to generate and apply a new migration.
+    - **Migration Naming**: Use descriptive names for migrations (e.g., `add_user_email_verification`, `create_posts_table`).
+
+- **Modifying Enums (PostgreSQL):**
+    - **Direct Enum Value Rename/Removal is Problematic**: PostgreSQL does not easily support renaming or removing enum values if they are in use or if the operation is part of a larger transaction that also tries to use the modified enum (e.g., setting a new default).
+    - **Prisma's `migrate dev` Behavior**: If `prisma migrate dev` detects a potentially unsafe enum change (like renaming or removing a value that might be in use), it will often:
+        - Warn that data might be lost.
+        - Fail to apply the migration directly.
+        - Suggest or force a database reset (`prisma migrate reset`).
+
+    - **Recommended Strategies for Enum Changes (Development):**
+        - **1. Adding a New Enum Value & Setting as Default (Two-Step Migration):**
+            - **Scenario**: You want to add a new enum value (e.g., `NEW_STATUS`) and make it the default for a field.
+            - **Step 1: Add Enum Value Only**
+                - Modify `[schema.prisma](mdc:ts-pnpm/prisma/schema.prisma)`: Add `NEW_STATUS` to the enum definition but *do not* set it as a default on any model field yet. If a default was already pointing to an old value that's being phased out, you might need to temporarily remove the default or point it to another existing, stable value.
+                - Run `pnpm prisma migrate dev --name add_new_status_enum_value`.
+            - **Step 2: Set Default Value**
+                - Modify `[schema.prisma](mdc:ts-pnpm/prisma/schema.prisma)`: Set `@default(NEW_STATUS)` on the desired model field.
+                - Run `pnpm prisma migrate dev --name set_new_status_default`.
+            - **Rationale**: This separates the enum alteration from its usage as a default in the same transaction, avoiding common PostgreSQL errors.
+
+        - **2. Renaming/Removing an Enum Value (Requires Database Reset in Dev):**
+            - **Scenario**: You need to rename `OLD_VALUE` to `NEW_VALUE` or completely remove `OLD_VALUE`.
+            - **Step 1: Update Schema**: Modify `[schema.prisma](mdc:ts-pnpm/prisma/schema.prisma)` to reflect the final desired enum state (e.g., `NEW_VALUE` is present, `OLD_VALUE` is absent).
+            - **Step 2: Reset Database**: Run `pnpm prisma migrate reset --force`.
+                - This will wipe the development database and reapply all existing migrations against the *new* schema baseline where `OLD_VALUE` never existed (or was already `NEW_VALUE`).
+            - **Step 3: Update Code**: Manually update any application code that referenced `OLD_VALUE` to now use `NEW_VALUE`.
+            - **Rationale**: This is often the simplest and cleanest way in a development environment where data loss is acceptable. Trying to write complex SQL to update in-use enum values and then alter the type can be error-prone for `prisma migrate dev`.
+            - **Production Note**: For production, such changes require careful manual SQL migrations (e.g., `ALTER TYPE ... ADD VALUE`, `UPDATE table SET column = 'NEW_VALUE' WHERE column = 'OLD_VALUE'`, `ALTER TYPE ... RENAME VALUE 'OLD_VALUE' TO 'NEW_VALUE';` (if supported and safe), or more complex procedures). These are beyond the scope of `prisma migrate dev`.
+
+- **Troubleshooting Failed Migrations (`prisma migrate dev`):**
+    - **Identify Failed Migration Folder**: Check `ts-pnpm/prisma/migrations` for the most recent folder, which often corresponds to the failed migration.
+    - **Read Error Output**: Carefully examine the terminal output from `prisma migrate dev` for error messages and warnings.
+    - **`--create-only` Flag**: To see the SQL Prisma *intends* to generate without applying it, use `pnpm prisma migrate dev --name <migration_name> --create-only`. This can help diagnose issues.
+    - **Database GUI**: If possible, inspect the database directly (e.g., using pgAdmin, DBeaver, or Neon's SQL editor) to understand its current state, especially the `_prisma_migrations` table.
+    - **If Prisma Detects Drift/Failed State**: It might require a `prisma migrate reset`. Before resetting:
+        - Ensure your `[schema.prisma](mdc:ts-pnpm/prisma/schema.prisma)` is in a consistent, desired state that *can* be applied cleanly (e.g., if a reset is needed due to a problematic enum change, make sure the schema reflects the *target* enum structure before resetting).
+        - Backup any critical dev data if necessary, as `reset` is destructive.
+
+- **Seeding**: 
+  - The `prisma migrate reset` command will automatically try to run your seed script if one is defined in `package.json` (e.g., `"seed": "tsx prisma/seed.ts"`).
+  - Ensure your seed script is idempotent or handles being run multiple times gracefully.
+
+- **Always check the `ts-pnpm/prisma/migrations` folder to confirm if a migration was actually created after running the command.** Terminal output can sometimes be misleading.
+

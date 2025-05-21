@@ -1,0 +1,40 @@
+---
+description: When executing commands with powershell
+globs: 
+alwaysApply: false
+---
+- **Command Chaining:**
+    - **Avoid `&&`**: The `&&` operator for chaining commands (common in Bash/CMD) does **not** work reliably in the PowerShell environment used by the `run_terminal_cmd` tool.
+    - **Use Semicolons (`;`) for Sequential Execution**: To run multiple commands sequentially on the *same line*, separate them with a semicolon (`;`).
+        - Example: `cd my-directory; pnpm install`
+    - **Prefer Separate Tool Calls**: For clarity and better error handling, especially for complex or critical commands, prefer executing them in separate `run_terminal_cmd` calls. This makes debugging easier if one command fails.
+
+- **Directory Navigation (`cd`):**
+    - **Statefulness of `cd`**: The `run_terminal_cmd` tool maintains the current working directory (CWD) between calls *within the same active shell instance*. The `last_terminal_cwd` property in `<additional_data>` indicates the CWD for the next command if the shell is being reused.
+    - **`cd` and Command on Same Line**: If changing directory and then immediately running a command, use a semicolon: `cd path/to/target; command-to-run`.
+    - **Verify CWD**: Pay attention to `last_terminal_cwd`. If it's not what you expect (e.g., after a failed command or if a new shell is indicated), explicitly `cd` to the correct directory *before* running your intended command.
+    - **Avoid Redundant `cd`**: If `last_terminal_cwd` is already the desired directory, do not prepend `cd` to your command. This can lead to errors like "No such file or directory" if the `cd` path is relative and executed from an unexpected CWD.
+
+- **File and Directory Operations:**
+    - **`rmdir` vs. `Remove-Item`**:
+        - The `rmdir` command in PowerShell is an alias for `Remove-Item`.
+        - To delete a directory and its contents (recursive, force), do **not** use CMD-style `/s /q` flags.
+        - **Use `Remove-Item -Recurse -Force path/to/directory`**.
+    - **Quoting Paths**: If file or directory names contain spaces, enclose them in single (`'`) or double (`"`) quotes. Single quotes are generally safer as they treat most characters literally.
+        - Example: `Remove-Item -Recurse -Force \'my folder with spaces\'`
+
+- **Error Handling:**
+    - **Check Exit Codes**: The `run_terminal_cmd` tool output includes the exit code. A non-zero exit code usually indicates an error.
+    - **Review Command Output**: Carefully inspect the `stdout` and `stderr` (often combined in `Command output`) for error messages or unexpected behavior.
+    - **Idempotency**: If a command might be run multiple times, design it to be idempotent if possible (e.g., `mkdir -p` in Bash, or a PowerShell equivalent like `if (-not (Test-Path .\myDir)) { New-Item -ItemType Directory -Path .\myDir }`).
+
+- **Tool-Specific Flags:**
+    - **Non-Interactive**: Assume no user interaction is possible. Use flags like `-y`, `--yes`, `--force`, `--no-prompt`, etc., to bypass interactive prompts.
+    - **`pnpm` commands**:
+        - For build script approvals that might cause prompts: Consider if `pnpm --approve-builds` is relevant before running installs/updates that might trigger this.
+
+- **Debugging Terminal Issues:**
+    - **Isolate Commands**: If a complex command fails, break it down into smaller parts and test each one.
+    - **Check CWD**: Always be mindful of the CWD. Use `Get-Location` (or `pwd` alias) as a separate command if unsure.
+    - **Simplify**: Start with the simplest version of a command and gradually add complexity or flags.
+

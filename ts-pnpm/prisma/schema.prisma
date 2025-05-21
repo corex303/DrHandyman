@@ -1,0 +1,153 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  MAINTENANCE
+  CUSTOMER
+}
+
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  password  String   // Password hash
+  role      UserRole @default(CUSTOMER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  uploadedPortfolioItems PortfolioItem[] @relation("UploadedByWorker")
+  uploadedPhotoSets      PhotoSet[]      @relation("UploadedPhotoSets")
+  reviewedPhotoSets      PhotoSet[]      @relation("ReviewedPhotoSets")
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  name        String   @unique // e.g., "Carpentry", "Concrete Repair"
+  description String   @db.Text
+  slug        String   @unique // For URL generation, e.g., "carpentry"
+  imageUrl    String?  // Representative image for the service category
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  portfolioItems PortfolioItem[]
+}
+
+model PortfolioItem {
+  id                 String   @id @default(cuid())
+  title              String?
+  description        String?  @db.Text
+  beforeImageUrl     String
+  afterImageUrl      String
+  serviceId          String
+  service            Service  @relation(fields: [serviceId], references: [id])
+  uploadedById       String? // Optional: if admins can upload without a worker record
+  uploadedBy         User?    @relation("UploadedByWorker", fields: [uploadedById], references: [id])
+  isApproved         Boolean  @default(false)
+  approvedAt         DateTime?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  jobDate            DateTime? // Optional: when the job was done
+}
+
+model Testimonial {
+  id          String   @id @default(cuid())
+  customerName String
+  testimonial String   @db.Text
+  location    String?  // e.g., "Raleigh, NC"
+  isApproved  Boolean  @default(false) // Admin can approve testimonials
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Inquiry {
+  id             String   @id @default(cuid())
+  customerName   String
+  customerEmail  String
+  customerPhone  String?
+  serviceNeeded  String?  // Could link to Service model if a predefined list, or free text
+  message        String   @db.Text
+  isArchived     Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model SiteSettings {
+  id             String    @id @default(cuid()) // Could be a single row table
+  siteName       String    @default("Dr. Handyman NC")
+  contactEmail   String?
+  contactPhone   String?
+  address        String?
+  socialMedia    Json?     // Store as JSON: { facebook: "url", instagram: "url" }
+  seoTitle       String?
+  seoDescription String?
+  appearance     Json?     // To store theme, colors, fonts, logoUrl, faviconUrl
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model Image {
+  id          String   @id @default(cuid())
+  publicId    String   @unique // Cloudinary public_id
+  url         String   // Cloudinary URL
+  secureUrl   String   // Cloudinary secure_url
+  format      String?
+  width       Int?
+  height      Int?
+  bytes       Int?
+  altText     String?
+  description String?
+  uploadedAt  DateTime @default(now())
+  uploaderId  String? // Optional: if you want to associate images with a user
+  // uploader    User?    @relation(fields: [uploaderId], references: [id]) // Optional: if User model exists
+
+  // Optional: Relations to other models, e.g., if an image belongs to a Service or Portfolio item
+  // serviceId   String?
+  // service     Service? @relation(fields: [serviceId], references: [id])
+  // portfolioItemId String?
+  // portfolioItem PortfolioItem? @relation(fields: [portfolioItemId], references: [id])
+
+  @@map("images")
+}
+
+model PhotoSet {
+  id                String   @id @default(cuid())
+  beforeImageUrl    String
+  afterImageUrl     String
+  description       String?  @db.Text
+  serviceCategory   String   // Stores the name of the service, e.g., "Carpentry"
+  uploadedById      String
+  uploadedBy        User     @relation("UploadedPhotoSets", fields: [uploadedById], references: [id])
+  
+  approvalStatus    ApprovalStatus @default(PENDING)
+  reviewedById      String?  // Admin who reviewed
+  reviewedBy        User?    @relation("ReviewedPhotoSets", fields: [reviewedById], references: [id])
+  reviewedAt        DateTime?
+  rejectionReason   String?
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([uploadedById])
+  @@index([serviceCategory])
+  @@index([approvalStatus])
+}
