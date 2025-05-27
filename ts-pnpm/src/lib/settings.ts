@@ -1,4 +1,5 @@
 import prisma from '@/lib/prisma';
+
 import { AppearanceSettings, defaultAppearanceSettings } from '@/types/appearance';
 
 export async function getSiteAppearanceSettings(): Promise<AppearanceSettings> {

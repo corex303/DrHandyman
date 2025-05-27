@@ -1,6 +1,8 @@
-import { NextResponse, type NextRequest } from 'next/server';
-import prisma from '@/lib/prisma'; // Corrected: Default import for prisma
+import { type NextRequest,NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
+
+import prisma from '@/lib/prisma'; // Corrected: Default import for prisma
+
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 // Helper to get or create the single SiteSettings record

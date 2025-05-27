@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useCallback,useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 
 // Assuming AppearanceSettings interface is defined (can be imported from a shared types file)

@@ -1,6 +1,8 @@
 import React from 'react';
-import { CustomHtmlSectionSettings } from '@/types/appearance';
+
 import { cn } from '@/lib/utils';
+
+import { CustomHtmlSectionSettings } from '@/types/appearance';
 
 interface CustomHtmlSectionProps {
   settings?: CustomHtmlSectionSettings;

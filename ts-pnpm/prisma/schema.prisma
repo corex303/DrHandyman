@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../node_modules/.prisma/client"
+  output   = "../generated/prisma-client"
 }
 
 datasource db {
@@ -27,17 +27,34 @@ enum ApprovalStatus {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
-  password  String   // Password hash
-  role      UserRole @default(CUSTOMER)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                     String              @id @default(cuid())
+  name                   String?
+  email                  String?             @unique
+  password               String? // Uncommented for password-based auth
+  emailVerified          DateTime? // Still useful: NextAuth EmailProvider + Adapter sets this
+  image                  String?
+  accounts               Account[]
+  sessions               Session[]
+  // emailVerificationRequests EmailVerificationRequest[] // Commented out
+  role                   UserRole            @default(CUSTOMER)
+  createdAt              DateTime            @default(now())
+  updatedAt              DateTime            @updatedAt
+  services               Service[]
+  uploadedImages         Image[]             @relation("UploadedImages")
+  uploadedPortfolioItems PortfolioItem[]     @relation("UploadedByWorker")
+  customerInquiries      Inquiry[]           @relation("CustomerInquiries")
+  customerPhotoSets      PhotoSet[]          @relation("CustomerPhotoSets") // Customer who owns the PhotoSet
+  maintenanceWorker      MaintenanceWorker?  @relation("UserProfileToWorker") // Link to MaintenanceWorker profile if user is a worker
+  appearanceSetting      AppearanceSettings? @relation("UserAppearanceSetting") // Admin's appearance configuration
 
-  uploadedPortfolioItems PortfolioItem[] @relation("UploadedByWorker")
-  uploadedPhotoSets      PhotoSet[]      @relation("UploadedPhotoSets")
-  reviewedPhotoSets      PhotoSet[]      @relation("ReviewedPhotoSets")
+  // NEW CHAT RELATIONS
+  createdConversations  ChatConversation[] @relation("ChatParticipants")
+  sentMessages          ChatMessage[]      @relation("SentMessages")
+  customerConversations ChatConversation[] @relation("CustomerConversations") // If using specific customer link on ChatConversation
+  staffConversations    ChatConversation[] @relation("StaffConversations") // If using specific staff link on ChatConversation
+  // END NEW CHAT RELATIONS
+
+  @@index([email])
 }
 
 model Service {
@@ -45,109 +62,259 @@ model Service {
   name        String   @unique // e.g., "Carpentry", "Concrete Repair"
   description String   @db.Text
   slug        String   @unique // For URL generation, e.g., "carpentry"
-  imageUrl    String?  // Representative image for the service category
+  imageUrl    String? // Representative image for the service category
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   portfolioItems PortfolioItem[]
+  managedBy      User?           @relation(fields: [managedById], references: [id])
+  managedById    String?
 }
 
 model PortfolioItem {
-  id                 String   @id @default(cuid())
-  title              String?
-  description        String?  @db.Text
-  beforeImageUrl     String
-  afterImageUrl      String
-  serviceId          String
-  service            Service  @relation(fields: [serviceId], references: [id])
-  uploadedById       String? // Optional: if admins can upload without a worker record
-  uploadedBy         User?    @relation("UploadedByWorker", fields: [uploadedById], references: [id])
-  isApproved         Boolean  @default(false)
-  approvedAt         DateTime?
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
-  jobDate            DateTime? // Optional: when the job was done
+  id             String    @id @default(cuid())
+  title          String?
+  description    String?   @db.Text
+  beforeImageUrl String
+  afterImageUrl  String
+  serviceId      String
+  service        Service   @relation(fields: [serviceId], references: [id])
+  uploadedById   String? // Optional: if admins can upload without a worker record
+  uploadedBy     User?     @relation("UploadedByWorker", fields: [uploadedById], references: [id])
+  isApproved     Boolean   @default(false)
+  approvedAt     DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  jobDate        DateTime? // Optional: when the job was done
 }
 
 model Testimonial {
-  id          String   @id @default(cuid())
+  id           String   @id @default(cuid())
   customerName String
-  testimonial String   @db.Text
-  location    String?  // e.g., "Raleigh, NC"
-  isApproved  Boolean  @default(false) // Admin can approve testimonials
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  testimonial  String   @db.Text
+  location     String? // e.g., "Raleigh, NC"
+  isApproved   Boolean  @default(false) // Admin can approve testimonials
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 model Inquiry {
-  id             String   @id @default(cuid())
-  customerName   String
-  customerEmail  String
-  customerPhone  String?
-  serviceNeeded  String?  // Could link to Service model if a predefined list, or free text
-  message        String   @db.Text
-  isArchived     Boolean  @default(false)
+  id            String   @id @default(cuid())
+  customerName  String
+  customerEmail String
+  customerPhone String?
+  serviceNeeded String? // Could link to Service model if a predefined list, or free text
+  message       String   @db.Text
+  isArchived    Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  customerId    String? // Added for relation
+  customer      User?    @relation("CustomerInquiries", fields: [customerId], references: [id]) // Added for relation
+}
+
+model SiteSettings {
+  id             String   @id @default(cuid()) // Could be a single row table
+  siteName       String   @default("Dr. Handyman NC")
+  contactEmail   String?
+  contactPhone   String?
+  address        String?
+  socialMedia    Json? // Store as JSON: { facebook: "url", instagram: "url" }
+  seoTitle       String?
+  seoDescription String?
+  appearance     Json? // To store theme, colors, fonts, logoUrl, faviconUrl
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 }
 
-model SiteSettings {
-  id             String    @id @default(cuid()) // Could be a single row table
-  siteName       String    @default("Dr. Handyman NC")
-  contactEmail   String?
-  contactPhone   String?
-  address        String?
-  socialMedia    Json?     // Store as JSON: { facebook: "url", instagram: "url" }
-  seoTitle       String?
-  seoDescription String?
-  appearance     Json?     // To store theme, colors, fonts, logoUrl, faviconUrl
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-}
-
 model Image {
   id          String   @id @default(cuid())
-  publicId    String   @unique // Cloudinary public_id
-  url         String   // Cloudinary URL
-  secureUrl   String   // Cloudinary secure_url
-  format      String?
-  width       Int?
-  height      Int?
-  bytes       Int?
+  url         String   @unique // This will store the Vercel Blob URL
+  pathname    String // Vercel Blob pathname
+  contentType String? // From Vercel Blob response
   altText     String?
   description String?
   uploadedAt  DateTime @default(now())
-  uploaderId  String? // Optional: if you want to associate images with a user
-  // uploader    User?    @relation(fields: [uploaderId], references: [id]) // Optional: if User model exists
 
-  // Optional: Relations to other models, e.g., if an image belongs to a Service or Portfolio item
-  // serviceId   String?
-  // service     Service? @relation(fields: [serviceId], references: [id])
-  // portfolioItemId String?
-  // portfolioItem PortfolioItem? @relation(fields: [portfolioItemId], references: [id])
+  uploaderId String? // Optional: if you want to associate images with a user
+  uploader   User?   @relation("UploadedImages", fields: [uploaderId], references: [id])
 
-  @@map("images")
+  // Optional: Add a field to categorize the image's purpose
+  purpose         String? // e.g., "MAINTENANCE_JOB", "PORTFOLIO_BEFORE", "SERVICE_ICON"
+  relatedEntityId String? // Optional: To link to a specific Service, PortfolioItem, PhotoSet, etc.
+  entityType      String? // Optional: To specify the type of relatedEntityId, e.g., "Service", "PortfolioItem"
+
+  // Remove Cloudinary specific fields if not needed, or adapt them
+  // publicId    String   @unique 
+  // secureUrl   String   
+  // format      String?
+  // width       Int?
+  // height      Int?
+  // bytes       Int?
+
+  // Remove mapping if default table name 'Image' is okay
+  // @@map("images") 
 }
 
 model PhotoSet {
-  id                String   @id @default(cuid())
-  beforeImageUrl    String
-  afterImageUrl     String
-  description       String?  @db.Text
-  serviceCategory   String   // Stores the name of the service, e.g., "Carpentry"
-  uploadedById      String
-  uploadedBy        User     @relation("UploadedPhotoSets", fields: [uploadedById], references: [id])
-  
-  approvalStatus    ApprovalStatus @default(PENDING)
-  reviewedById      String?  // Admin who reviewed
-  reviewedBy        User?    @relation("ReviewedPhotoSets", fields: [reviewedById], references: [id])
-  reviewedAt        DateTime?
-  rejectionReason   String?
-
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-
-  @@index([uploadedById])
-  @@index([serviceCategory])
-  @@index([approvalStatus])
+  id                  String            @id @default(cuid())
+  title               String? // Added for admin editing
+  maintenanceWorkerId String
+  maintenanceWorker   MaintenanceWorker @relation(fields: [maintenanceWorkerId], references: [id])
+  serviceCategory     String
+  description         String?
+  status              ApprovalStatus    @default(PENDING)
+  submittedAt         DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  photos              Photo[] // Relation to multiple photos
+  customerId          String? // Added for relation
+  customer            User?             @relation("CustomerPhotoSets", fields: [customerId], references: [id]) // Added for relation
 }
+
+// Enum for Photo Type
+enum PhotoType {
+  BEFORE
+  AFTER
+}
+
+// Model for individual photos
+model Photo {
+  id         String    @id @default(cuid())
+  url        String
+  type       PhotoType // To distinguish Before/After images
+  uploadedAt DateTime  @default(now())
+  photoSetId String
+  photoSet   PhotoSet  @relation(fields: [photoSetId], references: [id], onDelete: Cascade)
+}
+
+model MaintenanceWorker {
+  id        String     @id @default(cuid())
+  name      String     @unique
+  isActive  Boolean    @default(true)
+  photoSets PhotoSet[]
+  userId    String?    @unique // Added for one-to-one relation to User
+  user      User?      @relation("UserProfileToWorker", fields: [userId], references: [id]) // Added for one-to-one relation
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Renamed to avoid conflict with our custom email verification
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// Commented out as it's not needed for passwordless magic link flow
+// model EmailVerificationRequest {
+//   id        String   @id @default(cuid())
+//   userId    String
+//   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+//   token     String   @unique
+//   expires   DateTime
+//   createdAt DateTime @default(now())
+//   verifiedAt DateTime?
+//
+//   @@index([userId])
+// }
+
+// New Model for Appearance Settings
+model AppearanceSettings {
+  id              String   @id @default(cuid())
+  siteTitle       String?
+  logoUrl         String?
+  faviconUrl      String?
+  primaryColor    String?
+  secondaryColor  String?
+  backgroundColor String?
+  textColor       String?
+  headingFont     String?
+  bodyFont        String?
+  homepageLayout  String? // e.g., "hero", "services-grid", "portfolio-showcase"
+  headerContent   String? // JSON string for custom header links/text
+  footerContent   String? // JSON string for custom footer links/text
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  adminId         String   @unique // Link to the admin user who configured this
+  admin           User     @relation("UserAppearanceSetting", fields: [adminId], references: [id])
+}
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++
+// START: CHAT MODELS
+// +++++++++++++++++++++++++++++++++++++++++++++++++++
+
+model ChatConversation {
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime? // For soft deletes
+
+  participants User[]        @relation("ChatParticipants")
+  messages     ChatMessage[]
+
+  // Optional: to quickly identify customer in a 2-party chat
+  customerId String?
+  customer   User?   @relation("CustomerConversations", fields: [customerId], references: [id])
+
+  // Optional: to quickly identify staff in a 2-party chat
+  staffMemberId String?
+  staffMember   User?   @relation("StaffConversations", fields: [staffMemberId], references: [id])
+
+  // Optional: last message for quick preview
+  lastMessage   String?
+  lastMessageAt DateTime?
+
+  @@index([customerId])
+  @@index([staffMemberId])
+  @@index([updatedAt])
+}
+
+model ChatMessage {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  content   String   @db.Text
+
+  senderId String
+  sender   User   @relation("SentMessages", fields: [senderId], references: [id])
+
+  conversationId String
+  conversation   ChatConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  readAt DateTime?
+
+  @@index([conversationId, createdAt])
+  @@index([senderId])
+}
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++
+// END: CHAT MODELS
+// +++++++++++++++++++++++++++++++++++++++++++++++++++

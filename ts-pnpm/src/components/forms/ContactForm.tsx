@@ -1,8 +1,8 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from 'react';
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { useState } from 'react';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),

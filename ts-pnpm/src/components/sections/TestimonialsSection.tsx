@@ -1,6 +1,8 @@
 import React from 'react';
+
 import NextImage from '@/components/NextImage'; // For avatars
-import { TestimonialsSectionSettings, TestimonialItem } from '@/types/appearance';
+
+import {TestimonialsSectionSettings } from '@/types/appearance';
 
 interface TestimonialsSectionProps {
   settings?: TestimonialsSectionSettings;

@@ -1,12 +1,14 @@
 'use client';
 
-import { useState, useRef, useEffect, createRef } from 'react';
 import Link from 'next/link';
 // import Image from 'next/image'; // Image component removed as generic sublinks don't have icons by default
 import { usePathname } from 'next/navigation';
-import { FaChevronDown } from 'react-icons/fa';
-import { trapFocus, accessibleKeyboardEventHandler } from '@/lib/accessibility';
 // import { AppearanceSettings } from '@/types/appearance'; // AppearanceSettings not directly used
+import { useSession } from 'next-auth/react'; // Import useSession
+import { createRef,useEffect, useRef, useState } from 'react';
+import { FaChevronDown } from 'react-icons/fa';
+
+import { accessibleKeyboardEventHandler,trapFocus } from '@/lib/accessibility';
 
 // Removed hardcoded serviceCategories as navLinks will be dynamic
 // export const serviceCategories = [...];
@@ -35,6 +37,7 @@ const DesktopNavigation = ({
   ctaBackgroundColor,
   ctaTextColor,
 }: DesktopNavigationProps) => {
+  const { data: session, status } = useSession(); // Get session data
   const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
   
   // Correctly initialize refs for dynamic elements
@@ -43,7 +46,7 @@ const DesktopNavigation = ({
 
   const pathname = usePathname();
 
-  const navLinks = propNavLinks || [
+  const baseNavLinks = propNavLinks || [
     { id: 'home', text: 'Home', href: '/' },
     { id: 'services', text: 'Services', href: '/services', subLinks: [
         {id: 'flooring', text: 'Flooring', href: '/services/flooring'},
@@ -52,8 +55,14 @@ const DesktopNavigation = ({
     { id: 'about', text: 'About Us', href: '/about' },
   ];
 
-  // Ensure refs are created for each dropdown link
-  navLinks.forEach(link => {
+  const actualNavLinks = [...baseNavLinks];
+
+  if (status === 'authenticated' && session?.user?.role === 'CUSTOMER') {
+    actualNavLinks.push({ id: 'portal', text: 'Customer Portal', href: '/portal' });
+  }
+
+  // Ensure refs are created for each dropdown link based on actualNavLinks
+  actualNavLinks.forEach(link => {
     if (link.subLinks && link.subLinks.length > 0) {
       if (!dropdownContainerRefs.current[link.id]) {
         dropdownContainerRefs.current[link.id] = createRef<HTMLLIElement>();
@@ -108,7 +117,7 @@ const DesktopNavigation = ({
     if (href === '/') {
       return pathname === '/';
     }
-    const parentLink = navLinks.find(link => link.href === href && link.subLinks);
+    const parentLink = actualNavLinks.find(link => link.href === href && link.subLinks);
     if (parentLink && parentLink.subLinks?.some(sub => pathname?.startsWith(sub.href))) {
         return true;
     }
@@ -118,7 +127,7 @@ const DesktopNavigation = ({
   return (
     <nav className="hidden lg:block">
       <ul className="flex items-center space-x-8">
-        {navLinks.map((link) => {
+        {actualNavLinks.map((link) => {
           if (link.subLinks && link.subLinks.length > 0) {
             const isDropdownOpen = openDropdownId === link.id;
             return (
@@ -136,7 +145,7 @@ const DesktopNavigation = ({
                     () => setOpenDropdownId(null), // Close on Tab/Shift+Tab away
                     () => toggleDropdown(link.id)
                   )}
-                  className={`flex items-center focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-md p-1 ${isActive(link.href) ? 'text-primary-500 font-medium' : 'text-gray-700'} hover:text-primary-500 transition-colors`}
+                  className={`flex items-center focus:outline-none focus:ring-2 focus:ring-accent-gold focus:ring-offset-2 focus:ring-offset-primary-navy rounded-md p-1 ${isActive(link.href) ? 'text-text-light font-medium' : 'text-secondary-gray-light'} hover:text-text-light transition-colors`}
                   aria-expanded={isDropdownOpen}
                   aria-controls={`${link.id}-desktop-dropdown`}
                   aria-haspopup="true"
@@ -173,7 +182,7 @@ const DesktopNavigation = ({
             <li key={link.id}>
               <Link 
                 href={link.href} 
-                className={`${isActive(link.href) ? 'text-primary-500 font-medium' : 'text-gray-700'} hover:text-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 rounded-md p-1 transition-colors`}
+                className={`${isActive(link.href) ? 'text-text-light font-medium' : 'text-secondary-gray-light'} hover:text-text-light focus:outline-none focus:ring-2 focus:ring-accent-gold focus:ring-offset-2 focus:ring-offset-primary-navy rounded-md p-1 transition-colors`}
               >
                 {link.text}
               </Link>
@@ -184,14 +193,7 @@ const DesktopNavigation = ({
           <li>
             <Link 
               href={ctaDetails.link} 
-              className="rounded-md px-4 py-2 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
-              style={{ 
-                backgroundColor: ctaDetails.bgColor || '#3B82F6', // Fallback to a default primary blue
-                color: ctaDetails.textColor || 'white',
-              }}
-              // Add hover effects via JS or inline style for dynamic colors if Tailwind JIT can't handle it well
-              onMouseEnter={(e) => { if(ctaDetails.bgColor) e.currentTarget.style.filter = 'brightness(90%)'; }}
-              onMouseLeave={(e) => { if(ctaDetails.bgColor) e.currentTarget.style.filter = 'brightness(100%)'; }}
+              className="rounded-md px-4 py-2 transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-accent-gold bg-accent-gold text-primary-navy hover:bg-yellow-600 font-semibold"
             >
               {ctaDetails.text}
             </Link>

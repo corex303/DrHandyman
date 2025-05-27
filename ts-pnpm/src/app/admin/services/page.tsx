@@ -1,12 +1,14 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import { EyeIcon,PencilIcon, PlusCircleIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { Button, Chip, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Spinner,Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip } from '@heroui/react';
 import Link from 'next/link';
-import { PlusCircleIcon, PencilIcon, TrashIcon, EyeIcon } from '@heroicons/react/24/outline';
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Button, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure, Input, Textarea, Tooltip, Chip, Spinner } from '@heroui/react';
+import React, { useCallback,useEffect, useState } from 'react';
 import { toast } from 'sonner';
+
 import ServiceForm from '@/components/admin/ServiceForm';
-import { type Service } from '@prisma/client'; // Assuming Service type is available
+
+import { type Service } from '../../../../generated/prisma-client'; // Assuming Service type is available
 
 const ServicesAdminPage = () => {
   const [services, setServices] = useState<Service[]>([]);

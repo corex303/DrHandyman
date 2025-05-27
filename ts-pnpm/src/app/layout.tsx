@@ -1,25 +1,33 @@
 import { Metadata } from 'next';
+import { Inter, Lora,Poppins } from 'next/font/google';
 import * as React from 'react';
-import prisma from '@/lib/prisma';
-import { Inter, Poppins } from 'next/font/google';
-import '@/styles/globals.css';
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
 // import PageLayout from '@/components/layout/PageLayout'; // PageLayout seems unused, commenting out
 import { Toaster } from 'react-hot-toast';
-import { AppearanceSettings, defaultAppearanceSettings } from '@/types/appearance'; // Keep for type, default only as ultimate fallback if needed
+
+import '@/styles/globals.css';
+
 import { getSiteAppearanceSettings } from '@/lib/settings'; // Import the centralized helper
+
+import Footer from '@/components/layout/Footer';
+import Header from '@/components/layout/Header';
 // import { SessionProvider } from "next-auth/react"; // Removed direct import
 import Providers from '@/components/layout/Providers'; // Added Providers import
 
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
 // import '@/styles/colors.css'; // Commenting out or removing if colors are now dynamic
-
 import { siteConfig } from '@/constant/config';
+
+// Keep for type, default only as ultimate fallback if needed
 
 const inter = Inter({
   variable: '--font-inter',
   subsets: ['latin'],
+});
+
+const lora = Lora({
+  variable: '--font-lora',
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
 });
 
 const poppins = Poppins({
@@ -73,7 +81,8 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    shortcut: '/favicon.ico',
+    icon: '/images/favicon.png',
+    shortcut: '/images/favicon.png',
   },
   manifest: `${siteConfig.url}/site.webmanifest`,
 };
@@ -87,31 +96,22 @@ export default async function RootLayout({ children }: RootLayoutProps) {
 
   const themeClass = appearanceSettings.theme === 'dark' ? 'dark' : 'light';
   
-  const globalFont = appearanceSettings.fonts?.global || defaultAppearanceSettings.fonts?.global || 'sans-serif';
-  const headingFont = appearanceSettings.fonts?.heading || defaultAppearanceSettings.fonts?.heading || 'sans-serif';
+  const globalFontFamily = appearanceSettings.fonts?.global || 'var(--font-inter)';
+  const headingFontFamily = appearanceSettings.fonts?.heading || 'var(--font-lora)';
 
-  const siteColors = { ...defaultAppearanceSettings.colors, ...(appearanceSettings.colors || {}) };
-
-  const colorVariables = Object.entries(siteColors)
-    .map(([key, value]) => `--color-${key.replace(/([A-Z])/g, (match) => `-${match.toLowerCase()}`)}: ${value};`)
-    .join('\n    ');
-
-  const fontVariables = {
-    '--font-global': globalFont,
-    '--font-heading': headingFont,
+  const fontOverrideVariables = {
+    '--font-global-override': globalFontFamily,
+    '--font-heading-override': headingFontFamily,
   } as React.CSSProperties;
 
-  const cssVariables = `\n          :root {\n            ${colorVariables}\n            --font-global: ${globalFont};\n            --font-heading: ${headingFont};\n          }\n          body {\n            font-family: var(--font-global);\n            color: var(--color-text-body);\n            background-color: var(--color-background-site);\n          }\n          h1, h2, h3, h4, h5, h6 {\n            font-family: var(--font-heading);\n            color: var(--color-text-heading);\n          }\n        `;
+  const inlineStyles = `\n    :root {\n      --font-global: ${globalFontFamily};\n      --font-heading: ${headingFontFamily};\n    }\n    body {\n      font-family: var(--font-global-override, var(--font-inter));\n    }\n    h1, h2, h3, h4, h5, h6 {\n      font-family: var(--font-heading-override, var(--font-lora));\n    }\n  `;
 
   return (
-    <html lang="en" className={themeClass} style={fontVariables}>
+    <html lang="en" className={`${themeClass} font-sans`} style={fontOverrideVariables}>
       <head>
-        {appearanceSettings.faviconUrl && (
-          <link rel="icon" href={appearanceSettings.faviconUrl} type="image/x-icon" />
-        )}
-        <style dangerouslySetInnerHTML={{ __html: cssVariables }} />
+        <style dangerouslySetInnerHTML={{ __html: inlineStyles }} />
       </head>
-      <body className={`${inter.variable} ${poppins.variable} antialiased`}>
+      <body className={`${inter.variable} ${lora.variable} ${poppins.variable} antialiased bg-background-light text-text-dark`}>
         <Providers>
           <Toaster position="top-center" reverseOrder={false} />
           <Header appearanceSettings={appearanceSettings} />

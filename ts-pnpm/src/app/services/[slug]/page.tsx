@@ -1,9 +1,13 @@
-import { PrismaClient, type Service as BaseService, type PortfolioItem, Prisma } from '../../../../node_modules/.prisma/client'; // Direct import workaround
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
+
+import prisma from '@/lib/prisma';
+
 import BeforeAfterGallery from '@/components/services/BeforeAfterGallery';
 import ServiceSchemaMarkup from '@/components/services/ServiceSchemaMarkup';
+
+import { type Service as BaseService, ApprovalStatus, Photo,PhotoSet, Prisma } from '../../../../generated/prisma-client'; // Path seems correct
 
 // Manual types removed
 // interface PortfolioItem {
@@ -24,7 +28,10 @@ import ServiceSchemaMarkup from '@/components/services/ServiceSchemaMarkup';
 //   portfolioItems: PortfolioItem[];
 // }
 
-const prisma = new PrismaClient();
+// Define a type for PhotoSet with its photos
+export interface ApprovedPhotoSetWithPhotos extends PhotoSet {
+  photos: Photo[];
+}
 
 interface ServiceDetailPageProps {
   params: {
@@ -34,17 +41,41 @@ interface ServiceDetailPageProps {
 
 // Define a more specific type for the service with included portfolio items
 type ServiceWithPortfolio = Prisma.ServiceGetPayload<{
-  include: { portfolioItems: true }
+  include: { portfolioItems: true } // This is for the old PortfolioItem model
 }>;
 
-async function getServiceBySlug(slug: string): Promise<ServiceWithPortfolio | null> {
+// We'll also define a type for the service detail page data including new PhotoSets
+interface ServicePageData {
+  service: BaseService;
+  approvedPhotoSets: ApprovedPhotoSetWithPhotos[];
+}
+
+async function getServicePageData(slug: string): Promise<ServicePageData | null> {
   const service = await prisma.service.findUnique({
     where: { slug },
+    // We don't need to include the old portfolioItems here anymore if switching to PhotoSet
+  });
+
+  if (!service) {
+    return null;
+  }
+
+  // Fetch approved PhotoSets for this service
+  const approvedPhotoSets = await prisma.photoSet.findMany({
+    where: {
+      serviceCategory: service.name, // Assumes PhotoSet.serviceCategory matches Service.name
+      status: ApprovalStatus.APPROVED,
+    },
     include: {
-      portfolioItems: true, // Explicitly include portfolioItems
+      photos: true, // Include all related photos
+      maintenanceWorker: true, // Optionally include worker if needed for display
+    },
+    orderBy: {
+      submittedAt: 'desc',
     },
   });
-  return service;
+
+  return { service, approvedPhotoSets };
 }
 
 export async function generateStaticParams() {
@@ -57,24 +88,26 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: ServiceDetailPageProps) {
-  const service = await getServiceBySlug(params.slug);
-  if (!service) {
+  const pageData = await getServicePageData(params.slug);
+  if (!pageData || !pageData.service) {
     return {
       title: 'Service Not Found',
     };
   }
   return {
-    title: `${service.name} | Services | Dr. Handyman NC`,
-    description: service.description.substring(0, 160), // Use a snippet for meta description
+    title: `${pageData.service.name} | Services | Dr. Handyman NC`,
+    description: pageData.service.description.substring(0, 160), 
   };
 }
 
 export default async function ServiceDetailPage({ params }: ServiceDetailPageProps) {
-  const service = await getServiceBySlug(params.slug);
+  const pageData = await getServicePageData(params.slug);
 
-  if (!service) {
+  if (!pageData || !pageData.service) {
     notFound();
   }
+
+  const { service, approvedPhotoSets } = pageData;
 
   // TODO: Fetch these from a global config or environment variables
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.drhandymannc.com'; // Fallback
@@ -105,9 +138,9 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
             dangerouslySetInnerHTML={{ __html: service.description }}
           />
 
-          {/* Use BeforeAfterGallery component */}
-          {service.portfolioItems && service.portfolioItems.length > 0 ? (
-            <BeforeAfterGallery items={service.portfolioItems} serviceName={service.name} />
+          {/* Use BeforeAfterGallery component - This will need to be adapted */}
+          {approvedPhotoSets && approvedPhotoSets.length > 0 ? (
+            <BeforeAfterGallery items={approvedPhotoSets} serviceName={service.name} />
           ) : (
             <p className="mt-12 text-center text-gray-500">
               No portfolio items available for this service yet.

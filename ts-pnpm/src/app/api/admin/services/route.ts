@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getToken } from 'next-auth/jwt';
-import prisma from '@/lib/prisma';
-import { z } from 'zod';
 import { getServerSession } from 'next-auth';
+import { getToken } from 'next-auth/jwt';
+import { z } from 'zod';
+
+import prisma from '@/lib/prisma';
+
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 // Validation schema for creating a service

@@ -1,14 +1,14 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { Button, Image, Input, Progress,Textarea } from '@heroui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { Input, Textarea, Button, Select, SelectItem, Image, Progress, Chip, Switch } from '@nextui-org/react';
-import { toast } from 'sonner';
-import type { Service } from '.prisma/client';
 import { UploadCloudIcon, XIcon } from 'lucide-react'; // Assuming lucide-react for icons
-import { useRouter } from 'next/navigation';
+import React, {useEffect, useState } from 'react';
+import { Controller,useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import { z } from 'zod';
+
+import type { Service } from '../../../generated/prisma-client';
 
 // Zod schema for service form validation
 const serviceFormSchema = z.object({

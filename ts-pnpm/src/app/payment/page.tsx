@@ -1,9 +1,10 @@
 'use client';
 
-import { loadStripe, StripeElementsOptions } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe, StripeElementsOptions } from '@stripe/stripe-js';
+import React, { useCallback,useEffect, useState } from 'react';
+
 import CheckoutForm from '@/components/forms/CheckoutForm';
-import React, { useState, useEffect, useCallback } from 'react';
 
 // Make sure to call `loadStripe` outside of a component's render to avoid
 // recreating the `Stripe` object on every render.

@@ -1,12 +1,11 @@
 'use client';
 
-import { useState, useRef } from 'react';
-import Link from 'next/link';
+import { useRef,useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
 
-import NextImage from '@/components/NextImage';
 import DesktopNavigation from './DesktopNavigation';
 import MobileNavigation from './MobileNavigation';
+
 import { AppearanceSettings, defaultAppearanceSettings } from '@/types/appearance';
 
 interface HeaderProps {
@@ -16,8 +15,7 @@ interface HeaderProps {
 const Header = ({ appearanceSettings: propsAppearanceSettings }: HeaderProps) => {
   const appearanceSettings = { ...defaultAppearanceSettings, ...propsAppearanceSettings };
   const headerSettings = { ...defaultAppearanceSettings.header, ...appearanceSettings.header };
-  const logoUrl = appearanceSettings.logoUrl || '/images/drhandyman_home_screen.jpg';
-  const headerBackgroundColor = headerSettings.backgroundColor || '#FFFFFF';
+  // const logoUrl = appearanceSettings.logoUrl || '/images/dr-handyman-logo-transparent.png'; // Logo URL no longer needed here
 
   const [isOpen, setIsOpen] = useState(false);
   const toggleButtonRef = useRef<HTMLButtonElement>(null);
@@ -28,34 +26,19 @@ const Header = ({ appearanceSettings: propsAppearanceSettings }: HeaderProps) =>
 
   return (
     <header 
-      className="sticky top-0 z-50 w-full shadow-md"
-      style={{
-        backgroundColor: headerBackgroundColor,
-        color: headerSettings.textColor
-      }}
+      className="sticky top-0 z-50 w-full shadow-md bg-primary-navy text-text-light"
     >
       <div className="layout mx-auto flex h-20 items-center justify-between px-4">
         {/* Skip to content link - visible on focus */}
         <a 
           href="#main-content" 
-          className="absolute left-0 top-0 -translate-y-full bg-primary-500 px-4 py-3 text-white transition-transform focus:translate-y-0 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+          className="absolute left-0 top-0 -translate-y-full bg-accent-gold px-4 py-3 text-primary-navy transition-transform focus:translate-y-0 focus:outline-none focus:ring-2 focus:ring-accent-gold focus:ring-offset-2"
         >
           Skip to content
         </a>
         
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-3">
-          <div className="-ml-1 -mt-1">
-            <NextImage
-              src={logoUrl}
-              width={40}
-              height={40}
-              alt="Dr. Handyman Logo"
-              className="h-10 w-10 rounded-full object-cover"
-            />
-          </div>
-          <span className="text-xl font-bold text-primary-500">Dr. Handyman</span>
-        </Link>
+        {/* Logo placeholder or empty div if needed for spacing, otherwise remove entirely */}
+        <div className="w-[150px]"></div> {/* Placeholder for width that logo occupied, adjust or remove as needed for layout */}
 
         {/* Desktop Navigation */}
         <DesktopNavigation 
@@ -70,16 +53,16 @@ const Header = ({ appearanceSettings: propsAppearanceSettings }: HeaderProps) =>
         {/* Mobile Navigation Toggle */}
         <button 
           ref={toggleButtonRef}
-          className="lg:hidden p-2 focus:outline-none focus:ring-2 focus:ring-primary-500 rounded-md" 
+          className="lg:hidden p-2 focus:outline-none focus:ring-2 focus:ring-accent-gold rounded-md"
           onClick={toggleMenu}
           aria-label={isOpen ? "Close menu" : "Open menu"}
           aria-expanded={isOpen}
           aria-controls="mobile-navigation"
         >
           {isOpen ? (
-            <FaTimes className="h-6 w-6 text-primary-500" />
+            <FaTimes className="h-6 w-6 text-text-light" />
           ) : (
-            <FaBars className="h-6 w-6 text-primary-500" />
+            <FaBars className="h-6 w-6 text-text-light" />
           )}
         </button>
 

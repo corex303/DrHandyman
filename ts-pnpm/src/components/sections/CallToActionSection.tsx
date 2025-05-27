@@ -1,6 +1,8 @@
 import React from 'react';
-import NextImage from '@/components/NextImage';
+
 import ButtonLink from '@/components/links/ButtonLink';
+import NextImage from '@/components/NextImage';
+
 import { CallToActionSectionSettings } from '@/types/appearance';
 
 interface CallToActionSectionProps {

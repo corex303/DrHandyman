@@ -1,8 +1,10 @@
 // import { Service } from "@prisma/client"; // Ensure this is commented out or removed
-import { PrismaClient, type Service } from '../../../node_modules/.prisma/client'; // Direct import workaround
-// import prisma from '@/lib/prisma'; // Assuming this was the old way
+// import { PrismaClient, type Service } from '../../../node_modules/.prisma/client'; // REMOVE THIS LINE
 import Link from 'next/link';
-import Image from 'next/image';
+
+import prisma from '@/lib/prisma';
+
+import type { Service } from '../../generated/prisma-client'; // Corrected path for Service type
 
 // Placeholder for ServiceCard component - to be implemented later
 // import ServiceCard from '@/components/services/ServiceCard';
@@ -15,8 +17,6 @@ import Image from 'next/image';
 //   slug: string;
 //   imageUrl: string | null;
 // }
-
-const prisma = new PrismaClient();
 
 async function getServices(): Promise<Service[]> {
   const services = await prisma.service.findMany({

@@ -1,7 +1,10 @@
 import React from 'react';
-import NextImage from '@/components/NextImage';
-import { GallerySectionSettings, GalleryItem } from '@/types/appearance';
+
 import { cn } from '@/lib/utils';
+
+import NextImage from '@/components/NextImage';
+
+import {GallerySectionSettings } from '@/types/appearance';
 
 interface GallerySectionProps {
   settings?: GallerySectionSettings;

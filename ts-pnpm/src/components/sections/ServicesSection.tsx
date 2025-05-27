@@ -1,10 +1,12 @@
 'use client';
 
-import React from 'react';
 import Link from 'next/link';
-import { FaTools, FaPaintRoller, FaWrench, FaArrowRight } from 'react-icons/fa'; // Example icons
+import React from 'react';
+import { FaArrowRight,FaPaintRoller, FaTools, FaWrench } from 'react-icons/fa'; // Example icons
+
 import ButtonLink from '@/components/links/ButtonLink';
-import { ServicesSectionSettings, ServiceItem } from '@/types/appearance';
+
+import {ServicesSectionSettings } from '@/types/appearance';
 
 interface ServicesSectionProps {
   settings?: ServicesSectionSettings;

@@ -1,4 +1,4 @@
-import { PrismaClient, UserRole } from '../generated/prisma';
+import { PrismaClient, UserRole } from '../generated/prisma-client';
 import bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
@@ -33,35 +33,50 @@ async function main() {
     where: { email: 'admin@example.com' },
     update: { 
       name: 'Admin User',
-      password: adminPassword,
       role: UserRole.ADMIN,
     },
     create: {
       email: 'admin@example.com',
       name: 'Admin User',
-      password: adminPassword,
       role: UserRole.ADMIN,
     },
   });
   console.log(`Created/updated admin user: ${adminUser.email}`);
 
-  // Seed Maintenance User (formerly Worker User)
+  // Seed Maintenance User
   const maintenancePassword = await bcrypt.hash('maintpassword123', 10);
   const maintenanceUser = await prisma.user.upsert({
     where: { email: 'maintenance@example.com' },
     update: {
       name: 'Maintenance User',
-      password: maintenancePassword,
       role: UserRole.MAINTENANCE,
     },
     create: {
       email: 'maintenance@example.com',
       name: 'Maintenance User',
-      password: maintenancePassword,
       role: UserRole.MAINTENANCE,
     },
   });
   console.log(`Created/updated maintenance user: ${maintenanceUser.email}`);
+
+  // Seed Maintenance Workers
+  const workersToSeed = [
+    { name: "Derek", isActive: true },
+    { name: "Juan", isActive: true },
+    { name: "Rigo", isActive: true },
+    { name: "Marcos", isActive: true },
+    { name: "Demetrius", isActive: true },
+    { name: "Matthew", isActive: true },
+  ];
+
+  for (const workerData of workersToSeed) {
+    const worker = await prisma.maintenanceWorker.upsert({
+      where: { name: workerData.name },
+      update: { isActive: workerData.isActive },
+      create: workerData,
+    });
+    console.log(`Created/updated maintenance worker: ${worker.name} (ID: ${worker.id}, Active: ${worker.isActive})`);
+  }
   
   // Attempt to delete the old 'worker@example.com' user if it exists
   try {
@@ -70,7 +85,7 @@ async function main() {
       await prisma.user.delete({ where: { email: 'worker@example.com' } });
       console.log(`Deleted old user: worker@example.com`);
     }
-  } catch (error: any) {
+  } catch (error /*: any*/) { // Made error explicitly not any
     // Non-critical error, might fail if user doesn't exist or has relations preventing delete
     console.warn(`Could not delete old worker@example.com user: ${(error as Error).message}`);
   }

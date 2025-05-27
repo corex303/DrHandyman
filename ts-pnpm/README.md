@@ -1,68 +1,88 @@
-# Dr. Handyman NC Website
+# Dr. Handyman Next.js Project
 
-A professional website for Dr. Handyman, a handyman service provider specializing in home repairs, renovations, and maintenance services.
+This is the Next.js project for Dr. Handyman, a comprehensive platform for managing handyman services, customer interactions, and administrative tasks.
 
-## Features
-
-- **Public Website:** Showcase services, portfolio of past work, and customer testimonials
-- **Payment Integration:** Securely accept online payments via Stripe
-- **Worker Portal:** Allow workers to upload before/after photos of completed jobs
-- **Admin Panel:** Manage services, portfolio, testimonials, and worker accounts
-
-## Tech Stack
-
-- **Frontend:** Next.js 14 with App Router, React 18, TypeScript, Tailwind CSS
-- **Authentication:** NextAuth.js with role-based access control
-- **Forms:** React Hook Form with Zod validation
-- **Payment Processing:** Stripe integration
-- **Styling:** Tailwind CSS with customizable theme
-- **Image Storage:** Cloud storage integration for worker photo uploads
-- **SEO:** Built-in SEO optimization with metadata, sitemaps, and structured data
+This project is built upon the `ts-nextjs-tailwind-starter` template and has been customized for Dr. Handyman specific needs.
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 18.17 or later
-- pnpm package manager
+- Node.js (version specified in `.nvmrc`)
+- pnpm
+- PostgreSQL database
+
+### Environment Variables
+
+Create a `.env.local` file in the `ts-pnpm` directory by copying `.env.example`. Fill in the necessary environment variables, including:
+
+- `DATABASE_URL`: Your PostgreSQL connection string.
+- `NEXTAUTH_URL`: The base URL of your application (e.g., `http://localhost:3000`).
+- `NEXTAUTH_SECRET`: A random string used to hash tokens, sign cookies and generate cryptographic keys. You can generate one using `openssl rand -hex 32`.
+- Optional: Cloudinary credentials if image uploads to Cloudinary are being used.
+
+Refer to `.env.example` for a full list of potential variables.
 
 ### Installation
 
-1. Clone the repository
+1. Navigate to the `ts-pnpm` directory:
    ```bash
-   git clone <repository-url>
-   cd dr-handyman
+   cd ts-pnpm
    ```
-
-2. Install dependencies
+2. Install dependencies:
    ```bash
    pnpm install
    ```
-
-3. Set up environment variables
-   - Copy `.env.example` to `.env.local`
-   - Fill in the required environment variables
-
-4. Start the development server
+3. Set up your database and run migrations:
    ```bash
-   pnpm dev
+   pnpm prisma migrate dev
+   ```
+4. Seed the database (optional, if seed script is configured):
+   ```bash
+   pnpm prisma db seed
    ```
 
-5. Open [http://localhost:3000](http://localhost:3000) in your browser
+### Running the Development Server
 
-## Project Structure
+```bash
+cd ts-pnpm
+pnpm dev
+```
 
-- **`src/app`**: Next.js App Router pages and layout
-- **`src/components`**: Reusable UI components
-- **`src/lib`**: Utility functions and helpers
-- **`src/styles`**: Global styles and Tailwind configuration
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Development Guidelines
+## Key Features & Technologies
 
-- Follow the established coding patterns and style guidelines
-- Run tests before submitting code changes
-- Use conventional commit messages for version control
+- Next.js 13+ (App Router)
+- TypeScript
+- Tailwind CSS
+- Prisma ORM
+- NextAuth.js (for customer portal authentication)
+- Simple password-based auth (for Admin/Worker portals)
+- React Hook Form & Zod (for form validation)
+- Cloudinary (for image management - configurable)
+- Vercel (for deployment and blob storage)
 
-## License
+## Project Structure (within ts-pnpm)
 
-This project is proprietary and confidential. Unauthorized copying or distribution is prohibited.
+- `src/app/`: Main application code using Next.js App Router.
+  - `(admin)/`: Admin portal specific routes and components.
+  - `(maintenance)/`: Maintenance worker portal specific routes and components.
+  - `(public)/`: Public facing website routes and components.
+  - `api/`: API route handlers.
+- `src/components/`: Reusable UI components.
+- `src/lib/`: Utility functions, Prisma client, etc.
+- `prisma/`: Prisma schema and migration files.
+- `public/`: Static assets.
+
+## Deployment
+
+This project is configured for deployment on Vercel. Commits to the main branch will trigger automatic deployments.
+
+## Contributing
+
+Please follow standard Git workflow practices. Ensure commits are descriptive and atomic.
+
+---
+
+*This README has been updated for the Dr. Handyman project.*

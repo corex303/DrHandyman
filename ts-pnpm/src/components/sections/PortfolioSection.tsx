@@ -1,9 +1,12 @@
-import React from 'react';
 import Link from 'next/link';
-import NextImage from '@/components/NextImage';
-import ButtonLink from '@/components/links/ButtonLink';
-import { PortfolioSectionSettings, PortfolioItem } from '@/types/appearance';
+import React from 'react';
+
 import { cn } from '@/lib/utils'; // For conditional classes
+
+import ButtonLink from '@/components/links/ButtonLink';
+import NextImage from '@/components/NextImage';
+
+import { PortfolioItem,PortfolioSectionSettings } from '@/types/appearance';
 
 interface PortfolioSectionProps {
   settings?: PortfolioSectionSettings;

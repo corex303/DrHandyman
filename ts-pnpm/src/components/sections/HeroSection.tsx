@@ -1,6 +1,8 @@
 import React from 'react';
-import NextImage from '@/components/NextImage';
+
 import ButtonLink from '@/components/links/ButtonLink';
+import NextImage from '@/components/NextImage';
+
 import { HeroSectionSettings } from '@/types/appearance'; // Import the specific type
 
 interface HeroSectionProps {

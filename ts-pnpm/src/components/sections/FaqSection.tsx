@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { FaqSectionSettings, FaqItem } from '@/types/appearance';
-import { cn } from '@/lib/utils';
-import { FaPlus, FaMinus } from 'react-icons/fa'; // Example icons
+import { FaMinus,FaPlus } from 'react-icons/fa'; // Example icons
+
+import { FaqItem,FaqSectionSettings } from '@/types/appearance';
 
 interface FaqSectionProps {
   settings?: FaqSectionSettings;

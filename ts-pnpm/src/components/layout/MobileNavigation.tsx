@@ -1,13 +1,15 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 // import Image from 'next/image'; // Image component removed
 import { usePathname } from 'next/navigation';
-import { FaChevronDown } from 'react-icons/fa';
-// import { serviceCategories } from './DesktopNavigation'; // Removed hardcoded import
-import { trapFocus, accessibleKeyboardEventHandler } from '@/lib/accessibility';
 // import { AppearanceSettings } from '@/types/appearance'; // Not directly used
+import { useSession } from 'next-auth/react'; // Import useSession
+import { useEffect,useRef, useState } from 'react';
+import { FaChevronDown } from 'react-icons/fa';
+
+// import { serviceCategories } from './DesktopNavigation'; // Removed hardcoded import
+import { accessibleKeyboardEventHandler,trapFocus } from '@/lib/accessibility';
 
 interface NavLink {
   id: string;
@@ -33,11 +35,12 @@ const MobileNavigation = ({
   ctaText,
   ctaLink,
 }: MobileNavigationProps) => {
+  const { data: session, status } = useSession(); // Get session data
   const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
-  const navLinks = propNavLinks || [
+  const baseNavLinks = propNavLinks || [
     { id: 'home', text: 'Home', href: '/' },
     { 
       id: 'services', 
@@ -50,6 +53,12 @@ const MobileNavigation = ({
     },
     { id: 'about', text: 'About Us', href: '/about' },
   ];
+
+  const actualNavLinks = [...baseNavLinks];
+
+  if (status === 'authenticated' && session?.user?.role === 'CUSTOMER') {
+    actualNavLinks.push({ id: 'portal', text: 'Customer Portal', href: '/portal' });
+  }
 
   const ctaDetails = {
     text: ctaText || 'Contact Us',
@@ -113,7 +122,7 @@ const MobileNavigation = ({
     >
       <nav className="overflow-y-auto max-h-[calc(100vh-10rem)]">
         <ul className="flex flex-col space-y-1">
-          {navLinks.map((link) => {
+          {actualNavLinks.map((link) => {
             if (link.subLinks && link.subLinks.length > 0) {
               const isDropdownOpen = openDropdownId === link.id;
               return (
@@ -171,7 +180,7 @@ const MobileNavigation = ({
             <li className="mt-3 pt-3 border-t border-gray-200">
               <Link 
                 href={ctaDetails.link} 
-                className="block rounded-md bg-primary-500 px-4 py-2.5 text-center text-base font-medium text-white hover:bg-primary-600 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+                className="block rounded-md bg-accent-gold px-4 py-2.5 text-center text-base font-semibold text-primary-navy hover:bg-yellow-600 transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-accent-gold"
                 onClick={onClose}
               >
                 {ctaDetails.text}

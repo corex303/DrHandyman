@@ -1,7 +1,8 @@
 'use client';
 
-import { ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
+import { ReactNode } from 'react';
+
 import Breadcrumbs from './Breadcrumbs';
 
 interface PageLayoutProps {

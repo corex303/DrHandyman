@@ -2,11 +2,16 @@ import type { Config } from 'tailwindcss';
 import defaultTheme from 'tailwindcss/defaultTheme';
 
 export default {
-  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+  content: [
+    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+  ],
   theme: {
     extend: {
       fontFamily: {
-        primary: ['Inter', ...defaultTheme.fontFamily.sans],
+        sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', '"Helvetica Neue"', 'Arial', '"Noto Sans"', 'sans-serif', '"Apple Color Emoji"', '"Segoe UI Emoji"', '"Segoe UI Symbol"', '"Noto Color Emoji"'],
+        serif: ['Lora', 'ui-serif', 'Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
       },
       colors: {
         primary: {
@@ -24,6 +29,16 @@ export default {
           950: 'rgb(var(--tw-color-primary-950) / <alpha-value>)',
         },
         dark: '#222222',
+        'primary-navy': '#0A2342',
+        'secondary-gray': {
+          DEFAULT: '#6c757d',
+          light: '#adb5bd',
+          lighter: '#E9ECEF',
+        },
+        'accent-gold': '#B08D57',
+        'background-light': '#F8F9FA',
+        'text-dark': '#212529',
+        'text-light': '#F8F9FA',
       },
       keyframes: {
         flicker: {
@@ -50,7 +65,15 @@ export default {
         flicker: 'flicker 3s linear infinite',
         shimmer: 'shimmer 1.3s linear infinite',
       },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-conic':
+          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      },
     },
   },
-  plugins: [require('@tailwindcss/forms')],
+  plugins: [
+    // require('@tailwindcss/forms'), // Uncomment if you use form styling
+    // require('@tailwindcss/typography'), // Uncomment if you use prose styling
+  ],
 } satisfies Config;

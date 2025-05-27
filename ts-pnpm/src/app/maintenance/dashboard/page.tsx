@@ -1,7 +1,8 @@
 "use client";
 
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+
 import Button from '@/components/buttons/Button';
 // No longer using next-auth for this page
 // import { useSession, signOut } from 'next-auth/react'; 
@@ -86,7 +87,7 @@ export default function MaintenanceDashboardPage() {
               Submit before and after photos of the completed maintenance work.
             </p>
             {/* Example link, can be developed into a form/component */}
-            <Link href="/maintenance/upload-photos" passHref>
+            <Link href="/maintenance/dashboard/upload" passHref>
               <Button variant="primary" className="w-full">Go to Photo Upload</Button>
             </Link>
           </div>

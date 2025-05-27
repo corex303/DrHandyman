@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { toast } from 'react-hot-toast';
 import Image from 'next/image'; // For previews
+import React, { useCallback, useEffect, useRef,useState } from 'react';
+import { toast } from 'react-hot-toast';
 
 interface AppearanceSettings {
   theme?: string;

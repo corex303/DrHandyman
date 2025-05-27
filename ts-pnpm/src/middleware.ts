@@ -1,5 +1,6 @@
-import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
+import { getToken } from 'next-auth/jwt'; // Import getToken for NextAuth.js session
 // import { getToken } from 'next-auth/jwt'; // No longer needed for admin if using global password
 
 const MAINTENANCE_COOKIE_NAME = 'maintenance_session';
@@ -8,8 +9,58 @@ const MAINTENANCE_EXPECTED_COOKIE_VALUE = 'maintenance_session_active_marker';
 const ADMIN_COOKIE_NAME = 'admin_session';
 const ADMIN_EXPECTED_COOKIE_VALUE = 'admin_session_active_marker';
 
+const IS_PRODUCTION_MW = process.env.NODE_ENV === 'production';
+const NEXTAUTH_SESSION_TOKEN_COOKIE_NAME = IS_PRODUCTION_MW ? '__Secure-next-auth.session-token' : 'next-auth.session-token';
+
+// Define a secret for getToken, should be the same as NEXTAUTH_SECRET in .env
+const nextAuthSecret = process.env.NEXTAUTH_SECRET;
+
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
+  console.log(`[Middleware] Executing for pathname: ${pathname}`); // Log pathname
+  console.log("[Middleware] Value of nextAuthSecret (process.env.NEXTAUTH_SECRET):", nextAuthSecret); // Log the secret
+
+  // Log all cookies visible to the middleware
+  const allCookies = req.cookies.getAll();
+  console.log("[Middleware] All cookies visible:", allCookies);
+  const specificCookie = req.cookies.get(NEXTAUTH_SESSION_TOKEN_COOKIE_NAME);
+  console.log(`[Middleware] Specific cookie '${NEXTAUTH_SESSION_TOKEN_COOKIE_NAME}':`, specificCookie);
+
+  // Customer Portal protection (NextAuth.js)
+  if (pathname.startsWith('/portal')) {
+    const rawToken = await getToken({
+      req,
+      secret: nextAuthSecret,
+      cookieName: NEXTAUTH_SESSION_TOKEN_COOKIE_NAME,
+      raw: true // Get the raw JWT string
+    });
+    console.log("[Middleware] Customer Portal Raw JWT Token:", rawToken);
+
+    const token = await getToken({
+      req,
+      secret: nextAuthSecret,
+      cookieName: NEXTAUTH_SESSION_TOKEN_COOKIE_NAME, 
+      // No raw: true here, try to get the decoded token
+    });
+    console.log("[Middleware] Customer Portal Decoded Token (after raw check):", token);
+
+    if (!token) {
+      // Not authenticated, redirect to NextAuth.js sign-in page
+      const signInUrl = new URL('/auth/signin', req.url); // Default NextAuth sign-in page
+      signInUrl.searchParams.set('callbackUrl', pathname); // Redirect back after login
+      return NextResponse.redirect(signInUrl);
+    }
+
+    // Check for CUSTOMER role
+    if (token.role !== 'CUSTOMER') {
+      // Not a customer, redirect to an appropriate page (e.g., homepage or an access denied page)
+      console.log("[Middleware] Access denied for non-customer role:", token.role);
+      return NextResponse.redirect(new URL('/', req.url)); // Redirect to homepage
+    }
+
+    // Authenticated and has CUSTOMER role, allow access
+    return NextResponse.next();
+  }
 
   // Maintenance portal protection
   if (pathname.startsWith('/maintenance')) {
@@ -92,5 +143,6 @@ export const config = {
     '/admin', // Explicitly match /admin
     '/maintenance/:path*',
     '/maintenance', // Explicitly match /maintenance
+    '/portal/:path*' // Add matcher for customer portal
   ],
 }; 
