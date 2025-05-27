@@ -27,4 +27,7 @@ ts-pnpm/.env
 
 # Task files
 tasks.json
-tasks/ 
+tasks/
+
+# Cursor MCP configuration
+.cursor/mcp.json 
