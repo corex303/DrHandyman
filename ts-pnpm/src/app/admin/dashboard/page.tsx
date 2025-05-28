@@ -171,6 +171,16 @@ export default function AdminDashboardPage() {
             borderColor="border-teal-500"
           />
           <DashboardCard
+            title="Chat & Messages"
+            description="View and manage conversations with customers and staff."
+            linkHref="/admin/chat"
+            linkText="Open Chat"
+            icon={<FiMessageSquare className="text-2xl text-blue-600" />} 
+            bgColor="bg-blue-50"
+            titleColor="text-blue-700"
+            borderColor="border-blue-500"
+          />
+          <DashboardCard
             title="Payments & Billing"
             description="Manage invoices, view transaction history, and configure payment settings."
             linkHref="/admin/billing" // New link for Payments/Billing

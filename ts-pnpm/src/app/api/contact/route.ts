@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { RateLimiterMemory } from 'rate-limiter-flexible';
 import * as z from "zod";
+import prisma from '@/lib/prisma'; // Import Prisma client
+import { UserRole } from '@prisma/client'; // Corrected import path for UserRole
 
 // Re-define or import the schema. For simplicity, re-defining here.
 const formSchema = z.object({
@@ -45,12 +47,82 @@ export async function POST(request: Request) {
 
     const { name, email, phone, service, message } = validatedData.data;
 
-    // TODO: Store inquiry in database
-    console.log("Form data received on server:", { name, email, phone, service, message });
+    // --- Store inquiry in database & handle user --- 
+    let inquiryCustomer = await prisma.user.findUnique({
+      where: { email },
+    });
 
-    // TODO: Send email notification to admin
+    // If user doesn't exist, create a new one with CUSTOMER role
+    if (!inquiryCustomer) {
+      inquiryCustomer = await prisma.user.create({
+        data: {
+          email: email,
+          name: name,
+          role: UserRole.CUSTOMER, // Default role for new users from contact form
+        },
+      });
+    }
 
-    return NextResponse.json({ message: "Form submitted successfully!" }, { status: 200 });
+    const inquiry = await prisma.inquiry.create({
+      data: {
+        customerName: name,
+        customerEmail: email,
+        customerPhone: phone || null,
+        serviceNeeded: service || null,
+        message: message,
+        customerId: inquiryCustomer.id, // Link to existing or new user
+      },
+    });
+    
+    console.log("Inquiry stored in database:", inquiry);
+    // --- END Store inquiry ---    
+
+    // --- Create ChatConversation --- 
+    try {
+      const staffMember = await prisma.user.findFirst({
+        where: {
+          OR: [
+            { role: UserRole.ADMIN },
+            { role: UserRole.MAINTENANCE },
+          ],
+        },
+      });
+
+      if (staffMember && inquiryCustomer) {
+        const conversation = await prisma.chatConversation.create({
+          data: {
+            participants: {
+              connect: [
+                { id: inquiryCustomer.id },
+                { id: staffMember.id },
+              ],
+            },
+            // Set the direct foreign keys for customer and staff if they exist
+            customerId: inquiryCustomer.id,
+            staffId: staffMember.id,
+            // Optionally, add an initial message
+            // messages: {
+            //   create: {
+            //     senderId: staffMember.id, // Or a system ID
+            //     content: `New inquiry #${inquiry.id} received from ${inquiryCustomer.name}. Subject: ${service || 'General Inquiry'}`,
+            //   },
+            // },
+          },
+          include: { participants: true } // Include participants to confirm creation
+        });
+        console.log("Chat conversation created:", conversation);
+      } else {
+        console.warn("Could not create chat conversation: Staff member or customer not found.");
+      }
+    } catch (chatError: any) {
+      console.error("Error creating chat conversation:", chatError);
+      // Do not fail the whole request if chat creation fails, inquiry is already saved.
+    }
+    // --- END Create ChatConversation --- 
+
+    // TODO: Send email notification to admin about the new inquiry
+
+    return NextResponse.json({ message: "Form submitted successfully! Your inquiry has been received." , inquiryId: inquiry.id }, { status: 200 });
   } catch (error: any) {
     if (error instanceof Error && error.message.includes('RateLimited')) {
         return NextResponse.json({ message: "Too many requests. Please try again later." }, { status: 429 });

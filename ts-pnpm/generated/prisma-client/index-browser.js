@@ -127,7 +127,9 @@ exports.Prisma.UserScalarFieldEnum = {
   password: 'password',
   emailVerified: 'emailVerified',
   image: 'image',
+  hashedPassword: 'hashedPassword',
   role: 'role',
+  lastSeenAt: 'lastSeenAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -302,7 +304,62 @@ exports.Prisma.ChatMessageScalarFieldEnum = {
   content: 'content',
   senderId: 'senderId',
   conversationId: 'conversationId',
-  readAt: 'readAt'
+  readAt: 'readAt',
+  attachmentUrl: 'attachmentUrl',
+  attachmentType: 'attachmentType',
+  attachmentFilename: 'attachmentFilename',
+  attachmentSize: 'attachmentSize'
+};
+
+exports.Prisma.InvoiceScalarFieldEnum = {
+  id: 'id',
+  invoiceNumber: 'invoiceNumber',
+  customerId: 'customerId',
+  issueDate: 'issueDate',
+  dueDate: 'dueDate',
+  totalAmount: 'totalAmount',
+  amountPaid: 'amountPaid',
+  status: 'status',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  relatedServiceRequestId: 'relatedServiceRequestId'
+};
+
+exports.Prisma.InvoiceLineItemScalarFieldEnum = {
+  id: 'id',
+  invoiceId: 'invoiceId',
+  description: 'description',
+  quantity: 'quantity',
+  unitPrice: 'unitPrice',
+  totalPrice: 'totalPrice',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PaymentScalarFieldEnum = {
+  id: 'id',
+  invoiceId: 'invoiceId',
+  paymentDate: 'paymentDate',
+  amount: 'amount',
+  paymentMethod: 'paymentMethod',
+  transactionId: 'transactionId',
+  status: 'status',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ChatParticipantInfoScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  conversationId: 'conversationId',
+  lastAccessedAt: 'lastAccessedAt'
+};
+
+exports.Prisma.GlobalStaffActivityScalarFieldEnum = {
+  id: 'id',
+  lastActivePing: 'lastActivePing'
 };
 
 exports.Prisma.SortOrder = {
@@ -347,6 +404,15 @@ exports.PhotoType = exports.$Enums.PhotoType = {
   AFTER: 'AFTER'
 };
 
+exports.InvoiceStatus = exports.$Enums.InvoiceStatus = {
+  DRAFT: 'DRAFT',
+  SENT: 'SENT',
+  PAID: 'PAID',
+  PARTIALLY_PAID: 'PARTIALLY_PAID',
+  VOID: 'VOID',
+  OVERDUE: 'OVERDUE'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Service: 'Service',
@@ -363,7 +429,12 @@ exports.Prisma.ModelName = {
   VerificationToken: 'VerificationToken',
   AppearanceSettings: 'AppearanceSettings',
   ChatConversation: 'ChatConversation',
-  ChatMessage: 'ChatMessage'
+  ChatMessage: 'ChatMessage',
+  Invoice: 'Invoice',
+  InvoiceLineItem: 'InvoiceLineItem',
+  Payment: 'Payment',
+  ChatParticipantInfo: 'ChatParticipantInfo',
+  GlobalStaffActivity: 'GlobalStaffActivity'
 };
 
 /**

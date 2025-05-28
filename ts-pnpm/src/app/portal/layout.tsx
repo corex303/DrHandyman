@@ -4,21 +4,15 @@ import { ArrowLeftOnRectangleIcon,CalendarIcon, ChatBubbleLeftEllipsisIcon, Docu
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
+import { BarChart2Icon, CalendarDaysIcon, CreditCardIcon, LayoutDashboardIcon, LogOutIcon, MessageSquareTextIcon, SettingsIcon, UserCircle2Icon, UsersIcon } from 'lucide-react';
 
 interface NavItem {
   name: string;
   href: string;
   icon: React.ElementType;
   disabled?: boolean;
+  current?: boolean;
 }
-
-const navigation: NavItem[] = [
-  { name: 'Dashboard', href: '/portal', icon: HomeIcon },
-  { name: 'My Bookings', href: '/portal/bookings', icon: CalendarIcon, disabled: true },
-  { name: 'Profile', href: '/portal/profile', icon: UserCircleIcon, disabled: true },
-  { name: 'Invoices', href: '/portal/invoices', icon: DocumentTextIcon, disabled: true },
-  { name: 'Messages', href: '/portal/chat', icon: ChatBubbleLeftEllipsisIcon, disabled: true },
-];
 
 export default function PortalLayout({
   children,
@@ -27,6 +21,20 @@ export default function PortalLayout({
 }) {
   const pathname = usePathname();
   const { data: session, status } = useSession();
+
+  // Define navigation inside the component so usePathname can be called correctly
+  const navigation: NavItem[] = [
+    { name: 'Dashboard', href: '/portal', icon: LayoutDashboardIcon, current: pathname === '/portal' },
+    { name: 'My Bookings', href: '/portal/bookings', icon: CalendarDaysIcon, current: pathname === '/portal/bookings', disabled: true }, 
+    {
+      name: 'Messages',
+      href: '/portal/chat',
+      icon: MessageSquareTextIcon,
+      current: pathname === '/portal/chat' || pathname.startsWith('/portal/chat/'),
+    },
+    { name: 'Invoices', href: '/portal/invoices', icon: CreditCardIcon, current: pathname === '/portal/invoices', disabled: true },
+    { name: 'Profile', href: '/portal/profile', icon: UserCircle2Icon, current: pathname === '/portal/profile', disabled: true },
+  ];
 
   if (status === 'loading') {
     return (

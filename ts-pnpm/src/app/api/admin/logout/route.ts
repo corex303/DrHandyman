@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 export async function POST() {
   try {
     // Clear the session cookie
-    cookies().delete('admin_session');
+    (await cookies()).delete('admin_session');
 
     return NextResponse.json({ message: 'Logout successful' }, { status: 200 });
   } catch (error) {

@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowPathIcon, CalendarIcon,ChatBubbleLeftEllipsisIcon, DocumentTextIcon, EyeIcon, InformationCircleIcon, UserCircleIcon } from '@heroicons/react/24/outline';
+import { ArrowPathIcon, CalendarIcon,ChatBubbleLeftEllipsisIcon, DocumentTextIcon, EyeIcon, InformationCircleIcon, UserCircleIcon, CreditCardIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
@@ -83,27 +83,28 @@ export default function CustomerPortalDashboardPage() {
       comingSoon: false, 
     },
     {
+      title: 'Messages & Support',
+      description: 'Communicate with our team, ask questions, and get help directly from our Service Technicians.',
+      linkHref: '/portal/chat',
+      linkText: 'Open Chat',
+      icon: ChatBubbleLeftEllipsisIcon,
+      comingSoon: false,
+
+    },
+    {
+      title: 'View Invoices',
+      description: 'Access your billing history and manage payments.',
+      icon: CreditCardIcon,
+      linkHref: '/portal/invoices',
+      linkText: 'Go to Invoices',
+      comingSoon: false,
+    },
+    {
       title: 'Manage Your Profile',
       description: 'Keep your contact information, preferences, and payment methods up to date.',
       linkHref: '/portal/profile',
       linkText: 'Edit Profile',
       icon: UserCircleIcon,
-      comingSoon: false,
-    },
-    {
-      title: 'View Invoices',
-      description: 'Access your billing history, view detailed invoices, and manage payments.',
-      linkHref: '/portal/invoices',
-      linkText: 'My Invoices',
-      icon: DocumentTextIcon,
-      comingSoon: false,
-    },
-    {
-      title: 'Messages & Support',
-      description: 'Communicate with our team, ask questions, and get support for your services.',
-      linkHref: '/portal/chat',
-      linkText: 'Open Chat',
-      icon: ChatBubbleLeftEllipsisIcon,
       comingSoon: false,
     },
   ];

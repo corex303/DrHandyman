@@ -26,6 +26,15 @@ enum ApprovalStatus {
   REJECTED
 }
 
+enum InvoiceStatus {
+  DRAFT // Invoice created but not yet finalized or sent
+  SENT // Invoice sent to the customer
+  PAID // Invoice fully paid
+  PARTIALLY_PAID // Invoice partially paid
+  VOID // Invoice voided/cancelled
+  OVERDUE // Invoice past its due date and unpaid
+}
+
 model User {
   id                     String              @id @default(cuid())
   name                   String?
@@ -33,10 +42,12 @@ model User {
   password               String? // Uncommented for password-based auth
   emailVerified          DateTime? // Still useful: NextAuth EmailProvider + Adapter sets this
   image                  String?
+  hashedPassword         String?
+  role                   UserRole            @default(CUSTOMER)
+  lastSeenAt             DateTime?           @updatedAt
   accounts               Account[]
   sessions               Session[]
   // emailVerificationRequests EmailVerificationRequest[] // Commented out
-  role                   UserRole            @default(CUSTOMER)
   createdAt              DateTime            @default(now())
   updatedAt              DateTime            @updatedAt
   services               Service[]
@@ -53,6 +64,12 @@ model User {
   customerConversations ChatConversation[] @relation("CustomerConversations") // If using specific customer link on ChatConversation
   staffConversations    ChatConversation[] @relation("StaffConversations") // If using specific staff link on ChatConversation
   // END NEW CHAT RELATIONS
+
+  // INVOICE RELATION
+  invoices Invoice[] // Relation to customer's invoices
+
+  // CHAT ACTIVITY RELATION
+  activityInConversations ChatParticipantInfo[]
 
   @@index([email])
 }
@@ -293,28 +310,105 @@ model ChatConversation {
   lastMessage   String?
   lastMessageAt DateTime?
 
+  // PARTICIPANT ACTIVITY RELATION
+  participantActivity ChatParticipantInfo[]
+
   @@index([customerId])
   @@index([staffMemberId])
   @@index([updatedAt])
 }
 
 model ChatMessage {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  content   String   @db.Text
-
-  senderId String
-  sender   User   @relation("SentMessages", fields: [senderId], references: [id])
-
+  id             String    @id @default(cuid())
+  createdAt      DateTime  @default(now())
+  content        String?
+  senderId       String
   conversationId String
-  conversation   ChatConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  readAt         DateTime?
 
-  readAt DateTime?
+  attachmentUrl      String? // URL to the stored attachment
+  attachmentType     String? // MIME type of the attachment
+  attachmentFilename String? // Original filename of the attachment
+  attachmentSize     Int? // Size of the attachment in bytes
+
+  sender       User             @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
+  conversation ChatConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
 
   @@index([conversationId, createdAt])
-  @@index([senderId])
 }
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++
 // END: CHAT MODELS
 // +++++++++++++++++++++++++++++++++++++++++++++++++++
+
+// Invoice and Payment Models
+
+model Invoice {
+  id            String        @id @default(cuid())
+  invoiceNumber String        @unique // e.g., INV-2024-001
+  customerId    String
+  customer      User          @relation(fields: [customerId], references: [id])
+  issueDate     DateTime      @default(now())
+  dueDate       DateTime
+  totalAmount   Float // Calculated from line items
+  amountPaid    Float         @default(0)
+  status        InvoiceStatus @default(DRAFT)
+  notes         String?       @db.Text // Internal notes or notes for the customer
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  lineItems               InvoiceLineItem[]
+  payments                Payment[]
+  relatedServiceRequestId String? // Optional: Link to a service request if applicable
+  // relatedQuoteId String?           // Optional: Link to a quote if applicable
+
+  @@index([customerId])
+  @@index([status])
+}
+
+model InvoiceLineItem {
+  id          String   @id @default(cuid())
+  invoiceId   String
+  invoice     Invoice  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  description String   @db.Text // Description of the service or item
+  quantity    Float    @default(1)
+  unitPrice   Float // Price per unit
+  totalPrice  Float // quantity * unitPrice (can be pre-calculated or derived)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([invoiceId])
+}
+
+model Payment {
+  id            String   @id @default(cuid())
+  invoiceId     String
+  invoice       Invoice  @relation(fields: [invoiceId], references: [id])
+  paymentDate   DateTime @default(now())
+  amount        Float // Amount of this specific payment
+  paymentMethod String? // e.g., "Credit Card", "Bank Transfer", "Stripe", "Cash"
+  transactionId String?  @unique // Optional: ID from payment gateway
+  status        String? // Optional: e.g., "Succeeded", "Failed", "Pending", "Refunded"
+  notes         String?  @db.Text
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([invoiceId])
+  @@index([transactionId])
+}
+
+// END Invoice and Payment Models
+
+// Model to track user activity within specific chat conversations
+model ChatParticipantInfo {
+  id             String           @id @default(cuid())
+  userId         String
+  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  conversationId String
+  conversation   ChatConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  lastAccessedAt DateTime         @default(now()) @updatedAt // Tracks the last time the user accessed/interacted with this conversation
+
+  @@unique([userId, conversationId]) // Each user can only have one entry per conversation
+  @@index([userId])
+  @@index([conversationId])
+}

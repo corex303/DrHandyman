@@ -34,9 +34,9 @@ export interface ApprovedPhotoSetWithPhotos extends PhotoSet {
 }
 
 interface ServiceDetailPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 // Define a more specific type for the service with included portfolio items
@@ -87,7 +87,8 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: ServiceDetailPageProps) {
+export async function generateMetadata(props: ServiceDetailPageProps) {
+  const params = await props.params;
   const pageData = await getServicePageData(params.slug);
   if (!pageData || !pageData.service) {
     return {
@@ -100,7 +101,8 @@ export async function generateMetadata({ params }: ServiceDetailPageProps) {
   };
 }
 
-export default async function ServiceDetailPage({ params }: ServiceDetailPageProps) {
+export default async function ServiceDetailPage(props: ServiceDetailPageProps) {
+  const params = await props.params;
   const pageData = await getServicePageData(params.slug);
 
   if (!pageData || !pageData.service) {

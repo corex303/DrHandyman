@@ -92,6 +92,17 @@ export default function MaintenanceDashboardPage() {
             </Link>
           </div>
 
+          {/* New Card for Chat/Messages */}
+          <div className="bg-purple-50 p-6 rounded-lg shadow">
+            <h2 className="text-xl font-semibold text-purple-700 mb-3">Messages & Chat</h2>
+            <p className="text-gray-600 mb-4">
+              Communicate with customers and administrative staff.
+            </p>
+            <Link href="/maintenance/dashboard/chat" passHref>
+              <Button variant="outline" className="w-full">Open Chat</Button>
+            </Link>
+          </div>
+
           {/* Placeholder for another feature */}
           <div className="bg-green-50 p-6 rounded-lg shadow">
             <h2 className="text-xl font-semibold text-green-700 mb-3">View Work Orders</h2>

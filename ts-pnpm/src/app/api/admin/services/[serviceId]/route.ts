@@ -15,10 +15,8 @@ const updateServiceSchema = z.object({
   imageUrl: z.string().url('Invalid image URL').optional().nullable(),
 });
 
-export async function GET(
-  request: Request,
-  { params }: { params: { serviceId: string } }
-) {
+export async function GET(request: Request, props: { params: Promise<{ serviceId: string }> }) {
+  const params = await props.params;
   const session = await getServerSession(authOptions);
   if (!session || !session.user || session.user.role !== 'ADMIN') {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -39,10 +37,8 @@ export async function GET(
   }
 }
 
-export async function PUT(
-  req: NextRequest,
-  { params }: { params: { serviceId: string } }
-) {
+export async function PUT(req: NextRequest, props: { params: Promise<{ serviceId: string }> }) {
+  const params = await props.params;
   const token = await getToken({ req });
   if (!token || token.role !== 'ADMIN') {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -63,7 +59,7 @@ export async function PUT(
   }
 
   const { name, description, slug, imageUrl } = validation.data;
-  
+
   // Check if the service exists
   const existingService = await prisma.service.findUnique({
       where: { id: serviceId },
@@ -82,7 +78,7 @@ export async function PUT(
       return NextResponse.json({ error: 'Slug already exists. Please use a unique slug.' }, { status: 409 });
     }
   }
-  
+
   // If name is being updated, check for uniqueness
   if (name && name !== existingService.name) {
       const existingServiceByName = await prisma.service.findUnique({
@@ -105,10 +101,8 @@ export async function PUT(
   return NextResponse.json(updatedService);
 }
 
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { serviceId: string } }
-) {
+export async function DELETE(req: NextRequest, props: { params: Promise<{ serviceId: string }> }) {
+  const params = await props.params;
   const token = await getToken({ req });
   if (!token || token.role !== 'ADMIN') {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

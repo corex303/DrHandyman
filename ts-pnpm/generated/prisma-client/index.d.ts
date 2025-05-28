@@ -93,6 +93,31 @@ export type ChatConversation = $Result.DefaultSelection<Prisma.$ChatConversation
  * 
  */
 export type ChatMessage = $Result.DefaultSelection<Prisma.$ChatMessagePayload>
+/**
+ * Model Invoice
+ * 
+ */
+export type Invoice = $Result.DefaultSelection<Prisma.$InvoicePayload>
+/**
+ * Model InvoiceLineItem
+ * 
+ */
+export type InvoiceLineItem = $Result.DefaultSelection<Prisma.$InvoiceLineItemPayload>
+/**
+ * Model Payment
+ * 
+ */
+export type Payment = $Result.DefaultSelection<Prisma.$PaymentPayload>
+/**
+ * Model ChatParticipantInfo
+ * 
+ */
+export type ChatParticipantInfo = $Result.DefaultSelection<Prisma.$ChatParticipantInfoPayload>
+/**
+ * Model GlobalStaffActivity
+ * 
+ */
+export type GlobalStaffActivity = $Result.DefaultSelection<Prisma.$GlobalStaffActivityPayload>
 
 /**
  * Enums
@@ -116,6 +141,18 @@ export const ApprovalStatus: {
 export type ApprovalStatus = (typeof ApprovalStatus)[keyof typeof ApprovalStatus]
 
 
+export const InvoiceStatus: {
+  DRAFT: 'DRAFT',
+  SENT: 'SENT',
+  PAID: 'PAID',
+  PARTIALLY_PAID: 'PARTIALLY_PAID',
+  VOID: 'VOID',
+  OVERDUE: 'OVERDUE'
+};
+
+export type InvoiceStatus = (typeof InvoiceStatus)[keyof typeof InvoiceStatus]
+
+
 export const PhotoType: {
   BEFORE: 'BEFORE',
   AFTER: 'AFTER'
@@ -132,6 +169,10 @@ export const UserRole: typeof $Enums.UserRole
 export type ApprovalStatus = $Enums.ApprovalStatus
 
 export const ApprovalStatus: typeof $Enums.ApprovalStatus
+
+export type InvoiceStatus = $Enums.InvoiceStatus
+
+export const InvoiceStatus: typeof $Enums.InvoiceStatus
 
 export type PhotoType = $Enums.PhotoType
 
@@ -421,6 +462,56 @@ export class PrismaClient<
     * ```
     */
   get chatMessage(): Prisma.ChatMessageDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.invoice`: Exposes CRUD operations for the **Invoice** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Invoices
+    * const invoices = await prisma.invoice.findMany()
+    * ```
+    */
+  get invoice(): Prisma.InvoiceDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.invoiceLineItem`: Exposes CRUD operations for the **InvoiceLineItem** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more InvoiceLineItems
+    * const invoiceLineItems = await prisma.invoiceLineItem.findMany()
+    * ```
+    */
+  get invoiceLineItem(): Prisma.InvoiceLineItemDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.payment`: Exposes CRUD operations for the **Payment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Payments
+    * const payments = await prisma.payment.findMany()
+    * ```
+    */
+  get payment(): Prisma.PaymentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.chatParticipantInfo`: Exposes CRUD operations for the **ChatParticipantInfo** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ChatParticipantInfos
+    * const chatParticipantInfos = await prisma.chatParticipantInfo.findMany()
+    * ```
+    */
+  get chatParticipantInfo(): Prisma.ChatParticipantInfoDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.globalStaffActivity`: Exposes CRUD operations for the **GlobalStaffActivity** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more GlobalStaffActivities
+    * const globalStaffActivities = await prisma.globalStaffActivity.findMany()
+    * ```
+    */
+  get globalStaffActivity(): Prisma.GlobalStaffActivityDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -876,7 +967,12 @@ export namespace Prisma {
     VerificationToken: 'VerificationToken',
     AppearanceSettings: 'AppearanceSettings',
     ChatConversation: 'ChatConversation',
-    ChatMessage: 'ChatMessage'
+    ChatMessage: 'ChatMessage',
+    Invoice: 'Invoice',
+    InvoiceLineItem: 'InvoiceLineItem',
+    Payment: 'Payment',
+    ChatParticipantInfo: 'ChatParticipantInfo',
+    GlobalStaffActivity: 'GlobalStaffActivity'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -895,7 +991,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "service" | "portfolioItem" | "testimonial" | "inquiry" | "siteSettings" | "image" | "photoSet" | "photo" | "maintenanceWorker" | "account" | "session" | "verificationToken" | "appearanceSettings" | "chatConversation" | "chatMessage"
+      modelProps: "user" | "service" | "portfolioItem" | "testimonial" | "inquiry" | "siteSettings" | "image" | "photoSet" | "photo" | "maintenanceWorker" | "account" | "session" | "verificationToken" | "appearanceSettings" | "chatConversation" | "chatMessage" | "invoice" | "invoiceLineItem" | "payment" | "chatParticipantInfo" | "globalStaffActivity"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2083,6 +2179,376 @@ export namespace Prisma {
           }
         }
       }
+      Invoice: {
+        payload: Prisma.$InvoicePayload<ExtArgs>
+        fields: Prisma.InvoiceFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InvoiceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InvoiceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>
+          }
+          findFirst: {
+            args: Prisma.InvoiceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InvoiceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>
+          }
+          findMany: {
+            args: Prisma.InvoiceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>[]
+          }
+          create: {
+            args: Prisma.InvoiceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>
+          }
+          createMany: {
+            args: Prisma.InvoiceCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.InvoiceCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>[]
+          }
+          delete: {
+            args: Prisma.InvoiceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>
+          }
+          update: {
+            args: Prisma.InvoiceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>
+          }
+          deleteMany: {
+            args: Prisma.InvoiceDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InvoiceUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.InvoiceUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>[]
+          }
+          upsert: {
+            args: Prisma.InvoiceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>
+          }
+          aggregate: {
+            args: Prisma.InvoiceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInvoice>
+          }
+          groupBy: {
+            args: Prisma.InvoiceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InvoiceGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InvoiceCountArgs<ExtArgs>
+            result: $Utils.Optional<InvoiceCountAggregateOutputType> | number
+          }
+        }
+      }
+      InvoiceLineItem: {
+        payload: Prisma.$InvoiceLineItemPayload<ExtArgs>
+        fields: Prisma.InvoiceLineItemFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InvoiceLineItemFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceLineItemPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InvoiceLineItemFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceLineItemPayload>
+          }
+          findFirst: {
+            args: Prisma.InvoiceLineItemFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceLineItemPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InvoiceLineItemFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceLineItemPayload>
+          }
+          findMany: {
+            args: Prisma.InvoiceLineItemFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceLineItemPayload>[]
+          }
+          create: {
+            args: Prisma.InvoiceLineItemCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceLineItemPayload>
+          }
+          createMany: {
+            args: Prisma.InvoiceLineItemCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.InvoiceLineItemCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceLineItemPayload>[]
+          }
+          delete: {
+            args: Prisma.InvoiceLineItemDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceLineItemPayload>
+          }
+          update: {
+            args: Prisma.InvoiceLineItemUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceLineItemPayload>
+          }
+          deleteMany: {
+            args: Prisma.InvoiceLineItemDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InvoiceLineItemUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.InvoiceLineItemUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceLineItemPayload>[]
+          }
+          upsert: {
+            args: Prisma.InvoiceLineItemUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceLineItemPayload>
+          }
+          aggregate: {
+            args: Prisma.InvoiceLineItemAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInvoiceLineItem>
+          }
+          groupBy: {
+            args: Prisma.InvoiceLineItemGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InvoiceLineItemGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InvoiceLineItemCountArgs<ExtArgs>
+            result: $Utils.Optional<InvoiceLineItemCountAggregateOutputType> | number
+          }
+        }
+      }
+      Payment: {
+        payload: Prisma.$PaymentPayload<ExtArgs>
+        fields: Prisma.PaymentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PaymentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PaymentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>
+          }
+          findFirst: {
+            args: Prisma.PaymentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PaymentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>
+          }
+          findMany: {
+            args: Prisma.PaymentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>[]
+          }
+          create: {
+            args: Prisma.PaymentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>
+          }
+          createMany: {
+            args: Prisma.PaymentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PaymentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>[]
+          }
+          delete: {
+            args: Prisma.PaymentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>
+          }
+          update: {
+            args: Prisma.PaymentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>
+          }
+          deleteMany: {
+            args: Prisma.PaymentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PaymentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PaymentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>[]
+          }
+          upsert: {
+            args: Prisma.PaymentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>
+          }
+          aggregate: {
+            args: Prisma.PaymentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePayment>
+          }
+          groupBy: {
+            args: Prisma.PaymentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PaymentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PaymentCountArgs<ExtArgs>
+            result: $Utils.Optional<PaymentCountAggregateOutputType> | number
+          }
+        }
+      }
+      ChatParticipantInfo: {
+        payload: Prisma.$ChatParticipantInfoPayload<ExtArgs>
+        fields: Prisma.ChatParticipantInfoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ChatParticipantInfoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChatParticipantInfoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ChatParticipantInfoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChatParticipantInfoPayload>
+          }
+          findFirst: {
+            args: Prisma.ChatParticipantInfoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChatParticipantInfoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ChatParticipantInfoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChatParticipantInfoPayload>
+          }
+          findMany: {
+            args: Prisma.ChatParticipantInfoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChatParticipantInfoPayload>[]
+          }
+          create: {
+            args: Prisma.ChatParticipantInfoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChatParticipantInfoPayload>
+          }
+          createMany: {
+            args: Prisma.ChatParticipantInfoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ChatParticipantInfoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChatParticipantInfoPayload>[]
+          }
+          delete: {
+            args: Prisma.ChatParticipantInfoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChatParticipantInfoPayload>
+          }
+          update: {
+            args: Prisma.ChatParticipantInfoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChatParticipantInfoPayload>
+          }
+          deleteMany: {
+            args: Prisma.ChatParticipantInfoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ChatParticipantInfoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ChatParticipantInfoUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChatParticipantInfoPayload>[]
+          }
+          upsert: {
+            args: Prisma.ChatParticipantInfoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChatParticipantInfoPayload>
+          }
+          aggregate: {
+            args: Prisma.ChatParticipantInfoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateChatParticipantInfo>
+          }
+          groupBy: {
+            args: Prisma.ChatParticipantInfoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ChatParticipantInfoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ChatParticipantInfoCountArgs<ExtArgs>
+            result: $Utils.Optional<ChatParticipantInfoCountAggregateOutputType> | number
+          }
+        }
+      }
+      GlobalStaffActivity: {
+        payload: Prisma.$GlobalStaffActivityPayload<ExtArgs>
+        fields: Prisma.GlobalStaffActivityFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.GlobalStaffActivityFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GlobalStaffActivityPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.GlobalStaffActivityFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GlobalStaffActivityPayload>
+          }
+          findFirst: {
+            args: Prisma.GlobalStaffActivityFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GlobalStaffActivityPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.GlobalStaffActivityFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GlobalStaffActivityPayload>
+          }
+          findMany: {
+            args: Prisma.GlobalStaffActivityFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GlobalStaffActivityPayload>[]
+          }
+          create: {
+            args: Prisma.GlobalStaffActivityCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GlobalStaffActivityPayload>
+          }
+          createMany: {
+            args: Prisma.GlobalStaffActivityCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.GlobalStaffActivityCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GlobalStaffActivityPayload>[]
+          }
+          delete: {
+            args: Prisma.GlobalStaffActivityDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GlobalStaffActivityPayload>
+          }
+          update: {
+            args: Prisma.GlobalStaffActivityUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GlobalStaffActivityPayload>
+          }
+          deleteMany: {
+            args: Prisma.GlobalStaffActivityDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.GlobalStaffActivityUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.GlobalStaffActivityUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GlobalStaffActivityPayload>[]
+          }
+          upsert: {
+            args: Prisma.GlobalStaffActivityUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GlobalStaffActivityPayload>
+          }
+          aggregate: {
+            args: Prisma.GlobalStaffActivityAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateGlobalStaffActivity>
+          }
+          groupBy: {
+            args: Prisma.GlobalStaffActivityGroupByArgs<ExtArgs>
+            result: $Utils.Optional<GlobalStaffActivityGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.GlobalStaffActivityCountArgs<ExtArgs>
+            result: $Utils.Optional<GlobalStaffActivityCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2183,6 +2649,11 @@ export namespace Prisma {
     appearanceSettings?: AppearanceSettingsOmit
     chatConversation?: ChatConversationOmit
     chatMessage?: ChatMessageOmit
+    invoice?: InvoiceOmit
+    invoiceLineItem?: InvoiceLineItemOmit
+    payment?: PaymentOmit
+    chatParticipantInfo?: ChatParticipantInfoOmit
+    globalStaffActivity?: GlobalStaffActivityOmit
   }
 
   /* Types for Logging */
@@ -2288,6 +2759,8 @@ export namespace Prisma {
     sentMessages: number
     customerConversations: number
     staffConversations: number
+    invoices: number
+    activityInConversations: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2302,6 +2775,8 @@ export namespace Prisma {
     sentMessages?: boolean | UserCountOutputTypeCountSentMessagesArgs
     customerConversations?: boolean | UserCountOutputTypeCountCustomerConversationsArgs
     staffConversations?: boolean | UserCountOutputTypeCountStaffConversationsArgs
+    invoices?: boolean | UserCountOutputTypeCountInvoicesArgs
+    activityInConversations?: boolean | UserCountOutputTypeCountActivityInConversationsArgs
   }
 
   // Custom InputTypes
@@ -2390,6 +2865,20 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountStaffConversationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ChatConversationWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountInvoicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InvoiceWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountActivityInConversationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ChatParticipantInfoWhereInput
   }
 
 
@@ -2493,11 +2982,13 @@ export namespace Prisma {
   export type ChatConversationCountOutputType = {
     participants: number
     messages: number
+    participantActivity: number
   }
 
   export type ChatConversationCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     participants?: boolean | ChatConversationCountOutputTypeCountParticipantsArgs
     messages?: boolean | ChatConversationCountOutputTypeCountMessagesArgs
+    participantActivity?: boolean | ChatConversationCountOutputTypeCountParticipantActivityArgs
   }
 
   // Custom InputTypes
@@ -2525,6 +3016,53 @@ export namespace Prisma {
     where?: ChatMessageWhereInput
   }
 
+  /**
+   * ChatConversationCountOutputType without action
+   */
+  export type ChatConversationCountOutputTypeCountParticipantActivityArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ChatParticipantInfoWhereInput
+  }
+
+
+  /**
+   * Count Type InvoiceCountOutputType
+   */
+
+  export type InvoiceCountOutputType = {
+    lineItems: number
+    payments: number
+  }
+
+  export type InvoiceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    lineItems?: boolean | InvoiceCountOutputTypeCountLineItemsArgs
+    payments?: boolean | InvoiceCountOutputTypeCountPaymentsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * InvoiceCountOutputType without action
+   */
+  export type InvoiceCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceCountOutputType
+     */
+    select?: InvoiceCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * InvoiceCountOutputType without action
+   */
+  export type InvoiceCountOutputTypeCountLineItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InvoiceLineItemWhereInput
+  }
+
+  /**
+   * InvoiceCountOutputType without action
+   */
+  export type InvoiceCountOutputTypeCountPaymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentWhereInput
+  }
+
 
   /**
    * Models
@@ -2547,7 +3085,9 @@ export namespace Prisma {
     password: string | null
     emailVerified: Date | null
     image: string | null
+    hashedPassword: string | null
     role: $Enums.UserRole | null
+    lastSeenAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2559,7 +3099,9 @@ export namespace Prisma {
     password: string | null
     emailVerified: Date | null
     image: string | null
+    hashedPassword: string | null
     role: $Enums.UserRole | null
+    lastSeenAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2571,7 +3113,9 @@ export namespace Prisma {
     password: number
     emailVerified: number
     image: number
+    hashedPassword: number
     role: number
+    lastSeenAt: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -2585,7 +3129,9 @@ export namespace Prisma {
     password?: true
     emailVerified?: true
     image?: true
+    hashedPassword?: true
     role?: true
+    lastSeenAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2597,7 +3143,9 @@ export namespace Prisma {
     password?: true
     emailVerified?: true
     image?: true
+    hashedPassword?: true
     role?: true
+    lastSeenAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2609,7 +3157,9 @@ export namespace Prisma {
     password?: true
     emailVerified?: true
     image?: true
+    hashedPassword?: true
     role?: true
+    lastSeenAt?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -2694,7 +3244,9 @@ export namespace Prisma {
     password: string | null
     emailVerified: Date | null
     image: string | null
+    hashedPassword: string | null
     role: $Enums.UserRole
+    lastSeenAt: Date | null
     createdAt: Date
     updatedAt: Date
     _count: UserCountAggregateOutputType | null
@@ -2723,7 +3275,9 @@ export namespace Prisma {
     password?: boolean
     emailVerified?: boolean
     image?: boolean
+    hashedPassword?: boolean
     role?: boolean
+    lastSeenAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     accounts?: boolean | User$accountsArgs<ExtArgs>
@@ -2739,6 +3293,8 @@ export namespace Prisma {
     sentMessages?: boolean | User$sentMessagesArgs<ExtArgs>
     customerConversations?: boolean | User$customerConversationsArgs<ExtArgs>
     staffConversations?: boolean | User$staffConversationsArgs<ExtArgs>
+    invoices?: boolean | User$invoicesArgs<ExtArgs>
+    activityInConversations?: boolean | User$activityInConversationsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2749,7 +3305,9 @@ export namespace Prisma {
     password?: boolean
     emailVerified?: boolean
     image?: boolean
+    hashedPassword?: boolean
     role?: boolean
+    lastSeenAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
@@ -2761,7 +3319,9 @@ export namespace Prisma {
     password?: boolean
     emailVerified?: boolean
     image?: boolean
+    hashedPassword?: boolean
     role?: boolean
+    lastSeenAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
@@ -2773,12 +3333,14 @@ export namespace Prisma {
     password?: boolean
     emailVerified?: boolean
     image?: boolean
+    hashedPassword?: boolean
     role?: boolean
+    lastSeenAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "emailVerified" | "image" | "role" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "emailVerified" | "image" | "hashedPassword" | "role" | "lastSeenAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
@@ -2793,6 +3355,8 @@ export namespace Prisma {
     sentMessages?: boolean | User$sentMessagesArgs<ExtArgs>
     customerConversations?: boolean | User$customerConversationsArgs<ExtArgs>
     staffConversations?: boolean | User$staffConversationsArgs<ExtArgs>
+    invoices?: boolean | User$invoicesArgs<ExtArgs>
+    activityInConversations?: boolean | User$activityInConversationsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2814,6 +3378,8 @@ export namespace Prisma {
       sentMessages: Prisma.$ChatMessagePayload<ExtArgs>[]
       customerConversations: Prisma.$ChatConversationPayload<ExtArgs>[]
       staffConversations: Prisma.$ChatConversationPayload<ExtArgs>[]
+      invoices: Prisma.$InvoicePayload<ExtArgs>[]
+      activityInConversations: Prisma.$ChatParticipantInfoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2822,7 +3388,9 @@ export namespace Prisma {
       password: string | null
       emailVerified: Date | null
       image: string | null
+      hashedPassword: string | null
       role: $Enums.UserRole
+      lastSeenAt: Date | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["user"]>
@@ -3232,6 +3800,8 @@ export namespace Prisma {
     sentMessages<T extends User$sentMessagesArgs<ExtArgs> = {}>(args?: Subset<T, User$sentMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     customerConversations<T extends User$customerConversationsArgs<ExtArgs> = {}>(args?: Subset<T, User$customerConversationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     staffConversations<T extends User$staffConversationsArgs<ExtArgs> = {}>(args?: Subset<T, User$staffConversationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    invoices<T extends User$invoicesArgs<ExtArgs> = {}>(args?: Subset<T, User$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    activityInConversations<T extends User$activityInConversationsArgs<ExtArgs> = {}>(args?: Subset<T, User$activityInConversationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatParticipantInfoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3267,7 +3837,9 @@ export namespace Prisma {
     readonly password: FieldRef<"User", 'String'>
     readonly emailVerified: FieldRef<"User", 'DateTime'>
     readonly image: FieldRef<"User", 'String'>
+    readonly hashedPassword: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'UserRole'>
+    readonly lastSeenAt: FieldRef<"User", 'DateTime'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
   }
@@ -3957,6 +4529,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ChatConversationScalarFieldEnum | ChatConversationScalarFieldEnum[]
+  }
+
+  /**
+   * User.invoices
+   */
+  export type User$invoicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    where?: InvoiceWhereInput
+    orderBy?: InvoiceOrderByWithRelationInput | InvoiceOrderByWithRelationInput[]
+    cursor?: InvoiceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InvoiceScalarFieldEnum | InvoiceScalarFieldEnum[]
+  }
+
+  /**
+   * User.activityInConversations
+   */
+  export type User$activityInConversationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatParticipantInfo
+     */
+    select?: ChatParticipantInfoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatParticipantInfo
+     */
+    omit?: ChatParticipantInfoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatParticipantInfoInclude<ExtArgs> | null
+    where?: ChatParticipantInfoWhereInput
+    orderBy?: ChatParticipantInfoOrderByWithRelationInput | ChatParticipantInfoOrderByWithRelationInput[]
+    cursor?: ChatParticipantInfoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ChatParticipantInfoScalarFieldEnum | ChatParticipantInfoScalarFieldEnum[]
   }
 
   /**
@@ -18618,6 +19238,7 @@ export namespace Prisma {
     messages?: boolean | ChatConversation$messagesArgs<ExtArgs>
     customer?: boolean | ChatConversation$customerArgs<ExtArgs>
     staffMember?: boolean | ChatConversation$staffMemberArgs<ExtArgs>
+    participantActivity?: boolean | ChatConversation$participantActivityArgs<ExtArgs>
     _count?: boolean | ChatConversationCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["chatConversation"]>
 
@@ -18664,6 +19285,7 @@ export namespace Prisma {
     messages?: boolean | ChatConversation$messagesArgs<ExtArgs>
     customer?: boolean | ChatConversation$customerArgs<ExtArgs>
     staffMember?: boolean | ChatConversation$staffMemberArgs<ExtArgs>
+    participantActivity?: boolean | ChatConversation$participantActivityArgs<ExtArgs>
     _count?: boolean | ChatConversationCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ChatConversationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -18682,6 +19304,7 @@ export namespace Prisma {
       messages: Prisma.$ChatMessagePayload<ExtArgs>[]
       customer: Prisma.$UserPayload<ExtArgs> | null
       staffMember: Prisma.$UserPayload<ExtArgs> | null
+      participantActivity: Prisma.$ChatParticipantInfoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -19090,6 +19713,7 @@ export namespace Prisma {
     messages<T extends ChatConversation$messagesArgs<ExtArgs> = {}>(args?: Subset<T, ChatConversation$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     customer<T extends ChatConversation$customerArgs<ExtArgs> = {}>(args?: Subset<T, ChatConversation$customerArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     staffMember<T extends ChatConversation$staffMemberArgs<ExtArgs> = {}>(args?: Subset<T, ChatConversation$staffMemberArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    participantActivity<T extends ChatConversation$participantActivityArgs<ExtArgs> = {}>(args?: Subset<T, ChatConversation$participantActivityArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatParticipantInfoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -19609,6 +20233,30 @@ export namespace Prisma {
   }
 
   /**
+   * ChatConversation.participantActivity
+   */
+  export type ChatConversation$participantActivityArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatParticipantInfo
+     */
+    select?: ChatParticipantInfoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatParticipantInfo
+     */
+    omit?: ChatParticipantInfoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatParticipantInfoInclude<ExtArgs> | null
+    where?: ChatParticipantInfoWhereInput
+    orderBy?: ChatParticipantInfoOrderByWithRelationInput | ChatParticipantInfoOrderByWithRelationInput[]
+    cursor?: ChatParticipantInfoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ChatParticipantInfoScalarFieldEnum | ChatParticipantInfoScalarFieldEnum[]
+  }
+
+  /**
    * ChatConversation without action
    */
   export type ChatConversationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -19633,8 +20281,18 @@ export namespace Prisma {
 
   export type AggregateChatMessage = {
     _count: ChatMessageCountAggregateOutputType | null
+    _avg: ChatMessageAvgAggregateOutputType | null
+    _sum: ChatMessageSumAggregateOutputType | null
     _min: ChatMessageMinAggregateOutputType | null
     _max: ChatMessageMaxAggregateOutputType | null
+  }
+
+  export type ChatMessageAvgAggregateOutputType = {
+    attachmentSize: number | null
+  }
+
+  export type ChatMessageSumAggregateOutputType = {
+    attachmentSize: number | null
   }
 
   export type ChatMessageMinAggregateOutputType = {
@@ -19644,6 +20302,10 @@ export namespace Prisma {
     senderId: string | null
     conversationId: string | null
     readAt: Date | null
+    attachmentUrl: string | null
+    attachmentType: string | null
+    attachmentFilename: string | null
+    attachmentSize: number | null
   }
 
   export type ChatMessageMaxAggregateOutputType = {
@@ -19653,6 +20315,10 @@ export namespace Prisma {
     senderId: string | null
     conversationId: string | null
     readAt: Date | null
+    attachmentUrl: string | null
+    attachmentType: string | null
+    attachmentFilename: string | null
+    attachmentSize: number | null
   }
 
   export type ChatMessageCountAggregateOutputType = {
@@ -19662,9 +20328,21 @@ export namespace Prisma {
     senderId: number
     conversationId: number
     readAt: number
+    attachmentUrl: number
+    attachmentType: number
+    attachmentFilename: number
+    attachmentSize: number
     _all: number
   }
 
+
+  export type ChatMessageAvgAggregateInputType = {
+    attachmentSize?: true
+  }
+
+  export type ChatMessageSumAggregateInputType = {
+    attachmentSize?: true
+  }
 
   export type ChatMessageMinAggregateInputType = {
     id?: true
@@ -19673,6 +20351,10 @@ export namespace Prisma {
     senderId?: true
     conversationId?: true
     readAt?: true
+    attachmentUrl?: true
+    attachmentType?: true
+    attachmentFilename?: true
+    attachmentSize?: true
   }
 
   export type ChatMessageMaxAggregateInputType = {
@@ -19682,6 +20364,10 @@ export namespace Prisma {
     senderId?: true
     conversationId?: true
     readAt?: true
+    attachmentUrl?: true
+    attachmentType?: true
+    attachmentFilename?: true
+    attachmentSize?: true
   }
 
   export type ChatMessageCountAggregateInputType = {
@@ -19691,6 +20377,10 @@ export namespace Prisma {
     senderId?: true
     conversationId?: true
     readAt?: true
+    attachmentUrl?: true
+    attachmentType?: true
+    attachmentFilename?: true
+    attachmentSize?: true
     _all?: true
   }
 
@@ -19732,6 +20422,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: ChatMessageAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ChatMessageSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: ChatMessageMinAggregateInputType
@@ -19762,6 +20464,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: ChatMessageCountAggregateInputType | true
+    _avg?: ChatMessageAvgAggregateInputType
+    _sum?: ChatMessageSumAggregateInputType
     _min?: ChatMessageMinAggregateInputType
     _max?: ChatMessageMaxAggregateInputType
   }
@@ -19769,11 +20473,17 @@ export namespace Prisma {
   export type ChatMessageGroupByOutputType = {
     id: string
     createdAt: Date
-    content: string
+    content: string | null
     senderId: string
     conversationId: string
     readAt: Date | null
+    attachmentUrl: string | null
+    attachmentType: string | null
+    attachmentFilename: string | null
+    attachmentSize: number | null
     _count: ChatMessageCountAggregateOutputType | null
+    _avg: ChatMessageAvgAggregateOutputType | null
+    _sum: ChatMessageSumAggregateOutputType | null
     _min: ChatMessageMinAggregateOutputType | null
     _max: ChatMessageMaxAggregateOutputType | null
   }
@@ -19799,6 +20509,10 @@ export namespace Prisma {
     senderId?: boolean
     conversationId?: boolean
     readAt?: boolean
+    attachmentUrl?: boolean
+    attachmentType?: boolean
+    attachmentFilename?: boolean
+    attachmentSize?: boolean
     sender?: boolean | UserDefaultArgs<ExtArgs>
     conversation?: boolean | ChatConversationDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["chatMessage"]>
@@ -19810,6 +20524,10 @@ export namespace Prisma {
     senderId?: boolean
     conversationId?: boolean
     readAt?: boolean
+    attachmentUrl?: boolean
+    attachmentType?: boolean
+    attachmentFilename?: boolean
+    attachmentSize?: boolean
     sender?: boolean | UserDefaultArgs<ExtArgs>
     conversation?: boolean | ChatConversationDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["chatMessage"]>
@@ -19821,6 +20539,10 @@ export namespace Prisma {
     senderId?: boolean
     conversationId?: boolean
     readAt?: boolean
+    attachmentUrl?: boolean
+    attachmentType?: boolean
+    attachmentFilename?: boolean
+    attachmentSize?: boolean
     sender?: boolean | UserDefaultArgs<ExtArgs>
     conversation?: boolean | ChatConversationDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["chatMessage"]>
@@ -19832,9 +20554,13 @@ export namespace Prisma {
     senderId?: boolean
     conversationId?: boolean
     readAt?: boolean
+    attachmentUrl?: boolean
+    attachmentType?: boolean
+    attachmentFilename?: boolean
+    attachmentSize?: boolean
   }
 
-  export type ChatMessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "content" | "senderId" | "conversationId" | "readAt", ExtArgs["result"]["chatMessage"]>
+  export type ChatMessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "content" | "senderId" | "conversationId" | "readAt" | "attachmentUrl" | "attachmentType" | "attachmentFilename" | "attachmentSize", ExtArgs["result"]["chatMessage"]>
   export type ChatMessageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sender?: boolean | UserDefaultArgs<ExtArgs>
     conversation?: boolean | ChatConversationDefaultArgs<ExtArgs>
@@ -19857,10 +20583,14 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       createdAt: Date
-      content: string
+      content: string | null
       senderId: string
       conversationId: string
       readAt: Date | null
+      attachmentUrl: string | null
+      attachmentType: string | null
+      attachmentFilename: string | null
+      attachmentSize: number | null
     }, ExtArgs["result"]["chatMessage"]>
     composites: {}
   }
@@ -20292,6 +21022,10 @@ export namespace Prisma {
     readonly senderId: FieldRef<"ChatMessage", 'String'>
     readonly conversationId: FieldRef<"ChatMessage", 'String'>
     readonly readAt: FieldRef<"ChatMessage", 'DateTime'>
+    readonly attachmentUrl: FieldRef<"ChatMessage", 'String'>
+    readonly attachmentType: FieldRef<"ChatMessage", 'String'>
+    readonly attachmentFilename: FieldRef<"ChatMessage", 'String'>
+    readonly attachmentSize: FieldRef<"ChatMessage", 'Int'>
   }
     
 
@@ -20707,6 +21441,5556 @@ export namespace Prisma {
 
 
   /**
+   * Model Invoice
+   */
+
+  export type AggregateInvoice = {
+    _count: InvoiceCountAggregateOutputType | null
+    _avg: InvoiceAvgAggregateOutputType | null
+    _sum: InvoiceSumAggregateOutputType | null
+    _min: InvoiceMinAggregateOutputType | null
+    _max: InvoiceMaxAggregateOutputType | null
+  }
+
+  export type InvoiceAvgAggregateOutputType = {
+    totalAmount: number | null
+    amountPaid: number | null
+  }
+
+  export type InvoiceSumAggregateOutputType = {
+    totalAmount: number | null
+    amountPaid: number | null
+  }
+
+  export type InvoiceMinAggregateOutputType = {
+    id: string | null
+    invoiceNumber: string | null
+    customerId: string | null
+    issueDate: Date | null
+    dueDate: Date | null
+    totalAmount: number | null
+    amountPaid: number | null
+    status: $Enums.InvoiceStatus | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    relatedServiceRequestId: string | null
+  }
+
+  export type InvoiceMaxAggregateOutputType = {
+    id: string | null
+    invoiceNumber: string | null
+    customerId: string | null
+    issueDate: Date | null
+    dueDate: Date | null
+    totalAmount: number | null
+    amountPaid: number | null
+    status: $Enums.InvoiceStatus | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    relatedServiceRequestId: string | null
+  }
+
+  export type InvoiceCountAggregateOutputType = {
+    id: number
+    invoiceNumber: number
+    customerId: number
+    issueDate: number
+    dueDate: number
+    totalAmount: number
+    amountPaid: number
+    status: number
+    notes: number
+    createdAt: number
+    updatedAt: number
+    relatedServiceRequestId: number
+    _all: number
+  }
+
+
+  export type InvoiceAvgAggregateInputType = {
+    totalAmount?: true
+    amountPaid?: true
+  }
+
+  export type InvoiceSumAggregateInputType = {
+    totalAmount?: true
+    amountPaid?: true
+  }
+
+  export type InvoiceMinAggregateInputType = {
+    id?: true
+    invoiceNumber?: true
+    customerId?: true
+    issueDate?: true
+    dueDate?: true
+    totalAmount?: true
+    amountPaid?: true
+    status?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+    relatedServiceRequestId?: true
+  }
+
+  export type InvoiceMaxAggregateInputType = {
+    id?: true
+    invoiceNumber?: true
+    customerId?: true
+    issueDate?: true
+    dueDate?: true
+    totalAmount?: true
+    amountPaid?: true
+    status?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+    relatedServiceRequestId?: true
+  }
+
+  export type InvoiceCountAggregateInputType = {
+    id?: true
+    invoiceNumber?: true
+    customerId?: true
+    issueDate?: true
+    dueDate?: true
+    totalAmount?: true
+    amountPaid?: true
+    status?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+    relatedServiceRequestId?: true
+    _all?: true
+  }
+
+  export type InvoiceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Invoice to aggregate.
+     */
+    where?: InvoiceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Invoices to fetch.
+     */
+    orderBy?: InvoiceOrderByWithRelationInput | InvoiceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: InvoiceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Invoices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Invoices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Invoices
+    **/
+    _count?: true | InvoiceCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: InvoiceAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: InvoiceSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InvoiceMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InvoiceMaxAggregateInputType
+  }
+
+  export type GetInvoiceAggregateType<T extends InvoiceAggregateArgs> = {
+        [P in keyof T & keyof AggregateInvoice]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInvoice[P]>
+      : GetScalarType<T[P], AggregateInvoice[P]>
+  }
+
+
+
+
+  export type InvoiceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InvoiceWhereInput
+    orderBy?: InvoiceOrderByWithAggregationInput | InvoiceOrderByWithAggregationInput[]
+    by: InvoiceScalarFieldEnum[] | InvoiceScalarFieldEnum
+    having?: InvoiceScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InvoiceCountAggregateInputType | true
+    _avg?: InvoiceAvgAggregateInputType
+    _sum?: InvoiceSumAggregateInputType
+    _min?: InvoiceMinAggregateInputType
+    _max?: InvoiceMaxAggregateInputType
+  }
+
+  export type InvoiceGroupByOutputType = {
+    id: string
+    invoiceNumber: string
+    customerId: string
+    issueDate: Date
+    dueDate: Date
+    totalAmount: number
+    amountPaid: number
+    status: $Enums.InvoiceStatus
+    notes: string | null
+    createdAt: Date
+    updatedAt: Date
+    relatedServiceRequestId: string | null
+    _count: InvoiceCountAggregateOutputType | null
+    _avg: InvoiceAvgAggregateOutputType | null
+    _sum: InvoiceSumAggregateOutputType | null
+    _min: InvoiceMinAggregateOutputType | null
+    _max: InvoiceMaxAggregateOutputType | null
+  }
+
+  type GetInvoiceGroupByPayload<T extends InvoiceGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InvoiceGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InvoiceGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InvoiceGroupByOutputType[P]>
+            : GetScalarType<T[P], InvoiceGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type InvoiceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    invoiceNumber?: boolean
+    customerId?: boolean
+    issueDate?: boolean
+    dueDate?: boolean
+    totalAmount?: boolean
+    amountPaid?: boolean
+    status?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    relatedServiceRequestId?: boolean
+    customer?: boolean | UserDefaultArgs<ExtArgs>
+    lineItems?: boolean | Invoice$lineItemsArgs<ExtArgs>
+    payments?: boolean | Invoice$paymentsArgs<ExtArgs>
+    _count?: boolean | InvoiceCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["invoice"]>
+
+  export type InvoiceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    invoiceNumber?: boolean
+    customerId?: boolean
+    issueDate?: boolean
+    dueDate?: boolean
+    totalAmount?: boolean
+    amountPaid?: boolean
+    status?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    relatedServiceRequestId?: boolean
+    customer?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["invoice"]>
+
+  export type InvoiceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    invoiceNumber?: boolean
+    customerId?: boolean
+    issueDate?: boolean
+    dueDate?: boolean
+    totalAmount?: boolean
+    amountPaid?: boolean
+    status?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    relatedServiceRequestId?: boolean
+    customer?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["invoice"]>
+
+  export type InvoiceSelectScalar = {
+    id?: boolean
+    invoiceNumber?: boolean
+    customerId?: boolean
+    issueDate?: boolean
+    dueDate?: boolean
+    totalAmount?: boolean
+    amountPaid?: boolean
+    status?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    relatedServiceRequestId?: boolean
+  }
+
+  export type InvoiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "invoiceNumber" | "customerId" | "issueDate" | "dueDate" | "totalAmount" | "amountPaid" | "status" | "notes" | "createdAt" | "updatedAt" | "relatedServiceRequestId", ExtArgs["result"]["invoice"]>
+  export type InvoiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    customer?: boolean | UserDefaultArgs<ExtArgs>
+    lineItems?: boolean | Invoice$lineItemsArgs<ExtArgs>
+    payments?: boolean | Invoice$paymentsArgs<ExtArgs>
+    _count?: boolean | InvoiceCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type InvoiceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    customer?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type InvoiceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    customer?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $InvoicePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Invoice"
+    objects: {
+      customer: Prisma.$UserPayload<ExtArgs>
+      lineItems: Prisma.$InvoiceLineItemPayload<ExtArgs>[]
+      payments: Prisma.$PaymentPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      invoiceNumber: string
+      customerId: string
+      issueDate: Date
+      dueDate: Date
+      totalAmount: number
+      amountPaid: number
+      status: $Enums.InvoiceStatus
+      notes: string | null
+      createdAt: Date
+      updatedAt: Date
+      relatedServiceRequestId: string | null
+    }, ExtArgs["result"]["invoice"]>
+    composites: {}
+  }
+
+  type InvoiceGetPayload<S extends boolean | null | undefined | InvoiceDefaultArgs> = $Result.GetResult<Prisma.$InvoicePayload, S>
+
+  type InvoiceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<InvoiceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: InvoiceCountAggregateInputType | true
+    }
+
+  export interface InvoiceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Invoice'], meta: { name: 'Invoice' } }
+    /**
+     * Find zero or one Invoice that matches the filter.
+     * @param {InvoiceFindUniqueArgs} args - Arguments to find a Invoice
+     * @example
+     * // Get one Invoice
+     * const invoice = await prisma.invoice.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends InvoiceFindUniqueArgs>(args: SelectSubset<T, InvoiceFindUniqueArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Invoice that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {InvoiceFindUniqueOrThrowArgs} args - Arguments to find a Invoice
+     * @example
+     * // Get one Invoice
+     * const invoice = await prisma.invoice.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends InvoiceFindUniqueOrThrowArgs>(args: SelectSubset<T, InvoiceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Invoice that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceFindFirstArgs} args - Arguments to find a Invoice
+     * @example
+     * // Get one Invoice
+     * const invoice = await prisma.invoice.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends InvoiceFindFirstArgs>(args?: SelectSubset<T, InvoiceFindFirstArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Invoice that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceFindFirstOrThrowArgs} args - Arguments to find a Invoice
+     * @example
+     * // Get one Invoice
+     * const invoice = await prisma.invoice.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends InvoiceFindFirstOrThrowArgs>(args?: SelectSubset<T, InvoiceFindFirstOrThrowArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Invoices that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Invoices
+     * const invoices = await prisma.invoice.findMany()
+     * 
+     * // Get first 10 Invoices
+     * const invoices = await prisma.invoice.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const invoiceWithIdOnly = await prisma.invoice.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends InvoiceFindManyArgs>(args?: SelectSubset<T, InvoiceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Invoice.
+     * @param {InvoiceCreateArgs} args - Arguments to create a Invoice.
+     * @example
+     * // Create one Invoice
+     * const Invoice = await prisma.invoice.create({
+     *   data: {
+     *     // ... data to create a Invoice
+     *   }
+     * })
+     * 
+     */
+    create<T extends InvoiceCreateArgs>(args: SelectSubset<T, InvoiceCreateArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Invoices.
+     * @param {InvoiceCreateManyArgs} args - Arguments to create many Invoices.
+     * @example
+     * // Create many Invoices
+     * const invoice = await prisma.invoice.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends InvoiceCreateManyArgs>(args?: SelectSubset<T, InvoiceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Invoices and returns the data saved in the database.
+     * @param {InvoiceCreateManyAndReturnArgs} args - Arguments to create many Invoices.
+     * @example
+     * // Create many Invoices
+     * const invoice = await prisma.invoice.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Invoices and only return the `id`
+     * const invoiceWithIdOnly = await prisma.invoice.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends InvoiceCreateManyAndReturnArgs>(args?: SelectSubset<T, InvoiceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Invoice.
+     * @param {InvoiceDeleteArgs} args - Arguments to delete one Invoice.
+     * @example
+     * // Delete one Invoice
+     * const Invoice = await prisma.invoice.delete({
+     *   where: {
+     *     // ... filter to delete one Invoice
+     *   }
+     * })
+     * 
+     */
+    delete<T extends InvoiceDeleteArgs>(args: SelectSubset<T, InvoiceDeleteArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Invoice.
+     * @param {InvoiceUpdateArgs} args - Arguments to update one Invoice.
+     * @example
+     * // Update one Invoice
+     * const invoice = await prisma.invoice.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends InvoiceUpdateArgs>(args: SelectSubset<T, InvoiceUpdateArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Invoices.
+     * @param {InvoiceDeleteManyArgs} args - Arguments to filter Invoices to delete.
+     * @example
+     * // Delete a few Invoices
+     * const { count } = await prisma.invoice.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends InvoiceDeleteManyArgs>(args?: SelectSubset<T, InvoiceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Invoices.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Invoices
+     * const invoice = await prisma.invoice.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends InvoiceUpdateManyArgs>(args: SelectSubset<T, InvoiceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Invoices and returns the data updated in the database.
+     * @param {InvoiceUpdateManyAndReturnArgs} args - Arguments to update many Invoices.
+     * @example
+     * // Update many Invoices
+     * const invoice = await prisma.invoice.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Invoices and only return the `id`
+     * const invoiceWithIdOnly = await prisma.invoice.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends InvoiceUpdateManyAndReturnArgs>(args: SelectSubset<T, InvoiceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Invoice.
+     * @param {InvoiceUpsertArgs} args - Arguments to update or create a Invoice.
+     * @example
+     * // Update or create a Invoice
+     * const invoice = await prisma.invoice.upsert({
+     *   create: {
+     *     // ... data to create a Invoice
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Invoice we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InvoiceUpsertArgs>(args: SelectSubset<T, InvoiceUpsertArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Invoices.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceCountArgs} args - Arguments to filter Invoices to count.
+     * @example
+     * // Count the number of Invoices
+     * const count = await prisma.invoice.count({
+     *   where: {
+     *     // ... the filter for the Invoices we want to count
+     *   }
+     * })
+    **/
+    count<T extends InvoiceCountArgs>(
+      args?: Subset<T, InvoiceCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InvoiceCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Invoice.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InvoiceAggregateArgs>(args: Subset<T, InvoiceAggregateArgs>): Prisma.PrismaPromise<GetInvoiceAggregateType<T>>
+
+    /**
+     * Group by Invoice.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends InvoiceGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: InvoiceGroupByArgs['orderBy'] }
+        : { orderBy?: InvoiceGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, InvoiceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInvoiceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Invoice model
+   */
+  readonly fields: InvoiceFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Invoice.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__InvoiceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    customer<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    lineItems<T extends Invoice$lineItemsArgs<ExtArgs> = {}>(args?: Subset<T, Invoice$lineItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoiceLineItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    payments<T extends Invoice$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Invoice$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Invoice model
+   */
+  interface InvoiceFieldRefs {
+    readonly id: FieldRef<"Invoice", 'String'>
+    readonly invoiceNumber: FieldRef<"Invoice", 'String'>
+    readonly customerId: FieldRef<"Invoice", 'String'>
+    readonly issueDate: FieldRef<"Invoice", 'DateTime'>
+    readonly dueDate: FieldRef<"Invoice", 'DateTime'>
+    readonly totalAmount: FieldRef<"Invoice", 'Float'>
+    readonly amountPaid: FieldRef<"Invoice", 'Float'>
+    readonly status: FieldRef<"Invoice", 'InvoiceStatus'>
+    readonly notes: FieldRef<"Invoice", 'String'>
+    readonly createdAt: FieldRef<"Invoice", 'DateTime'>
+    readonly updatedAt: FieldRef<"Invoice", 'DateTime'>
+    readonly relatedServiceRequestId: FieldRef<"Invoice", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Invoice findUnique
+   */
+  export type InvoiceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which Invoice to fetch.
+     */
+    where: InvoiceWhereUniqueInput
+  }
+
+  /**
+   * Invoice findUniqueOrThrow
+   */
+  export type InvoiceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which Invoice to fetch.
+     */
+    where: InvoiceWhereUniqueInput
+  }
+
+  /**
+   * Invoice findFirst
+   */
+  export type InvoiceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which Invoice to fetch.
+     */
+    where?: InvoiceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Invoices to fetch.
+     */
+    orderBy?: InvoiceOrderByWithRelationInput | InvoiceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Invoices.
+     */
+    cursor?: InvoiceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Invoices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Invoices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Invoices.
+     */
+    distinct?: InvoiceScalarFieldEnum | InvoiceScalarFieldEnum[]
+  }
+
+  /**
+   * Invoice findFirstOrThrow
+   */
+  export type InvoiceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which Invoice to fetch.
+     */
+    where?: InvoiceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Invoices to fetch.
+     */
+    orderBy?: InvoiceOrderByWithRelationInput | InvoiceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Invoices.
+     */
+    cursor?: InvoiceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Invoices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Invoices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Invoices.
+     */
+    distinct?: InvoiceScalarFieldEnum | InvoiceScalarFieldEnum[]
+  }
+
+  /**
+   * Invoice findMany
+   */
+  export type InvoiceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which Invoices to fetch.
+     */
+    where?: InvoiceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Invoices to fetch.
+     */
+    orderBy?: InvoiceOrderByWithRelationInput | InvoiceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Invoices.
+     */
+    cursor?: InvoiceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Invoices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Invoices.
+     */
+    skip?: number
+    distinct?: InvoiceScalarFieldEnum | InvoiceScalarFieldEnum[]
+  }
+
+  /**
+   * Invoice create
+   */
+  export type InvoiceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Invoice.
+     */
+    data: XOR<InvoiceCreateInput, InvoiceUncheckedCreateInput>
+  }
+
+  /**
+   * Invoice createMany
+   */
+  export type InvoiceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Invoices.
+     */
+    data: InvoiceCreateManyInput | InvoiceCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Invoice createManyAndReturn
+   */
+  export type InvoiceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * The data used to create many Invoices.
+     */
+    data: InvoiceCreateManyInput | InvoiceCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Invoice update
+   */
+  export type InvoiceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Invoice.
+     */
+    data: XOR<InvoiceUpdateInput, InvoiceUncheckedUpdateInput>
+    /**
+     * Choose, which Invoice to update.
+     */
+    where: InvoiceWhereUniqueInput
+  }
+
+  /**
+   * Invoice updateMany
+   */
+  export type InvoiceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Invoices.
+     */
+    data: XOR<InvoiceUpdateManyMutationInput, InvoiceUncheckedUpdateManyInput>
+    /**
+     * Filter which Invoices to update
+     */
+    where?: InvoiceWhereInput
+    /**
+     * Limit how many Invoices to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Invoice updateManyAndReturn
+   */
+  export type InvoiceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * The data used to update Invoices.
+     */
+    data: XOR<InvoiceUpdateManyMutationInput, InvoiceUncheckedUpdateManyInput>
+    /**
+     * Filter which Invoices to update
+     */
+    where?: InvoiceWhereInput
+    /**
+     * Limit how many Invoices to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Invoice upsert
+   */
+  export type InvoiceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Invoice to update in case it exists.
+     */
+    where: InvoiceWhereUniqueInput
+    /**
+     * In case the Invoice found by the `where` argument doesn't exist, create a new Invoice with this data.
+     */
+    create: XOR<InvoiceCreateInput, InvoiceUncheckedCreateInput>
+    /**
+     * In case the Invoice was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InvoiceUpdateInput, InvoiceUncheckedUpdateInput>
+  }
+
+  /**
+   * Invoice delete
+   */
+  export type InvoiceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * Filter which Invoice to delete.
+     */
+    where: InvoiceWhereUniqueInput
+  }
+
+  /**
+   * Invoice deleteMany
+   */
+  export type InvoiceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Invoices to delete
+     */
+    where?: InvoiceWhereInput
+    /**
+     * Limit how many Invoices to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Invoice.lineItems
+   */
+  export type Invoice$lineItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceLineItem
+     */
+    select?: InvoiceLineItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvoiceLineItem
+     */
+    omit?: InvoiceLineItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceLineItemInclude<ExtArgs> | null
+    where?: InvoiceLineItemWhereInput
+    orderBy?: InvoiceLineItemOrderByWithRelationInput | InvoiceLineItemOrderByWithRelationInput[]
+    cursor?: InvoiceLineItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InvoiceLineItemScalarFieldEnum | InvoiceLineItemScalarFieldEnum[]
+  }
+
+  /**
+   * Invoice.payments
+   */
+  export type Invoice$paymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    where?: PaymentWhereInput
+    orderBy?: PaymentOrderByWithRelationInput | PaymentOrderByWithRelationInput[]
+    cursor?: PaymentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[]
+  }
+
+  /**
+   * Invoice without action
+   */
+  export type InvoiceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model InvoiceLineItem
+   */
+
+  export type AggregateInvoiceLineItem = {
+    _count: InvoiceLineItemCountAggregateOutputType | null
+    _avg: InvoiceLineItemAvgAggregateOutputType | null
+    _sum: InvoiceLineItemSumAggregateOutputType | null
+    _min: InvoiceLineItemMinAggregateOutputType | null
+    _max: InvoiceLineItemMaxAggregateOutputType | null
+  }
+
+  export type InvoiceLineItemAvgAggregateOutputType = {
+    quantity: number | null
+    unitPrice: number | null
+    totalPrice: number | null
+  }
+
+  export type InvoiceLineItemSumAggregateOutputType = {
+    quantity: number | null
+    unitPrice: number | null
+    totalPrice: number | null
+  }
+
+  export type InvoiceLineItemMinAggregateOutputType = {
+    id: string | null
+    invoiceId: string | null
+    description: string | null
+    quantity: number | null
+    unitPrice: number | null
+    totalPrice: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type InvoiceLineItemMaxAggregateOutputType = {
+    id: string | null
+    invoiceId: string | null
+    description: string | null
+    quantity: number | null
+    unitPrice: number | null
+    totalPrice: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type InvoiceLineItemCountAggregateOutputType = {
+    id: number
+    invoiceId: number
+    description: number
+    quantity: number
+    unitPrice: number
+    totalPrice: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type InvoiceLineItemAvgAggregateInputType = {
+    quantity?: true
+    unitPrice?: true
+    totalPrice?: true
+  }
+
+  export type InvoiceLineItemSumAggregateInputType = {
+    quantity?: true
+    unitPrice?: true
+    totalPrice?: true
+  }
+
+  export type InvoiceLineItemMinAggregateInputType = {
+    id?: true
+    invoiceId?: true
+    description?: true
+    quantity?: true
+    unitPrice?: true
+    totalPrice?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type InvoiceLineItemMaxAggregateInputType = {
+    id?: true
+    invoiceId?: true
+    description?: true
+    quantity?: true
+    unitPrice?: true
+    totalPrice?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type InvoiceLineItemCountAggregateInputType = {
+    id?: true
+    invoiceId?: true
+    description?: true
+    quantity?: true
+    unitPrice?: true
+    totalPrice?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type InvoiceLineItemAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InvoiceLineItem to aggregate.
+     */
+    where?: InvoiceLineItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InvoiceLineItems to fetch.
+     */
+    orderBy?: InvoiceLineItemOrderByWithRelationInput | InvoiceLineItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: InvoiceLineItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InvoiceLineItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InvoiceLineItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned InvoiceLineItems
+    **/
+    _count?: true | InvoiceLineItemCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: InvoiceLineItemAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: InvoiceLineItemSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InvoiceLineItemMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InvoiceLineItemMaxAggregateInputType
+  }
+
+  export type GetInvoiceLineItemAggregateType<T extends InvoiceLineItemAggregateArgs> = {
+        [P in keyof T & keyof AggregateInvoiceLineItem]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInvoiceLineItem[P]>
+      : GetScalarType<T[P], AggregateInvoiceLineItem[P]>
+  }
+
+
+
+
+  export type InvoiceLineItemGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InvoiceLineItemWhereInput
+    orderBy?: InvoiceLineItemOrderByWithAggregationInput | InvoiceLineItemOrderByWithAggregationInput[]
+    by: InvoiceLineItemScalarFieldEnum[] | InvoiceLineItemScalarFieldEnum
+    having?: InvoiceLineItemScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InvoiceLineItemCountAggregateInputType | true
+    _avg?: InvoiceLineItemAvgAggregateInputType
+    _sum?: InvoiceLineItemSumAggregateInputType
+    _min?: InvoiceLineItemMinAggregateInputType
+    _max?: InvoiceLineItemMaxAggregateInputType
+  }
+
+  export type InvoiceLineItemGroupByOutputType = {
+    id: string
+    invoiceId: string
+    description: string
+    quantity: number
+    unitPrice: number
+    totalPrice: number
+    createdAt: Date
+    updatedAt: Date
+    _count: InvoiceLineItemCountAggregateOutputType | null
+    _avg: InvoiceLineItemAvgAggregateOutputType | null
+    _sum: InvoiceLineItemSumAggregateOutputType | null
+    _min: InvoiceLineItemMinAggregateOutputType | null
+    _max: InvoiceLineItemMaxAggregateOutputType | null
+  }
+
+  type GetInvoiceLineItemGroupByPayload<T extends InvoiceLineItemGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InvoiceLineItemGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InvoiceLineItemGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InvoiceLineItemGroupByOutputType[P]>
+            : GetScalarType<T[P], InvoiceLineItemGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type InvoiceLineItemSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    invoiceId?: boolean
+    description?: boolean
+    quantity?: boolean
+    unitPrice?: boolean
+    totalPrice?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["invoiceLineItem"]>
+
+  export type InvoiceLineItemSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    invoiceId?: boolean
+    description?: boolean
+    quantity?: boolean
+    unitPrice?: boolean
+    totalPrice?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["invoiceLineItem"]>
+
+  export type InvoiceLineItemSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    invoiceId?: boolean
+    description?: boolean
+    quantity?: boolean
+    unitPrice?: boolean
+    totalPrice?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["invoiceLineItem"]>
+
+  export type InvoiceLineItemSelectScalar = {
+    id?: boolean
+    invoiceId?: boolean
+    description?: boolean
+    quantity?: boolean
+    unitPrice?: boolean
+    totalPrice?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type InvoiceLineItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "invoiceId" | "description" | "quantity" | "unitPrice" | "totalPrice" | "createdAt" | "updatedAt", ExtArgs["result"]["invoiceLineItem"]>
+  export type InvoiceLineItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }
+  export type InvoiceLineItemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }
+  export type InvoiceLineItemIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }
+
+  export type $InvoiceLineItemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "InvoiceLineItem"
+    objects: {
+      invoice: Prisma.$InvoicePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      invoiceId: string
+      description: string
+      quantity: number
+      unitPrice: number
+      totalPrice: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["invoiceLineItem"]>
+    composites: {}
+  }
+
+  type InvoiceLineItemGetPayload<S extends boolean | null | undefined | InvoiceLineItemDefaultArgs> = $Result.GetResult<Prisma.$InvoiceLineItemPayload, S>
+
+  type InvoiceLineItemCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<InvoiceLineItemFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: InvoiceLineItemCountAggregateInputType | true
+    }
+
+  export interface InvoiceLineItemDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['InvoiceLineItem'], meta: { name: 'InvoiceLineItem' } }
+    /**
+     * Find zero or one InvoiceLineItem that matches the filter.
+     * @param {InvoiceLineItemFindUniqueArgs} args - Arguments to find a InvoiceLineItem
+     * @example
+     * // Get one InvoiceLineItem
+     * const invoiceLineItem = await prisma.invoiceLineItem.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends InvoiceLineItemFindUniqueArgs>(args: SelectSubset<T, InvoiceLineItemFindUniqueArgs<ExtArgs>>): Prisma__InvoiceLineItemClient<$Result.GetResult<Prisma.$InvoiceLineItemPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one InvoiceLineItem that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {InvoiceLineItemFindUniqueOrThrowArgs} args - Arguments to find a InvoiceLineItem
+     * @example
+     * // Get one InvoiceLineItem
+     * const invoiceLineItem = await prisma.invoiceLineItem.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends InvoiceLineItemFindUniqueOrThrowArgs>(args: SelectSubset<T, InvoiceLineItemFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InvoiceLineItemClient<$Result.GetResult<Prisma.$InvoiceLineItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first InvoiceLineItem that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceLineItemFindFirstArgs} args - Arguments to find a InvoiceLineItem
+     * @example
+     * // Get one InvoiceLineItem
+     * const invoiceLineItem = await prisma.invoiceLineItem.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends InvoiceLineItemFindFirstArgs>(args?: SelectSubset<T, InvoiceLineItemFindFirstArgs<ExtArgs>>): Prisma__InvoiceLineItemClient<$Result.GetResult<Prisma.$InvoiceLineItemPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first InvoiceLineItem that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceLineItemFindFirstOrThrowArgs} args - Arguments to find a InvoiceLineItem
+     * @example
+     * // Get one InvoiceLineItem
+     * const invoiceLineItem = await prisma.invoiceLineItem.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends InvoiceLineItemFindFirstOrThrowArgs>(args?: SelectSubset<T, InvoiceLineItemFindFirstOrThrowArgs<ExtArgs>>): Prisma__InvoiceLineItemClient<$Result.GetResult<Prisma.$InvoiceLineItemPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more InvoiceLineItems that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceLineItemFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all InvoiceLineItems
+     * const invoiceLineItems = await prisma.invoiceLineItem.findMany()
+     * 
+     * // Get first 10 InvoiceLineItems
+     * const invoiceLineItems = await prisma.invoiceLineItem.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const invoiceLineItemWithIdOnly = await prisma.invoiceLineItem.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends InvoiceLineItemFindManyArgs>(args?: SelectSubset<T, InvoiceLineItemFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoiceLineItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a InvoiceLineItem.
+     * @param {InvoiceLineItemCreateArgs} args - Arguments to create a InvoiceLineItem.
+     * @example
+     * // Create one InvoiceLineItem
+     * const InvoiceLineItem = await prisma.invoiceLineItem.create({
+     *   data: {
+     *     // ... data to create a InvoiceLineItem
+     *   }
+     * })
+     * 
+     */
+    create<T extends InvoiceLineItemCreateArgs>(args: SelectSubset<T, InvoiceLineItemCreateArgs<ExtArgs>>): Prisma__InvoiceLineItemClient<$Result.GetResult<Prisma.$InvoiceLineItemPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many InvoiceLineItems.
+     * @param {InvoiceLineItemCreateManyArgs} args - Arguments to create many InvoiceLineItems.
+     * @example
+     * // Create many InvoiceLineItems
+     * const invoiceLineItem = await prisma.invoiceLineItem.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends InvoiceLineItemCreateManyArgs>(args?: SelectSubset<T, InvoiceLineItemCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many InvoiceLineItems and returns the data saved in the database.
+     * @param {InvoiceLineItemCreateManyAndReturnArgs} args - Arguments to create many InvoiceLineItems.
+     * @example
+     * // Create many InvoiceLineItems
+     * const invoiceLineItem = await prisma.invoiceLineItem.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many InvoiceLineItems and only return the `id`
+     * const invoiceLineItemWithIdOnly = await prisma.invoiceLineItem.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends InvoiceLineItemCreateManyAndReturnArgs>(args?: SelectSubset<T, InvoiceLineItemCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoiceLineItemPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a InvoiceLineItem.
+     * @param {InvoiceLineItemDeleteArgs} args - Arguments to delete one InvoiceLineItem.
+     * @example
+     * // Delete one InvoiceLineItem
+     * const InvoiceLineItem = await prisma.invoiceLineItem.delete({
+     *   where: {
+     *     // ... filter to delete one InvoiceLineItem
+     *   }
+     * })
+     * 
+     */
+    delete<T extends InvoiceLineItemDeleteArgs>(args: SelectSubset<T, InvoiceLineItemDeleteArgs<ExtArgs>>): Prisma__InvoiceLineItemClient<$Result.GetResult<Prisma.$InvoiceLineItemPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one InvoiceLineItem.
+     * @param {InvoiceLineItemUpdateArgs} args - Arguments to update one InvoiceLineItem.
+     * @example
+     * // Update one InvoiceLineItem
+     * const invoiceLineItem = await prisma.invoiceLineItem.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends InvoiceLineItemUpdateArgs>(args: SelectSubset<T, InvoiceLineItemUpdateArgs<ExtArgs>>): Prisma__InvoiceLineItemClient<$Result.GetResult<Prisma.$InvoiceLineItemPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more InvoiceLineItems.
+     * @param {InvoiceLineItemDeleteManyArgs} args - Arguments to filter InvoiceLineItems to delete.
+     * @example
+     * // Delete a few InvoiceLineItems
+     * const { count } = await prisma.invoiceLineItem.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends InvoiceLineItemDeleteManyArgs>(args?: SelectSubset<T, InvoiceLineItemDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InvoiceLineItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceLineItemUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many InvoiceLineItems
+     * const invoiceLineItem = await prisma.invoiceLineItem.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends InvoiceLineItemUpdateManyArgs>(args: SelectSubset<T, InvoiceLineItemUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InvoiceLineItems and returns the data updated in the database.
+     * @param {InvoiceLineItemUpdateManyAndReturnArgs} args - Arguments to update many InvoiceLineItems.
+     * @example
+     * // Update many InvoiceLineItems
+     * const invoiceLineItem = await prisma.invoiceLineItem.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more InvoiceLineItems and only return the `id`
+     * const invoiceLineItemWithIdOnly = await prisma.invoiceLineItem.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends InvoiceLineItemUpdateManyAndReturnArgs>(args: SelectSubset<T, InvoiceLineItemUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoiceLineItemPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one InvoiceLineItem.
+     * @param {InvoiceLineItemUpsertArgs} args - Arguments to update or create a InvoiceLineItem.
+     * @example
+     * // Update or create a InvoiceLineItem
+     * const invoiceLineItem = await prisma.invoiceLineItem.upsert({
+     *   create: {
+     *     // ... data to create a InvoiceLineItem
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the InvoiceLineItem we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InvoiceLineItemUpsertArgs>(args: SelectSubset<T, InvoiceLineItemUpsertArgs<ExtArgs>>): Prisma__InvoiceLineItemClient<$Result.GetResult<Prisma.$InvoiceLineItemPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of InvoiceLineItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceLineItemCountArgs} args - Arguments to filter InvoiceLineItems to count.
+     * @example
+     * // Count the number of InvoiceLineItems
+     * const count = await prisma.invoiceLineItem.count({
+     *   where: {
+     *     // ... the filter for the InvoiceLineItems we want to count
+     *   }
+     * })
+    **/
+    count<T extends InvoiceLineItemCountArgs>(
+      args?: Subset<T, InvoiceLineItemCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InvoiceLineItemCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a InvoiceLineItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceLineItemAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InvoiceLineItemAggregateArgs>(args: Subset<T, InvoiceLineItemAggregateArgs>): Prisma.PrismaPromise<GetInvoiceLineItemAggregateType<T>>
+
+    /**
+     * Group by InvoiceLineItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceLineItemGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends InvoiceLineItemGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: InvoiceLineItemGroupByArgs['orderBy'] }
+        : { orderBy?: InvoiceLineItemGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, InvoiceLineItemGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInvoiceLineItemGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the InvoiceLineItem model
+   */
+  readonly fields: InvoiceLineItemFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for InvoiceLineItem.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__InvoiceLineItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    invoice<T extends InvoiceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, InvoiceDefaultArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the InvoiceLineItem model
+   */
+  interface InvoiceLineItemFieldRefs {
+    readonly id: FieldRef<"InvoiceLineItem", 'String'>
+    readonly invoiceId: FieldRef<"InvoiceLineItem", 'String'>
+    readonly description: FieldRef<"InvoiceLineItem", 'String'>
+    readonly quantity: FieldRef<"InvoiceLineItem", 'Float'>
+    readonly unitPrice: FieldRef<"InvoiceLineItem", 'Float'>
+    readonly totalPrice: FieldRef<"InvoiceLineItem", 'Float'>
+    readonly createdAt: FieldRef<"InvoiceLineItem", 'DateTime'>
+    readonly updatedAt: FieldRef<"InvoiceLineItem", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * InvoiceLineItem findUnique
+   */
+  export type InvoiceLineItemFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceLineItem
+     */
+    select?: InvoiceLineItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvoiceLineItem
+     */
+    omit?: InvoiceLineItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceLineItemInclude<ExtArgs> | null
+    /**
+     * Filter, which InvoiceLineItem to fetch.
+     */
+    where: InvoiceLineItemWhereUniqueInput
+  }
+
+  /**
+   * InvoiceLineItem findUniqueOrThrow
+   */
+  export type InvoiceLineItemFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceLineItem
+     */
+    select?: InvoiceLineItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvoiceLineItem
+     */
+    omit?: InvoiceLineItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceLineItemInclude<ExtArgs> | null
+    /**
+     * Filter, which InvoiceLineItem to fetch.
+     */
+    where: InvoiceLineItemWhereUniqueInput
+  }
+
+  /**
+   * InvoiceLineItem findFirst
+   */
+  export type InvoiceLineItemFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceLineItem
+     */
+    select?: InvoiceLineItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvoiceLineItem
+     */
+    omit?: InvoiceLineItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceLineItemInclude<ExtArgs> | null
+    /**
+     * Filter, which InvoiceLineItem to fetch.
+     */
+    where?: InvoiceLineItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InvoiceLineItems to fetch.
+     */
+    orderBy?: InvoiceLineItemOrderByWithRelationInput | InvoiceLineItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InvoiceLineItems.
+     */
+    cursor?: InvoiceLineItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InvoiceLineItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InvoiceLineItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InvoiceLineItems.
+     */
+    distinct?: InvoiceLineItemScalarFieldEnum | InvoiceLineItemScalarFieldEnum[]
+  }
+
+  /**
+   * InvoiceLineItem findFirstOrThrow
+   */
+  export type InvoiceLineItemFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceLineItem
+     */
+    select?: InvoiceLineItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvoiceLineItem
+     */
+    omit?: InvoiceLineItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceLineItemInclude<ExtArgs> | null
+    /**
+     * Filter, which InvoiceLineItem to fetch.
+     */
+    where?: InvoiceLineItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InvoiceLineItems to fetch.
+     */
+    orderBy?: InvoiceLineItemOrderByWithRelationInput | InvoiceLineItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InvoiceLineItems.
+     */
+    cursor?: InvoiceLineItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InvoiceLineItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InvoiceLineItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InvoiceLineItems.
+     */
+    distinct?: InvoiceLineItemScalarFieldEnum | InvoiceLineItemScalarFieldEnum[]
+  }
+
+  /**
+   * InvoiceLineItem findMany
+   */
+  export type InvoiceLineItemFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceLineItem
+     */
+    select?: InvoiceLineItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvoiceLineItem
+     */
+    omit?: InvoiceLineItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceLineItemInclude<ExtArgs> | null
+    /**
+     * Filter, which InvoiceLineItems to fetch.
+     */
+    where?: InvoiceLineItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InvoiceLineItems to fetch.
+     */
+    orderBy?: InvoiceLineItemOrderByWithRelationInput | InvoiceLineItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing InvoiceLineItems.
+     */
+    cursor?: InvoiceLineItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InvoiceLineItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InvoiceLineItems.
+     */
+    skip?: number
+    distinct?: InvoiceLineItemScalarFieldEnum | InvoiceLineItemScalarFieldEnum[]
+  }
+
+  /**
+   * InvoiceLineItem create
+   */
+  export type InvoiceLineItemCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceLineItem
+     */
+    select?: InvoiceLineItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvoiceLineItem
+     */
+    omit?: InvoiceLineItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceLineItemInclude<ExtArgs> | null
+    /**
+     * The data needed to create a InvoiceLineItem.
+     */
+    data: XOR<InvoiceLineItemCreateInput, InvoiceLineItemUncheckedCreateInput>
+  }
+
+  /**
+   * InvoiceLineItem createMany
+   */
+  export type InvoiceLineItemCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many InvoiceLineItems.
+     */
+    data: InvoiceLineItemCreateManyInput | InvoiceLineItemCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * InvoiceLineItem createManyAndReturn
+   */
+  export type InvoiceLineItemCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceLineItem
+     */
+    select?: InvoiceLineItemSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvoiceLineItem
+     */
+    omit?: InvoiceLineItemOmit<ExtArgs> | null
+    /**
+     * The data used to create many InvoiceLineItems.
+     */
+    data: InvoiceLineItemCreateManyInput | InvoiceLineItemCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceLineItemIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * InvoiceLineItem update
+   */
+  export type InvoiceLineItemUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceLineItem
+     */
+    select?: InvoiceLineItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvoiceLineItem
+     */
+    omit?: InvoiceLineItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceLineItemInclude<ExtArgs> | null
+    /**
+     * The data needed to update a InvoiceLineItem.
+     */
+    data: XOR<InvoiceLineItemUpdateInput, InvoiceLineItemUncheckedUpdateInput>
+    /**
+     * Choose, which InvoiceLineItem to update.
+     */
+    where: InvoiceLineItemWhereUniqueInput
+  }
+
+  /**
+   * InvoiceLineItem updateMany
+   */
+  export type InvoiceLineItemUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update InvoiceLineItems.
+     */
+    data: XOR<InvoiceLineItemUpdateManyMutationInput, InvoiceLineItemUncheckedUpdateManyInput>
+    /**
+     * Filter which InvoiceLineItems to update
+     */
+    where?: InvoiceLineItemWhereInput
+    /**
+     * Limit how many InvoiceLineItems to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * InvoiceLineItem updateManyAndReturn
+   */
+  export type InvoiceLineItemUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceLineItem
+     */
+    select?: InvoiceLineItemSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvoiceLineItem
+     */
+    omit?: InvoiceLineItemOmit<ExtArgs> | null
+    /**
+     * The data used to update InvoiceLineItems.
+     */
+    data: XOR<InvoiceLineItemUpdateManyMutationInput, InvoiceLineItemUncheckedUpdateManyInput>
+    /**
+     * Filter which InvoiceLineItems to update
+     */
+    where?: InvoiceLineItemWhereInput
+    /**
+     * Limit how many InvoiceLineItems to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceLineItemIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * InvoiceLineItem upsert
+   */
+  export type InvoiceLineItemUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceLineItem
+     */
+    select?: InvoiceLineItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvoiceLineItem
+     */
+    omit?: InvoiceLineItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceLineItemInclude<ExtArgs> | null
+    /**
+     * The filter to search for the InvoiceLineItem to update in case it exists.
+     */
+    where: InvoiceLineItemWhereUniqueInput
+    /**
+     * In case the InvoiceLineItem found by the `where` argument doesn't exist, create a new InvoiceLineItem with this data.
+     */
+    create: XOR<InvoiceLineItemCreateInput, InvoiceLineItemUncheckedCreateInput>
+    /**
+     * In case the InvoiceLineItem was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InvoiceLineItemUpdateInput, InvoiceLineItemUncheckedUpdateInput>
+  }
+
+  /**
+   * InvoiceLineItem delete
+   */
+  export type InvoiceLineItemDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceLineItem
+     */
+    select?: InvoiceLineItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvoiceLineItem
+     */
+    omit?: InvoiceLineItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceLineItemInclude<ExtArgs> | null
+    /**
+     * Filter which InvoiceLineItem to delete.
+     */
+    where: InvoiceLineItemWhereUniqueInput
+  }
+
+  /**
+   * InvoiceLineItem deleteMany
+   */
+  export type InvoiceLineItemDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InvoiceLineItems to delete
+     */
+    where?: InvoiceLineItemWhereInput
+    /**
+     * Limit how many InvoiceLineItems to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * InvoiceLineItem without action
+   */
+  export type InvoiceLineItemDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceLineItem
+     */
+    select?: InvoiceLineItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvoiceLineItem
+     */
+    omit?: InvoiceLineItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceLineItemInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Payment
+   */
+
+  export type AggregatePayment = {
+    _count: PaymentCountAggregateOutputType | null
+    _avg: PaymentAvgAggregateOutputType | null
+    _sum: PaymentSumAggregateOutputType | null
+    _min: PaymentMinAggregateOutputType | null
+    _max: PaymentMaxAggregateOutputType | null
+  }
+
+  export type PaymentAvgAggregateOutputType = {
+    amount: number | null
+  }
+
+  export type PaymentSumAggregateOutputType = {
+    amount: number | null
+  }
+
+  export type PaymentMinAggregateOutputType = {
+    id: string | null
+    invoiceId: string | null
+    paymentDate: Date | null
+    amount: number | null
+    paymentMethod: string | null
+    transactionId: string | null
+    status: string | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PaymentMaxAggregateOutputType = {
+    id: string | null
+    invoiceId: string | null
+    paymentDate: Date | null
+    amount: number | null
+    paymentMethod: string | null
+    transactionId: string | null
+    status: string | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PaymentCountAggregateOutputType = {
+    id: number
+    invoiceId: number
+    paymentDate: number
+    amount: number
+    paymentMethod: number
+    transactionId: number
+    status: number
+    notes: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PaymentAvgAggregateInputType = {
+    amount?: true
+  }
+
+  export type PaymentSumAggregateInputType = {
+    amount?: true
+  }
+
+  export type PaymentMinAggregateInputType = {
+    id?: true
+    invoiceId?: true
+    paymentDate?: true
+    amount?: true
+    paymentMethod?: true
+    transactionId?: true
+    status?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PaymentMaxAggregateInputType = {
+    id?: true
+    invoiceId?: true
+    paymentDate?: true
+    amount?: true
+    paymentMethod?: true
+    transactionId?: true
+    status?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PaymentCountAggregateInputType = {
+    id?: true
+    invoiceId?: true
+    paymentDate?: true
+    amount?: true
+    paymentMethod?: true
+    transactionId?: true
+    status?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PaymentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Payment to aggregate.
+     */
+    where?: PaymentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Payments to fetch.
+     */
+    orderBy?: PaymentOrderByWithRelationInput | PaymentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PaymentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Payments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Payments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Payments
+    **/
+    _count?: true | PaymentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PaymentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PaymentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PaymentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PaymentMaxAggregateInputType
+  }
+
+  export type GetPaymentAggregateType<T extends PaymentAggregateArgs> = {
+        [P in keyof T & keyof AggregatePayment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePayment[P]>
+      : GetScalarType<T[P], AggregatePayment[P]>
+  }
+
+
+
+
+  export type PaymentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentWhereInput
+    orderBy?: PaymentOrderByWithAggregationInput | PaymentOrderByWithAggregationInput[]
+    by: PaymentScalarFieldEnum[] | PaymentScalarFieldEnum
+    having?: PaymentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PaymentCountAggregateInputType | true
+    _avg?: PaymentAvgAggregateInputType
+    _sum?: PaymentSumAggregateInputType
+    _min?: PaymentMinAggregateInputType
+    _max?: PaymentMaxAggregateInputType
+  }
+
+  export type PaymentGroupByOutputType = {
+    id: string
+    invoiceId: string
+    paymentDate: Date
+    amount: number
+    paymentMethod: string | null
+    transactionId: string | null
+    status: string | null
+    notes: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: PaymentCountAggregateOutputType | null
+    _avg: PaymentAvgAggregateOutputType | null
+    _sum: PaymentSumAggregateOutputType | null
+    _min: PaymentMinAggregateOutputType | null
+    _max: PaymentMaxAggregateOutputType | null
+  }
+
+  type GetPaymentGroupByPayload<T extends PaymentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PaymentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PaymentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PaymentGroupByOutputType[P]>
+            : GetScalarType<T[P], PaymentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PaymentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    invoiceId?: boolean
+    paymentDate?: boolean
+    amount?: boolean
+    paymentMethod?: boolean
+    transactionId?: boolean
+    status?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["payment"]>
+
+  export type PaymentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    invoiceId?: boolean
+    paymentDate?: boolean
+    amount?: boolean
+    paymentMethod?: boolean
+    transactionId?: boolean
+    status?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["payment"]>
+
+  export type PaymentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    invoiceId?: boolean
+    paymentDate?: boolean
+    amount?: boolean
+    paymentMethod?: boolean
+    transactionId?: boolean
+    status?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["payment"]>
+
+  export type PaymentSelectScalar = {
+    id?: boolean
+    invoiceId?: boolean
+    paymentDate?: boolean
+    amount?: boolean
+    paymentMethod?: boolean
+    transactionId?: boolean
+    status?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PaymentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "invoiceId" | "paymentDate" | "amount" | "paymentMethod" | "transactionId" | "status" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["payment"]>
+  export type PaymentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }
+  export type PaymentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }
+  export type PaymentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    invoice?: boolean | InvoiceDefaultArgs<ExtArgs>
+  }
+
+  export type $PaymentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Payment"
+    objects: {
+      invoice: Prisma.$InvoicePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      invoiceId: string
+      paymentDate: Date
+      amount: number
+      paymentMethod: string | null
+      transactionId: string | null
+      status: string | null
+      notes: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["payment"]>
+    composites: {}
+  }
+
+  type PaymentGetPayload<S extends boolean | null | undefined | PaymentDefaultArgs> = $Result.GetResult<Prisma.$PaymentPayload, S>
+
+  type PaymentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PaymentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PaymentCountAggregateInputType | true
+    }
+
+  export interface PaymentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Payment'], meta: { name: 'Payment' } }
+    /**
+     * Find zero or one Payment that matches the filter.
+     * @param {PaymentFindUniqueArgs} args - Arguments to find a Payment
+     * @example
+     * // Get one Payment
+     * const payment = await prisma.payment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PaymentFindUniqueArgs>(args: SelectSubset<T, PaymentFindUniqueArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Payment that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PaymentFindUniqueOrThrowArgs} args - Arguments to find a Payment
+     * @example
+     * // Get one Payment
+     * const payment = await prisma.payment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PaymentFindUniqueOrThrowArgs>(args: SelectSubset<T, PaymentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Payment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentFindFirstArgs} args - Arguments to find a Payment
+     * @example
+     * // Get one Payment
+     * const payment = await prisma.payment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PaymentFindFirstArgs>(args?: SelectSubset<T, PaymentFindFirstArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Payment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentFindFirstOrThrowArgs} args - Arguments to find a Payment
+     * @example
+     * // Get one Payment
+     * const payment = await prisma.payment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PaymentFindFirstOrThrowArgs>(args?: SelectSubset<T, PaymentFindFirstOrThrowArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Payments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Payments
+     * const payments = await prisma.payment.findMany()
+     * 
+     * // Get first 10 Payments
+     * const payments = await prisma.payment.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const paymentWithIdOnly = await prisma.payment.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PaymentFindManyArgs>(args?: SelectSubset<T, PaymentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Payment.
+     * @param {PaymentCreateArgs} args - Arguments to create a Payment.
+     * @example
+     * // Create one Payment
+     * const Payment = await prisma.payment.create({
+     *   data: {
+     *     // ... data to create a Payment
+     *   }
+     * })
+     * 
+     */
+    create<T extends PaymentCreateArgs>(args: SelectSubset<T, PaymentCreateArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Payments.
+     * @param {PaymentCreateManyArgs} args - Arguments to create many Payments.
+     * @example
+     * // Create many Payments
+     * const payment = await prisma.payment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PaymentCreateManyArgs>(args?: SelectSubset<T, PaymentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Payments and returns the data saved in the database.
+     * @param {PaymentCreateManyAndReturnArgs} args - Arguments to create many Payments.
+     * @example
+     * // Create many Payments
+     * const payment = await prisma.payment.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Payments and only return the `id`
+     * const paymentWithIdOnly = await prisma.payment.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PaymentCreateManyAndReturnArgs>(args?: SelectSubset<T, PaymentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Payment.
+     * @param {PaymentDeleteArgs} args - Arguments to delete one Payment.
+     * @example
+     * // Delete one Payment
+     * const Payment = await prisma.payment.delete({
+     *   where: {
+     *     // ... filter to delete one Payment
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PaymentDeleteArgs>(args: SelectSubset<T, PaymentDeleteArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Payment.
+     * @param {PaymentUpdateArgs} args - Arguments to update one Payment.
+     * @example
+     * // Update one Payment
+     * const payment = await prisma.payment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PaymentUpdateArgs>(args: SelectSubset<T, PaymentUpdateArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Payments.
+     * @param {PaymentDeleteManyArgs} args - Arguments to filter Payments to delete.
+     * @example
+     * // Delete a few Payments
+     * const { count } = await prisma.payment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PaymentDeleteManyArgs>(args?: SelectSubset<T, PaymentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Payments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Payments
+     * const payment = await prisma.payment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PaymentUpdateManyArgs>(args: SelectSubset<T, PaymentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Payments and returns the data updated in the database.
+     * @param {PaymentUpdateManyAndReturnArgs} args - Arguments to update many Payments.
+     * @example
+     * // Update many Payments
+     * const payment = await prisma.payment.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Payments and only return the `id`
+     * const paymentWithIdOnly = await prisma.payment.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PaymentUpdateManyAndReturnArgs>(args: SelectSubset<T, PaymentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Payment.
+     * @param {PaymentUpsertArgs} args - Arguments to update or create a Payment.
+     * @example
+     * // Update or create a Payment
+     * const payment = await prisma.payment.upsert({
+     *   create: {
+     *     // ... data to create a Payment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Payment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PaymentUpsertArgs>(args: SelectSubset<T, PaymentUpsertArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Payments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentCountArgs} args - Arguments to filter Payments to count.
+     * @example
+     * // Count the number of Payments
+     * const count = await prisma.payment.count({
+     *   where: {
+     *     // ... the filter for the Payments we want to count
+     *   }
+     * })
+    **/
+    count<T extends PaymentCountArgs>(
+      args?: Subset<T, PaymentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PaymentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Payment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PaymentAggregateArgs>(args: Subset<T, PaymentAggregateArgs>): Prisma.PrismaPromise<GetPaymentAggregateType<T>>
+
+    /**
+     * Group by Payment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PaymentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PaymentGroupByArgs['orderBy'] }
+        : { orderBy?: PaymentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PaymentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPaymentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Payment model
+   */
+  readonly fields: PaymentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Payment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PaymentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    invoice<T extends InvoiceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, InvoiceDefaultArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Payment model
+   */
+  interface PaymentFieldRefs {
+    readonly id: FieldRef<"Payment", 'String'>
+    readonly invoiceId: FieldRef<"Payment", 'String'>
+    readonly paymentDate: FieldRef<"Payment", 'DateTime'>
+    readonly amount: FieldRef<"Payment", 'Float'>
+    readonly paymentMethod: FieldRef<"Payment", 'String'>
+    readonly transactionId: FieldRef<"Payment", 'String'>
+    readonly status: FieldRef<"Payment", 'String'>
+    readonly notes: FieldRef<"Payment", 'String'>
+    readonly createdAt: FieldRef<"Payment", 'DateTime'>
+    readonly updatedAt: FieldRef<"Payment", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Payment findUnique
+   */
+  export type PaymentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * Filter, which Payment to fetch.
+     */
+    where: PaymentWhereUniqueInput
+  }
+
+  /**
+   * Payment findUniqueOrThrow
+   */
+  export type PaymentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * Filter, which Payment to fetch.
+     */
+    where: PaymentWhereUniqueInput
+  }
+
+  /**
+   * Payment findFirst
+   */
+  export type PaymentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * Filter, which Payment to fetch.
+     */
+    where?: PaymentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Payments to fetch.
+     */
+    orderBy?: PaymentOrderByWithRelationInput | PaymentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Payments.
+     */
+    cursor?: PaymentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Payments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Payments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Payments.
+     */
+    distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[]
+  }
+
+  /**
+   * Payment findFirstOrThrow
+   */
+  export type PaymentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * Filter, which Payment to fetch.
+     */
+    where?: PaymentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Payments to fetch.
+     */
+    orderBy?: PaymentOrderByWithRelationInput | PaymentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Payments.
+     */
+    cursor?: PaymentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Payments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Payments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Payments.
+     */
+    distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[]
+  }
+
+  /**
+   * Payment findMany
+   */
+  export type PaymentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * Filter, which Payments to fetch.
+     */
+    where?: PaymentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Payments to fetch.
+     */
+    orderBy?: PaymentOrderByWithRelationInput | PaymentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Payments.
+     */
+    cursor?: PaymentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Payments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Payments.
+     */
+    skip?: number
+    distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[]
+  }
+
+  /**
+   * Payment create
+   */
+  export type PaymentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Payment.
+     */
+    data: XOR<PaymentCreateInput, PaymentUncheckedCreateInput>
+  }
+
+  /**
+   * Payment createMany
+   */
+  export type PaymentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Payments.
+     */
+    data: PaymentCreateManyInput | PaymentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Payment createManyAndReturn
+   */
+  export type PaymentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * The data used to create many Payments.
+     */
+    data: PaymentCreateManyInput | PaymentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Payment update
+   */
+  export type PaymentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Payment.
+     */
+    data: XOR<PaymentUpdateInput, PaymentUncheckedUpdateInput>
+    /**
+     * Choose, which Payment to update.
+     */
+    where: PaymentWhereUniqueInput
+  }
+
+  /**
+   * Payment updateMany
+   */
+  export type PaymentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Payments.
+     */
+    data: XOR<PaymentUpdateManyMutationInput, PaymentUncheckedUpdateManyInput>
+    /**
+     * Filter which Payments to update
+     */
+    where?: PaymentWhereInput
+    /**
+     * Limit how many Payments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Payment updateManyAndReturn
+   */
+  export type PaymentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * The data used to update Payments.
+     */
+    data: XOR<PaymentUpdateManyMutationInput, PaymentUncheckedUpdateManyInput>
+    /**
+     * Filter which Payments to update
+     */
+    where?: PaymentWhereInput
+    /**
+     * Limit how many Payments to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Payment upsert
+   */
+  export type PaymentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Payment to update in case it exists.
+     */
+    where: PaymentWhereUniqueInput
+    /**
+     * In case the Payment found by the `where` argument doesn't exist, create a new Payment with this data.
+     */
+    create: XOR<PaymentCreateInput, PaymentUncheckedCreateInput>
+    /**
+     * In case the Payment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PaymentUpdateInput, PaymentUncheckedUpdateInput>
+  }
+
+  /**
+   * Payment delete
+   */
+  export type PaymentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+    /**
+     * Filter which Payment to delete.
+     */
+    where: PaymentWhereUniqueInput
+  }
+
+  /**
+   * Payment deleteMany
+   */
+  export type PaymentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Payments to delete
+     */
+    where?: PaymentWhereInput
+    /**
+     * Limit how many Payments to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Payment without action
+   */
+  export type PaymentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Payment
+     */
+    select?: PaymentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Payment
+     */
+    omit?: PaymentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ChatParticipantInfo
+   */
+
+  export type AggregateChatParticipantInfo = {
+    _count: ChatParticipantInfoCountAggregateOutputType | null
+    _min: ChatParticipantInfoMinAggregateOutputType | null
+    _max: ChatParticipantInfoMaxAggregateOutputType | null
+  }
+
+  export type ChatParticipantInfoMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    conversationId: string | null
+    lastAccessedAt: Date | null
+  }
+
+  export type ChatParticipantInfoMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    conversationId: string | null
+    lastAccessedAt: Date | null
+  }
+
+  export type ChatParticipantInfoCountAggregateOutputType = {
+    id: number
+    userId: number
+    conversationId: number
+    lastAccessedAt: number
+    _all: number
+  }
+
+
+  export type ChatParticipantInfoMinAggregateInputType = {
+    id?: true
+    userId?: true
+    conversationId?: true
+    lastAccessedAt?: true
+  }
+
+  export type ChatParticipantInfoMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    conversationId?: true
+    lastAccessedAt?: true
+  }
+
+  export type ChatParticipantInfoCountAggregateInputType = {
+    id?: true
+    userId?: true
+    conversationId?: true
+    lastAccessedAt?: true
+    _all?: true
+  }
+
+  export type ChatParticipantInfoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ChatParticipantInfo to aggregate.
+     */
+    where?: ChatParticipantInfoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ChatParticipantInfos to fetch.
+     */
+    orderBy?: ChatParticipantInfoOrderByWithRelationInput | ChatParticipantInfoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ChatParticipantInfoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ChatParticipantInfos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ChatParticipantInfos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ChatParticipantInfos
+    **/
+    _count?: true | ChatParticipantInfoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ChatParticipantInfoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ChatParticipantInfoMaxAggregateInputType
+  }
+
+  export type GetChatParticipantInfoAggregateType<T extends ChatParticipantInfoAggregateArgs> = {
+        [P in keyof T & keyof AggregateChatParticipantInfo]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateChatParticipantInfo[P]>
+      : GetScalarType<T[P], AggregateChatParticipantInfo[P]>
+  }
+
+
+
+
+  export type ChatParticipantInfoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ChatParticipantInfoWhereInput
+    orderBy?: ChatParticipantInfoOrderByWithAggregationInput | ChatParticipantInfoOrderByWithAggregationInput[]
+    by: ChatParticipantInfoScalarFieldEnum[] | ChatParticipantInfoScalarFieldEnum
+    having?: ChatParticipantInfoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ChatParticipantInfoCountAggregateInputType | true
+    _min?: ChatParticipantInfoMinAggregateInputType
+    _max?: ChatParticipantInfoMaxAggregateInputType
+  }
+
+  export type ChatParticipantInfoGroupByOutputType = {
+    id: string
+    userId: string
+    conversationId: string
+    lastAccessedAt: Date
+    _count: ChatParticipantInfoCountAggregateOutputType | null
+    _min: ChatParticipantInfoMinAggregateOutputType | null
+    _max: ChatParticipantInfoMaxAggregateOutputType | null
+  }
+
+  type GetChatParticipantInfoGroupByPayload<T extends ChatParticipantInfoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ChatParticipantInfoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ChatParticipantInfoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ChatParticipantInfoGroupByOutputType[P]>
+            : GetScalarType<T[P], ChatParticipantInfoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ChatParticipantInfoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    conversationId?: boolean
+    lastAccessedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    conversation?: boolean | ChatConversationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["chatParticipantInfo"]>
+
+  export type ChatParticipantInfoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    conversationId?: boolean
+    lastAccessedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    conversation?: boolean | ChatConversationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["chatParticipantInfo"]>
+
+  export type ChatParticipantInfoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    conversationId?: boolean
+    lastAccessedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    conversation?: boolean | ChatConversationDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["chatParticipantInfo"]>
+
+  export type ChatParticipantInfoSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    conversationId?: boolean
+    lastAccessedAt?: boolean
+  }
+
+  export type ChatParticipantInfoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "conversationId" | "lastAccessedAt", ExtArgs["result"]["chatParticipantInfo"]>
+  export type ChatParticipantInfoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    conversation?: boolean | ChatConversationDefaultArgs<ExtArgs>
+  }
+  export type ChatParticipantInfoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    conversation?: boolean | ChatConversationDefaultArgs<ExtArgs>
+  }
+  export type ChatParticipantInfoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    conversation?: boolean | ChatConversationDefaultArgs<ExtArgs>
+  }
+
+  export type $ChatParticipantInfoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ChatParticipantInfo"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      conversation: Prisma.$ChatConversationPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      conversationId: string
+      lastAccessedAt: Date
+    }, ExtArgs["result"]["chatParticipantInfo"]>
+    composites: {}
+  }
+
+  type ChatParticipantInfoGetPayload<S extends boolean | null | undefined | ChatParticipantInfoDefaultArgs> = $Result.GetResult<Prisma.$ChatParticipantInfoPayload, S>
+
+  type ChatParticipantInfoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ChatParticipantInfoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ChatParticipantInfoCountAggregateInputType | true
+    }
+
+  export interface ChatParticipantInfoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ChatParticipantInfo'], meta: { name: 'ChatParticipantInfo' } }
+    /**
+     * Find zero or one ChatParticipantInfo that matches the filter.
+     * @param {ChatParticipantInfoFindUniqueArgs} args - Arguments to find a ChatParticipantInfo
+     * @example
+     * // Get one ChatParticipantInfo
+     * const chatParticipantInfo = await prisma.chatParticipantInfo.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ChatParticipantInfoFindUniqueArgs>(args: SelectSubset<T, ChatParticipantInfoFindUniqueArgs<ExtArgs>>): Prisma__ChatParticipantInfoClient<$Result.GetResult<Prisma.$ChatParticipantInfoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ChatParticipantInfo that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ChatParticipantInfoFindUniqueOrThrowArgs} args - Arguments to find a ChatParticipantInfo
+     * @example
+     * // Get one ChatParticipantInfo
+     * const chatParticipantInfo = await prisma.chatParticipantInfo.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ChatParticipantInfoFindUniqueOrThrowArgs>(args: SelectSubset<T, ChatParticipantInfoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ChatParticipantInfoClient<$Result.GetResult<Prisma.$ChatParticipantInfoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ChatParticipantInfo that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChatParticipantInfoFindFirstArgs} args - Arguments to find a ChatParticipantInfo
+     * @example
+     * // Get one ChatParticipantInfo
+     * const chatParticipantInfo = await prisma.chatParticipantInfo.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ChatParticipantInfoFindFirstArgs>(args?: SelectSubset<T, ChatParticipantInfoFindFirstArgs<ExtArgs>>): Prisma__ChatParticipantInfoClient<$Result.GetResult<Prisma.$ChatParticipantInfoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ChatParticipantInfo that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChatParticipantInfoFindFirstOrThrowArgs} args - Arguments to find a ChatParticipantInfo
+     * @example
+     * // Get one ChatParticipantInfo
+     * const chatParticipantInfo = await prisma.chatParticipantInfo.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ChatParticipantInfoFindFirstOrThrowArgs>(args?: SelectSubset<T, ChatParticipantInfoFindFirstOrThrowArgs<ExtArgs>>): Prisma__ChatParticipantInfoClient<$Result.GetResult<Prisma.$ChatParticipantInfoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ChatParticipantInfos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChatParticipantInfoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ChatParticipantInfos
+     * const chatParticipantInfos = await prisma.chatParticipantInfo.findMany()
+     * 
+     * // Get first 10 ChatParticipantInfos
+     * const chatParticipantInfos = await prisma.chatParticipantInfo.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const chatParticipantInfoWithIdOnly = await prisma.chatParticipantInfo.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ChatParticipantInfoFindManyArgs>(args?: SelectSubset<T, ChatParticipantInfoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatParticipantInfoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ChatParticipantInfo.
+     * @param {ChatParticipantInfoCreateArgs} args - Arguments to create a ChatParticipantInfo.
+     * @example
+     * // Create one ChatParticipantInfo
+     * const ChatParticipantInfo = await prisma.chatParticipantInfo.create({
+     *   data: {
+     *     // ... data to create a ChatParticipantInfo
+     *   }
+     * })
+     * 
+     */
+    create<T extends ChatParticipantInfoCreateArgs>(args: SelectSubset<T, ChatParticipantInfoCreateArgs<ExtArgs>>): Prisma__ChatParticipantInfoClient<$Result.GetResult<Prisma.$ChatParticipantInfoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ChatParticipantInfos.
+     * @param {ChatParticipantInfoCreateManyArgs} args - Arguments to create many ChatParticipantInfos.
+     * @example
+     * // Create many ChatParticipantInfos
+     * const chatParticipantInfo = await prisma.chatParticipantInfo.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ChatParticipantInfoCreateManyArgs>(args?: SelectSubset<T, ChatParticipantInfoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ChatParticipantInfos and returns the data saved in the database.
+     * @param {ChatParticipantInfoCreateManyAndReturnArgs} args - Arguments to create many ChatParticipantInfos.
+     * @example
+     * // Create many ChatParticipantInfos
+     * const chatParticipantInfo = await prisma.chatParticipantInfo.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ChatParticipantInfos and only return the `id`
+     * const chatParticipantInfoWithIdOnly = await prisma.chatParticipantInfo.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ChatParticipantInfoCreateManyAndReturnArgs>(args?: SelectSubset<T, ChatParticipantInfoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatParticipantInfoPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ChatParticipantInfo.
+     * @param {ChatParticipantInfoDeleteArgs} args - Arguments to delete one ChatParticipantInfo.
+     * @example
+     * // Delete one ChatParticipantInfo
+     * const ChatParticipantInfo = await prisma.chatParticipantInfo.delete({
+     *   where: {
+     *     // ... filter to delete one ChatParticipantInfo
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ChatParticipantInfoDeleteArgs>(args: SelectSubset<T, ChatParticipantInfoDeleteArgs<ExtArgs>>): Prisma__ChatParticipantInfoClient<$Result.GetResult<Prisma.$ChatParticipantInfoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ChatParticipantInfo.
+     * @param {ChatParticipantInfoUpdateArgs} args - Arguments to update one ChatParticipantInfo.
+     * @example
+     * // Update one ChatParticipantInfo
+     * const chatParticipantInfo = await prisma.chatParticipantInfo.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ChatParticipantInfoUpdateArgs>(args: SelectSubset<T, ChatParticipantInfoUpdateArgs<ExtArgs>>): Prisma__ChatParticipantInfoClient<$Result.GetResult<Prisma.$ChatParticipantInfoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ChatParticipantInfos.
+     * @param {ChatParticipantInfoDeleteManyArgs} args - Arguments to filter ChatParticipantInfos to delete.
+     * @example
+     * // Delete a few ChatParticipantInfos
+     * const { count } = await prisma.chatParticipantInfo.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ChatParticipantInfoDeleteManyArgs>(args?: SelectSubset<T, ChatParticipantInfoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ChatParticipantInfos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChatParticipantInfoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ChatParticipantInfos
+     * const chatParticipantInfo = await prisma.chatParticipantInfo.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ChatParticipantInfoUpdateManyArgs>(args: SelectSubset<T, ChatParticipantInfoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ChatParticipantInfos and returns the data updated in the database.
+     * @param {ChatParticipantInfoUpdateManyAndReturnArgs} args - Arguments to update many ChatParticipantInfos.
+     * @example
+     * // Update many ChatParticipantInfos
+     * const chatParticipantInfo = await prisma.chatParticipantInfo.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ChatParticipantInfos and only return the `id`
+     * const chatParticipantInfoWithIdOnly = await prisma.chatParticipantInfo.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ChatParticipantInfoUpdateManyAndReturnArgs>(args: SelectSubset<T, ChatParticipantInfoUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatParticipantInfoPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ChatParticipantInfo.
+     * @param {ChatParticipantInfoUpsertArgs} args - Arguments to update or create a ChatParticipantInfo.
+     * @example
+     * // Update or create a ChatParticipantInfo
+     * const chatParticipantInfo = await prisma.chatParticipantInfo.upsert({
+     *   create: {
+     *     // ... data to create a ChatParticipantInfo
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ChatParticipantInfo we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ChatParticipantInfoUpsertArgs>(args: SelectSubset<T, ChatParticipantInfoUpsertArgs<ExtArgs>>): Prisma__ChatParticipantInfoClient<$Result.GetResult<Prisma.$ChatParticipantInfoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ChatParticipantInfos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChatParticipantInfoCountArgs} args - Arguments to filter ChatParticipantInfos to count.
+     * @example
+     * // Count the number of ChatParticipantInfos
+     * const count = await prisma.chatParticipantInfo.count({
+     *   where: {
+     *     // ... the filter for the ChatParticipantInfos we want to count
+     *   }
+     * })
+    **/
+    count<T extends ChatParticipantInfoCountArgs>(
+      args?: Subset<T, ChatParticipantInfoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ChatParticipantInfoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ChatParticipantInfo.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChatParticipantInfoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ChatParticipantInfoAggregateArgs>(args: Subset<T, ChatParticipantInfoAggregateArgs>): Prisma.PrismaPromise<GetChatParticipantInfoAggregateType<T>>
+
+    /**
+     * Group by ChatParticipantInfo.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChatParticipantInfoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ChatParticipantInfoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ChatParticipantInfoGroupByArgs['orderBy'] }
+        : { orderBy?: ChatParticipantInfoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ChatParticipantInfoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetChatParticipantInfoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ChatParticipantInfo model
+   */
+  readonly fields: ChatParticipantInfoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ChatParticipantInfo.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ChatParticipantInfoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    conversation<T extends ChatConversationDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ChatConversationDefaultArgs<ExtArgs>>): Prisma__ChatConversationClient<$Result.GetResult<Prisma.$ChatConversationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ChatParticipantInfo model
+   */
+  interface ChatParticipantInfoFieldRefs {
+    readonly id: FieldRef<"ChatParticipantInfo", 'String'>
+    readonly userId: FieldRef<"ChatParticipantInfo", 'String'>
+    readonly conversationId: FieldRef<"ChatParticipantInfo", 'String'>
+    readonly lastAccessedAt: FieldRef<"ChatParticipantInfo", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ChatParticipantInfo findUnique
+   */
+  export type ChatParticipantInfoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatParticipantInfo
+     */
+    select?: ChatParticipantInfoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatParticipantInfo
+     */
+    omit?: ChatParticipantInfoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatParticipantInfoInclude<ExtArgs> | null
+    /**
+     * Filter, which ChatParticipantInfo to fetch.
+     */
+    where: ChatParticipantInfoWhereUniqueInput
+  }
+
+  /**
+   * ChatParticipantInfo findUniqueOrThrow
+   */
+  export type ChatParticipantInfoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatParticipantInfo
+     */
+    select?: ChatParticipantInfoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatParticipantInfo
+     */
+    omit?: ChatParticipantInfoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatParticipantInfoInclude<ExtArgs> | null
+    /**
+     * Filter, which ChatParticipantInfo to fetch.
+     */
+    where: ChatParticipantInfoWhereUniqueInput
+  }
+
+  /**
+   * ChatParticipantInfo findFirst
+   */
+  export type ChatParticipantInfoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatParticipantInfo
+     */
+    select?: ChatParticipantInfoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatParticipantInfo
+     */
+    omit?: ChatParticipantInfoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatParticipantInfoInclude<ExtArgs> | null
+    /**
+     * Filter, which ChatParticipantInfo to fetch.
+     */
+    where?: ChatParticipantInfoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ChatParticipantInfos to fetch.
+     */
+    orderBy?: ChatParticipantInfoOrderByWithRelationInput | ChatParticipantInfoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ChatParticipantInfos.
+     */
+    cursor?: ChatParticipantInfoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ChatParticipantInfos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ChatParticipantInfos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ChatParticipantInfos.
+     */
+    distinct?: ChatParticipantInfoScalarFieldEnum | ChatParticipantInfoScalarFieldEnum[]
+  }
+
+  /**
+   * ChatParticipantInfo findFirstOrThrow
+   */
+  export type ChatParticipantInfoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatParticipantInfo
+     */
+    select?: ChatParticipantInfoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatParticipantInfo
+     */
+    omit?: ChatParticipantInfoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatParticipantInfoInclude<ExtArgs> | null
+    /**
+     * Filter, which ChatParticipantInfo to fetch.
+     */
+    where?: ChatParticipantInfoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ChatParticipantInfos to fetch.
+     */
+    orderBy?: ChatParticipantInfoOrderByWithRelationInput | ChatParticipantInfoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ChatParticipantInfos.
+     */
+    cursor?: ChatParticipantInfoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ChatParticipantInfos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ChatParticipantInfos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ChatParticipantInfos.
+     */
+    distinct?: ChatParticipantInfoScalarFieldEnum | ChatParticipantInfoScalarFieldEnum[]
+  }
+
+  /**
+   * ChatParticipantInfo findMany
+   */
+  export type ChatParticipantInfoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatParticipantInfo
+     */
+    select?: ChatParticipantInfoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatParticipantInfo
+     */
+    omit?: ChatParticipantInfoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatParticipantInfoInclude<ExtArgs> | null
+    /**
+     * Filter, which ChatParticipantInfos to fetch.
+     */
+    where?: ChatParticipantInfoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ChatParticipantInfos to fetch.
+     */
+    orderBy?: ChatParticipantInfoOrderByWithRelationInput | ChatParticipantInfoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ChatParticipantInfos.
+     */
+    cursor?: ChatParticipantInfoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ChatParticipantInfos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ChatParticipantInfos.
+     */
+    skip?: number
+    distinct?: ChatParticipantInfoScalarFieldEnum | ChatParticipantInfoScalarFieldEnum[]
+  }
+
+  /**
+   * ChatParticipantInfo create
+   */
+  export type ChatParticipantInfoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatParticipantInfo
+     */
+    select?: ChatParticipantInfoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatParticipantInfo
+     */
+    omit?: ChatParticipantInfoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatParticipantInfoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ChatParticipantInfo.
+     */
+    data: XOR<ChatParticipantInfoCreateInput, ChatParticipantInfoUncheckedCreateInput>
+  }
+
+  /**
+   * ChatParticipantInfo createMany
+   */
+  export type ChatParticipantInfoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ChatParticipantInfos.
+     */
+    data: ChatParticipantInfoCreateManyInput | ChatParticipantInfoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ChatParticipantInfo createManyAndReturn
+   */
+  export type ChatParticipantInfoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatParticipantInfo
+     */
+    select?: ChatParticipantInfoSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatParticipantInfo
+     */
+    omit?: ChatParticipantInfoOmit<ExtArgs> | null
+    /**
+     * The data used to create many ChatParticipantInfos.
+     */
+    data: ChatParticipantInfoCreateManyInput | ChatParticipantInfoCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatParticipantInfoIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ChatParticipantInfo update
+   */
+  export type ChatParticipantInfoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatParticipantInfo
+     */
+    select?: ChatParticipantInfoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatParticipantInfo
+     */
+    omit?: ChatParticipantInfoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatParticipantInfoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ChatParticipantInfo.
+     */
+    data: XOR<ChatParticipantInfoUpdateInput, ChatParticipantInfoUncheckedUpdateInput>
+    /**
+     * Choose, which ChatParticipantInfo to update.
+     */
+    where: ChatParticipantInfoWhereUniqueInput
+  }
+
+  /**
+   * ChatParticipantInfo updateMany
+   */
+  export type ChatParticipantInfoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ChatParticipantInfos.
+     */
+    data: XOR<ChatParticipantInfoUpdateManyMutationInput, ChatParticipantInfoUncheckedUpdateManyInput>
+    /**
+     * Filter which ChatParticipantInfos to update
+     */
+    where?: ChatParticipantInfoWhereInput
+    /**
+     * Limit how many ChatParticipantInfos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ChatParticipantInfo updateManyAndReturn
+   */
+  export type ChatParticipantInfoUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatParticipantInfo
+     */
+    select?: ChatParticipantInfoSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatParticipantInfo
+     */
+    omit?: ChatParticipantInfoOmit<ExtArgs> | null
+    /**
+     * The data used to update ChatParticipantInfos.
+     */
+    data: XOR<ChatParticipantInfoUpdateManyMutationInput, ChatParticipantInfoUncheckedUpdateManyInput>
+    /**
+     * Filter which ChatParticipantInfos to update
+     */
+    where?: ChatParticipantInfoWhereInput
+    /**
+     * Limit how many ChatParticipantInfos to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatParticipantInfoIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ChatParticipantInfo upsert
+   */
+  export type ChatParticipantInfoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatParticipantInfo
+     */
+    select?: ChatParticipantInfoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatParticipantInfo
+     */
+    omit?: ChatParticipantInfoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatParticipantInfoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ChatParticipantInfo to update in case it exists.
+     */
+    where: ChatParticipantInfoWhereUniqueInput
+    /**
+     * In case the ChatParticipantInfo found by the `where` argument doesn't exist, create a new ChatParticipantInfo with this data.
+     */
+    create: XOR<ChatParticipantInfoCreateInput, ChatParticipantInfoUncheckedCreateInput>
+    /**
+     * In case the ChatParticipantInfo was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ChatParticipantInfoUpdateInput, ChatParticipantInfoUncheckedUpdateInput>
+  }
+
+  /**
+   * ChatParticipantInfo delete
+   */
+  export type ChatParticipantInfoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatParticipantInfo
+     */
+    select?: ChatParticipantInfoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatParticipantInfo
+     */
+    omit?: ChatParticipantInfoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatParticipantInfoInclude<ExtArgs> | null
+    /**
+     * Filter which ChatParticipantInfo to delete.
+     */
+    where: ChatParticipantInfoWhereUniqueInput
+  }
+
+  /**
+   * ChatParticipantInfo deleteMany
+   */
+  export type ChatParticipantInfoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ChatParticipantInfos to delete
+     */
+    where?: ChatParticipantInfoWhereInput
+    /**
+     * Limit how many ChatParticipantInfos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ChatParticipantInfo without action
+   */
+  export type ChatParticipantInfoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ChatParticipantInfo
+     */
+    select?: ChatParticipantInfoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ChatParticipantInfo
+     */
+    omit?: ChatParticipantInfoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChatParticipantInfoInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model GlobalStaffActivity
+   */
+
+  export type AggregateGlobalStaffActivity = {
+    _count: GlobalStaffActivityCountAggregateOutputType | null
+    _min: GlobalStaffActivityMinAggregateOutputType | null
+    _max: GlobalStaffActivityMaxAggregateOutputType | null
+  }
+
+  export type GlobalStaffActivityMinAggregateOutputType = {
+    id: string | null
+    lastActivePing: Date | null
+  }
+
+  export type GlobalStaffActivityMaxAggregateOutputType = {
+    id: string | null
+    lastActivePing: Date | null
+  }
+
+  export type GlobalStaffActivityCountAggregateOutputType = {
+    id: number
+    lastActivePing: number
+    _all: number
+  }
+
+
+  export type GlobalStaffActivityMinAggregateInputType = {
+    id?: true
+    lastActivePing?: true
+  }
+
+  export type GlobalStaffActivityMaxAggregateInputType = {
+    id?: true
+    lastActivePing?: true
+  }
+
+  export type GlobalStaffActivityCountAggregateInputType = {
+    id?: true
+    lastActivePing?: true
+    _all?: true
+  }
+
+  export type GlobalStaffActivityAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GlobalStaffActivity to aggregate.
+     */
+    where?: GlobalStaffActivityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GlobalStaffActivities to fetch.
+     */
+    orderBy?: GlobalStaffActivityOrderByWithRelationInput | GlobalStaffActivityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: GlobalStaffActivityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GlobalStaffActivities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GlobalStaffActivities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned GlobalStaffActivities
+    **/
+    _count?: true | GlobalStaffActivityCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: GlobalStaffActivityMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: GlobalStaffActivityMaxAggregateInputType
+  }
+
+  export type GetGlobalStaffActivityAggregateType<T extends GlobalStaffActivityAggregateArgs> = {
+        [P in keyof T & keyof AggregateGlobalStaffActivity]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGlobalStaffActivity[P]>
+      : GetScalarType<T[P], AggregateGlobalStaffActivity[P]>
+  }
+
+
+
+
+  export type GlobalStaffActivityGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GlobalStaffActivityWhereInput
+    orderBy?: GlobalStaffActivityOrderByWithAggregationInput | GlobalStaffActivityOrderByWithAggregationInput[]
+    by: GlobalStaffActivityScalarFieldEnum[] | GlobalStaffActivityScalarFieldEnum
+    having?: GlobalStaffActivityScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: GlobalStaffActivityCountAggregateInputType | true
+    _min?: GlobalStaffActivityMinAggregateInputType
+    _max?: GlobalStaffActivityMaxAggregateInputType
+  }
+
+  export type GlobalStaffActivityGroupByOutputType = {
+    id: string
+    lastActivePing: Date
+    _count: GlobalStaffActivityCountAggregateOutputType | null
+    _min: GlobalStaffActivityMinAggregateOutputType | null
+    _max: GlobalStaffActivityMaxAggregateOutputType | null
+  }
+
+  type GetGlobalStaffActivityGroupByPayload<T extends GlobalStaffActivityGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<GlobalStaffActivityGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof GlobalStaffActivityGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], GlobalStaffActivityGroupByOutputType[P]>
+            : GetScalarType<T[P], GlobalStaffActivityGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type GlobalStaffActivitySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    lastActivePing?: boolean
+  }, ExtArgs["result"]["globalStaffActivity"]>
+
+  export type GlobalStaffActivitySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    lastActivePing?: boolean
+  }, ExtArgs["result"]["globalStaffActivity"]>
+
+  export type GlobalStaffActivitySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    lastActivePing?: boolean
+  }, ExtArgs["result"]["globalStaffActivity"]>
+
+  export type GlobalStaffActivitySelectScalar = {
+    id?: boolean
+    lastActivePing?: boolean
+  }
+
+  export type GlobalStaffActivityOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "lastActivePing", ExtArgs["result"]["globalStaffActivity"]>
+
+  export type $GlobalStaffActivityPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "GlobalStaffActivity"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      lastActivePing: Date
+    }, ExtArgs["result"]["globalStaffActivity"]>
+    composites: {}
+  }
+
+  type GlobalStaffActivityGetPayload<S extends boolean | null | undefined | GlobalStaffActivityDefaultArgs> = $Result.GetResult<Prisma.$GlobalStaffActivityPayload, S>
+
+  type GlobalStaffActivityCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<GlobalStaffActivityFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: GlobalStaffActivityCountAggregateInputType | true
+    }
+
+  export interface GlobalStaffActivityDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['GlobalStaffActivity'], meta: { name: 'GlobalStaffActivity' } }
+    /**
+     * Find zero or one GlobalStaffActivity that matches the filter.
+     * @param {GlobalStaffActivityFindUniqueArgs} args - Arguments to find a GlobalStaffActivity
+     * @example
+     * // Get one GlobalStaffActivity
+     * const globalStaffActivity = await prisma.globalStaffActivity.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends GlobalStaffActivityFindUniqueArgs>(args: SelectSubset<T, GlobalStaffActivityFindUniqueArgs<ExtArgs>>): Prisma__GlobalStaffActivityClient<$Result.GetResult<Prisma.$GlobalStaffActivityPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one GlobalStaffActivity that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {GlobalStaffActivityFindUniqueOrThrowArgs} args - Arguments to find a GlobalStaffActivity
+     * @example
+     * // Get one GlobalStaffActivity
+     * const globalStaffActivity = await prisma.globalStaffActivity.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends GlobalStaffActivityFindUniqueOrThrowArgs>(args: SelectSubset<T, GlobalStaffActivityFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GlobalStaffActivityClient<$Result.GetResult<Prisma.$GlobalStaffActivityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first GlobalStaffActivity that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GlobalStaffActivityFindFirstArgs} args - Arguments to find a GlobalStaffActivity
+     * @example
+     * // Get one GlobalStaffActivity
+     * const globalStaffActivity = await prisma.globalStaffActivity.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends GlobalStaffActivityFindFirstArgs>(args?: SelectSubset<T, GlobalStaffActivityFindFirstArgs<ExtArgs>>): Prisma__GlobalStaffActivityClient<$Result.GetResult<Prisma.$GlobalStaffActivityPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first GlobalStaffActivity that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GlobalStaffActivityFindFirstOrThrowArgs} args - Arguments to find a GlobalStaffActivity
+     * @example
+     * // Get one GlobalStaffActivity
+     * const globalStaffActivity = await prisma.globalStaffActivity.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends GlobalStaffActivityFindFirstOrThrowArgs>(args?: SelectSubset<T, GlobalStaffActivityFindFirstOrThrowArgs<ExtArgs>>): Prisma__GlobalStaffActivityClient<$Result.GetResult<Prisma.$GlobalStaffActivityPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more GlobalStaffActivities that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GlobalStaffActivityFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all GlobalStaffActivities
+     * const globalStaffActivities = await prisma.globalStaffActivity.findMany()
+     * 
+     * // Get first 10 GlobalStaffActivities
+     * const globalStaffActivities = await prisma.globalStaffActivity.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const globalStaffActivityWithIdOnly = await prisma.globalStaffActivity.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends GlobalStaffActivityFindManyArgs>(args?: SelectSubset<T, GlobalStaffActivityFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GlobalStaffActivityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a GlobalStaffActivity.
+     * @param {GlobalStaffActivityCreateArgs} args - Arguments to create a GlobalStaffActivity.
+     * @example
+     * // Create one GlobalStaffActivity
+     * const GlobalStaffActivity = await prisma.globalStaffActivity.create({
+     *   data: {
+     *     // ... data to create a GlobalStaffActivity
+     *   }
+     * })
+     * 
+     */
+    create<T extends GlobalStaffActivityCreateArgs>(args: SelectSubset<T, GlobalStaffActivityCreateArgs<ExtArgs>>): Prisma__GlobalStaffActivityClient<$Result.GetResult<Prisma.$GlobalStaffActivityPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many GlobalStaffActivities.
+     * @param {GlobalStaffActivityCreateManyArgs} args - Arguments to create many GlobalStaffActivities.
+     * @example
+     * // Create many GlobalStaffActivities
+     * const globalStaffActivity = await prisma.globalStaffActivity.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends GlobalStaffActivityCreateManyArgs>(args?: SelectSubset<T, GlobalStaffActivityCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many GlobalStaffActivities and returns the data saved in the database.
+     * @param {GlobalStaffActivityCreateManyAndReturnArgs} args - Arguments to create many GlobalStaffActivities.
+     * @example
+     * // Create many GlobalStaffActivities
+     * const globalStaffActivity = await prisma.globalStaffActivity.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many GlobalStaffActivities and only return the `id`
+     * const globalStaffActivityWithIdOnly = await prisma.globalStaffActivity.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends GlobalStaffActivityCreateManyAndReturnArgs>(args?: SelectSubset<T, GlobalStaffActivityCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GlobalStaffActivityPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a GlobalStaffActivity.
+     * @param {GlobalStaffActivityDeleteArgs} args - Arguments to delete one GlobalStaffActivity.
+     * @example
+     * // Delete one GlobalStaffActivity
+     * const GlobalStaffActivity = await prisma.globalStaffActivity.delete({
+     *   where: {
+     *     // ... filter to delete one GlobalStaffActivity
+     *   }
+     * })
+     * 
+     */
+    delete<T extends GlobalStaffActivityDeleteArgs>(args: SelectSubset<T, GlobalStaffActivityDeleteArgs<ExtArgs>>): Prisma__GlobalStaffActivityClient<$Result.GetResult<Prisma.$GlobalStaffActivityPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one GlobalStaffActivity.
+     * @param {GlobalStaffActivityUpdateArgs} args - Arguments to update one GlobalStaffActivity.
+     * @example
+     * // Update one GlobalStaffActivity
+     * const globalStaffActivity = await prisma.globalStaffActivity.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends GlobalStaffActivityUpdateArgs>(args: SelectSubset<T, GlobalStaffActivityUpdateArgs<ExtArgs>>): Prisma__GlobalStaffActivityClient<$Result.GetResult<Prisma.$GlobalStaffActivityPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more GlobalStaffActivities.
+     * @param {GlobalStaffActivityDeleteManyArgs} args - Arguments to filter GlobalStaffActivities to delete.
+     * @example
+     * // Delete a few GlobalStaffActivities
+     * const { count } = await prisma.globalStaffActivity.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends GlobalStaffActivityDeleteManyArgs>(args?: SelectSubset<T, GlobalStaffActivityDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GlobalStaffActivities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GlobalStaffActivityUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many GlobalStaffActivities
+     * const globalStaffActivity = await prisma.globalStaffActivity.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends GlobalStaffActivityUpdateManyArgs>(args: SelectSubset<T, GlobalStaffActivityUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GlobalStaffActivities and returns the data updated in the database.
+     * @param {GlobalStaffActivityUpdateManyAndReturnArgs} args - Arguments to update many GlobalStaffActivities.
+     * @example
+     * // Update many GlobalStaffActivities
+     * const globalStaffActivity = await prisma.globalStaffActivity.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more GlobalStaffActivities and only return the `id`
+     * const globalStaffActivityWithIdOnly = await prisma.globalStaffActivity.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends GlobalStaffActivityUpdateManyAndReturnArgs>(args: SelectSubset<T, GlobalStaffActivityUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GlobalStaffActivityPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one GlobalStaffActivity.
+     * @param {GlobalStaffActivityUpsertArgs} args - Arguments to update or create a GlobalStaffActivity.
+     * @example
+     * // Update or create a GlobalStaffActivity
+     * const globalStaffActivity = await prisma.globalStaffActivity.upsert({
+     *   create: {
+     *     // ... data to create a GlobalStaffActivity
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the GlobalStaffActivity we want to update
+     *   }
+     * })
+     */
+    upsert<T extends GlobalStaffActivityUpsertArgs>(args: SelectSubset<T, GlobalStaffActivityUpsertArgs<ExtArgs>>): Prisma__GlobalStaffActivityClient<$Result.GetResult<Prisma.$GlobalStaffActivityPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of GlobalStaffActivities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GlobalStaffActivityCountArgs} args - Arguments to filter GlobalStaffActivities to count.
+     * @example
+     * // Count the number of GlobalStaffActivities
+     * const count = await prisma.globalStaffActivity.count({
+     *   where: {
+     *     // ... the filter for the GlobalStaffActivities we want to count
+     *   }
+     * })
+    **/
+    count<T extends GlobalStaffActivityCountArgs>(
+      args?: Subset<T, GlobalStaffActivityCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], GlobalStaffActivityCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a GlobalStaffActivity.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GlobalStaffActivityAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends GlobalStaffActivityAggregateArgs>(args: Subset<T, GlobalStaffActivityAggregateArgs>): Prisma.PrismaPromise<GetGlobalStaffActivityAggregateType<T>>
+
+    /**
+     * Group by GlobalStaffActivity.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GlobalStaffActivityGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends GlobalStaffActivityGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: GlobalStaffActivityGroupByArgs['orderBy'] }
+        : { orderBy?: GlobalStaffActivityGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, GlobalStaffActivityGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGlobalStaffActivityGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the GlobalStaffActivity model
+   */
+  readonly fields: GlobalStaffActivityFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for GlobalStaffActivity.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__GlobalStaffActivityClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the GlobalStaffActivity model
+   */
+  interface GlobalStaffActivityFieldRefs {
+    readonly id: FieldRef<"GlobalStaffActivity", 'String'>
+    readonly lastActivePing: FieldRef<"GlobalStaffActivity", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * GlobalStaffActivity findUnique
+   */
+  export type GlobalStaffActivityFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GlobalStaffActivity
+     */
+    select?: GlobalStaffActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GlobalStaffActivity
+     */
+    omit?: GlobalStaffActivityOmit<ExtArgs> | null
+    /**
+     * Filter, which GlobalStaffActivity to fetch.
+     */
+    where: GlobalStaffActivityWhereUniqueInput
+  }
+
+  /**
+   * GlobalStaffActivity findUniqueOrThrow
+   */
+  export type GlobalStaffActivityFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GlobalStaffActivity
+     */
+    select?: GlobalStaffActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GlobalStaffActivity
+     */
+    omit?: GlobalStaffActivityOmit<ExtArgs> | null
+    /**
+     * Filter, which GlobalStaffActivity to fetch.
+     */
+    where: GlobalStaffActivityWhereUniqueInput
+  }
+
+  /**
+   * GlobalStaffActivity findFirst
+   */
+  export type GlobalStaffActivityFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GlobalStaffActivity
+     */
+    select?: GlobalStaffActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GlobalStaffActivity
+     */
+    omit?: GlobalStaffActivityOmit<ExtArgs> | null
+    /**
+     * Filter, which GlobalStaffActivity to fetch.
+     */
+    where?: GlobalStaffActivityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GlobalStaffActivities to fetch.
+     */
+    orderBy?: GlobalStaffActivityOrderByWithRelationInput | GlobalStaffActivityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GlobalStaffActivities.
+     */
+    cursor?: GlobalStaffActivityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GlobalStaffActivities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GlobalStaffActivities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GlobalStaffActivities.
+     */
+    distinct?: GlobalStaffActivityScalarFieldEnum | GlobalStaffActivityScalarFieldEnum[]
+  }
+
+  /**
+   * GlobalStaffActivity findFirstOrThrow
+   */
+  export type GlobalStaffActivityFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GlobalStaffActivity
+     */
+    select?: GlobalStaffActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GlobalStaffActivity
+     */
+    omit?: GlobalStaffActivityOmit<ExtArgs> | null
+    /**
+     * Filter, which GlobalStaffActivity to fetch.
+     */
+    where?: GlobalStaffActivityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GlobalStaffActivities to fetch.
+     */
+    orderBy?: GlobalStaffActivityOrderByWithRelationInput | GlobalStaffActivityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GlobalStaffActivities.
+     */
+    cursor?: GlobalStaffActivityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GlobalStaffActivities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GlobalStaffActivities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GlobalStaffActivities.
+     */
+    distinct?: GlobalStaffActivityScalarFieldEnum | GlobalStaffActivityScalarFieldEnum[]
+  }
+
+  /**
+   * GlobalStaffActivity findMany
+   */
+  export type GlobalStaffActivityFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GlobalStaffActivity
+     */
+    select?: GlobalStaffActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GlobalStaffActivity
+     */
+    omit?: GlobalStaffActivityOmit<ExtArgs> | null
+    /**
+     * Filter, which GlobalStaffActivities to fetch.
+     */
+    where?: GlobalStaffActivityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GlobalStaffActivities to fetch.
+     */
+    orderBy?: GlobalStaffActivityOrderByWithRelationInput | GlobalStaffActivityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing GlobalStaffActivities.
+     */
+    cursor?: GlobalStaffActivityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GlobalStaffActivities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GlobalStaffActivities.
+     */
+    skip?: number
+    distinct?: GlobalStaffActivityScalarFieldEnum | GlobalStaffActivityScalarFieldEnum[]
+  }
+
+  /**
+   * GlobalStaffActivity create
+   */
+  export type GlobalStaffActivityCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GlobalStaffActivity
+     */
+    select?: GlobalStaffActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GlobalStaffActivity
+     */
+    omit?: GlobalStaffActivityOmit<ExtArgs> | null
+    /**
+     * The data needed to create a GlobalStaffActivity.
+     */
+    data: XOR<GlobalStaffActivityCreateInput, GlobalStaffActivityUncheckedCreateInput>
+  }
+
+  /**
+   * GlobalStaffActivity createMany
+   */
+  export type GlobalStaffActivityCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many GlobalStaffActivities.
+     */
+    data: GlobalStaffActivityCreateManyInput | GlobalStaffActivityCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * GlobalStaffActivity createManyAndReturn
+   */
+  export type GlobalStaffActivityCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GlobalStaffActivity
+     */
+    select?: GlobalStaffActivitySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the GlobalStaffActivity
+     */
+    omit?: GlobalStaffActivityOmit<ExtArgs> | null
+    /**
+     * The data used to create many GlobalStaffActivities.
+     */
+    data: GlobalStaffActivityCreateManyInput | GlobalStaffActivityCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * GlobalStaffActivity update
+   */
+  export type GlobalStaffActivityUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GlobalStaffActivity
+     */
+    select?: GlobalStaffActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GlobalStaffActivity
+     */
+    omit?: GlobalStaffActivityOmit<ExtArgs> | null
+    /**
+     * The data needed to update a GlobalStaffActivity.
+     */
+    data: XOR<GlobalStaffActivityUpdateInput, GlobalStaffActivityUncheckedUpdateInput>
+    /**
+     * Choose, which GlobalStaffActivity to update.
+     */
+    where: GlobalStaffActivityWhereUniqueInput
+  }
+
+  /**
+   * GlobalStaffActivity updateMany
+   */
+  export type GlobalStaffActivityUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update GlobalStaffActivities.
+     */
+    data: XOR<GlobalStaffActivityUpdateManyMutationInput, GlobalStaffActivityUncheckedUpdateManyInput>
+    /**
+     * Filter which GlobalStaffActivities to update
+     */
+    where?: GlobalStaffActivityWhereInput
+    /**
+     * Limit how many GlobalStaffActivities to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * GlobalStaffActivity updateManyAndReturn
+   */
+  export type GlobalStaffActivityUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GlobalStaffActivity
+     */
+    select?: GlobalStaffActivitySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the GlobalStaffActivity
+     */
+    omit?: GlobalStaffActivityOmit<ExtArgs> | null
+    /**
+     * The data used to update GlobalStaffActivities.
+     */
+    data: XOR<GlobalStaffActivityUpdateManyMutationInput, GlobalStaffActivityUncheckedUpdateManyInput>
+    /**
+     * Filter which GlobalStaffActivities to update
+     */
+    where?: GlobalStaffActivityWhereInput
+    /**
+     * Limit how many GlobalStaffActivities to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * GlobalStaffActivity upsert
+   */
+  export type GlobalStaffActivityUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GlobalStaffActivity
+     */
+    select?: GlobalStaffActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GlobalStaffActivity
+     */
+    omit?: GlobalStaffActivityOmit<ExtArgs> | null
+    /**
+     * The filter to search for the GlobalStaffActivity to update in case it exists.
+     */
+    where: GlobalStaffActivityWhereUniqueInput
+    /**
+     * In case the GlobalStaffActivity found by the `where` argument doesn't exist, create a new GlobalStaffActivity with this data.
+     */
+    create: XOR<GlobalStaffActivityCreateInput, GlobalStaffActivityUncheckedCreateInput>
+    /**
+     * In case the GlobalStaffActivity was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<GlobalStaffActivityUpdateInput, GlobalStaffActivityUncheckedUpdateInput>
+  }
+
+  /**
+   * GlobalStaffActivity delete
+   */
+  export type GlobalStaffActivityDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GlobalStaffActivity
+     */
+    select?: GlobalStaffActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GlobalStaffActivity
+     */
+    omit?: GlobalStaffActivityOmit<ExtArgs> | null
+    /**
+     * Filter which GlobalStaffActivity to delete.
+     */
+    where: GlobalStaffActivityWhereUniqueInput
+  }
+
+  /**
+   * GlobalStaffActivity deleteMany
+   */
+  export type GlobalStaffActivityDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GlobalStaffActivities to delete
+     */
+    where?: GlobalStaffActivityWhereInput
+    /**
+     * Limit how many GlobalStaffActivities to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * GlobalStaffActivity without action
+   */
+  export type GlobalStaffActivityDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GlobalStaffActivity
+     */
+    select?: GlobalStaffActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GlobalStaffActivity
+     */
+    omit?: GlobalStaffActivityOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -20727,7 +27011,9 @@ export namespace Prisma {
     password: 'password',
     emailVerified: 'emailVerified',
     image: 'image',
+    hashedPassword: 'hashedPassword',
     role: 'role',
+    lastSeenAt: 'lastSeenAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -20947,10 +27233,80 @@ export namespace Prisma {
     content: 'content',
     senderId: 'senderId',
     conversationId: 'conversationId',
-    readAt: 'readAt'
+    readAt: 'readAt',
+    attachmentUrl: 'attachmentUrl',
+    attachmentType: 'attachmentType',
+    attachmentFilename: 'attachmentFilename',
+    attachmentSize: 'attachmentSize'
   };
 
   export type ChatMessageScalarFieldEnum = (typeof ChatMessageScalarFieldEnum)[keyof typeof ChatMessageScalarFieldEnum]
+
+
+  export const InvoiceScalarFieldEnum: {
+    id: 'id',
+    invoiceNumber: 'invoiceNumber',
+    customerId: 'customerId',
+    issueDate: 'issueDate',
+    dueDate: 'dueDate',
+    totalAmount: 'totalAmount',
+    amountPaid: 'amountPaid',
+    status: 'status',
+    notes: 'notes',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    relatedServiceRequestId: 'relatedServiceRequestId'
+  };
+
+  export type InvoiceScalarFieldEnum = (typeof InvoiceScalarFieldEnum)[keyof typeof InvoiceScalarFieldEnum]
+
+
+  export const InvoiceLineItemScalarFieldEnum: {
+    id: 'id',
+    invoiceId: 'invoiceId',
+    description: 'description',
+    quantity: 'quantity',
+    unitPrice: 'unitPrice',
+    totalPrice: 'totalPrice',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type InvoiceLineItemScalarFieldEnum = (typeof InvoiceLineItemScalarFieldEnum)[keyof typeof InvoiceLineItemScalarFieldEnum]
+
+
+  export const PaymentScalarFieldEnum: {
+    id: 'id',
+    invoiceId: 'invoiceId',
+    paymentDate: 'paymentDate',
+    amount: 'amount',
+    paymentMethod: 'paymentMethod',
+    transactionId: 'transactionId',
+    status: 'status',
+    notes: 'notes',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
+
+
+  export const ChatParticipantInfoScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    conversationId: 'conversationId',
+    lastAccessedAt: 'lastAccessedAt'
+  };
+
+  export type ChatParticipantInfoScalarFieldEnum = (typeof ChatParticipantInfoScalarFieldEnum)[keyof typeof ChatParticipantInfoScalarFieldEnum]
+
+
+  export const GlobalStaffActivityScalarFieldEnum: {
+    id: 'id',
+    lastActivePing: 'lastActivePing'
+  };
+
+  export type GlobalStaffActivityScalarFieldEnum = (typeof GlobalStaffActivityScalarFieldEnum)[keyof typeof GlobalStaffActivityScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -21116,6 +27472,20 @@ export namespace Prisma {
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
+
+
+  /**
+   * Reference to a field of type 'InvoiceStatus'
+   */
+  export type EnumInvoiceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InvoiceStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'InvoiceStatus[]'
+   */
+  export type ListEnumInvoiceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InvoiceStatus[]'>
+    
   /**
    * Deep Input Types
    */
@@ -21131,7 +27501,9 @@ export namespace Prisma {
     password?: StringNullableFilter<"User"> | string | null
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
     image?: StringNullableFilter<"User"> | string | null
+    hashedPassword?: StringNullableFilter<"User"> | string | null
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
+    lastSeenAt?: DateTimeNullableFilter<"User"> | Date | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     accounts?: AccountListRelationFilter
@@ -21147,6 +27519,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageListRelationFilter
     customerConversations?: ChatConversationListRelationFilter
     staffConversations?: ChatConversationListRelationFilter
+    invoices?: InvoiceListRelationFilter
+    activityInConversations?: ChatParticipantInfoListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -21156,7 +27530,9 @@ export namespace Prisma {
     password?: SortOrderInput | SortOrder
     emailVerified?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
+    hashedPassword?: SortOrderInput | SortOrder
     role?: SortOrder
+    lastSeenAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     accounts?: AccountOrderByRelationAggregateInput
@@ -21172,6 +27548,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageOrderByRelationAggregateInput
     customerConversations?: ChatConversationOrderByRelationAggregateInput
     staffConversations?: ChatConversationOrderByRelationAggregateInput
+    invoices?: InvoiceOrderByRelationAggregateInput
+    activityInConversations?: ChatParticipantInfoOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -21184,7 +27562,9 @@ export namespace Prisma {
     password?: StringNullableFilter<"User"> | string | null
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
     image?: StringNullableFilter<"User"> | string | null
+    hashedPassword?: StringNullableFilter<"User"> | string | null
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
+    lastSeenAt?: DateTimeNullableFilter<"User"> | Date | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     accounts?: AccountListRelationFilter
@@ -21200,6 +27580,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageListRelationFilter
     customerConversations?: ChatConversationListRelationFilter
     staffConversations?: ChatConversationListRelationFilter
+    invoices?: InvoiceListRelationFilter
+    activityInConversations?: ChatParticipantInfoListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -21209,7 +27591,9 @@ export namespace Prisma {
     password?: SortOrderInput | SortOrder
     emailVerified?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
+    hashedPassword?: SortOrderInput | SortOrder
     role?: SortOrder
+    lastSeenAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -21227,7 +27611,9 @@ export namespace Prisma {
     password?: StringNullableWithAggregatesFilter<"User"> | string | null
     emailVerified?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
+    hashedPassword?: StringNullableWithAggregatesFilter<"User"> | string | null
     role?: EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
+    lastSeenAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
@@ -22218,6 +28604,7 @@ export namespace Prisma {
     messages?: ChatMessageListRelationFilter
     customer?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     staffMember?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    participantActivity?: ChatParticipantInfoListRelationFilter
   }
 
   export type ChatConversationOrderByWithRelationInput = {
@@ -22233,6 +28620,7 @@ export namespace Prisma {
     messages?: ChatMessageOrderByRelationAggregateInput
     customer?: UserOrderByWithRelationInput
     staffMember?: UserOrderByWithRelationInput
+    participantActivity?: ChatParticipantInfoOrderByRelationAggregateInput
   }
 
   export type ChatConversationWhereUniqueInput = Prisma.AtLeast<{
@@ -22251,6 +28639,7 @@ export namespace Prisma {
     messages?: ChatMessageListRelationFilter
     customer?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     staffMember?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    participantActivity?: ChatParticipantInfoListRelationFilter
   }, "id">
 
   export type ChatConversationOrderByWithAggregationInput = {
@@ -22287,10 +28676,14 @@ export namespace Prisma {
     NOT?: ChatMessageWhereInput | ChatMessageWhereInput[]
     id?: StringFilter<"ChatMessage"> | string
     createdAt?: DateTimeFilter<"ChatMessage"> | Date | string
-    content?: StringFilter<"ChatMessage"> | string
+    content?: StringNullableFilter<"ChatMessage"> | string | null
     senderId?: StringFilter<"ChatMessage"> | string
     conversationId?: StringFilter<"ChatMessage"> | string
     readAt?: DateTimeNullableFilter<"ChatMessage"> | Date | string | null
+    attachmentUrl?: StringNullableFilter<"ChatMessage"> | string | null
+    attachmentType?: StringNullableFilter<"ChatMessage"> | string | null
+    attachmentFilename?: StringNullableFilter<"ChatMessage"> | string | null
+    attachmentSize?: IntNullableFilter<"ChatMessage"> | number | null
     sender?: XOR<UserScalarRelationFilter, UserWhereInput>
     conversation?: XOR<ChatConversationScalarRelationFilter, ChatConversationWhereInput>
   }
@@ -22298,10 +28691,14 @@ export namespace Prisma {
   export type ChatMessageOrderByWithRelationInput = {
     id?: SortOrder
     createdAt?: SortOrder
-    content?: SortOrder
+    content?: SortOrderInput | SortOrder
     senderId?: SortOrder
     conversationId?: SortOrder
     readAt?: SortOrderInput | SortOrder
+    attachmentUrl?: SortOrderInput | SortOrder
+    attachmentType?: SortOrderInput | SortOrder
+    attachmentFilename?: SortOrderInput | SortOrder
+    attachmentSize?: SortOrderInput | SortOrder
     sender?: UserOrderByWithRelationInput
     conversation?: ChatConversationOrderByWithRelationInput
   }
@@ -22312,10 +28709,14 @@ export namespace Prisma {
     OR?: ChatMessageWhereInput[]
     NOT?: ChatMessageWhereInput | ChatMessageWhereInput[]
     createdAt?: DateTimeFilter<"ChatMessage"> | Date | string
-    content?: StringFilter<"ChatMessage"> | string
+    content?: StringNullableFilter<"ChatMessage"> | string | null
     senderId?: StringFilter<"ChatMessage"> | string
     conversationId?: StringFilter<"ChatMessage"> | string
     readAt?: DateTimeNullableFilter<"ChatMessage"> | Date | string | null
+    attachmentUrl?: StringNullableFilter<"ChatMessage"> | string | null
+    attachmentType?: StringNullableFilter<"ChatMessage"> | string | null
+    attachmentFilename?: StringNullableFilter<"ChatMessage"> | string | null
+    attachmentSize?: IntNullableFilter<"ChatMessage"> | number | null
     sender?: XOR<UserScalarRelationFilter, UserWhereInput>
     conversation?: XOR<ChatConversationScalarRelationFilter, ChatConversationWhereInput>
   }, "id">
@@ -22323,13 +28724,19 @@ export namespace Prisma {
   export type ChatMessageOrderByWithAggregationInput = {
     id?: SortOrder
     createdAt?: SortOrder
-    content?: SortOrder
+    content?: SortOrderInput | SortOrder
     senderId?: SortOrder
     conversationId?: SortOrder
     readAt?: SortOrderInput | SortOrder
+    attachmentUrl?: SortOrderInput | SortOrder
+    attachmentType?: SortOrderInput | SortOrder
+    attachmentFilename?: SortOrderInput | SortOrder
+    attachmentSize?: SortOrderInput | SortOrder
     _count?: ChatMessageCountOrderByAggregateInput
+    _avg?: ChatMessageAvgOrderByAggregateInput
     _max?: ChatMessageMaxOrderByAggregateInput
     _min?: ChatMessageMinOrderByAggregateInput
+    _sum?: ChatMessageSumOrderByAggregateInput
   }
 
   export type ChatMessageScalarWhereWithAggregatesInput = {
@@ -22338,10 +28745,357 @@ export namespace Prisma {
     NOT?: ChatMessageScalarWhereWithAggregatesInput | ChatMessageScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"ChatMessage"> | string
     createdAt?: DateTimeWithAggregatesFilter<"ChatMessage"> | Date | string
-    content?: StringWithAggregatesFilter<"ChatMessage"> | string
+    content?: StringNullableWithAggregatesFilter<"ChatMessage"> | string | null
     senderId?: StringWithAggregatesFilter<"ChatMessage"> | string
     conversationId?: StringWithAggregatesFilter<"ChatMessage"> | string
     readAt?: DateTimeNullableWithAggregatesFilter<"ChatMessage"> | Date | string | null
+    attachmentUrl?: StringNullableWithAggregatesFilter<"ChatMessage"> | string | null
+    attachmentType?: StringNullableWithAggregatesFilter<"ChatMessage"> | string | null
+    attachmentFilename?: StringNullableWithAggregatesFilter<"ChatMessage"> | string | null
+    attachmentSize?: IntNullableWithAggregatesFilter<"ChatMessage"> | number | null
+  }
+
+  export type InvoiceWhereInput = {
+    AND?: InvoiceWhereInput | InvoiceWhereInput[]
+    OR?: InvoiceWhereInput[]
+    NOT?: InvoiceWhereInput | InvoiceWhereInput[]
+    id?: StringFilter<"Invoice"> | string
+    invoiceNumber?: StringFilter<"Invoice"> | string
+    customerId?: StringFilter<"Invoice"> | string
+    issueDate?: DateTimeFilter<"Invoice"> | Date | string
+    dueDate?: DateTimeFilter<"Invoice"> | Date | string
+    totalAmount?: FloatFilter<"Invoice"> | number
+    amountPaid?: FloatFilter<"Invoice"> | number
+    status?: EnumInvoiceStatusFilter<"Invoice"> | $Enums.InvoiceStatus
+    notes?: StringNullableFilter<"Invoice"> | string | null
+    createdAt?: DateTimeFilter<"Invoice"> | Date | string
+    updatedAt?: DateTimeFilter<"Invoice"> | Date | string
+    relatedServiceRequestId?: StringNullableFilter<"Invoice"> | string | null
+    customer?: XOR<UserScalarRelationFilter, UserWhereInput>
+    lineItems?: InvoiceLineItemListRelationFilter
+    payments?: PaymentListRelationFilter
+  }
+
+  export type InvoiceOrderByWithRelationInput = {
+    id?: SortOrder
+    invoiceNumber?: SortOrder
+    customerId?: SortOrder
+    issueDate?: SortOrder
+    dueDate?: SortOrder
+    totalAmount?: SortOrder
+    amountPaid?: SortOrder
+    status?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    relatedServiceRequestId?: SortOrderInput | SortOrder
+    customer?: UserOrderByWithRelationInput
+    lineItems?: InvoiceLineItemOrderByRelationAggregateInput
+    payments?: PaymentOrderByRelationAggregateInput
+  }
+
+  export type InvoiceWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    invoiceNumber?: string
+    AND?: InvoiceWhereInput | InvoiceWhereInput[]
+    OR?: InvoiceWhereInput[]
+    NOT?: InvoiceWhereInput | InvoiceWhereInput[]
+    customerId?: StringFilter<"Invoice"> | string
+    issueDate?: DateTimeFilter<"Invoice"> | Date | string
+    dueDate?: DateTimeFilter<"Invoice"> | Date | string
+    totalAmount?: FloatFilter<"Invoice"> | number
+    amountPaid?: FloatFilter<"Invoice"> | number
+    status?: EnumInvoiceStatusFilter<"Invoice"> | $Enums.InvoiceStatus
+    notes?: StringNullableFilter<"Invoice"> | string | null
+    createdAt?: DateTimeFilter<"Invoice"> | Date | string
+    updatedAt?: DateTimeFilter<"Invoice"> | Date | string
+    relatedServiceRequestId?: StringNullableFilter<"Invoice"> | string | null
+    customer?: XOR<UserScalarRelationFilter, UserWhereInput>
+    lineItems?: InvoiceLineItemListRelationFilter
+    payments?: PaymentListRelationFilter
+  }, "id" | "invoiceNumber">
+
+  export type InvoiceOrderByWithAggregationInput = {
+    id?: SortOrder
+    invoiceNumber?: SortOrder
+    customerId?: SortOrder
+    issueDate?: SortOrder
+    dueDate?: SortOrder
+    totalAmount?: SortOrder
+    amountPaid?: SortOrder
+    status?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    relatedServiceRequestId?: SortOrderInput | SortOrder
+    _count?: InvoiceCountOrderByAggregateInput
+    _avg?: InvoiceAvgOrderByAggregateInput
+    _max?: InvoiceMaxOrderByAggregateInput
+    _min?: InvoiceMinOrderByAggregateInput
+    _sum?: InvoiceSumOrderByAggregateInput
+  }
+
+  export type InvoiceScalarWhereWithAggregatesInput = {
+    AND?: InvoiceScalarWhereWithAggregatesInput | InvoiceScalarWhereWithAggregatesInput[]
+    OR?: InvoiceScalarWhereWithAggregatesInput[]
+    NOT?: InvoiceScalarWhereWithAggregatesInput | InvoiceScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Invoice"> | string
+    invoiceNumber?: StringWithAggregatesFilter<"Invoice"> | string
+    customerId?: StringWithAggregatesFilter<"Invoice"> | string
+    issueDate?: DateTimeWithAggregatesFilter<"Invoice"> | Date | string
+    dueDate?: DateTimeWithAggregatesFilter<"Invoice"> | Date | string
+    totalAmount?: FloatWithAggregatesFilter<"Invoice"> | number
+    amountPaid?: FloatWithAggregatesFilter<"Invoice"> | number
+    status?: EnumInvoiceStatusWithAggregatesFilter<"Invoice"> | $Enums.InvoiceStatus
+    notes?: StringNullableWithAggregatesFilter<"Invoice"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Invoice"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Invoice"> | Date | string
+    relatedServiceRequestId?: StringNullableWithAggregatesFilter<"Invoice"> | string | null
+  }
+
+  export type InvoiceLineItemWhereInput = {
+    AND?: InvoiceLineItemWhereInput | InvoiceLineItemWhereInput[]
+    OR?: InvoiceLineItemWhereInput[]
+    NOT?: InvoiceLineItemWhereInput | InvoiceLineItemWhereInput[]
+    id?: StringFilter<"InvoiceLineItem"> | string
+    invoiceId?: StringFilter<"InvoiceLineItem"> | string
+    description?: StringFilter<"InvoiceLineItem"> | string
+    quantity?: FloatFilter<"InvoiceLineItem"> | number
+    unitPrice?: FloatFilter<"InvoiceLineItem"> | number
+    totalPrice?: FloatFilter<"InvoiceLineItem"> | number
+    createdAt?: DateTimeFilter<"InvoiceLineItem"> | Date | string
+    updatedAt?: DateTimeFilter<"InvoiceLineItem"> | Date | string
+    invoice?: XOR<InvoiceScalarRelationFilter, InvoiceWhereInput>
+  }
+
+  export type InvoiceLineItemOrderByWithRelationInput = {
+    id?: SortOrder
+    invoiceId?: SortOrder
+    description?: SortOrder
+    quantity?: SortOrder
+    unitPrice?: SortOrder
+    totalPrice?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    invoice?: InvoiceOrderByWithRelationInput
+  }
+
+  export type InvoiceLineItemWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: InvoiceLineItemWhereInput | InvoiceLineItemWhereInput[]
+    OR?: InvoiceLineItemWhereInput[]
+    NOT?: InvoiceLineItemWhereInput | InvoiceLineItemWhereInput[]
+    invoiceId?: StringFilter<"InvoiceLineItem"> | string
+    description?: StringFilter<"InvoiceLineItem"> | string
+    quantity?: FloatFilter<"InvoiceLineItem"> | number
+    unitPrice?: FloatFilter<"InvoiceLineItem"> | number
+    totalPrice?: FloatFilter<"InvoiceLineItem"> | number
+    createdAt?: DateTimeFilter<"InvoiceLineItem"> | Date | string
+    updatedAt?: DateTimeFilter<"InvoiceLineItem"> | Date | string
+    invoice?: XOR<InvoiceScalarRelationFilter, InvoiceWhereInput>
+  }, "id">
+
+  export type InvoiceLineItemOrderByWithAggregationInput = {
+    id?: SortOrder
+    invoiceId?: SortOrder
+    description?: SortOrder
+    quantity?: SortOrder
+    unitPrice?: SortOrder
+    totalPrice?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: InvoiceLineItemCountOrderByAggregateInput
+    _avg?: InvoiceLineItemAvgOrderByAggregateInput
+    _max?: InvoiceLineItemMaxOrderByAggregateInput
+    _min?: InvoiceLineItemMinOrderByAggregateInput
+    _sum?: InvoiceLineItemSumOrderByAggregateInput
+  }
+
+  export type InvoiceLineItemScalarWhereWithAggregatesInput = {
+    AND?: InvoiceLineItemScalarWhereWithAggregatesInput | InvoiceLineItemScalarWhereWithAggregatesInput[]
+    OR?: InvoiceLineItemScalarWhereWithAggregatesInput[]
+    NOT?: InvoiceLineItemScalarWhereWithAggregatesInput | InvoiceLineItemScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"InvoiceLineItem"> | string
+    invoiceId?: StringWithAggregatesFilter<"InvoiceLineItem"> | string
+    description?: StringWithAggregatesFilter<"InvoiceLineItem"> | string
+    quantity?: FloatWithAggregatesFilter<"InvoiceLineItem"> | number
+    unitPrice?: FloatWithAggregatesFilter<"InvoiceLineItem"> | number
+    totalPrice?: FloatWithAggregatesFilter<"InvoiceLineItem"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"InvoiceLineItem"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"InvoiceLineItem"> | Date | string
+  }
+
+  export type PaymentWhereInput = {
+    AND?: PaymentWhereInput | PaymentWhereInput[]
+    OR?: PaymentWhereInput[]
+    NOT?: PaymentWhereInput | PaymentWhereInput[]
+    id?: StringFilter<"Payment"> | string
+    invoiceId?: StringFilter<"Payment"> | string
+    paymentDate?: DateTimeFilter<"Payment"> | Date | string
+    amount?: FloatFilter<"Payment"> | number
+    paymentMethod?: StringNullableFilter<"Payment"> | string | null
+    transactionId?: StringNullableFilter<"Payment"> | string | null
+    status?: StringNullableFilter<"Payment"> | string | null
+    notes?: StringNullableFilter<"Payment"> | string | null
+    createdAt?: DateTimeFilter<"Payment"> | Date | string
+    updatedAt?: DateTimeFilter<"Payment"> | Date | string
+    invoice?: XOR<InvoiceScalarRelationFilter, InvoiceWhereInput>
+  }
+
+  export type PaymentOrderByWithRelationInput = {
+    id?: SortOrder
+    invoiceId?: SortOrder
+    paymentDate?: SortOrder
+    amount?: SortOrder
+    paymentMethod?: SortOrderInput | SortOrder
+    transactionId?: SortOrderInput | SortOrder
+    status?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    invoice?: InvoiceOrderByWithRelationInput
+  }
+
+  export type PaymentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    transactionId?: string
+    AND?: PaymentWhereInput | PaymentWhereInput[]
+    OR?: PaymentWhereInput[]
+    NOT?: PaymentWhereInput | PaymentWhereInput[]
+    invoiceId?: StringFilter<"Payment"> | string
+    paymentDate?: DateTimeFilter<"Payment"> | Date | string
+    amount?: FloatFilter<"Payment"> | number
+    paymentMethod?: StringNullableFilter<"Payment"> | string | null
+    status?: StringNullableFilter<"Payment"> | string | null
+    notes?: StringNullableFilter<"Payment"> | string | null
+    createdAt?: DateTimeFilter<"Payment"> | Date | string
+    updatedAt?: DateTimeFilter<"Payment"> | Date | string
+    invoice?: XOR<InvoiceScalarRelationFilter, InvoiceWhereInput>
+  }, "id" | "transactionId">
+
+  export type PaymentOrderByWithAggregationInput = {
+    id?: SortOrder
+    invoiceId?: SortOrder
+    paymentDate?: SortOrder
+    amount?: SortOrder
+    paymentMethod?: SortOrderInput | SortOrder
+    transactionId?: SortOrderInput | SortOrder
+    status?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PaymentCountOrderByAggregateInput
+    _avg?: PaymentAvgOrderByAggregateInput
+    _max?: PaymentMaxOrderByAggregateInput
+    _min?: PaymentMinOrderByAggregateInput
+    _sum?: PaymentSumOrderByAggregateInput
+  }
+
+  export type PaymentScalarWhereWithAggregatesInput = {
+    AND?: PaymentScalarWhereWithAggregatesInput | PaymentScalarWhereWithAggregatesInput[]
+    OR?: PaymentScalarWhereWithAggregatesInput[]
+    NOT?: PaymentScalarWhereWithAggregatesInput | PaymentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Payment"> | string
+    invoiceId?: StringWithAggregatesFilter<"Payment"> | string
+    paymentDate?: DateTimeWithAggregatesFilter<"Payment"> | Date | string
+    amount?: FloatWithAggregatesFilter<"Payment"> | number
+    paymentMethod?: StringNullableWithAggregatesFilter<"Payment"> | string | null
+    transactionId?: StringNullableWithAggregatesFilter<"Payment"> | string | null
+    status?: StringNullableWithAggregatesFilter<"Payment"> | string | null
+    notes?: StringNullableWithAggregatesFilter<"Payment"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Payment"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Payment"> | Date | string
+  }
+
+  export type ChatParticipantInfoWhereInput = {
+    AND?: ChatParticipantInfoWhereInput | ChatParticipantInfoWhereInput[]
+    OR?: ChatParticipantInfoWhereInput[]
+    NOT?: ChatParticipantInfoWhereInput | ChatParticipantInfoWhereInput[]
+    id?: StringFilter<"ChatParticipantInfo"> | string
+    userId?: StringFilter<"ChatParticipantInfo"> | string
+    conversationId?: StringFilter<"ChatParticipantInfo"> | string
+    lastAccessedAt?: DateTimeFilter<"ChatParticipantInfo"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    conversation?: XOR<ChatConversationScalarRelationFilter, ChatConversationWhereInput>
+  }
+
+  export type ChatParticipantInfoOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    conversationId?: SortOrder
+    lastAccessedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    conversation?: ChatConversationOrderByWithRelationInput
+  }
+
+  export type ChatParticipantInfoWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_conversationId?: ChatParticipantInfoUserIdConversationIdCompoundUniqueInput
+    AND?: ChatParticipantInfoWhereInput | ChatParticipantInfoWhereInput[]
+    OR?: ChatParticipantInfoWhereInput[]
+    NOT?: ChatParticipantInfoWhereInput | ChatParticipantInfoWhereInput[]
+    userId?: StringFilter<"ChatParticipantInfo"> | string
+    conversationId?: StringFilter<"ChatParticipantInfo"> | string
+    lastAccessedAt?: DateTimeFilter<"ChatParticipantInfo"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    conversation?: XOR<ChatConversationScalarRelationFilter, ChatConversationWhereInput>
+  }, "id" | "userId_conversationId">
+
+  export type ChatParticipantInfoOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    conversationId?: SortOrder
+    lastAccessedAt?: SortOrder
+    _count?: ChatParticipantInfoCountOrderByAggregateInput
+    _max?: ChatParticipantInfoMaxOrderByAggregateInput
+    _min?: ChatParticipantInfoMinOrderByAggregateInput
+  }
+
+  export type ChatParticipantInfoScalarWhereWithAggregatesInput = {
+    AND?: ChatParticipantInfoScalarWhereWithAggregatesInput | ChatParticipantInfoScalarWhereWithAggregatesInput[]
+    OR?: ChatParticipantInfoScalarWhereWithAggregatesInput[]
+    NOT?: ChatParticipantInfoScalarWhereWithAggregatesInput | ChatParticipantInfoScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ChatParticipantInfo"> | string
+    userId?: StringWithAggregatesFilter<"ChatParticipantInfo"> | string
+    conversationId?: StringWithAggregatesFilter<"ChatParticipantInfo"> | string
+    lastAccessedAt?: DateTimeWithAggregatesFilter<"ChatParticipantInfo"> | Date | string
+  }
+
+  export type GlobalStaffActivityWhereInput = {
+    AND?: GlobalStaffActivityWhereInput | GlobalStaffActivityWhereInput[]
+    OR?: GlobalStaffActivityWhereInput[]
+    NOT?: GlobalStaffActivityWhereInput | GlobalStaffActivityWhereInput[]
+    id?: StringFilter<"GlobalStaffActivity"> | string
+    lastActivePing?: DateTimeFilter<"GlobalStaffActivity"> | Date | string
+  }
+
+  export type GlobalStaffActivityOrderByWithRelationInput = {
+    id?: SortOrder
+    lastActivePing?: SortOrder
+  }
+
+  export type GlobalStaffActivityWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: GlobalStaffActivityWhereInput | GlobalStaffActivityWhereInput[]
+    OR?: GlobalStaffActivityWhereInput[]
+    NOT?: GlobalStaffActivityWhereInput | GlobalStaffActivityWhereInput[]
+    lastActivePing?: DateTimeFilter<"GlobalStaffActivity"> | Date | string
+  }, "id">
+
+  export type GlobalStaffActivityOrderByWithAggregationInput = {
+    id?: SortOrder
+    lastActivePing?: SortOrder
+    _count?: GlobalStaffActivityCountOrderByAggregateInput
+    _max?: GlobalStaffActivityMaxOrderByAggregateInput
+    _min?: GlobalStaffActivityMinOrderByAggregateInput
+  }
+
+  export type GlobalStaffActivityScalarWhereWithAggregatesInput = {
+    AND?: GlobalStaffActivityScalarWhereWithAggregatesInput | GlobalStaffActivityScalarWhereWithAggregatesInput[]
+    OR?: GlobalStaffActivityScalarWhereWithAggregatesInput[]
+    NOT?: GlobalStaffActivityScalarWhereWithAggregatesInput | GlobalStaffActivityScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"GlobalStaffActivity"> | string
+    lastActivePing?: DateTimeWithAggregatesFilter<"GlobalStaffActivity"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -22351,7 +29105,9 @@ export namespace Prisma {
     password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    hashedPassword?: string | null
     role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -22367,6 +29123,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageCreateNestedManyWithoutSenderInput
     customerConversations?: ChatConversationCreateNestedManyWithoutCustomerInput
     staffConversations?: ChatConversationCreateNestedManyWithoutStaffMemberInput
+    invoices?: InvoiceCreateNestedManyWithoutCustomerInput
+    activityInConversations?: ChatParticipantInfoCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -22376,7 +29134,9 @@ export namespace Prisma {
     password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    hashedPassword?: string | null
     role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -22392,6 +29152,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageUncheckedCreateNestedManyWithoutSenderInput
     customerConversations?: ChatConversationUncheckedCreateNestedManyWithoutCustomerInput
     staffConversations?: ChatConversationUncheckedCreateNestedManyWithoutStaffMemberInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutCustomerInput
+    activityInConversations?: ChatParticipantInfoUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -22401,7 +29163,9 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -22417,6 +29181,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageUpdateManyWithoutSenderNestedInput
     customerConversations?: ChatConversationUpdateManyWithoutCustomerNestedInput
     staffConversations?: ChatConversationUpdateManyWithoutStaffMemberNestedInput
+    invoices?: InvoiceUpdateManyWithoutCustomerNestedInput
+    activityInConversations?: ChatParticipantInfoUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -22426,7 +29192,9 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -22442,6 +29210,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
     customerConversations?: ChatConversationUncheckedUpdateManyWithoutCustomerNestedInput
     staffConversations?: ChatConversationUncheckedUpdateManyWithoutStaffMemberNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutCustomerNestedInput
+    activityInConversations?: ChatParticipantInfoUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -22451,7 +29221,9 @@ export namespace Prisma {
     password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    hashedPassword?: string | null
     role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -22463,7 +29235,9 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22475,7 +29249,9 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -23562,6 +30338,7 @@ export namespace Prisma {
     messages?: ChatMessageCreateNestedManyWithoutConversationInput
     customer?: UserCreateNestedOneWithoutCustomerConversationsInput
     staffMember?: UserCreateNestedOneWithoutStaffConversationsInput
+    participantActivity?: ChatParticipantInfoCreateNestedManyWithoutConversationInput
   }
 
   export type ChatConversationUncheckedCreateInput = {
@@ -23575,6 +30352,7 @@ export namespace Prisma {
     lastMessageAt?: Date | string | null
     participants?: UserUncheckedCreateNestedManyWithoutCreatedConversationsInput
     messages?: ChatMessageUncheckedCreateNestedManyWithoutConversationInput
+    participantActivity?: ChatParticipantInfoUncheckedCreateNestedManyWithoutConversationInput
   }
 
   export type ChatConversationUpdateInput = {
@@ -23588,6 +30366,7 @@ export namespace Prisma {
     messages?: ChatMessageUpdateManyWithoutConversationNestedInput
     customer?: UserUpdateOneWithoutCustomerConversationsNestedInput
     staffMember?: UserUpdateOneWithoutStaffConversationsNestedInput
+    participantActivity?: ChatParticipantInfoUpdateManyWithoutConversationNestedInput
   }
 
   export type ChatConversationUncheckedUpdateInput = {
@@ -23601,6 +30380,7 @@ export namespace Prisma {
     lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     participants?: UserUncheckedUpdateManyWithoutCreatedConversationsNestedInput
     messages?: ChatMessageUncheckedUpdateManyWithoutConversationNestedInput
+    participantActivity?: ChatParticipantInfoUncheckedUpdateManyWithoutConversationNestedInput
   }
 
   export type ChatConversationCreateManyInput = {
@@ -23637,8 +30417,12 @@ export namespace Prisma {
   export type ChatMessageCreateInput = {
     id?: string
     createdAt?: Date | string
-    content: string
+    content?: string | null
     readAt?: Date | string | null
+    attachmentUrl?: string | null
+    attachmentType?: string | null
+    attachmentFilename?: string | null
+    attachmentSize?: number | null
     sender: UserCreateNestedOneWithoutSentMessagesInput
     conversation: ChatConversationCreateNestedOneWithoutMessagesInput
   }
@@ -23646,17 +30430,25 @@ export namespace Prisma {
   export type ChatMessageUncheckedCreateInput = {
     id?: string
     createdAt?: Date | string
-    content: string
+    content?: string | null
     senderId: string
     conversationId: string
     readAt?: Date | string | null
+    attachmentUrl?: string | null
+    attachmentType?: string | null
+    attachmentFilename?: string | null
+    attachmentSize?: number | null
   }
 
   export type ChatMessageUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    content?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    attachmentType?: NullableStringFieldUpdateOperationsInput | string | null
+    attachmentFilename?: NullableStringFieldUpdateOperationsInput | string | null
+    attachmentSize?: NullableIntFieldUpdateOperationsInput | number | null
     sender?: UserUpdateOneRequiredWithoutSentMessagesNestedInput
     conversation?: ChatConversationUpdateOneRequiredWithoutMessagesNestedInput
   }
@@ -23664,35 +30456,411 @@ export namespace Prisma {
   export type ChatMessageUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    content?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     senderId?: StringFieldUpdateOperationsInput | string
     conversationId?: StringFieldUpdateOperationsInput | string
     readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    attachmentType?: NullableStringFieldUpdateOperationsInput | string | null
+    attachmentFilename?: NullableStringFieldUpdateOperationsInput | string | null
+    attachmentSize?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type ChatMessageCreateManyInput = {
     id?: string
     createdAt?: Date | string
-    content: string
+    content?: string | null
     senderId: string
     conversationId: string
     readAt?: Date | string | null
+    attachmentUrl?: string | null
+    attachmentType?: string | null
+    attachmentFilename?: string | null
+    attachmentSize?: number | null
   }
 
   export type ChatMessageUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    content?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    attachmentType?: NullableStringFieldUpdateOperationsInput | string | null
+    attachmentFilename?: NullableStringFieldUpdateOperationsInput | string | null
+    attachmentSize?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type ChatMessageUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    content?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     senderId?: StringFieldUpdateOperationsInput | string
     conversationId?: StringFieldUpdateOperationsInput | string
     readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    attachmentType?: NullableStringFieldUpdateOperationsInput | string | null
+    attachmentFilename?: NullableStringFieldUpdateOperationsInput | string | null
+    attachmentSize?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type InvoiceCreateInput = {
+    id?: string
+    invoiceNumber: string
+    issueDate?: Date | string
+    dueDate: Date | string
+    totalAmount: number
+    amountPaid?: number
+    status?: $Enums.InvoiceStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    relatedServiceRequestId?: string | null
+    customer: UserCreateNestedOneWithoutInvoicesInput
+    lineItems?: InvoiceLineItemCreateNestedManyWithoutInvoiceInput
+    payments?: PaymentCreateNestedManyWithoutInvoiceInput
+  }
+
+  export type InvoiceUncheckedCreateInput = {
+    id?: string
+    invoiceNumber: string
+    customerId: string
+    issueDate?: Date | string
+    dueDate: Date | string
+    totalAmount: number
+    amountPaid?: number
+    status?: $Enums.InvoiceStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    relatedServiceRequestId?: string | null
+    lineItems?: InvoiceLineItemUncheckedCreateNestedManyWithoutInvoiceInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutInvoiceInput
+  }
+
+  export type InvoiceUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalAmount?: FloatFieldUpdateOperationsInput | number
+    amountPaid?: FloatFieldUpdateOperationsInput | number
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    relatedServiceRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    customer?: UserUpdateOneRequiredWithoutInvoicesNestedInput
+    lineItems?: InvoiceLineItemUpdateManyWithoutInvoiceNestedInput
+    payments?: PaymentUpdateManyWithoutInvoiceNestedInput
+  }
+
+  export type InvoiceUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalAmount?: FloatFieldUpdateOperationsInput | number
+    amountPaid?: FloatFieldUpdateOperationsInput | number
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    relatedServiceRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    lineItems?: InvoiceLineItemUncheckedUpdateManyWithoutInvoiceNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
+  }
+
+  export type InvoiceCreateManyInput = {
+    id?: string
+    invoiceNumber: string
+    customerId: string
+    issueDate?: Date | string
+    dueDate: Date | string
+    totalAmount: number
+    amountPaid?: number
+    status?: $Enums.InvoiceStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    relatedServiceRequestId?: string | null
+  }
+
+  export type InvoiceUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalAmount?: FloatFieldUpdateOperationsInput | number
+    amountPaid?: FloatFieldUpdateOperationsInput | number
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    relatedServiceRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type InvoiceUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalAmount?: FloatFieldUpdateOperationsInput | number
+    amountPaid?: FloatFieldUpdateOperationsInput | number
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    relatedServiceRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type InvoiceLineItemCreateInput = {
+    id?: string
+    description: string
+    quantity?: number
+    unitPrice: number
+    totalPrice: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    invoice: InvoiceCreateNestedOneWithoutLineItemsInput
+  }
+
+  export type InvoiceLineItemUncheckedCreateInput = {
+    id?: string
+    invoiceId: string
+    description: string
+    quantity?: number
+    unitPrice: number
+    totalPrice: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InvoiceLineItemUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    quantity?: FloatFieldUpdateOperationsInput | number
+    unitPrice?: FloatFieldUpdateOperationsInput | number
+    totalPrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invoice?: InvoiceUpdateOneRequiredWithoutLineItemsNestedInput
+  }
+
+  export type InvoiceLineItemUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceId?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    quantity?: FloatFieldUpdateOperationsInput | number
+    unitPrice?: FloatFieldUpdateOperationsInput | number
+    totalPrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvoiceLineItemCreateManyInput = {
+    id?: string
+    invoiceId: string
+    description: string
+    quantity?: number
+    unitPrice: number
+    totalPrice: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InvoiceLineItemUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    quantity?: FloatFieldUpdateOperationsInput | number
+    unitPrice?: FloatFieldUpdateOperationsInput | number
+    totalPrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvoiceLineItemUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceId?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    quantity?: FloatFieldUpdateOperationsInput | number
+    unitPrice?: FloatFieldUpdateOperationsInput | number
+    totalPrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentCreateInput = {
+    id?: string
+    paymentDate?: Date | string
+    amount: number
+    paymentMethod?: string | null
+    transactionId?: string | null
+    status?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    invoice: InvoiceCreateNestedOneWithoutPaymentsInput
+  }
+
+  export type PaymentUncheckedCreateInput = {
+    id?: string
+    invoiceId: string
+    paymentDate?: Date | string
+    amount: number
+    paymentMethod?: string | null
+    transactionId?: string | null
+    status?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PaymentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    paymentDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invoice?: InvoiceUpdateOneRequiredWithoutPaymentsNestedInput
+  }
+
+  export type PaymentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceId?: StringFieldUpdateOperationsInput | string
+    paymentDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentCreateManyInput = {
+    id?: string
+    invoiceId: string
+    paymentDate?: Date | string
+    amount: number
+    paymentMethod?: string | null
+    transactionId?: string | null
+    status?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PaymentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    paymentDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceId?: StringFieldUpdateOperationsInput | string
+    paymentDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChatParticipantInfoCreateInput = {
+    id?: string
+    lastAccessedAt?: Date | string
+    user: UserCreateNestedOneWithoutActivityInConversationsInput
+    conversation: ChatConversationCreateNestedOneWithoutParticipantActivityInput
+  }
+
+  export type ChatParticipantInfoUncheckedCreateInput = {
+    id?: string
+    userId: string
+    conversationId: string
+    lastAccessedAt?: Date | string
+  }
+
+  export type ChatParticipantInfoUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lastAccessedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutActivityInConversationsNestedInput
+    conversation?: ChatConversationUpdateOneRequiredWithoutParticipantActivityNestedInput
+  }
+
+  export type ChatParticipantInfoUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    conversationId?: StringFieldUpdateOperationsInput | string
+    lastAccessedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChatParticipantInfoCreateManyInput = {
+    id?: string
+    userId: string
+    conversationId: string
+    lastAccessedAt?: Date | string
+  }
+
+  export type ChatParticipantInfoUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lastAccessedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChatParticipantInfoUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    conversationId?: StringFieldUpdateOperationsInput | string
+    lastAccessedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GlobalStaffActivityCreateInput = {
+    id?: string
+    lastActivePing?: Date | string
+  }
+
+  export type GlobalStaffActivityUncheckedCreateInput = {
+    id?: string
+    lastActivePing?: Date | string
+  }
+
+  export type GlobalStaffActivityUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lastActivePing?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GlobalStaffActivityUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lastActivePing?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GlobalStaffActivityCreateManyInput = {
+    id?: string
+    lastActivePing?: Date | string
+  }
+
+  export type GlobalStaffActivityUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lastActivePing?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GlobalStaffActivityUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lastActivePing?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -23818,6 +30986,18 @@ export namespace Prisma {
     none?: ChatMessageWhereInput
   }
 
+  export type InvoiceListRelationFilter = {
+    every?: InvoiceWhereInput
+    some?: InvoiceWhereInput
+    none?: InvoiceWhereInput
+  }
+
+  export type ChatParticipantInfoListRelationFilter = {
+    every?: ChatParticipantInfoWhereInput
+    some?: ChatParticipantInfoWhereInput
+    none?: ChatParticipantInfoWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -23859,6 +31039,14 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type InvoiceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ChatParticipantInfoOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -23866,7 +31054,9 @@ export namespace Prisma {
     password?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
+    hashedPassword?: SortOrder
     role?: SortOrder
+    lastSeenAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -23878,7 +31068,9 @@ export namespace Prisma {
     password?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
+    hashedPassword?: SortOrder
     role?: SortOrder
+    lastSeenAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -23890,7 +31082,9 @@ export namespace Prisma {
     password?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
+    hashedPassword?: SortOrder
     role?: SortOrder
+    lastSeenAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -24655,6 +31849,14 @@ export namespace Prisma {
     senderId?: SortOrder
     conversationId?: SortOrder
     readAt?: SortOrder
+    attachmentUrl?: SortOrder
+    attachmentType?: SortOrder
+    attachmentFilename?: SortOrder
+    attachmentSize?: SortOrder
+  }
+
+  export type ChatMessageAvgOrderByAggregateInput = {
+    attachmentSize?: SortOrder
   }
 
   export type ChatMessageMaxOrderByAggregateInput = {
@@ -24664,6 +31866,10 @@ export namespace Prisma {
     senderId?: SortOrder
     conversationId?: SortOrder
     readAt?: SortOrder
+    attachmentUrl?: SortOrder
+    attachmentType?: SortOrder
+    attachmentFilename?: SortOrder
+    attachmentSize?: SortOrder
   }
 
   export type ChatMessageMinOrderByAggregateInput = {
@@ -24673,6 +31879,271 @@ export namespace Prisma {
     senderId?: SortOrder
     conversationId?: SortOrder
     readAt?: SortOrder
+    attachmentUrl?: SortOrder
+    attachmentType?: SortOrder
+    attachmentFilename?: SortOrder
+    attachmentSize?: SortOrder
+  }
+
+  export type ChatMessageSumOrderByAggregateInput = {
+    attachmentSize?: SortOrder
+  }
+
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type EnumInvoiceStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.InvoiceStatus | EnumInvoiceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumInvoiceStatusFilter<$PrismaModel> | $Enums.InvoiceStatus
+  }
+
+  export type InvoiceLineItemListRelationFilter = {
+    every?: InvoiceLineItemWhereInput
+    some?: InvoiceLineItemWhereInput
+    none?: InvoiceLineItemWhereInput
+  }
+
+  export type PaymentListRelationFilter = {
+    every?: PaymentWhereInput
+    some?: PaymentWhereInput
+    none?: PaymentWhereInput
+  }
+
+  export type InvoiceLineItemOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PaymentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type InvoiceCountOrderByAggregateInput = {
+    id?: SortOrder
+    invoiceNumber?: SortOrder
+    customerId?: SortOrder
+    issueDate?: SortOrder
+    dueDate?: SortOrder
+    totalAmount?: SortOrder
+    amountPaid?: SortOrder
+    status?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    relatedServiceRequestId?: SortOrder
+  }
+
+  export type InvoiceAvgOrderByAggregateInput = {
+    totalAmount?: SortOrder
+    amountPaid?: SortOrder
+  }
+
+  export type InvoiceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    invoiceNumber?: SortOrder
+    customerId?: SortOrder
+    issueDate?: SortOrder
+    dueDate?: SortOrder
+    totalAmount?: SortOrder
+    amountPaid?: SortOrder
+    status?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    relatedServiceRequestId?: SortOrder
+  }
+
+  export type InvoiceMinOrderByAggregateInput = {
+    id?: SortOrder
+    invoiceNumber?: SortOrder
+    customerId?: SortOrder
+    issueDate?: SortOrder
+    dueDate?: SortOrder
+    totalAmount?: SortOrder
+    amountPaid?: SortOrder
+    status?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    relatedServiceRequestId?: SortOrder
+  }
+
+  export type InvoiceSumOrderByAggregateInput = {
+    totalAmount?: SortOrder
+    amountPaid?: SortOrder
+  }
+
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type EnumInvoiceStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InvoiceStatus | EnumInvoiceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumInvoiceStatusWithAggregatesFilter<$PrismaModel> | $Enums.InvoiceStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumInvoiceStatusFilter<$PrismaModel>
+    _max?: NestedEnumInvoiceStatusFilter<$PrismaModel>
+  }
+
+  export type InvoiceScalarRelationFilter = {
+    is?: InvoiceWhereInput
+    isNot?: InvoiceWhereInput
+  }
+
+  export type InvoiceLineItemCountOrderByAggregateInput = {
+    id?: SortOrder
+    invoiceId?: SortOrder
+    description?: SortOrder
+    quantity?: SortOrder
+    unitPrice?: SortOrder
+    totalPrice?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type InvoiceLineItemAvgOrderByAggregateInput = {
+    quantity?: SortOrder
+    unitPrice?: SortOrder
+    totalPrice?: SortOrder
+  }
+
+  export type InvoiceLineItemMaxOrderByAggregateInput = {
+    id?: SortOrder
+    invoiceId?: SortOrder
+    description?: SortOrder
+    quantity?: SortOrder
+    unitPrice?: SortOrder
+    totalPrice?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type InvoiceLineItemMinOrderByAggregateInput = {
+    id?: SortOrder
+    invoiceId?: SortOrder
+    description?: SortOrder
+    quantity?: SortOrder
+    unitPrice?: SortOrder
+    totalPrice?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type InvoiceLineItemSumOrderByAggregateInput = {
+    quantity?: SortOrder
+    unitPrice?: SortOrder
+    totalPrice?: SortOrder
+  }
+
+  export type PaymentCountOrderByAggregateInput = {
+    id?: SortOrder
+    invoiceId?: SortOrder
+    paymentDate?: SortOrder
+    amount?: SortOrder
+    paymentMethod?: SortOrder
+    transactionId?: SortOrder
+    status?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PaymentAvgOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type PaymentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    invoiceId?: SortOrder
+    paymentDate?: SortOrder
+    amount?: SortOrder
+    paymentMethod?: SortOrder
+    transactionId?: SortOrder
+    status?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PaymentMinOrderByAggregateInput = {
+    id?: SortOrder
+    invoiceId?: SortOrder
+    paymentDate?: SortOrder
+    amount?: SortOrder
+    paymentMethod?: SortOrder
+    transactionId?: SortOrder
+    status?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PaymentSumOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type ChatParticipantInfoUserIdConversationIdCompoundUniqueInput = {
+    userId: string
+    conversationId: string
+  }
+
+  export type ChatParticipantInfoCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    conversationId?: SortOrder
+    lastAccessedAt?: SortOrder
+  }
+
+  export type ChatParticipantInfoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    conversationId?: SortOrder
+    lastAccessedAt?: SortOrder
+  }
+
+  export type ChatParticipantInfoMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    conversationId?: SortOrder
+    lastAccessedAt?: SortOrder
+  }
+
+  export type GlobalStaffActivityCountOrderByAggregateInput = {
+    id?: SortOrder
+    lastActivePing?: SortOrder
+  }
+
+  export type GlobalStaffActivityMaxOrderByAggregateInput = {
+    id?: SortOrder
+    lastActivePing?: SortOrder
+  }
+
+  export type GlobalStaffActivityMinOrderByAggregateInput = {
+    id?: SortOrder
+    lastActivePing?: SortOrder
   }
 
   export type AccountCreateNestedManyWithoutUserInput = {
@@ -24763,6 +32234,20 @@ export namespace Prisma {
     connect?: ChatConversationWhereUniqueInput | ChatConversationWhereUniqueInput[]
   }
 
+  export type InvoiceCreateNestedManyWithoutCustomerInput = {
+    create?: XOR<InvoiceCreateWithoutCustomerInput, InvoiceUncheckedCreateWithoutCustomerInput> | InvoiceCreateWithoutCustomerInput[] | InvoiceUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: InvoiceCreateOrConnectWithoutCustomerInput | InvoiceCreateOrConnectWithoutCustomerInput[]
+    createMany?: InvoiceCreateManyCustomerInputEnvelope
+    connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+  }
+
+  export type ChatParticipantInfoCreateNestedManyWithoutUserInput = {
+    create?: XOR<ChatParticipantInfoCreateWithoutUserInput, ChatParticipantInfoUncheckedCreateWithoutUserInput> | ChatParticipantInfoCreateWithoutUserInput[] | ChatParticipantInfoUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ChatParticipantInfoCreateOrConnectWithoutUserInput | ChatParticipantInfoCreateOrConnectWithoutUserInput[]
+    createMany?: ChatParticipantInfoCreateManyUserInputEnvelope
+    connect?: ChatParticipantInfoWhereUniqueInput | ChatParticipantInfoWhereUniqueInput[]
+  }
+
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -24849,6 +32334,20 @@ export namespace Prisma {
     connectOrCreate?: ChatConversationCreateOrConnectWithoutStaffMemberInput | ChatConversationCreateOrConnectWithoutStaffMemberInput[]
     createMany?: ChatConversationCreateManyStaffMemberInputEnvelope
     connect?: ChatConversationWhereUniqueInput | ChatConversationWhereUniqueInput[]
+  }
+
+  export type InvoiceUncheckedCreateNestedManyWithoutCustomerInput = {
+    create?: XOR<InvoiceCreateWithoutCustomerInput, InvoiceUncheckedCreateWithoutCustomerInput> | InvoiceCreateWithoutCustomerInput[] | InvoiceUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: InvoiceCreateOrConnectWithoutCustomerInput | InvoiceCreateOrConnectWithoutCustomerInput[]
+    createMany?: InvoiceCreateManyCustomerInputEnvelope
+    connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+  }
+
+  export type ChatParticipantInfoUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ChatParticipantInfoCreateWithoutUserInput, ChatParticipantInfoUncheckedCreateWithoutUserInput> | ChatParticipantInfoCreateWithoutUserInput[] | ChatParticipantInfoUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ChatParticipantInfoCreateOrConnectWithoutUserInput | ChatParticipantInfoCreateOrConnectWithoutUserInput[]
+    createMany?: ChatParticipantInfoCreateManyUserInputEnvelope
+    connect?: ChatParticipantInfoWhereUniqueInput | ChatParticipantInfoWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -25044,6 +32543,34 @@ export namespace Prisma {
     deleteMany?: ChatConversationScalarWhereInput | ChatConversationScalarWhereInput[]
   }
 
+  export type InvoiceUpdateManyWithoutCustomerNestedInput = {
+    create?: XOR<InvoiceCreateWithoutCustomerInput, InvoiceUncheckedCreateWithoutCustomerInput> | InvoiceCreateWithoutCustomerInput[] | InvoiceUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: InvoiceCreateOrConnectWithoutCustomerInput | InvoiceCreateOrConnectWithoutCustomerInput[]
+    upsert?: InvoiceUpsertWithWhereUniqueWithoutCustomerInput | InvoiceUpsertWithWhereUniqueWithoutCustomerInput[]
+    createMany?: InvoiceCreateManyCustomerInputEnvelope
+    set?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    disconnect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    delete?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    update?: InvoiceUpdateWithWhereUniqueWithoutCustomerInput | InvoiceUpdateWithWhereUniqueWithoutCustomerInput[]
+    updateMany?: InvoiceUpdateManyWithWhereWithoutCustomerInput | InvoiceUpdateManyWithWhereWithoutCustomerInput[]
+    deleteMany?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
+  }
+
+  export type ChatParticipantInfoUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ChatParticipantInfoCreateWithoutUserInput, ChatParticipantInfoUncheckedCreateWithoutUserInput> | ChatParticipantInfoCreateWithoutUserInput[] | ChatParticipantInfoUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ChatParticipantInfoCreateOrConnectWithoutUserInput | ChatParticipantInfoCreateOrConnectWithoutUserInput[]
+    upsert?: ChatParticipantInfoUpsertWithWhereUniqueWithoutUserInput | ChatParticipantInfoUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ChatParticipantInfoCreateManyUserInputEnvelope
+    set?: ChatParticipantInfoWhereUniqueInput | ChatParticipantInfoWhereUniqueInput[]
+    disconnect?: ChatParticipantInfoWhereUniqueInput | ChatParticipantInfoWhereUniqueInput[]
+    delete?: ChatParticipantInfoWhereUniqueInput | ChatParticipantInfoWhereUniqueInput[]
+    connect?: ChatParticipantInfoWhereUniqueInput | ChatParticipantInfoWhereUniqueInput[]
+    update?: ChatParticipantInfoUpdateWithWhereUniqueWithoutUserInput | ChatParticipantInfoUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ChatParticipantInfoUpdateManyWithWhereWithoutUserInput | ChatParticipantInfoUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ChatParticipantInfoScalarWhereInput | ChatParticipantInfoScalarWhereInput[]
+  }
+
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -25215,6 +32742,34 @@ export namespace Prisma {
     update?: ChatConversationUpdateWithWhereUniqueWithoutStaffMemberInput | ChatConversationUpdateWithWhereUniqueWithoutStaffMemberInput[]
     updateMany?: ChatConversationUpdateManyWithWhereWithoutStaffMemberInput | ChatConversationUpdateManyWithWhereWithoutStaffMemberInput[]
     deleteMany?: ChatConversationScalarWhereInput | ChatConversationScalarWhereInput[]
+  }
+
+  export type InvoiceUncheckedUpdateManyWithoutCustomerNestedInput = {
+    create?: XOR<InvoiceCreateWithoutCustomerInput, InvoiceUncheckedCreateWithoutCustomerInput> | InvoiceCreateWithoutCustomerInput[] | InvoiceUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: InvoiceCreateOrConnectWithoutCustomerInput | InvoiceCreateOrConnectWithoutCustomerInput[]
+    upsert?: InvoiceUpsertWithWhereUniqueWithoutCustomerInput | InvoiceUpsertWithWhereUniqueWithoutCustomerInput[]
+    createMany?: InvoiceCreateManyCustomerInputEnvelope
+    set?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    disconnect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    delete?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    update?: InvoiceUpdateWithWhereUniqueWithoutCustomerInput | InvoiceUpdateWithWhereUniqueWithoutCustomerInput[]
+    updateMany?: InvoiceUpdateManyWithWhereWithoutCustomerInput | InvoiceUpdateManyWithWhereWithoutCustomerInput[]
+    deleteMany?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
+  }
+
+  export type ChatParticipantInfoUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ChatParticipantInfoCreateWithoutUserInput, ChatParticipantInfoUncheckedCreateWithoutUserInput> | ChatParticipantInfoCreateWithoutUserInput[] | ChatParticipantInfoUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ChatParticipantInfoCreateOrConnectWithoutUserInput | ChatParticipantInfoCreateOrConnectWithoutUserInput[]
+    upsert?: ChatParticipantInfoUpsertWithWhereUniqueWithoutUserInput | ChatParticipantInfoUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ChatParticipantInfoCreateManyUserInputEnvelope
+    set?: ChatParticipantInfoWhereUniqueInput | ChatParticipantInfoWhereUniqueInput[]
+    disconnect?: ChatParticipantInfoWhereUniqueInput | ChatParticipantInfoWhereUniqueInput[]
+    delete?: ChatParticipantInfoWhereUniqueInput | ChatParticipantInfoWhereUniqueInput[]
+    connect?: ChatParticipantInfoWhereUniqueInput | ChatParticipantInfoWhereUniqueInput[]
+    update?: ChatParticipantInfoUpdateWithWhereUniqueWithoutUserInput | ChatParticipantInfoUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ChatParticipantInfoUpdateManyWithWhereWithoutUserInput | ChatParticipantInfoUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ChatParticipantInfoScalarWhereInput | ChatParticipantInfoScalarWhereInput[]
   }
 
   export type PortfolioItemCreateNestedManyWithoutServiceInput = {
@@ -25568,6 +33123,13 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type ChatParticipantInfoCreateNestedManyWithoutConversationInput = {
+    create?: XOR<ChatParticipantInfoCreateWithoutConversationInput, ChatParticipantInfoUncheckedCreateWithoutConversationInput> | ChatParticipantInfoCreateWithoutConversationInput[] | ChatParticipantInfoUncheckedCreateWithoutConversationInput[]
+    connectOrCreate?: ChatParticipantInfoCreateOrConnectWithoutConversationInput | ChatParticipantInfoCreateOrConnectWithoutConversationInput[]
+    createMany?: ChatParticipantInfoCreateManyConversationInputEnvelope
+    connect?: ChatParticipantInfoWhereUniqueInput | ChatParticipantInfoWhereUniqueInput[]
+  }
+
   export type UserUncheckedCreateNestedManyWithoutCreatedConversationsInput = {
     create?: XOR<UserCreateWithoutCreatedConversationsInput, UserUncheckedCreateWithoutCreatedConversationsInput> | UserCreateWithoutCreatedConversationsInput[] | UserUncheckedCreateWithoutCreatedConversationsInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCreatedConversationsInput | UserCreateOrConnectWithoutCreatedConversationsInput[]
@@ -25579,6 +33141,13 @@ export namespace Prisma {
     connectOrCreate?: ChatMessageCreateOrConnectWithoutConversationInput | ChatMessageCreateOrConnectWithoutConversationInput[]
     createMany?: ChatMessageCreateManyConversationInputEnvelope
     connect?: ChatMessageWhereUniqueInput | ChatMessageWhereUniqueInput[]
+  }
+
+  export type ChatParticipantInfoUncheckedCreateNestedManyWithoutConversationInput = {
+    create?: XOR<ChatParticipantInfoCreateWithoutConversationInput, ChatParticipantInfoUncheckedCreateWithoutConversationInput> | ChatParticipantInfoCreateWithoutConversationInput[] | ChatParticipantInfoUncheckedCreateWithoutConversationInput[]
+    connectOrCreate?: ChatParticipantInfoCreateOrConnectWithoutConversationInput | ChatParticipantInfoCreateOrConnectWithoutConversationInput[]
+    createMany?: ChatParticipantInfoCreateManyConversationInputEnvelope
+    connect?: ChatParticipantInfoWhereUniqueInput | ChatParticipantInfoWhereUniqueInput[]
   }
 
   export type UserUpdateManyWithoutCreatedConversationsNestedInput = {
@@ -25628,6 +33197,20 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutStaffConversationsInput, UserUpdateWithoutStaffConversationsInput>, UserUncheckedUpdateWithoutStaffConversationsInput>
   }
 
+  export type ChatParticipantInfoUpdateManyWithoutConversationNestedInput = {
+    create?: XOR<ChatParticipantInfoCreateWithoutConversationInput, ChatParticipantInfoUncheckedCreateWithoutConversationInput> | ChatParticipantInfoCreateWithoutConversationInput[] | ChatParticipantInfoUncheckedCreateWithoutConversationInput[]
+    connectOrCreate?: ChatParticipantInfoCreateOrConnectWithoutConversationInput | ChatParticipantInfoCreateOrConnectWithoutConversationInput[]
+    upsert?: ChatParticipantInfoUpsertWithWhereUniqueWithoutConversationInput | ChatParticipantInfoUpsertWithWhereUniqueWithoutConversationInput[]
+    createMany?: ChatParticipantInfoCreateManyConversationInputEnvelope
+    set?: ChatParticipantInfoWhereUniqueInput | ChatParticipantInfoWhereUniqueInput[]
+    disconnect?: ChatParticipantInfoWhereUniqueInput | ChatParticipantInfoWhereUniqueInput[]
+    delete?: ChatParticipantInfoWhereUniqueInput | ChatParticipantInfoWhereUniqueInput[]
+    connect?: ChatParticipantInfoWhereUniqueInput | ChatParticipantInfoWhereUniqueInput[]
+    update?: ChatParticipantInfoUpdateWithWhereUniqueWithoutConversationInput | ChatParticipantInfoUpdateWithWhereUniqueWithoutConversationInput[]
+    updateMany?: ChatParticipantInfoUpdateManyWithWhereWithoutConversationInput | ChatParticipantInfoUpdateManyWithWhereWithoutConversationInput[]
+    deleteMany?: ChatParticipantInfoScalarWhereInput | ChatParticipantInfoScalarWhereInput[]
+  }
+
   export type UserUncheckedUpdateManyWithoutCreatedConversationsNestedInput = {
     create?: XOR<UserCreateWithoutCreatedConversationsInput, UserUncheckedCreateWithoutCreatedConversationsInput> | UserCreateWithoutCreatedConversationsInput[] | UserUncheckedCreateWithoutCreatedConversationsInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCreatedConversationsInput | UserCreateOrConnectWithoutCreatedConversationsInput[]
@@ -25653,6 +33236,20 @@ export namespace Prisma {
     update?: ChatMessageUpdateWithWhereUniqueWithoutConversationInput | ChatMessageUpdateWithWhereUniqueWithoutConversationInput[]
     updateMany?: ChatMessageUpdateManyWithWhereWithoutConversationInput | ChatMessageUpdateManyWithWhereWithoutConversationInput[]
     deleteMany?: ChatMessageScalarWhereInput | ChatMessageScalarWhereInput[]
+  }
+
+  export type ChatParticipantInfoUncheckedUpdateManyWithoutConversationNestedInput = {
+    create?: XOR<ChatParticipantInfoCreateWithoutConversationInput, ChatParticipantInfoUncheckedCreateWithoutConversationInput> | ChatParticipantInfoCreateWithoutConversationInput[] | ChatParticipantInfoUncheckedCreateWithoutConversationInput[]
+    connectOrCreate?: ChatParticipantInfoCreateOrConnectWithoutConversationInput | ChatParticipantInfoCreateOrConnectWithoutConversationInput[]
+    upsert?: ChatParticipantInfoUpsertWithWhereUniqueWithoutConversationInput | ChatParticipantInfoUpsertWithWhereUniqueWithoutConversationInput[]
+    createMany?: ChatParticipantInfoCreateManyConversationInputEnvelope
+    set?: ChatParticipantInfoWhereUniqueInput | ChatParticipantInfoWhereUniqueInput[]
+    disconnect?: ChatParticipantInfoWhereUniqueInput | ChatParticipantInfoWhereUniqueInput[]
+    delete?: ChatParticipantInfoWhereUniqueInput | ChatParticipantInfoWhereUniqueInput[]
+    connect?: ChatParticipantInfoWhereUniqueInput | ChatParticipantInfoWhereUniqueInput[]
+    update?: ChatParticipantInfoUpdateWithWhereUniqueWithoutConversationInput | ChatParticipantInfoUpdateWithWhereUniqueWithoutConversationInput[]
+    updateMany?: ChatParticipantInfoUpdateManyWithWhereWithoutConversationInput | ChatParticipantInfoUpdateManyWithWhereWithoutConversationInput[]
+    deleteMany?: ChatParticipantInfoScalarWhereInput | ChatParticipantInfoScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutSentMessagesInput = {
@@ -25681,6 +33278,172 @@ export namespace Prisma {
     upsert?: ChatConversationUpsertWithoutMessagesInput
     connect?: ChatConversationWhereUniqueInput
     update?: XOR<XOR<ChatConversationUpdateToOneWithWhereWithoutMessagesInput, ChatConversationUpdateWithoutMessagesInput>, ChatConversationUncheckedUpdateWithoutMessagesInput>
+  }
+
+  export type UserCreateNestedOneWithoutInvoicesInput = {
+    create?: XOR<UserCreateWithoutInvoicesInput, UserUncheckedCreateWithoutInvoicesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutInvoicesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type InvoiceLineItemCreateNestedManyWithoutInvoiceInput = {
+    create?: XOR<InvoiceLineItemCreateWithoutInvoiceInput, InvoiceLineItemUncheckedCreateWithoutInvoiceInput> | InvoiceLineItemCreateWithoutInvoiceInput[] | InvoiceLineItemUncheckedCreateWithoutInvoiceInput[]
+    connectOrCreate?: InvoiceLineItemCreateOrConnectWithoutInvoiceInput | InvoiceLineItemCreateOrConnectWithoutInvoiceInput[]
+    createMany?: InvoiceLineItemCreateManyInvoiceInputEnvelope
+    connect?: InvoiceLineItemWhereUniqueInput | InvoiceLineItemWhereUniqueInput[]
+  }
+
+  export type PaymentCreateNestedManyWithoutInvoiceInput = {
+    create?: XOR<PaymentCreateWithoutInvoiceInput, PaymentUncheckedCreateWithoutInvoiceInput> | PaymentCreateWithoutInvoiceInput[] | PaymentUncheckedCreateWithoutInvoiceInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutInvoiceInput | PaymentCreateOrConnectWithoutInvoiceInput[]
+    createMany?: PaymentCreateManyInvoiceInputEnvelope
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+  }
+
+  export type InvoiceLineItemUncheckedCreateNestedManyWithoutInvoiceInput = {
+    create?: XOR<InvoiceLineItemCreateWithoutInvoiceInput, InvoiceLineItemUncheckedCreateWithoutInvoiceInput> | InvoiceLineItemCreateWithoutInvoiceInput[] | InvoiceLineItemUncheckedCreateWithoutInvoiceInput[]
+    connectOrCreate?: InvoiceLineItemCreateOrConnectWithoutInvoiceInput | InvoiceLineItemCreateOrConnectWithoutInvoiceInput[]
+    createMany?: InvoiceLineItemCreateManyInvoiceInputEnvelope
+    connect?: InvoiceLineItemWhereUniqueInput | InvoiceLineItemWhereUniqueInput[]
+  }
+
+  export type PaymentUncheckedCreateNestedManyWithoutInvoiceInput = {
+    create?: XOR<PaymentCreateWithoutInvoiceInput, PaymentUncheckedCreateWithoutInvoiceInput> | PaymentCreateWithoutInvoiceInput[] | PaymentUncheckedCreateWithoutInvoiceInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutInvoiceInput | PaymentCreateOrConnectWithoutInvoiceInput[]
+    createMany?: PaymentCreateManyInvoiceInputEnvelope
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+  }
+
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type EnumInvoiceStatusFieldUpdateOperationsInput = {
+    set?: $Enums.InvoiceStatus
+  }
+
+  export type UserUpdateOneRequiredWithoutInvoicesNestedInput = {
+    create?: XOR<UserCreateWithoutInvoicesInput, UserUncheckedCreateWithoutInvoicesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutInvoicesInput
+    upsert?: UserUpsertWithoutInvoicesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutInvoicesInput, UserUpdateWithoutInvoicesInput>, UserUncheckedUpdateWithoutInvoicesInput>
+  }
+
+  export type InvoiceLineItemUpdateManyWithoutInvoiceNestedInput = {
+    create?: XOR<InvoiceLineItemCreateWithoutInvoiceInput, InvoiceLineItemUncheckedCreateWithoutInvoiceInput> | InvoiceLineItemCreateWithoutInvoiceInput[] | InvoiceLineItemUncheckedCreateWithoutInvoiceInput[]
+    connectOrCreate?: InvoiceLineItemCreateOrConnectWithoutInvoiceInput | InvoiceLineItemCreateOrConnectWithoutInvoiceInput[]
+    upsert?: InvoiceLineItemUpsertWithWhereUniqueWithoutInvoiceInput | InvoiceLineItemUpsertWithWhereUniqueWithoutInvoiceInput[]
+    createMany?: InvoiceLineItemCreateManyInvoiceInputEnvelope
+    set?: InvoiceLineItemWhereUniqueInput | InvoiceLineItemWhereUniqueInput[]
+    disconnect?: InvoiceLineItemWhereUniqueInput | InvoiceLineItemWhereUniqueInput[]
+    delete?: InvoiceLineItemWhereUniqueInput | InvoiceLineItemWhereUniqueInput[]
+    connect?: InvoiceLineItemWhereUniqueInput | InvoiceLineItemWhereUniqueInput[]
+    update?: InvoiceLineItemUpdateWithWhereUniqueWithoutInvoiceInput | InvoiceLineItemUpdateWithWhereUniqueWithoutInvoiceInput[]
+    updateMany?: InvoiceLineItemUpdateManyWithWhereWithoutInvoiceInput | InvoiceLineItemUpdateManyWithWhereWithoutInvoiceInput[]
+    deleteMany?: InvoiceLineItemScalarWhereInput | InvoiceLineItemScalarWhereInput[]
+  }
+
+  export type PaymentUpdateManyWithoutInvoiceNestedInput = {
+    create?: XOR<PaymentCreateWithoutInvoiceInput, PaymentUncheckedCreateWithoutInvoiceInput> | PaymentCreateWithoutInvoiceInput[] | PaymentUncheckedCreateWithoutInvoiceInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutInvoiceInput | PaymentCreateOrConnectWithoutInvoiceInput[]
+    upsert?: PaymentUpsertWithWhereUniqueWithoutInvoiceInput | PaymentUpsertWithWhereUniqueWithoutInvoiceInput[]
+    createMany?: PaymentCreateManyInvoiceInputEnvelope
+    set?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    disconnect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    delete?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    update?: PaymentUpdateWithWhereUniqueWithoutInvoiceInput | PaymentUpdateWithWhereUniqueWithoutInvoiceInput[]
+    updateMany?: PaymentUpdateManyWithWhereWithoutInvoiceInput | PaymentUpdateManyWithWhereWithoutInvoiceInput[]
+    deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+  }
+
+  export type InvoiceLineItemUncheckedUpdateManyWithoutInvoiceNestedInput = {
+    create?: XOR<InvoiceLineItemCreateWithoutInvoiceInput, InvoiceLineItemUncheckedCreateWithoutInvoiceInput> | InvoiceLineItemCreateWithoutInvoiceInput[] | InvoiceLineItemUncheckedCreateWithoutInvoiceInput[]
+    connectOrCreate?: InvoiceLineItemCreateOrConnectWithoutInvoiceInput | InvoiceLineItemCreateOrConnectWithoutInvoiceInput[]
+    upsert?: InvoiceLineItemUpsertWithWhereUniqueWithoutInvoiceInput | InvoiceLineItemUpsertWithWhereUniqueWithoutInvoiceInput[]
+    createMany?: InvoiceLineItemCreateManyInvoiceInputEnvelope
+    set?: InvoiceLineItemWhereUniqueInput | InvoiceLineItemWhereUniqueInput[]
+    disconnect?: InvoiceLineItemWhereUniqueInput | InvoiceLineItemWhereUniqueInput[]
+    delete?: InvoiceLineItemWhereUniqueInput | InvoiceLineItemWhereUniqueInput[]
+    connect?: InvoiceLineItemWhereUniqueInput | InvoiceLineItemWhereUniqueInput[]
+    update?: InvoiceLineItemUpdateWithWhereUniqueWithoutInvoiceInput | InvoiceLineItemUpdateWithWhereUniqueWithoutInvoiceInput[]
+    updateMany?: InvoiceLineItemUpdateManyWithWhereWithoutInvoiceInput | InvoiceLineItemUpdateManyWithWhereWithoutInvoiceInput[]
+    deleteMany?: InvoiceLineItemScalarWhereInput | InvoiceLineItemScalarWhereInput[]
+  }
+
+  export type PaymentUncheckedUpdateManyWithoutInvoiceNestedInput = {
+    create?: XOR<PaymentCreateWithoutInvoiceInput, PaymentUncheckedCreateWithoutInvoiceInput> | PaymentCreateWithoutInvoiceInput[] | PaymentUncheckedCreateWithoutInvoiceInput[]
+    connectOrCreate?: PaymentCreateOrConnectWithoutInvoiceInput | PaymentCreateOrConnectWithoutInvoiceInput[]
+    upsert?: PaymentUpsertWithWhereUniqueWithoutInvoiceInput | PaymentUpsertWithWhereUniqueWithoutInvoiceInput[]
+    createMany?: PaymentCreateManyInvoiceInputEnvelope
+    set?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    disconnect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    delete?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
+    update?: PaymentUpdateWithWhereUniqueWithoutInvoiceInput | PaymentUpdateWithWhereUniqueWithoutInvoiceInput[]
+    updateMany?: PaymentUpdateManyWithWhereWithoutInvoiceInput | PaymentUpdateManyWithWhereWithoutInvoiceInput[]
+    deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+  }
+
+  export type InvoiceCreateNestedOneWithoutLineItemsInput = {
+    create?: XOR<InvoiceCreateWithoutLineItemsInput, InvoiceUncheckedCreateWithoutLineItemsInput>
+    connectOrCreate?: InvoiceCreateOrConnectWithoutLineItemsInput
+    connect?: InvoiceWhereUniqueInput
+  }
+
+  export type InvoiceUpdateOneRequiredWithoutLineItemsNestedInput = {
+    create?: XOR<InvoiceCreateWithoutLineItemsInput, InvoiceUncheckedCreateWithoutLineItemsInput>
+    connectOrCreate?: InvoiceCreateOrConnectWithoutLineItemsInput
+    upsert?: InvoiceUpsertWithoutLineItemsInput
+    connect?: InvoiceWhereUniqueInput
+    update?: XOR<XOR<InvoiceUpdateToOneWithWhereWithoutLineItemsInput, InvoiceUpdateWithoutLineItemsInput>, InvoiceUncheckedUpdateWithoutLineItemsInput>
+  }
+
+  export type InvoiceCreateNestedOneWithoutPaymentsInput = {
+    create?: XOR<InvoiceCreateWithoutPaymentsInput, InvoiceUncheckedCreateWithoutPaymentsInput>
+    connectOrCreate?: InvoiceCreateOrConnectWithoutPaymentsInput
+    connect?: InvoiceWhereUniqueInput
+  }
+
+  export type InvoiceUpdateOneRequiredWithoutPaymentsNestedInput = {
+    create?: XOR<InvoiceCreateWithoutPaymentsInput, InvoiceUncheckedCreateWithoutPaymentsInput>
+    connectOrCreate?: InvoiceCreateOrConnectWithoutPaymentsInput
+    upsert?: InvoiceUpsertWithoutPaymentsInput
+    connect?: InvoiceWhereUniqueInput
+    update?: XOR<XOR<InvoiceUpdateToOneWithWhereWithoutPaymentsInput, InvoiceUpdateWithoutPaymentsInput>, InvoiceUncheckedUpdateWithoutPaymentsInput>
+  }
+
+  export type UserCreateNestedOneWithoutActivityInConversationsInput = {
+    create?: XOR<UserCreateWithoutActivityInConversationsInput, UserUncheckedCreateWithoutActivityInConversationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutActivityInConversationsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type ChatConversationCreateNestedOneWithoutParticipantActivityInput = {
+    create?: XOR<ChatConversationCreateWithoutParticipantActivityInput, ChatConversationUncheckedCreateWithoutParticipantActivityInput>
+    connectOrCreate?: ChatConversationCreateOrConnectWithoutParticipantActivityInput
+    connect?: ChatConversationWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutActivityInConversationsNestedInput = {
+    create?: XOR<UserCreateWithoutActivityInConversationsInput, UserUncheckedCreateWithoutActivityInConversationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutActivityInConversationsInput
+    upsert?: UserUpsertWithoutActivityInConversationsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutActivityInConversationsInput, UserUpdateWithoutActivityInConversationsInput>, UserUncheckedUpdateWithoutActivityInConversationsInput>
+  }
+
+  export type ChatConversationUpdateOneRequiredWithoutParticipantActivityNestedInput = {
+    create?: XOR<ChatConversationCreateWithoutParticipantActivityInput, ChatConversationUncheckedCreateWithoutParticipantActivityInput>
+    connectOrCreate?: ChatConversationCreateOrConnectWithoutParticipantActivityInput
+    upsert?: ChatConversationUpsertWithoutParticipantActivityInput
+    connect?: ChatConversationWhereUniqueInput
+    update?: XOR<XOR<ChatConversationUpdateToOneWithWhereWithoutParticipantActivityInput, ChatConversationUpdateWithoutParticipantActivityInput>, ChatConversationUncheckedUpdateWithoutParticipantActivityInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -25929,6 +33692,50 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type NestedEnumInvoiceStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.InvoiceStatus | EnumInvoiceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumInvoiceStatusFilter<$PrismaModel> | $Enums.InvoiceStatus
+  }
+
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type NestedEnumInvoiceStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InvoiceStatus | EnumInvoiceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumInvoiceStatusWithAggregatesFilter<$PrismaModel> | $Enums.InvoiceStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumInvoiceStatusFilter<$PrismaModel>
+    _max?: NestedEnumInvoiceStatusFilter<$PrismaModel>
   }
 
   export type AccountCreateWithoutUserInput = {
@@ -26239,6 +34046,7 @@ export namespace Prisma {
     messages?: ChatMessageCreateNestedManyWithoutConversationInput
     customer?: UserCreateNestedOneWithoutCustomerConversationsInput
     staffMember?: UserCreateNestedOneWithoutStaffConversationsInput
+    participantActivity?: ChatParticipantInfoCreateNestedManyWithoutConversationInput
   }
 
   export type ChatConversationUncheckedCreateWithoutParticipantsInput = {
@@ -26251,6 +34059,7 @@ export namespace Prisma {
     lastMessage?: string | null
     lastMessageAt?: Date | string | null
     messages?: ChatMessageUncheckedCreateNestedManyWithoutConversationInput
+    participantActivity?: ChatParticipantInfoUncheckedCreateNestedManyWithoutConversationInput
   }
 
   export type ChatConversationCreateOrConnectWithoutParticipantsInput = {
@@ -26261,17 +34070,25 @@ export namespace Prisma {
   export type ChatMessageCreateWithoutSenderInput = {
     id?: string
     createdAt?: Date | string
-    content: string
+    content?: string | null
     readAt?: Date | string | null
+    attachmentUrl?: string | null
+    attachmentType?: string | null
+    attachmentFilename?: string | null
+    attachmentSize?: number | null
     conversation: ChatConversationCreateNestedOneWithoutMessagesInput
   }
 
   export type ChatMessageUncheckedCreateWithoutSenderInput = {
     id?: string
     createdAt?: Date | string
-    content: string
+    content?: string | null
     conversationId: string
     readAt?: Date | string | null
+    attachmentUrl?: string | null
+    attachmentType?: string | null
+    attachmentFilename?: string | null
+    attachmentSize?: number | null
   }
 
   export type ChatMessageCreateOrConnectWithoutSenderInput = {
@@ -26294,6 +34111,7 @@ export namespace Prisma {
     participants?: UserCreateNestedManyWithoutCreatedConversationsInput
     messages?: ChatMessageCreateNestedManyWithoutConversationInput
     staffMember?: UserCreateNestedOneWithoutStaffConversationsInput
+    participantActivity?: ChatParticipantInfoCreateNestedManyWithoutConversationInput
   }
 
   export type ChatConversationUncheckedCreateWithoutCustomerInput = {
@@ -26306,6 +34124,7 @@ export namespace Prisma {
     lastMessageAt?: Date | string | null
     participants?: UserUncheckedCreateNestedManyWithoutCreatedConversationsInput
     messages?: ChatMessageUncheckedCreateNestedManyWithoutConversationInput
+    participantActivity?: ChatParticipantInfoUncheckedCreateNestedManyWithoutConversationInput
   }
 
   export type ChatConversationCreateOrConnectWithoutCustomerInput = {
@@ -26328,6 +34147,7 @@ export namespace Prisma {
     participants?: UserCreateNestedManyWithoutCreatedConversationsInput
     messages?: ChatMessageCreateNestedManyWithoutConversationInput
     customer?: UserCreateNestedOneWithoutCustomerConversationsInput
+    participantActivity?: ChatParticipantInfoCreateNestedManyWithoutConversationInput
   }
 
   export type ChatConversationUncheckedCreateWithoutStaffMemberInput = {
@@ -26340,6 +34160,7 @@ export namespace Prisma {
     lastMessageAt?: Date | string | null
     participants?: UserUncheckedCreateNestedManyWithoutCreatedConversationsInput
     messages?: ChatMessageUncheckedCreateNestedManyWithoutConversationInput
+    participantActivity?: ChatParticipantInfoUncheckedCreateNestedManyWithoutConversationInput
   }
 
   export type ChatConversationCreateOrConnectWithoutStaffMemberInput = {
@@ -26349,6 +34170,70 @@ export namespace Prisma {
 
   export type ChatConversationCreateManyStaffMemberInputEnvelope = {
     data: ChatConversationCreateManyStaffMemberInput | ChatConversationCreateManyStaffMemberInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type InvoiceCreateWithoutCustomerInput = {
+    id?: string
+    invoiceNumber: string
+    issueDate?: Date | string
+    dueDate: Date | string
+    totalAmount: number
+    amountPaid?: number
+    status?: $Enums.InvoiceStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    relatedServiceRequestId?: string | null
+    lineItems?: InvoiceLineItemCreateNestedManyWithoutInvoiceInput
+    payments?: PaymentCreateNestedManyWithoutInvoiceInput
+  }
+
+  export type InvoiceUncheckedCreateWithoutCustomerInput = {
+    id?: string
+    invoiceNumber: string
+    issueDate?: Date | string
+    dueDate: Date | string
+    totalAmount: number
+    amountPaid?: number
+    status?: $Enums.InvoiceStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    relatedServiceRequestId?: string | null
+    lineItems?: InvoiceLineItemUncheckedCreateNestedManyWithoutInvoiceInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutInvoiceInput
+  }
+
+  export type InvoiceCreateOrConnectWithoutCustomerInput = {
+    where: InvoiceWhereUniqueInput
+    create: XOR<InvoiceCreateWithoutCustomerInput, InvoiceUncheckedCreateWithoutCustomerInput>
+  }
+
+  export type InvoiceCreateManyCustomerInputEnvelope = {
+    data: InvoiceCreateManyCustomerInput | InvoiceCreateManyCustomerInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ChatParticipantInfoCreateWithoutUserInput = {
+    id?: string
+    lastAccessedAt?: Date | string
+    conversation: ChatConversationCreateNestedOneWithoutParticipantActivityInput
+  }
+
+  export type ChatParticipantInfoUncheckedCreateWithoutUserInput = {
+    id?: string
+    conversationId: string
+    lastAccessedAt?: Date | string
+  }
+
+  export type ChatParticipantInfoCreateOrConnectWithoutUserInput = {
+    where: ChatParticipantInfoWhereUniqueInput
+    create: XOR<ChatParticipantInfoCreateWithoutUserInput, ChatParticipantInfoUncheckedCreateWithoutUserInput>
+  }
+
+  export type ChatParticipantInfoCreateManyUserInputEnvelope = {
+    data: ChatParticipantInfoCreateManyUserInput | ChatParticipantInfoCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -26700,10 +34585,14 @@ export namespace Prisma {
     NOT?: ChatMessageScalarWhereInput | ChatMessageScalarWhereInput[]
     id?: StringFilter<"ChatMessage"> | string
     createdAt?: DateTimeFilter<"ChatMessage"> | Date | string
-    content?: StringFilter<"ChatMessage"> | string
+    content?: StringNullableFilter<"ChatMessage"> | string | null
     senderId?: StringFilter<"ChatMessage"> | string
     conversationId?: StringFilter<"ChatMessage"> | string
     readAt?: DateTimeNullableFilter<"ChatMessage"> | Date | string | null
+    attachmentUrl?: StringNullableFilter<"ChatMessage"> | string | null
+    attachmentType?: StringNullableFilter<"ChatMessage"> | string | null
+    attachmentFilename?: StringNullableFilter<"ChatMessage"> | string | null
+    attachmentSize?: IntNullableFilter<"ChatMessage"> | number | null
   }
 
   export type ChatConversationUpsertWithWhereUniqueWithoutCustomerInput = {
@@ -26736,6 +34625,66 @@ export namespace Prisma {
   export type ChatConversationUpdateManyWithWhereWithoutStaffMemberInput = {
     where: ChatConversationScalarWhereInput
     data: XOR<ChatConversationUpdateManyMutationInput, ChatConversationUncheckedUpdateManyWithoutStaffMemberInput>
+  }
+
+  export type InvoiceUpsertWithWhereUniqueWithoutCustomerInput = {
+    where: InvoiceWhereUniqueInput
+    update: XOR<InvoiceUpdateWithoutCustomerInput, InvoiceUncheckedUpdateWithoutCustomerInput>
+    create: XOR<InvoiceCreateWithoutCustomerInput, InvoiceUncheckedCreateWithoutCustomerInput>
+  }
+
+  export type InvoiceUpdateWithWhereUniqueWithoutCustomerInput = {
+    where: InvoiceWhereUniqueInput
+    data: XOR<InvoiceUpdateWithoutCustomerInput, InvoiceUncheckedUpdateWithoutCustomerInput>
+  }
+
+  export type InvoiceUpdateManyWithWhereWithoutCustomerInput = {
+    where: InvoiceScalarWhereInput
+    data: XOR<InvoiceUpdateManyMutationInput, InvoiceUncheckedUpdateManyWithoutCustomerInput>
+  }
+
+  export type InvoiceScalarWhereInput = {
+    AND?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
+    OR?: InvoiceScalarWhereInput[]
+    NOT?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
+    id?: StringFilter<"Invoice"> | string
+    invoiceNumber?: StringFilter<"Invoice"> | string
+    customerId?: StringFilter<"Invoice"> | string
+    issueDate?: DateTimeFilter<"Invoice"> | Date | string
+    dueDate?: DateTimeFilter<"Invoice"> | Date | string
+    totalAmount?: FloatFilter<"Invoice"> | number
+    amountPaid?: FloatFilter<"Invoice"> | number
+    status?: EnumInvoiceStatusFilter<"Invoice"> | $Enums.InvoiceStatus
+    notes?: StringNullableFilter<"Invoice"> | string | null
+    createdAt?: DateTimeFilter<"Invoice"> | Date | string
+    updatedAt?: DateTimeFilter<"Invoice"> | Date | string
+    relatedServiceRequestId?: StringNullableFilter<"Invoice"> | string | null
+  }
+
+  export type ChatParticipantInfoUpsertWithWhereUniqueWithoutUserInput = {
+    where: ChatParticipantInfoWhereUniqueInput
+    update: XOR<ChatParticipantInfoUpdateWithoutUserInput, ChatParticipantInfoUncheckedUpdateWithoutUserInput>
+    create: XOR<ChatParticipantInfoCreateWithoutUserInput, ChatParticipantInfoUncheckedCreateWithoutUserInput>
+  }
+
+  export type ChatParticipantInfoUpdateWithWhereUniqueWithoutUserInput = {
+    where: ChatParticipantInfoWhereUniqueInput
+    data: XOR<ChatParticipantInfoUpdateWithoutUserInput, ChatParticipantInfoUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ChatParticipantInfoUpdateManyWithWhereWithoutUserInput = {
+    where: ChatParticipantInfoScalarWhereInput
+    data: XOR<ChatParticipantInfoUpdateManyMutationInput, ChatParticipantInfoUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ChatParticipantInfoScalarWhereInput = {
+    AND?: ChatParticipantInfoScalarWhereInput | ChatParticipantInfoScalarWhereInput[]
+    OR?: ChatParticipantInfoScalarWhereInput[]
+    NOT?: ChatParticipantInfoScalarWhereInput | ChatParticipantInfoScalarWhereInput[]
+    id?: StringFilter<"ChatParticipantInfo"> | string
+    userId?: StringFilter<"ChatParticipantInfo"> | string
+    conversationId?: StringFilter<"ChatParticipantInfo"> | string
+    lastAccessedAt?: DateTimeFilter<"ChatParticipantInfo"> | Date | string
   }
 
   export type PortfolioItemCreateWithoutServiceInput = {
@@ -26783,7 +34732,9 @@ export namespace Prisma {
     password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    hashedPassword?: string | null
     role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -26798,6 +34749,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageCreateNestedManyWithoutSenderInput
     customerConversations?: ChatConversationCreateNestedManyWithoutCustomerInput
     staffConversations?: ChatConversationCreateNestedManyWithoutStaffMemberInput
+    invoices?: InvoiceCreateNestedManyWithoutCustomerInput
+    activityInConversations?: ChatParticipantInfoCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutServicesInput = {
@@ -26807,7 +34760,9 @@ export namespace Prisma {
     password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    hashedPassword?: string | null
     role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -26822,6 +34777,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageUncheckedCreateNestedManyWithoutSenderInput
     customerConversations?: ChatConversationUncheckedCreateNestedManyWithoutCustomerInput
     staffConversations?: ChatConversationUncheckedCreateNestedManyWithoutStaffMemberInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutCustomerInput
+    activityInConversations?: ChatParticipantInfoUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutServicesInput = {
@@ -26863,7 +34820,9 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -26878,6 +34837,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageUpdateManyWithoutSenderNestedInput
     customerConversations?: ChatConversationUpdateManyWithoutCustomerNestedInput
     staffConversations?: ChatConversationUpdateManyWithoutStaffMemberNestedInput
+    invoices?: InvoiceUpdateManyWithoutCustomerNestedInput
+    activityInConversations?: ChatParticipantInfoUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutServicesInput = {
@@ -26887,7 +34848,9 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -26902,6 +34865,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
     customerConversations?: ChatConversationUncheckedUpdateManyWithoutCustomerNestedInput
     staffConversations?: ChatConversationUncheckedUpdateManyWithoutStaffMemberNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutCustomerNestedInput
+    activityInConversations?: ChatParticipantInfoUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ServiceCreateWithoutPortfolioItemsInput = {
@@ -26938,7 +34903,9 @@ export namespace Prisma {
     password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    hashedPassword?: string | null
     role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -26953,6 +34920,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageCreateNestedManyWithoutSenderInput
     customerConversations?: ChatConversationCreateNestedManyWithoutCustomerInput
     staffConversations?: ChatConversationCreateNestedManyWithoutStaffMemberInput
+    invoices?: InvoiceCreateNestedManyWithoutCustomerInput
+    activityInConversations?: ChatParticipantInfoCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUploadedPortfolioItemsInput = {
@@ -26962,7 +34931,9 @@ export namespace Prisma {
     password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    hashedPassword?: string | null
     role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -26977,6 +34948,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageUncheckedCreateNestedManyWithoutSenderInput
     customerConversations?: ChatConversationUncheckedCreateNestedManyWithoutCustomerInput
     staffConversations?: ChatConversationUncheckedCreateNestedManyWithoutStaffMemberInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutCustomerInput
+    activityInConversations?: ChatParticipantInfoUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUploadedPortfolioItemsInput = {
@@ -27035,7 +35008,9 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -27050,6 +35025,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageUpdateManyWithoutSenderNestedInput
     customerConversations?: ChatConversationUpdateManyWithoutCustomerNestedInput
     staffConversations?: ChatConversationUpdateManyWithoutStaffMemberNestedInput
+    invoices?: InvoiceUpdateManyWithoutCustomerNestedInput
+    activityInConversations?: ChatParticipantInfoUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUploadedPortfolioItemsInput = {
@@ -27059,7 +35036,9 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -27074,6 +35053,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
     customerConversations?: ChatConversationUncheckedUpdateManyWithoutCustomerNestedInput
     staffConversations?: ChatConversationUncheckedUpdateManyWithoutStaffMemberNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutCustomerNestedInput
+    activityInConversations?: ChatParticipantInfoUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCustomerInquiriesInput = {
@@ -27083,7 +35064,9 @@ export namespace Prisma {
     password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    hashedPassword?: string | null
     role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -27098,6 +35081,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageCreateNestedManyWithoutSenderInput
     customerConversations?: ChatConversationCreateNestedManyWithoutCustomerInput
     staffConversations?: ChatConversationCreateNestedManyWithoutStaffMemberInput
+    invoices?: InvoiceCreateNestedManyWithoutCustomerInput
+    activityInConversations?: ChatParticipantInfoCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCustomerInquiriesInput = {
@@ -27107,7 +35092,9 @@ export namespace Prisma {
     password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    hashedPassword?: string | null
     role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -27122,6 +35109,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageUncheckedCreateNestedManyWithoutSenderInput
     customerConversations?: ChatConversationUncheckedCreateNestedManyWithoutCustomerInput
     staffConversations?: ChatConversationUncheckedCreateNestedManyWithoutStaffMemberInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutCustomerInput
+    activityInConversations?: ChatParticipantInfoUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCustomerInquiriesInput = {
@@ -27147,7 +35136,9 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -27162,6 +35153,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageUpdateManyWithoutSenderNestedInput
     customerConversations?: ChatConversationUpdateManyWithoutCustomerNestedInput
     staffConversations?: ChatConversationUpdateManyWithoutStaffMemberNestedInput
+    invoices?: InvoiceUpdateManyWithoutCustomerNestedInput
+    activityInConversations?: ChatParticipantInfoUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCustomerInquiriesInput = {
@@ -27171,7 +35164,9 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -27186,6 +35181,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
     customerConversations?: ChatConversationUncheckedUpdateManyWithoutCustomerNestedInput
     staffConversations?: ChatConversationUncheckedUpdateManyWithoutStaffMemberNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutCustomerNestedInput
+    activityInConversations?: ChatParticipantInfoUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutUploadedImagesInput = {
@@ -27195,7 +35192,9 @@ export namespace Prisma {
     password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    hashedPassword?: string | null
     role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -27210,6 +35209,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageCreateNestedManyWithoutSenderInput
     customerConversations?: ChatConversationCreateNestedManyWithoutCustomerInput
     staffConversations?: ChatConversationCreateNestedManyWithoutStaffMemberInput
+    invoices?: InvoiceCreateNestedManyWithoutCustomerInput
+    activityInConversations?: ChatParticipantInfoCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUploadedImagesInput = {
@@ -27219,7 +35220,9 @@ export namespace Prisma {
     password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    hashedPassword?: string | null
     role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -27234,6 +35237,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageUncheckedCreateNestedManyWithoutSenderInput
     customerConversations?: ChatConversationUncheckedCreateNestedManyWithoutCustomerInput
     staffConversations?: ChatConversationUncheckedCreateNestedManyWithoutStaffMemberInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutCustomerInput
+    activityInConversations?: ChatParticipantInfoUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUploadedImagesInput = {
@@ -27259,7 +35264,9 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -27274,6 +35281,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageUpdateManyWithoutSenderNestedInput
     customerConversations?: ChatConversationUpdateManyWithoutCustomerNestedInput
     staffConversations?: ChatConversationUpdateManyWithoutStaffMemberNestedInput
+    invoices?: InvoiceUpdateManyWithoutCustomerNestedInput
+    activityInConversations?: ChatParticipantInfoUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUploadedImagesInput = {
@@ -27283,7 +35292,9 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -27298,6 +35309,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
     customerConversations?: ChatConversationUncheckedUpdateManyWithoutCustomerNestedInput
     staffConversations?: ChatConversationUncheckedUpdateManyWithoutStaffMemberNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutCustomerNestedInput
+    activityInConversations?: ChatParticipantInfoUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MaintenanceWorkerCreateWithoutPhotoSetsInput = {
@@ -27354,7 +35367,9 @@ export namespace Prisma {
     password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    hashedPassword?: string | null
     role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -27369,6 +35384,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageCreateNestedManyWithoutSenderInput
     customerConversations?: ChatConversationCreateNestedManyWithoutCustomerInput
     staffConversations?: ChatConversationCreateNestedManyWithoutStaffMemberInput
+    invoices?: InvoiceCreateNestedManyWithoutCustomerInput
+    activityInConversations?: ChatParticipantInfoCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCustomerPhotoSetsInput = {
@@ -27378,7 +35395,9 @@ export namespace Prisma {
     password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    hashedPassword?: string | null
     role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -27393,6 +35412,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageUncheckedCreateNestedManyWithoutSenderInput
     customerConversations?: ChatConversationUncheckedCreateNestedManyWithoutCustomerInput
     staffConversations?: ChatConversationUncheckedCreateNestedManyWithoutStaffMemberInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutCustomerInput
+    activityInConversations?: ChatParticipantInfoUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCustomerPhotoSetsInput = {
@@ -27474,7 +35495,9 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -27489,6 +35512,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageUpdateManyWithoutSenderNestedInput
     customerConversations?: ChatConversationUpdateManyWithoutCustomerNestedInput
     staffConversations?: ChatConversationUpdateManyWithoutStaffMemberNestedInput
+    invoices?: InvoiceUpdateManyWithoutCustomerNestedInput
+    activityInConversations?: ChatParticipantInfoUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCustomerPhotoSetsInput = {
@@ -27498,7 +35523,9 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -27513,6 +35540,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
     customerConversations?: ChatConversationUncheckedUpdateManyWithoutCustomerNestedInput
     staffConversations?: ChatConversationUncheckedUpdateManyWithoutStaffMemberNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutCustomerNestedInput
+    activityInConversations?: ChatParticipantInfoUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PhotoSetCreateWithoutPhotosInput = {
@@ -27620,7 +35649,9 @@ export namespace Prisma {
     password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    hashedPassword?: string | null
     role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -27635,6 +35666,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageCreateNestedManyWithoutSenderInput
     customerConversations?: ChatConversationCreateNestedManyWithoutCustomerInput
     staffConversations?: ChatConversationCreateNestedManyWithoutStaffMemberInput
+    invoices?: InvoiceCreateNestedManyWithoutCustomerInput
+    activityInConversations?: ChatParticipantInfoCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMaintenanceWorkerInput = {
@@ -27644,7 +35677,9 @@ export namespace Prisma {
     password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    hashedPassword?: string | null
     role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -27659,6 +35694,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageUncheckedCreateNestedManyWithoutSenderInput
     customerConversations?: ChatConversationUncheckedCreateNestedManyWithoutCustomerInput
     staffConversations?: ChatConversationUncheckedCreateNestedManyWithoutStaffMemberInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutCustomerInput
+    activityInConversations?: ChatParticipantInfoUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMaintenanceWorkerInput = {
@@ -27700,7 +35737,9 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -27715,6 +35754,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageUpdateManyWithoutSenderNestedInput
     customerConversations?: ChatConversationUpdateManyWithoutCustomerNestedInput
     staffConversations?: ChatConversationUpdateManyWithoutStaffMemberNestedInput
+    invoices?: InvoiceUpdateManyWithoutCustomerNestedInput
+    activityInConversations?: ChatParticipantInfoUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMaintenanceWorkerInput = {
@@ -27724,7 +35765,9 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -27739,6 +35782,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
     customerConversations?: ChatConversationUncheckedUpdateManyWithoutCustomerNestedInput
     staffConversations?: ChatConversationUncheckedUpdateManyWithoutStaffMemberNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutCustomerNestedInput
+    activityInConversations?: ChatParticipantInfoUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -27748,7 +35793,9 @@ export namespace Prisma {
     password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    hashedPassword?: string | null
     role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
@@ -27763,6 +35810,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageCreateNestedManyWithoutSenderInput
     customerConversations?: ChatConversationCreateNestedManyWithoutCustomerInput
     staffConversations?: ChatConversationCreateNestedManyWithoutStaffMemberInput
+    invoices?: InvoiceCreateNestedManyWithoutCustomerInput
+    activityInConversations?: ChatParticipantInfoCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -27772,7 +35821,9 @@ export namespace Prisma {
     password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    hashedPassword?: string | null
     role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
@@ -27787,6 +35838,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageUncheckedCreateNestedManyWithoutSenderInput
     customerConversations?: ChatConversationUncheckedCreateNestedManyWithoutCustomerInput
     staffConversations?: ChatConversationUncheckedCreateNestedManyWithoutStaffMemberInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutCustomerInput
+    activityInConversations?: ChatParticipantInfoUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -27812,7 +35865,9 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
@@ -27827,6 +35882,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageUpdateManyWithoutSenderNestedInput
     customerConversations?: ChatConversationUpdateManyWithoutCustomerNestedInput
     staffConversations?: ChatConversationUpdateManyWithoutStaffMemberNestedInput
+    invoices?: InvoiceUpdateManyWithoutCustomerNestedInput
+    activityInConversations?: ChatParticipantInfoUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -27836,7 +35893,9 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -27851,6 +35910,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
     customerConversations?: ChatConversationUncheckedUpdateManyWithoutCustomerNestedInput
     staffConversations?: ChatConversationUncheckedUpdateManyWithoutStaffMemberNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutCustomerNestedInput
+    activityInConversations?: ChatParticipantInfoUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -27860,7 +35921,9 @@ export namespace Prisma {
     password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    hashedPassword?: string | null
     role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -27875,6 +35938,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageCreateNestedManyWithoutSenderInput
     customerConversations?: ChatConversationCreateNestedManyWithoutCustomerInput
     staffConversations?: ChatConversationCreateNestedManyWithoutStaffMemberInput
+    invoices?: InvoiceCreateNestedManyWithoutCustomerInput
+    activityInConversations?: ChatParticipantInfoCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -27884,7 +35949,9 @@ export namespace Prisma {
     password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    hashedPassword?: string | null
     role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -27899,6 +35966,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageUncheckedCreateNestedManyWithoutSenderInput
     customerConversations?: ChatConversationUncheckedCreateNestedManyWithoutCustomerInput
     staffConversations?: ChatConversationUncheckedCreateNestedManyWithoutStaffMemberInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutCustomerInput
+    activityInConversations?: ChatParticipantInfoUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -27924,7 +35993,9 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -27939,6 +36010,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageUpdateManyWithoutSenderNestedInput
     customerConversations?: ChatConversationUpdateManyWithoutCustomerNestedInput
     staffConversations?: ChatConversationUpdateManyWithoutStaffMemberNestedInput
+    invoices?: InvoiceUpdateManyWithoutCustomerNestedInput
+    activityInConversations?: ChatParticipantInfoUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -27948,7 +36021,9 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -27963,6 +36038,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
     customerConversations?: ChatConversationUncheckedUpdateManyWithoutCustomerNestedInput
     staffConversations?: ChatConversationUncheckedUpdateManyWithoutStaffMemberNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutCustomerNestedInput
+    activityInConversations?: ChatParticipantInfoUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAppearanceSettingInput = {
@@ -27972,7 +36049,9 @@ export namespace Prisma {
     password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    hashedPassword?: string | null
     role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -27987,6 +36066,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageCreateNestedManyWithoutSenderInput
     customerConversations?: ChatConversationCreateNestedManyWithoutCustomerInput
     staffConversations?: ChatConversationCreateNestedManyWithoutStaffMemberInput
+    invoices?: InvoiceCreateNestedManyWithoutCustomerInput
+    activityInConversations?: ChatParticipantInfoCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAppearanceSettingInput = {
@@ -27996,7 +36077,9 @@ export namespace Prisma {
     password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    hashedPassword?: string | null
     role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -28011,6 +36094,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageUncheckedCreateNestedManyWithoutSenderInput
     customerConversations?: ChatConversationUncheckedCreateNestedManyWithoutCustomerInput
     staffConversations?: ChatConversationUncheckedCreateNestedManyWithoutStaffMemberInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutCustomerInput
+    activityInConversations?: ChatParticipantInfoUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAppearanceSettingInput = {
@@ -28036,7 +36121,9 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -28051,6 +36138,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageUpdateManyWithoutSenderNestedInput
     customerConversations?: ChatConversationUpdateManyWithoutCustomerNestedInput
     staffConversations?: ChatConversationUpdateManyWithoutStaffMemberNestedInput
+    invoices?: InvoiceUpdateManyWithoutCustomerNestedInput
+    activityInConversations?: ChatParticipantInfoUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAppearanceSettingInput = {
@@ -28060,7 +36149,9 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -28075,6 +36166,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
     customerConversations?: ChatConversationUncheckedUpdateManyWithoutCustomerNestedInput
     staffConversations?: ChatConversationUncheckedUpdateManyWithoutStaffMemberNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutCustomerNestedInput
+    activityInConversations?: ChatParticipantInfoUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCreatedConversationsInput = {
@@ -28084,7 +36177,9 @@ export namespace Prisma {
     password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    hashedPassword?: string | null
     role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -28099,6 +36194,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageCreateNestedManyWithoutSenderInput
     customerConversations?: ChatConversationCreateNestedManyWithoutCustomerInput
     staffConversations?: ChatConversationCreateNestedManyWithoutStaffMemberInput
+    invoices?: InvoiceCreateNestedManyWithoutCustomerInput
+    activityInConversations?: ChatParticipantInfoCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreatedConversationsInput = {
@@ -28108,7 +36205,9 @@ export namespace Prisma {
     password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    hashedPassword?: string | null
     role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -28123,6 +36222,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageUncheckedCreateNestedManyWithoutSenderInput
     customerConversations?: ChatConversationUncheckedCreateNestedManyWithoutCustomerInput
     staffConversations?: ChatConversationUncheckedCreateNestedManyWithoutStaffMemberInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutCustomerInput
+    activityInConversations?: ChatParticipantInfoUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatedConversationsInput = {
@@ -28133,17 +36234,25 @@ export namespace Prisma {
   export type ChatMessageCreateWithoutConversationInput = {
     id?: string
     createdAt?: Date | string
-    content: string
+    content?: string | null
     readAt?: Date | string | null
+    attachmentUrl?: string | null
+    attachmentType?: string | null
+    attachmentFilename?: string | null
+    attachmentSize?: number | null
     sender: UserCreateNestedOneWithoutSentMessagesInput
   }
 
   export type ChatMessageUncheckedCreateWithoutConversationInput = {
     id?: string
     createdAt?: Date | string
-    content: string
+    content?: string | null
     senderId: string
     readAt?: Date | string | null
+    attachmentUrl?: string | null
+    attachmentType?: string | null
+    attachmentFilename?: string | null
+    attachmentSize?: number | null
   }
 
   export type ChatMessageCreateOrConnectWithoutConversationInput = {
@@ -28163,7 +36272,9 @@ export namespace Prisma {
     password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    hashedPassword?: string | null
     role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -28178,6 +36289,8 @@ export namespace Prisma {
     createdConversations?: ChatConversationCreateNestedManyWithoutParticipantsInput
     sentMessages?: ChatMessageCreateNestedManyWithoutSenderInput
     staffConversations?: ChatConversationCreateNestedManyWithoutStaffMemberInput
+    invoices?: InvoiceCreateNestedManyWithoutCustomerInput
+    activityInConversations?: ChatParticipantInfoCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCustomerConversationsInput = {
@@ -28187,7 +36300,9 @@ export namespace Prisma {
     password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    hashedPassword?: string | null
     role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -28202,6 +36317,8 @@ export namespace Prisma {
     createdConversations?: ChatConversationUncheckedCreateNestedManyWithoutParticipantsInput
     sentMessages?: ChatMessageUncheckedCreateNestedManyWithoutSenderInput
     staffConversations?: ChatConversationUncheckedCreateNestedManyWithoutStaffMemberInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutCustomerInput
+    activityInConversations?: ChatParticipantInfoUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCustomerConversationsInput = {
@@ -28216,7 +36333,9 @@ export namespace Prisma {
     password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    hashedPassword?: string | null
     role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -28231,6 +36350,8 @@ export namespace Prisma {
     createdConversations?: ChatConversationCreateNestedManyWithoutParticipantsInput
     sentMessages?: ChatMessageCreateNestedManyWithoutSenderInput
     customerConversations?: ChatConversationCreateNestedManyWithoutCustomerInput
+    invoices?: InvoiceCreateNestedManyWithoutCustomerInput
+    activityInConversations?: ChatParticipantInfoCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutStaffConversationsInput = {
@@ -28240,7 +36361,9 @@ export namespace Prisma {
     password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    hashedPassword?: string | null
     role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -28255,11 +36378,35 @@ export namespace Prisma {
     createdConversations?: ChatConversationUncheckedCreateNestedManyWithoutParticipantsInput
     sentMessages?: ChatMessageUncheckedCreateNestedManyWithoutSenderInput
     customerConversations?: ChatConversationUncheckedCreateNestedManyWithoutCustomerInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutCustomerInput
+    activityInConversations?: ChatParticipantInfoUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutStaffConversationsInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutStaffConversationsInput, UserUncheckedCreateWithoutStaffConversationsInput>
+  }
+
+  export type ChatParticipantInfoCreateWithoutConversationInput = {
+    id?: string
+    lastAccessedAt?: Date | string
+    user: UserCreateNestedOneWithoutActivityInConversationsInput
+  }
+
+  export type ChatParticipantInfoUncheckedCreateWithoutConversationInput = {
+    id?: string
+    userId: string
+    lastAccessedAt?: Date | string
+  }
+
+  export type ChatParticipantInfoCreateOrConnectWithoutConversationInput = {
+    where: ChatParticipantInfoWhereUniqueInput
+    create: XOR<ChatParticipantInfoCreateWithoutConversationInput, ChatParticipantInfoUncheckedCreateWithoutConversationInput>
+  }
+
+  export type ChatParticipantInfoCreateManyConversationInputEnvelope = {
+    data: ChatParticipantInfoCreateManyConversationInput | ChatParticipantInfoCreateManyConversationInput[]
+    skipDuplicates?: boolean
   }
 
   export type UserUpsertWithWhereUniqueWithoutCreatedConversationsInput = {
@@ -28288,7 +36435,9 @@ export namespace Prisma {
     password?: StringNullableFilter<"User"> | string | null
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
     image?: StringNullableFilter<"User"> | string | null
+    hashedPassword?: StringNullableFilter<"User"> | string | null
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
+    lastSeenAt?: DateTimeNullableFilter<"User"> | Date | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
   }
@@ -28327,7 +36476,9 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -28342,6 +36493,8 @@ export namespace Prisma {
     createdConversations?: ChatConversationUpdateManyWithoutParticipantsNestedInput
     sentMessages?: ChatMessageUpdateManyWithoutSenderNestedInput
     staffConversations?: ChatConversationUpdateManyWithoutStaffMemberNestedInput
+    invoices?: InvoiceUpdateManyWithoutCustomerNestedInput
+    activityInConversations?: ChatParticipantInfoUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCustomerConversationsInput = {
@@ -28351,7 +36504,9 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -28366,6 +36521,8 @@ export namespace Prisma {
     createdConversations?: ChatConversationUncheckedUpdateManyWithoutParticipantsNestedInput
     sentMessages?: ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
     staffConversations?: ChatConversationUncheckedUpdateManyWithoutStaffMemberNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutCustomerNestedInput
+    activityInConversations?: ChatParticipantInfoUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutStaffConversationsInput = {
@@ -28386,7 +36543,9 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -28401,6 +36560,8 @@ export namespace Prisma {
     createdConversations?: ChatConversationUpdateManyWithoutParticipantsNestedInput
     sentMessages?: ChatMessageUpdateManyWithoutSenderNestedInput
     customerConversations?: ChatConversationUpdateManyWithoutCustomerNestedInput
+    invoices?: InvoiceUpdateManyWithoutCustomerNestedInput
+    activityInConversations?: ChatParticipantInfoUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutStaffConversationsInput = {
@@ -28410,7 +36571,9 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -28425,6 +36588,24 @@ export namespace Prisma {
     createdConversations?: ChatConversationUncheckedUpdateManyWithoutParticipantsNestedInput
     sentMessages?: ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
     customerConversations?: ChatConversationUncheckedUpdateManyWithoutCustomerNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutCustomerNestedInput
+    activityInConversations?: ChatParticipantInfoUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type ChatParticipantInfoUpsertWithWhereUniqueWithoutConversationInput = {
+    where: ChatParticipantInfoWhereUniqueInput
+    update: XOR<ChatParticipantInfoUpdateWithoutConversationInput, ChatParticipantInfoUncheckedUpdateWithoutConversationInput>
+    create: XOR<ChatParticipantInfoCreateWithoutConversationInput, ChatParticipantInfoUncheckedCreateWithoutConversationInput>
+  }
+
+  export type ChatParticipantInfoUpdateWithWhereUniqueWithoutConversationInput = {
+    where: ChatParticipantInfoWhereUniqueInput
+    data: XOR<ChatParticipantInfoUpdateWithoutConversationInput, ChatParticipantInfoUncheckedUpdateWithoutConversationInput>
+  }
+
+  export type ChatParticipantInfoUpdateManyWithWhereWithoutConversationInput = {
+    where: ChatParticipantInfoScalarWhereInput
+    data: XOR<ChatParticipantInfoUpdateManyMutationInput, ChatParticipantInfoUncheckedUpdateManyWithoutConversationInput>
   }
 
   export type UserCreateWithoutSentMessagesInput = {
@@ -28434,7 +36615,9 @@ export namespace Prisma {
     password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    hashedPassword?: string | null
     role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -28449,6 +36632,8 @@ export namespace Prisma {
     createdConversations?: ChatConversationCreateNestedManyWithoutParticipantsInput
     customerConversations?: ChatConversationCreateNestedManyWithoutCustomerInput
     staffConversations?: ChatConversationCreateNestedManyWithoutStaffMemberInput
+    invoices?: InvoiceCreateNestedManyWithoutCustomerInput
+    activityInConversations?: ChatParticipantInfoCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSentMessagesInput = {
@@ -28458,7 +36643,9 @@ export namespace Prisma {
     password?: string | null
     emailVerified?: Date | string | null
     image?: string | null
+    hashedPassword?: string | null
     role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -28473,6 +36660,8 @@ export namespace Prisma {
     createdConversations?: ChatConversationUncheckedCreateNestedManyWithoutParticipantsInput
     customerConversations?: ChatConversationUncheckedCreateNestedManyWithoutCustomerInput
     staffConversations?: ChatConversationUncheckedCreateNestedManyWithoutStaffMemberInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutCustomerInput
+    activityInConversations?: ChatParticipantInfoUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSentMessagesInput = {
@@ -28490,6 +36679,7 @@ export namespace Prisma {
     participants?: UserCreateNestedManyWithoutCreatedConversationsInput
     customer?: UserCreateNestedOneWithoutCustomerConversationsInput
     staffMember?: UserCreateNestedOneWithoutStaffConversationsInput
+    participantActivity?: ChatParticipantInfoCreateNestedManyWithoutConversationInput
   }
 
   export type ChatConversationUncheckedCreateWithoutMessagesInput = {
@@ -28502,6 +36692,7 @@ export namespace Prisma {
     lastMessage?: string | null
     lastMessageAt?: Date | string | null
     participants?: UserUncheckedCreateNestedManyWithoutCreatedConversationsInput
+    participantActivity?: ChatParticipantInfoUncheckedCreateNestedManyWithoutConversationInput
   }
 
   export type ChatConversationCreateOrConnectWithoutMessagesInput = {
@@ -28527,7 +36718,9 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -28542,6 +36735,8 @@ export namespace Prisma {
     createdConversations?: ChatConversationUpdateManyWithoutParticipantsNestedInput
     customerConversations?: ChatConversationUpdateManyWithoutCustomerNestedInput
     staffConversations?: ChatConversationUpdateManyWithoutStaffMemberNestedInput
+    invoices?: InvoiceUpdateManyWithoutCustomerNestedInput
+    activityInConversations?: ChatParticipantInfoUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSentMessagesInput = {
@@ -28551,7 +36746,9 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -28566,6 +36763,8 @@ export namespace Prisma {
     createdConversations?: ChatConversationUncheckedUpdateManyWithoutParticipantsNestedInput
     customerConversations?: ChatConversationUncheckedUpdateManyWithoutCustomerNestedInput
     staffConversations?: ChatConversationUncheckedUpdateManyWithoutStaffMemberNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutCustomerNestedInput
+    activityInConversations?: ChatParticipantInfoUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ChatConversationUpsertWithoutMessagesInput = {
@@ -28589,6 +36788,7 @@ export namespace Prisma {
     participants?: UserUpdateManyWithoutCreatedConversationsNestedInput
     customer?: UserUpdateOneWithoutCustomerConversationsNestedInput
     staffMember?: UserUpdateOneWithoutStaffConversationsNestedInput
+    participantActivity?: ChatParticipantInfoUpdateManyWithoutConversationNestedInput
   }
 
   export type ChatConversationUncheckedUpdateWithoutMessagesInput = {
@@ -28601,6 +36801,617 @@ export namespace Prisma {
     lastMessage?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     participants?: UserUncheckedUpdateManyWithoutCreatedConversationsNestedInput
+    participantActivity?: ChatParticipantInfoUncheckedUpdateManyWithoutConversationNestedInput
+  }
+
+  export type UserCreateWithoutInvoicesInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    password?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    hashedPassword?: string | null
+    role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    services?: ServiceCreateNestedManyWithoutManagedByInput
+    uploadedImages?: ImageCreateNestedManyWithoutUploaderInput
+    uploadedPortfolioItems?: PortfolioItemCreateNestedManyWithoutUploadedByInput
+    customerInquiries?: InquiryCreateNestedManyWithoutCustomerInput
+    customerPhotoSets?: PhotoSetCreateNestedManyWithoutCustomerInput
+    maintenanceWorker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
+    appearanceSetting?: AppearanceSettingsCreateNestedOneWithoutAdminInput
+    createdConversations?: ChatConversationCreateNestedManyWithoutParticipantsInput
+    sentMessages?: ChatMessageCreateNestedManyWithoutSenderInput
+    customerConversations?: ChatConversationCreateNestedManyWithoutCustomerInput
+    staffConversations?: ChatConversationCreateNestedManyWithoutStaffMemberInput
+    activityInConversations?: ChatParticipantInfoCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutInvoicesInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    password?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    hashedPassword?: string | null
+    role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    services?: ServiceUncheckedCreateNestedManyWithoutManagedByInput
+    uploadedImages?: ImageUncheckedCreateNestedManyWithoutUploaderInput
+    uploadedPortfolioItems?: PortfolioItemUncheckedCreateNestedManyWithoutUploadedByInput
+    customerInquiries?: InquiryUncheckedCreateNestedManyWithoutCustomerInput
+    customerPhotoSets?: PhotoSetUncheckedCreateNestedManyWithoutCustomerInput
+    maintenanceWorker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
+    appearanceSetting?: AppearanceSettingsUncheckedCreateNestedOneWithoutAdminInput
+    createdConversations?: ChatConversationUncheckedCreateNestedManyWithoutParticipantsInput
+    sentMessages?: ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+    customerConversations?: ChatConversationUncheckedCreateNestedManyWithoutCustomerInput
+    staffConversations?: ChatConversationUncheckedCreateNestedManyWithoutStaffMemberInput
+    activityInConversations?: ChatParticipantInfoUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutInvoicesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutInvoicesInput, UserUncheckedCreateWithoutInvoicesInput>
+  }
+
+  export type InvoiceLineItemCreateWithoutInvoiceInput = {
+    id?: string
+    description: string
+    quantity?: number
+    unitPrice: number
+    totalPrice: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InvoiceLineItemUncheckedCreateWithoutInvoiceInput = {
+    id?: string
+    description: string
+    quantity?: number
+    unitPrice: number
+    totalPrice: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InvoiceLineItemCreateOrConnectWithoutInvoiceInput = {
+    where: InvoiceLineItemWhereUniqueInput
+    create: XOR<InvoiceLineItemCreateWithoutInvoiceInput, InvoiceLineItemUncheckedCreateWithoutInvoiceInput>
+  }
+
+  export type InvoiceLineItemCreateManyInvoiceInputEnvelope = {
+    data: InvoiceLineItemCreateManyInvoiceInput | InvoiceLineItemCreateManyInvoiceInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PaymentCreateWithoutInvoiceInput = {
+    id?: string
+    paymentDate?: Date | string
+    amount: number
+    paymentMethod?: string | null
+    transactionId?: string | null
+    status?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PaymentUncheckedCreateWithoutInvoiceInput = {
+    id?: string
+    paymentDate?: Date | string
+    amount: number
+    paymentMethod?: string | null
+    transactionId?: string | null
+    status?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PaymentCreateOrConnectWithoutInvoiceInput = {
+    where: PaymentWhereUniqueInput
+    create: XOR<PaymentCreateWithoutInvoiceInput, PaymentUncheckedCreateWithoutInvoiceInput>
+  }
+
+  export type PaymentCreateManyInvoiceInputEnvelope = {
+    data: PaymentCreateManyInvoiceInput | PaymentCreateManyInvoiceInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutInvoicesInput = {
+    update: XOR<UserUpdateWithoutInvoicesInput, UserUncheckedUpdateWithoutInvoicesInput>
+    create: XOR<UserCreateWithoutInvoicesInput, UserUncheckedCreateWithoutInvoicesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutInvoicesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutInvoicesInput, UserUncheckedUpdateWithoutInvoicesInput>
+  }
+
+  export type UserUpdateWithoutInvoicesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    services?: ServiceUpdateManyWithoutManagedByNestedInput
+    uploadedImages?: ImageUpdateManyWithoutUploaderNestedInput
+    uploadedPortfolioItems?: PortfolioItemUpdateManyWithoutUploadedByNestedInput
+    customerInquiries?: InquiryUpdateManyWithoutCustomerNestedInput
+    customerPhotoSets?: PhotoSetUpdateManyWithoutCustomerNestedInput
+    maintenanceWorker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
+    appearanceSetting?: AppearanceSettingsUpdateOneWithoutAdminNestedInput
+    createdConversations?: ChatConversationUpdateManyWithoutParticipantsNestedInput
+    sentMessages?: ChatMessageUpdateManyWithoutSenderNestedInput
+    customerConversations?: ChatConversationUpdateManyWithoutCustomerNestedInput
+    staffConversations?: ChatConversationUpdateManyWithoutStaffMemberNestedInput
+    activityInConversations?: ChatParticipantInfoUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutInvoicesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutManagedByNestedInput
+    uploadedImages?: ImageUncheckedUpdateManyWithoutUploaderNestedInput
+    uploadedPortfolioItems?: PortfolioItemUncheckedUpdateManyWithoutUploadedByNestedInput
+    customerInquiries?: InquiryUncheckedUpdateManyWithoutCustomerNestedInput
+    customerPhotoSets?: PhotoSetUncheckedUpdateManyWithoutCustomerNestedInput
+    maintenanceWorker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
+    appearanceSetting?: AppearanceSettingsUncheckedUpdateOneWithoutAdminNestedInput
+    createdConversations?: ChatConversationUncheckedUpdateManyWithoutParticipantsNestedInput
+    sentMessages?: ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+    customerConversations?: ChatConversationUncheckedUpdateManyWithoutCustomerNestedInput
+    staffConversations?: ChatConversationUncheckedUpdateManyWithoutStaffMemberNestedInput
+    activityInConversations?: ChatParticipantInfoUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type InvoiceLineItemUpsertWithWhereUniqueWithoutInvoiceInput = {
+    where: InvoiceLineItemWhereUniqueInput
+    update: XOR<InvoiceLineItemUpdateWithoutInvoiceInput, InvoiceLineItemUncheckedUpdateWithoutInvoiceInput>
+    create: XOR<InvoiceLineItemCreateWithoutInvoiceInput, InvoiceLineItemUncheckedCreateWithoutInvoiceInput>
+  }
+
+  export type InvoiceLineItemUpdateWithWhereUniqueWithoutInvoiceInput = {
+    where: InvoiceLineItemWhereUniqueInput
+    data: XOR<InvoiceLineItemUpdateWithoutInvoiceInput, InvoiceLineItemUncheckedUpdateWithoutInvoiceInput>
+  }
+
+  export type InvoiceLineItemUpdateManyWithWhereWithoutInvoiceInput = {
+    where: InvoiceLineItemScalarWhereInput
+    data: XOR<InvoiceLineItemUpdateManyMutationInput, InvoiceLineItemUncheckedUpdateManyWithoutInvoiceInput>
+  }
+
+  export type InvoiceLineItemScalarWhereInput = {
+    AND?: InvoiceLineItemScalarWhereInput | InvoiceLineItemScalarWhereInput[]
+    OR?: InvoiceLineItemScalarWhereInput[]
+    NOT?: InvoiceLineItemScalarWhereInput | InvoiceLineItemScalarWhereInput[]
+    id?: StringFilter<"InvoiceLineItem"> | string
+    invoiceId?: StringFilter<"InvoiceLineItem"> | string
+    description?: StringFilter<"InvoiceLineItem"> | string
+    quantity?: FloatFilter<"InvoiceLineItem"> | number
+    unitPrice?: FloatFilter<"InvoiceLineItem"> | number
+    totalPrice?: FloatFilter<"InvoiceLineItem"> | number
+    createdAt?: DateTimeFilter<"InvoiceLineItem"> | Date | string
+    updatedAt?: DateTimeFilter<"InvoiceLineItem"> | Date | string
+  }
+
+  export type PaymentUpsertWithWhereUniqueWithoutInvoiceInput = {
+    where: PaymentWhereUniqueInput
+    update: XOR<PaymentUpdateWithoutInvoiceInput, PaymentUncheckedUpdateWithoutInvoiceInput>
+    create: XOR<PaymentCreateWithoutInvoiceInput, PaymentUncheckedCreateWithoutInvoiceInput>
+  }
+
+  export type PaymentUpdateWithWhereUniqueWithoutInvoiceInput = {
+    where: PaymentWhereUniqueInput
+    data: XOR<PaymentUpdateWithoutInvoiceInput, PaymentUncheckedUpdateWithoutInvoiceInput>
+  }
+
+  export type PaymentUpdateManyWithWhereWithoutInvoiceInput = {
+    where: PaymentScalarWhereInput
+    data: XOR<PaymentUpdateManyMutationInput, PaymentUncheckedUpdateManyWithoutInvoiceInput>
+  }
+
+  export type PaymentScalarWhereInput = {
+    AND?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+    OR?: PaymentScalarWhereInput[]
+    NOT?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+    id?: StringFilter<"Payment"> | string
+    invoiceId?: StringFilter<"Payment"> | string
+    paymentDate?: DateTimeFilter<"Payment"> | Date | string
+    amount?: FloatFilter<"Payment"> | number
+    paymentMethod?: StringNullableFilter<"Payment"> | string | null
+    transactionId?: StringNullableFilter<"Payment"> | string | null
+    status?: StringNullableFilter<"Payment"> | string | null
+    notes?: StringNullableFilter<"Payment"> | string | null
+    createdAt?: DateTimeFilter<"Payment"> | Date | string
+    updatedAt?: DateTimeFilter<"Payment"> | Date | string
+  }
+
+  export type InvoiceCreateWithoutLineItemsInput = {
+    id?: string
+    invoiceNumber: string
+    issueDate?: Date | string
+    dueDate: Date | string
+    totalAmount: number
+    amountPaid?: number
+    status?: $Enums.InvoiceStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    relatedServiceRequestId?: string | null
+    customer: UserCreateNestedOneWithoutInvoicesInput
+    payments?: PaymentCreateNestedManyWithoutInvoiceInput
+  }
+
+  export type InvoiceUncheckedCreateWithoutLineItemsInput = {
+    id?: string
+    invoiceNumber: string
+    customerId: string
+    issueDate?: Date | string
+    dueDate: Date | string
+    totalAmount: number
+    amountPaid?: number
+    status?: $Enums.InvoiceStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    relatedServiceRequestId?: string | null
+    payments?: PaymentUncheckedCreateNestedManyWithoutInvoiceInput
+  }
+
+  export type InvoiceCreateOrConnectWithoutLineItemsInput = {
+    where: InvoiceWhereUniqueInput
+    create: XOR<InvoiceCreateWithoutLineItemsInput, InvoiceUncheckedCreateWithoutLineItemsInput>
+  }
+
+  export type InvoiceUpsertWithoutLineItemsInput = {
+    update: XOR<InvoiceUpdateWithoutLineItemsInput, InvoiceUncheckedUpdateWithoutLineItemsInput>
+    create: XOR<InvoiceCreateWithoutLineItemsInput, InvoiceUncheckedCreateWithoutLineItemsInput>
+    where?: InvoiceWhereInput
+  }
+
+  export type InvoiceUpdateToOneWithWhereWithoutLineItemsInput = {
+    where?: InvoiceWhereInput
+    data: XOR<InvoiceUpdateWithoutLineItemsInput, InvoiceUncheckedUpdateWithoutLineItemsInput>
+  }
+
+  export type InvoiceUpdateWithoutLineItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalAmount?: FloatFieldUpdateOperationsInput | number
+    amountPaid?: FloatFieldUpdateOperationsInput | number
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    relatedServiceRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    customer?: UserUpdateOneRequiredWithoutInvoicesNestedInput
+    payments?: PaymentUpdateManyWithoutInvoiceNestedInput
+  }
+
+  export type InvoiceUncheckedUpdateWithoutLineItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalAmount?: FloatFieldUpdateOperationsInput | number
+    amountPaid?: FloatFieldUpdateOperationsInput | number
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    relatedServiceRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    payments?: PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
+  }
+
+  export type InvoiceCreateWithoutPaymentsInput = {
+    id?: string
+    invoiceNumber: string
+    issueDate?: Date | string
+    dueDate: Date | string
+    totalAmount: number
+    amountPaid?: number
+    status?: $Enums.InvoiceStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    relatedServiceRequestId?: string | null
+    customer: UserCreateNestedOneWithoutInvoicesInput
+    lineItems?: InvoiceLineItemCreateNestedManyWithoutInvoiceInput
+  }
+
+  export type InvoiceUncheckedCreateWithoutPaymentsInput = {
+    id?: string
+    invoiceNumber: string
+    customerId: string
+    issueDate?: Date | string
+    dueDate: Date | string
+    totalAmount: number
+    amountPaid?: number
+    status?: $Enums.InvoiceStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    relatedServiceRequestId?: string | null
+    lineItems?: InvoiceLineItemUncheckedCreateNestedManyWithoutInvoiceInput
+  }
+
+  export type InvoiceCreateOrConnectWithoutPaymentsInput = {
+    where: InvoiceWhereUniqueInput
+    create: XOR<InvoiceCreateWithoutPaymentsInput, InvoiceUncheckedCreateWithoutPaymentsInput>
+  }
+
+  export type InvoiceUpsertWithoutPaymentsInput = {
+    update: XOR<InvoiceUpdateWithoutPaymentsInput, InvoiceUncheckedUpdateWithoutPaymentsInput>
+    create: XOR<InvoiceCreateWithoutPaymentsInput, InvoiceUncheckedCreateWithoutPaymentsInput>
+    where?: InvoiceWhereInput
+  }
+
+  export type InvoiceUpdateToOneWithWhereWithoutPaymentsInput = {
+    where?: InvoiceWhereInput
+    data: XOR<InvoiceUpdateWithoutPaymentsInput, InvoiceUncheckedUpdateWithoutPaymentsInput>
+  }
+
+  export type InvoiceUpdateWithoutPaymentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalAmount?: FloatFieldUpdateOperationsInput | number
+    amountPaid?: FloatFieldUpdateOperationsInput | number
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    relatedServiceRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    customer?: UserUpdateOneRequiredWithoutInvoicesNestedInput
+    lineItems?: InvoiceLineItemUpdateManyWithoutInvoiceNestedInput
+  }
+
+  export type InvoiceUncheckedUpdateWithoutPaymentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalAmount?: FloatFieldUpdateOperationsInput | number
+    amountPaid?: FloatFieldUpdateOperationsInput | number
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    relatedServiceRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    lineItems?: InvoiceLineItemUncheckedUpdateManyWithoutInvoiceNestedInput
+  }
+
+  export type UserCreateWithoutActivityInConversationsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    password?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    hashedPassword?: string | null
+    role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    services?: ServiceCreateNestedManyWithoutManagedByInput
+    uploadedImages?: ImageCreateNestedManyWithoutUploaderInput
+    uploadedPortfolioItems?: PortfolioItemCreateNestedManyWithoutUploadedByInput
+    customerInquiries?: InquiryCreateNestedManyWithoutCustomerInput
+    customerPhotoSets?: PhotoSetCreateNestedManyWithoutCustomerInput
+    maintenanceWorker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
+    appearanceSetting?: AppearanceSettingsCreateNestedOneWithoutAdminInput
+    createdConversations?: ChatConversationCreateNestedManyWithoutParticipantsInput
+    sentMessages?: ChatMessageCreateNestedManyWithoutSenderInput
+    customerConversations?: ChatConversationCreateNestedManyWithoutCustomerInput
+    staffConversations?: ChatConversationCreateNestedManyWithoutStaffMemberInput
+    invoices?: InvoiceCreateNestedManyWithoutCustomerInput
+  }
+
+  export type UserUncheckedCreateWithoutActivityInConversationsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    password?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    hashedPassword?: string | null
+    role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    services?: ServiceUncheckedCreateNestedManyWithoutManagedByInput
+    uploadedImages?: ImageUncheckedCreateNestedManyWithoutUploaderInput
+    uploadedPortfolioItems?: PortfolioItemUncheckedCreateNestedManyWithoutUploadedByInput
+    customerInquiries?: InquiryUncheckedCreateNestedManyWithoutCustomerInput
+    customerPhotoSets?: PhotoSetUncheckedCreateNestedManyWithoutCustomerInput
+    maintenanceWorker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
+    appearanceSetting?: AppearanceSettingsUncheckedCreateNestedOneWithoutAdminInput
+    createdConversations?: ChatConversationUncheckedCreateNestedManyWithoutParticipantsInput
+    sentMessages?: ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+    customerConversations?: ChatConversationUncheckedCreateNestedManyWithoutCustomerInput
+    staffConversations?: ChatConversationUncheckedCreateNestedManyWithoutStaffMemberInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutCustomerInput
+  }
+
+  export type UserCreateOrConnectWithoutActivityInConversationsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutActivityInConversationsInput, UserUncheckedCreateWithoutActivityInConversationsInput>
+  }
+
+  export type ChatConversationCreateWithoutParticipantActivityInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    lastMessage?: string | null
+    lastMessageAt?: Date | string | null
+    participants?: UserCreateNestedManyWithoutCreatedConversationsInput
+    messages?: ChatMessageCreateNestedManyWithoutConversationInput
+    customer?: UserCreateNestedOneWithoutCustomerConversationsInput
+    staffMember?: UserCreateNestedOneWithoutStaffConversationsInput
+  }
+
+  export type ChatConversationUncheckedCreateWithoutParticipantActivityInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    customerId?: string | null
+    staffMemberId?: string | null
+    lastMessage?: string | null
+    lastMessageAt?: Date | string | null
+    participants?: UserUncheckedCreateNestedManyWithoutCreatedConversationsInput
+    messages?: ChatMessageUncheckedCreateNestedManyWithoutConversationInput
+  }
+
+  export type ChatConversationCreateOrConnectWithoutParticipantActivityInput = {
+    where: ChatConversationWhereUniqueInput
+    create: XOR<ChatConversationCreateWithoutParticipantActivityInput, ChatConversationUncheckedCreateWithoutParticipantActivityInput>
+  }
+
+  export type UserUpsertWithoutActivityInConversationsInput = {
+    update: XOR<UserUpdateWithoutActivityInConversationsInput, UserUncheckedUpdateWithoutActivityInConversationsInput>
+    create: XOR<UserCreateWithoutActivityInConversationsInput, UserUncheckedCreateWithoutActivityInConversationsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutActivityInConversationsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutActivityInConversationsInput, UserUncheckedUpdateWithoutActivityInConversationsInput>
+  }
+
+  export type UserUpdateWithoutActivityInConversationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    services?: ServiceUpdateManyWithoutManagedByNestedInput
+    uploadedImages?: ImageUpdateManyWithoutUploaderNestedInput
+    uploadedPortfolioItems?: PortfolioItemUpdateManyWithoutUploadedByNestedInput
+    customerInquiries?: InquiryUpdateManyWithoutCustomerNestedInput
+    customerPhotoSets?: PhotoSetUpdateManyWithoutCustomerNestedInput
+    maintenanceWorker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
+    appearanceSetting?: AppearanceSettingsUpdateOneWithoutAdminNestedInput
+    createdConversations?: ChatConversationUpdateManyWithoutParticipantsNestedInput
+    sentMessages?: ChatMessageUpdateManyWithoutSenderNestedInput
+    customerConversations?: ChatConversationUpdateManyWithoutCustomerNestedInput
+    staffConversations?: ChatConversationUpdateManyWithoutStaffMemberNestedInput
+    invoices?: InvoiceUpdateManyWithoutCustomerNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutActivityInConversationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutManagedByNestedInput
+    uploadedImages?: ImageUncheckedUpdateManyWithoutUploaderNestedInput
+    uploadedPortfolioItems?: PortfolioItemUncheckedUpdateManyWithoutUploadedByNestedInput
+    customerInquiries?: InquiryUncheckedUpdateManyWithoutCustomerNestedInput
+    customerPhotoSets?: PhotoSetUncheckedUpdateManyWithoutCustomerNestedInput
+    maintenanceWorker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
+    appearanceSetting?: AppearanceSettingsUncheckedUpdateOneWithoutAdminNestedInput
+    createdConversations?: ChatConversationUncheckedUpdateManyWithoutParticipantsNestedInput
+    sentMessages?: ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+    customerConversations?: ChatConversationUncheckedUpdateManyWithoutCustomerNestedInput
+    staffConversations?: ChatConversationUncheckedUpdateManyWithoutStaffMemberNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutCustomerNestedInput
+  }
+
+  export type ChatConversationUpsertWithoutParticipantActivityInput = {
+    update: XOR<ChatConversationUpdateWithoutParticipantActivityInput, ChatConversationUncheckedUpdateWithoutParticipantActivityInput>
+    create: XOR<ChatConversationCreateWithoutParticipantActivityInput, ChatConversationUncheckedCreateWithoutParticipantActivityInput>
+    where?: ChatConversationWhereInput
+  }
+
+  export type ChatConversationUpdateToOneWithWhereWithoutParticipantActivityInput = {
+    where?: ChatConversationWhereInput
+    data: XOR<ChatConversationUpdateWithoutParticipantActivityInput, ChatConversationUncheckedUpdateWithoutParticipantActivityInput>
+  }
+
+  export type ChatConversationUpdateWithoutParticipantActivityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    lastMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    participants?: UserUpdateManyWithoutCreatedConversationsNestedInput
+    messages?: ChatMessageUpdateManyWithoutConversationNestedInput
+    customer?: UserUpdateOneWithoutCustomerConversationsNestedInput
+    staffMember?: UserUpdateOneWithoutStaffConversationsNestedInput
+  }
+
+  export type ChatConversationUncheckedUpdateWithoutParticipantActivityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    customerId?: NullableStringFieldUpdateOperationsInput | string | null
+    staffMemberId?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    participants?: UserUncheckedUpdateManyWithoutCreatedConversationsNestedInput
+    messages?: ChatMessageUncheckedUpdateManyWithoutConversationNestedInput
   }
 
   export type AccountCreateManyUserInput = {
@@ -28686,9 +37497,13 @@ export namespace Prisma {
   export type ChatMessageCreateManySenderInput = {
     id?: string
     createdAt?: Date | string
-    content: string
+    content?: string | null
     conversationId: string
     readAt?: Date | string | null
+    attachmentUrl?: string | null
+    attachmentType?: string | null
+    attachmentFilename?: string | null
+    attachmentSize?: number | null
   }
 
   export type ChatConversationCreateManyCustomerInput = {
@@ -28709,6 +37524,26 @@ export namespace Prisma {
     customerId?: string | null
     lastMessage?: string | null
     lastMessageAt?: Date | string | null
+  }
+
+  export type InvoiceCreateManyCustomerInput = {
+    id?: string
+    invoiceNumber: string
+    issueDate?: Date | string
+    dueDate: Date | string
+    totalAmount: number
+    amountPaid?: number
+    status?: $Enums.InvoiceStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    relatedServiceRequestId?: string | null
+  }
+
+  export type ChatParticipantInfoCreateManyUserInput = {
+    id?: string
+    conversationId: string
+    lastAccessedAt?: Date | string
   }
 
   export type AccountUpdateWithoutUserInput = {
@@ -28965,6 +37800,7 @@ export namespace Prisma {
     messages?: ChatMessageUpdateManyWithoutConversationNestedInput
     customer?: UserUpdateOneWithoutCustomerConversationsNestedInput
     staffMember?: UserUpdateOneWithoutStaffConversationsNestedInput
+    participantActivity?: ChatParticipantInfoUpdateManyWithoutConversationNestedInput
   }
 
   export type ChatConversationUncheckedUpdateWithoutParticipantsInput = {
@@ -28977,6 +37813,7 @@ export namespace Prisma {
     lastMessage?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: ChatMessageUncheckedUpdateManyWithoutConversationNestedInput
+    participantActivity?: ChatParticipantInfoUncheckedUpdateManyWithoutConversationNestedInput
   }
 
   export type ChatConversationUncheckedUpdateManyWithoutParticipantsInput = {
@@ -28993,25 +37830,37 @@ export namespace Prisma {
   export type ChatMessageUpdateWithoutSenderInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    content?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    attachmentType?: NullableStringFieldUpdateOperationsInput | string | null
+    attachmentFilename?: NullableStringFieldUpdateOperationsInput | string | null
+    attachmentSize?: NullableIntFieldUpdateOperationsInput | number | null
     conversation?: ChatConversationUpdateOneRequiredWithoutMessagesNestedInput
   }
 
   export type ChatMessageUncheckedUpdateWithoutSenderInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    content?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: StringFieldUpdateOperationsInput | string
     readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    attachmentType?: NullableStringFieldUpdateOperationsInput | string | null
+    attachmentFilename?: NullableStringFieldUpdateOperationsInput | string | null
+    attachmentSize?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type ChatMessageUncheckedUpdateManyWithoutSenderInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    content?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     conversationId?: StringFieldUpdateOperationsInput | string
     readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    attachmentType?: NullableStringFieldUpdateOperationsInput | string | null
+    attachmentFilename?: NullableStringFieldUpdateOperationsInput | string | null
+    attachmentSize?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type ChatConversationUpdateWithoutCustomerInput = {
@@ -29024,6 +37873,7 @@ export namespace Prisma {
     participants?: UserUpdateManyWithoutCreatedConversationsNestedInput
     messages?: ChatMessageUpdateManyWithoutConversationNestedInput
     staffMember?: UserUpdateOneWithoutStaffConversationsNestedInput
+    participantActivity?: ChatParticipantInfoUpdateManyWithoutConversationNestedInput
   }
 
   export type ChatConversationUncheckedUpdateWithoutCustomerInput = {
@@ -29036,6 +37886,7 @@ export namespace Prisma {
     lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     participants?: UserUncheckedUpdateManyWithoutCreatedConversationsNestedInput
     messages?: ChatMessageUncheckedUpdateManyWithoutConversationNestedInput
+    participantActivity?: ChatParticipantInfoUncheckedUpdateManyWithoutConversationNestedInput
   }
 
   export type ChatConversationUncheckedUpdateManyWithoutCustomerInput = {
@@ -29058,6 +37909,7 @@ export namespace Prisma {
     participants?: UserUpdateManyWithoutCreatedConversationsNestedInput
     messages?: ChatMessageUpdateManyWithoutConversationNestedInput
     customer?: UserUpdateOneWithoutCustomerConversationsNestedInput
+    participantActivity?: ChatParticipantInfoUpdateManyWithoutConversationNestedInput
   }
 
   export type ChatConversationUncheckedUpdateWithoutStaffMemberInput = {
@@ -29070,6 +37922,7 @@ export namespace Prisma {
     lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     participants?: UserUncheckedUpdateManyWithoutCreatedConversationsNestedInput
     messages?: ChatMessageUncheckedUpdateManyWithoutConversationNestedInput
+    participantActivity?: ChatParticipantInfoUncheckedUpdateManyWithoutConversationNestedInput
   }
 
   export type ChatConversationUncheckedUpdateManyWithoutStaffMemberInput = {
@@ -29080,6 +37933,70 @@ export namespace Prisma {
     customerId?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessage?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type InvoiceUpdateWithoutCustomerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalAmount?: FloatFieldUpdateOperationsInput | number
+    amountPaid?: FloatFieldUpdateOperationsInput | number
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    relatedServiceRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    lineItems?: InvoiceLineItemUpdateManyWithoutInvoiceNestedInput
+    payments?: PaymentUpdateManyWithoutInvoiceNestedInput
+  }
+
+  export type InvoiceUncheckedUpdateWithoutCustomerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalAmount?: FloatFieldUpdateOperationsInput | number
+    amountPaid?: FloatFieldUpdateOperationsInput | number
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    relatedServiceRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+    lineItems?: InvoiceLineItemUncheckedUpdateManyWithoutInvoiceNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
+  }
+
+  export type InvoiceUncheckedUpdateManyWithoutCustomerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalAmount?: FloatFieldUpdateOperationsInput | number
+    amountPaid?: FloatFieldUpdateOperationsInput | number
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    relatedServiceRequestId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ChatParticipantInfoUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lastAccessedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    conversation?: ChatConversationUpdateOneRequiredWithoutParticipantActivityNestedInput
+  }
+
+  export type ChatParticipantInfoUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    conversationId?: StringFieldUpdateOperationsInput | string
+    lastAccessedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChatParticipantInfoUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    conversationId?: StringFieldUpdateOperationsInput | string
+    lastAccessedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PortfolioItemCreateManyServiceInput = {
@@ -29215,9 +38132,19 @@ export namespace Prisma {
   export type ChatMessageCreateManyConversationInput = {
     id?: string
     createdAt?: Date | string
-    content: string
+    content?: string | null
     senderId: string
     readAt?: Date | string | null
+    attachmentUrl?: string | null
+    attachmentType?: string | null
+    attachmentFilename?: string | null
+    attachmentSize?: number | null
+  }
+
+  export type ChatParticipantInfoCreateManyConversationInput = {
+    id?: string
+    userId: string
+    lastAccessedAt?: Date | string
   }
 
   export type UserUpdateWithoutCreatedConversationsInput = {
@@ -29227,7 +38154,9 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -29242,6 +38171,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageUpdateManyWithoutSenderNestedInput
     customerConversations?: ChatConversationUpdateManyWithoutCustomerNestedInput
     staffConversations?: ChatConversationUpdateManyWithoutStaffMemberNestedInput
+    invoices?: InvoiceUpdateManyWithoutCustomerNestedInput
+    activityInConversations?: ChatParticipantInfoUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedConversationsInput = {
@@ -29251,7 +38182,9 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -29266,6 +38199,8 @@ export namespace Prisma {
     sentMessages?: ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
     customerConversations?: ChatConversationUncheckedUpdateManyWithoutCustomerNestedInput
     staffConversations?: ChatConversationUncheckedUpdateManyWithoutStaffMemberNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutCustomerNestedInput
+    activityInConversations?: ChatParticipantInfoUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutCreatedConversationsInput = {
@@ -29275,7 +38210,9 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -29283,25 +38220,143 @@ export namespace Prisma {
   export type ChatMessageUpdateWithoutConversationInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    content?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    attachmentType?: NullableStringFieldUpdateOperationsInput | string | null
+    attachmentFilename?: NullableStringFieldUpdateOperationsInput | string | null
+    attachmentSize?: NullableIntFieldUpdateOperationsInput | number | null
     sender?: UserUpdateOneRequiredWithoutSentMessagesNestedInput
   }
 
   export type ChatMessageUncheckedUpdateWithoutConversationInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    content?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     senderId?: StringFieldUpdateOperationsInput | string
     readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    attachmentType?: NullableStringFieldUpdateOperationsInput | string | null
+    attachmentFilename?: NullableStringFieldUpdateOperationsInput | string | null
+    attachmentSize?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type ChatMessageUncheckedUpdateManyWithoutConversationInput = {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    content?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
     senderId?: StringFieldUpdateOperationsInput | string
     readAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    attachmentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    attachmentType?: NullableStringFieldUpdateOperationsInput | string | null
+    attachmentFilename?: NullableStringFieldUpdateOperationsInput | string | null
+    attachmentSize?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type ChatParticipantInfoUpdateWithoutConversationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lastAccessedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutActivityInConversationsNestedInput
+  }
+
+  export type ChatParticipantInfoUncheckedUpdateWithoutConversationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    lastAccessedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ChatParticipantInfoUncheckedUpdateManyWithoutConversationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    lastAccessedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvoiceLineItemCreateManyInvoiceInput = {
+    id?: string
+    description: string
+    quantity?: number
+    unitPrice: number
+    totalPrice: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PaymentCreateManyInvoiceInput = {
+    id?: string
+    paymentDate?: Date | string
+    amount: number
+    paymentMethod?: string | null
+    transactionId?: string | null
+    status?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InvoiceLineItemUpdateWithoutInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    quantity?: FloatFieldUpdateOperationsInput | number
+    unitPrice?: FloatFieldUpdateOperationsInput | number
+    totalPrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvoiceLineItemUncheckedUpdateWithoutInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    quantity?: FloatFieldUpdateOperationsInput | number
+    unitPrice?: FloatFieldUpdateOperationsInput | number
+    totalPrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvoiceLineItemUncheckedUpdateManyWithoutInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    quantity?: FloatFieldUpdateOperationsInput | number
+    unitPrice?: FloatFieldUpdateOperationsInput | number
+    totalPrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentUpdateWithoutInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    paymentDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentUncheckedUpdateWithoutInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    paymentDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentUncheckedUpdateManyWithoutInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    paymentDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

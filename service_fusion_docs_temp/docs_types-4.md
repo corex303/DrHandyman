@@ -1,0 +1,1 @@
+Type 404Error Not found client's error schema. { "code": "integer", "name": "string", "message": "string" } Parameter Description code Integer The error code associated with the error. name String The error name associated with the error. message String The error message associated with the error.

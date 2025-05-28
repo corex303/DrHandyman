@@ -1,28 +1,57 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 if (!supabaseUrl) {
-  console.warn("Missing env.SUPABASE_URL for admin client. Realtime broadcasting will be skipped.");
+  throw new Error("Missing env.NEXT_PUBLIC_SUPABASE_URL for admin client");
 }
-if (!supabaseServiceKey) {
-  console.warn("Missing env.SUPABASE_SERVICE_ROLE_KEY for admin client. Realtime broadcasting will be skipped.");
+// Log a warning if the service role key is missing, but don't throw an error immediately
+// as the getSupabaseAdmin function will handle returning null.
+if (!supabaseServiceRoleKey) {
+  console.warn("Missing env.SUPABASE_SERVICE_ROLE_KEY for admin client. Admin operations might fail or use a null client.");
 }
 
-let supabaseAdminInstance: SupabaseClient | null = null;
+// Initialize supabaseAdmin, it can be null if the service key is not provided.
+let supabaseAdmin: SupabaseClient | null = null;
 
+if (supabaseUrl && supabaseServiceRoleKey) {
+    supabaseAdmin = createClient(supabaseUrl, supabaseServiceRoleKey, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false,
+      detectSessionInUrl: false
+    }
+  });
+} else {
+    console.error("Supabase admin client could not be initialized at module load due to missing URL or Service Role Key.");
+}
+
+/**
+ * Returns the Supabase admin client instance.
+ * If the client was not initialized at module load (e.g. env vars not present then),
+ * it attempts to initialize it. Returns null if essential env vars are missing.
+ */
 export const getSupabaseAdmin = (): SupabaseClient | null => {
-  if (!supabaseUrl || !supabaseServiceKey) {
-    return null; // Return null if config is missing, so consuming code can handle it gracefully
+  if (!supabaseAdmin) {
+    // Attempt to re-initialize if null, in case env vars became available
+    // or to ensure a clear error/warning if still missing.
+    const currentServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    const currentUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+
+    if (currentUrl && currentServiceKey) {
+      console.log("Attempting to re-initialize Supabase admin client in getSupabaseAdmin().");
+      supabaseAdmin = createClient(currentUrl, currentServiceKey, {
+        auth: {
+          autoRefreshToken: false,
+          persistSession: false,
+          detectSessionInUrl: false
+        }
+      });
+    } else {
+      console.error("Supabase admin client cannot be initialized - URL or Service Role Key is missing from environment variables.");
+      return null; // Explicitly return null if it cannot be initialized
+    }
   }
-  if (!supabaseAdminInstance) {
-    supabaseAdminInstance = createClient(supabaseUrl, supabaseServiceKey, {
-      auth: {
-        autoRefreshToken: false,
-        persistSession: false,
-      },
-    });
-  }
-  return supabaseAdminInstance;
+  return supabaseAdmin;
 }; 

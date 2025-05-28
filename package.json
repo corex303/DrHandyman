@@ -1,8 +1,0 @@
-{
-	"dependencies": {
-		"@hookform/resolvers": "^5.0.1",
-		"rate-limiter-flexible": "^7.1.1",
-		"react-hook-form": "^7.56.4",
-		"zod": "^3.25.17"
-	}
-}
