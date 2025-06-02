@@ -1,17 +1,19 @@
 'use client'; // If it needs to access browser APIs or hooks, otherwise remove
 
 import { Service } from '@prisma/client'; // Add this import
+import { SITE_NAME, SITE_URL } from '@/config/site'; // Import site config
 
 // Assuming manual Service type is defined elsewhere or passed in
 // For this component, we only need a subset of service properties.
 interface ServiceSchemaProps {
   service: Service; // Use the imported Service type
-  siteName: string; // e.g., "Dr. Handyman NC"
-  siteUrl: string;  // e.g., "https://www.drhandymannc.com"
+  // siteName and siteUrl will now be imported from config
+  // siteName: string; // e.g., "Dr. Handyman NC"
+  // siteUrl: string;  // e.g., "https://www.drhandymannc.com"
 }
 
-const ServiceSchemaMarkup: React.FC<ServiceSchemaProps> = ({ service, siteName, siteUrl }) => {
-  const serviceUrl = `${siteUrl}/services/${service.slug}`;
+const ServiceSchemaMarkup: React.FC<ServiceSchemaProps> = ({ service }) => {
+  const serviceUrl = `${SITE_URL}/services/${service.slug}`;
 
   const schema = {
     '@context': 'https://schema.org',
@@ -21,8 +23,8 @@ const ServiceSchemaMarkup: React.FC<ServiceSchemaProps> = ({ service, siteName, 
     url: serviceUrl,
     provider: {
       '@type': 'Organization',
-      name: siteName,
-      url: siteUrl,
+      name: SITE_NAME, // Use imported SITE_NAME
+      url: SITE_URL,  // Use imported SITE_URL
       // Potentially add logo here if available globally or via props
     },
     // If you have service categories, you can add them here
@@ -49,8 +51,8 @@ const ServiceSchemaMarkup: React.FC<ServiceSchemaProps> = ({ service, siteName, 
     description: service.description.substring(0, 160),
     isPartOf: {
       '@type': 'WebSite',
-      url: siteUrl,
-      name: siteName,
+      url: SITE_URL,    // Use imported SITE_URL
+      name: SITE_NAME, // Use imported SITE_NAME
     },
     // mainEntity: schema, // Link it to the Service schema
   };

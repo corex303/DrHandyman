@@ -1,6 +1,7 @@
 // import { PrismaClient, ApprovalStatus, PhotoSet } from "../../../../../generated/prisma-client"; // REMOVE
 import { del } from "@vercel/blob"; // Import del
 import { NextRequest, NextResponse } from "next/server";
+import { Prisma } from "@prisma/client";
 
 import prisma from '@/lib/prisma';
 
@@ -13,11 +14,15 @@ export async function GET(request: NextRequest) {
   const status = searchParams.get("status") as ApprovalStatus | null;
   const maintenanceWorkerId = searchParams.get("maintenanceWorkerId") as string | null;
   const serviceCategory = searchParams.get("serviceCategory") as string | null;
-  const sortBy = searchParams.get("sortBy") as string | null; // e.g., 'submittedAt', 'serviceCategory', 'workerName'
+  const sortBy = searchParams.get("sortBy") as string | null;
   const sortOrder = searchParams.get("sortOrder") as string | null; // 'asc' or 'desc'
+  const searchTerm = searchParams.get("searchTerm") as string | null;
+  const page = parseInt(searchParams.get("page") || "1", 10);
+  const limit = parseInt(searchParams.get("limit") || "10", 10);
+  const skip = (page - 1) * limit;
 
   try {
-    const whereClause: any = {};
+    const whereClause: Prisma.PhotoSetWhereInput = {}; // Typed for better autocompletion
 
     if (status && Object.values(ApprovalStatus).includes(status)) {
       whereClause.status = status;
@@ -29,15 +34,28 @@ export async function GET(request: NextRequest) {
       whereClause.serviceCategory = serviceCategory;
     }
 
-    let orderByClause: any = { submittedAt: 'desc' }; // Default sort
+    if (searchTerm) {
+      whereClause.OR = [
+        { title: { contains: searchTerm, mode: 'insensitive' } },
+        { description: { contains: searchTerm, mode: 'insensitive' } },
+        { maintenanceWorker: { name: { contains: searchTerm, mode: 'insensitive' } } },
+        { maintenanceWorker: { user: { name: { contains: searchTerm, mode: 'insensitive' } } } },
+        { maintenanceWorker: { user: { email: { contains: searchTerm, mode: 'insensitive' } } } },
+        { customer: { name: { contains: searchTerm, mode: 'insensitive' } } }, // Search by customer name
+        { customer: { email: { contains: searchTerm, mode: 'insensitive' } } } // Search by customer email
+      ];
+    }
+
+    let orderByClause: Prisma.PhotoSetOrderByWithRelationInput | Prisma.PhotoSetOrderByWithRelationInput[] = 
+        { submittedAt: 'desc' }; // Default sort
 
     if (sortBy && sortOrder && ['asc', 'desc'].includes(sortOrder)) {
       if (sortBy === 'workerName') {
-        orderByClause = { maintenanceWorker: { name: sortOrder } };
+        orderByClause = { maintenanceWorker: { user: { name: sortOrder as Prisma.SortOrder } } };
       } else if (sortBy === 'serviceCategory') {
-        orderByClause = { serviceCategory: sortOrder };
+        orderByClause = { serviceCategory: sortOrder as Prisma.SortOrder };
       } else if (sortBy === 'submittedAt') {
-        orderByClause = { submittedAt: sortOrder };
+        orderByClause = { submittedAt: sortOrder as Prisma.SortOrder };
       }
       // Add other sortable fields as needed
     }
@@ -45,13 +63,33 @@ export async function GET(request: NextRequest) {
     const photoSets = await prisma.photoSet.findMany({
       where: whereClause,
       include: {
-        maintenanceWorker: true, // Include worker's name
+        maintenanceWorker: {
+          include: {
+            user: true, // Include the User details related to the MaintenanceWorker
+          },
+        },
         photos: true, // Include all related photos
+        customer: true, // Include customer details
       },
       orderBy: orderByClause,
+      skip: skip,
+      take: limit,
     });
 
-    return NextResponse.json(photoSets, { status: 200 });
+    const totalPhotoSets = await prisma.photoSet.count({ where: whereClause });
+
+    return NextResponse.json(
+      {
+        data: photoSets,
+        pagination: {
+          page,
+          limit,
+          totalPages: Math.ceil(totalPhotoSets / limit),
+          totalResults: totalPhotoSets,
+        },
+      },
+      { status: 200 }
+    );
   } catch (error) {
     console.error("Error fetching photo sets:", error);
     return NextResponse.json({ message: "Error fetching photo sets", error: (error as Error).message }, { status: 500 });

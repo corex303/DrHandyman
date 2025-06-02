@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-// import Image from 'next/image'; // Image component removed as generic sublinks don't have icons by default
+import Image from 'next/image'; // Added Image
 import { usePathname } from 'next/navigation';
 // import { AppearanceSettings } from '@/types/appearance'; // AppearanceSettings not directly used
 import { useSession } from 'next-auth/react'; // Import useSession
@@ -18,6 +18,7 @@ interface NavLink {
   text: string;
   href: string;
   subLinks?: NavLink[];
+  iconSrc?: string; // Added iconSrc
 }
 
 interface DesktopNavigationProps {
@@ -46,12 +47,25 @@ const DesktopNavigation = ({
 
   const pathname = usePathname();
 
+  const serviceCategoriesWithIcons = [
+    { id: 'roofing', text: 'Roofing', href: '/services/roofing', iconSrc: '/images/icons/roofing.png' },
+    { id: 'plumbing', text: 'Plumbing', href: '/services/plumbing', iconSrc: '/images/icons/plumb.png' },
+    { id: 'painting', text: 'Painting', href: '/services/painting', iconSrc: '/images/icons/paint.png' },
+    { id: 'hvac', text: 'HVAC', href: '/services/hvac', iconSrc: '/images/icons/hvac.png' },
+    { id: 'flooring', text: 'Flooring', href: '/services/flooring', iconSrc: '/images/icons/flooring.png' },
+    { id: 'exterior-work', text: 'Exterior Work', href: '/services/exterior-work', iconSrc: '/images/icons/exterior.png' },
+    { id: 'electrical', text: 'Electrical', href: '/services/electrical', iconSrc: '/images/icons/electric.png' },
+    { id: 'general-repair', text: 'General Repair', href: '/services/general-repair', iconSrc: '/images/icons/repair.png' },
+  ];
+
   const baseNavLinks = propNavLinks || [
     { id: 'home', text: 'Home', href: '/' },
-    { id: 'services', text: 'Services', href: '/services', subLinks: [
-        {id: 'flooring', text: 'Flooring', href: '/services/flooring'},
-        {id: 'electrical', text: 'Electrical', href: '/services/electrical'}
-    ] },
+    { 
+      id: 'services', 
+      text: 'Services', 
+      href: '/services', // Main services overview page
+      subLinks: serviceCategoriesWithIcons 
+    },
     { id: 'about', text: 'About Us', href: '/about' },
   ];
 
@@ -168,7 +182,15 @@ const DesktopNavigation = ({
                         onClick={() => setOpenDropdownId(null)} // Close dropdown on sublink click
                         role="menuitem"
                       >
-                        {/* Icons are removed for generic sublinks */}
+                        {subLink.iconSrc && (
+                          <Image 
+                            src={subLink.iconSrc} 
+                            alt={`${subLink.text} icon`} 
+                            width={20} 
+                            height={20} 
+                            className="mr-2 inline-block" 
+                          />
+                        )}
                         {subLink.text}
                       </Link>
                     ))}

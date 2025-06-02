@@ -2,9 +2,10 @@
 'use client';
 
 import Image from 'next/image';
+import { ReactCompareSlider, ReactCompareSliderImage } from 'react-compare-slider';
 
 // Import necessary types from the CORRECT prisma client path
-import { Photo, PhotoSet, PhotoType } from '../../../generated/prisma-client'; 
+import { Photo, PhotoSet, PhotoType } from '../../../generated/prisma-client';
 
 // This is the type we expect from the service page
 export interface ApprovedPhotoSetWithPhotos extends PhotoSet {
@@ -12,7 +13,7 @@ export interface ApprovedPhotoSetWithPhotos extends PhotoSet {
 }
 
 interface BeforeAfterGalleryProps {
-  items: ApprovedPhotoSetWithPhotos[]; // Changed from PortfolioItem[]
+  items: ApprovedPhotoSetWithPhotos[];
   serviceName: string;
 }
 
@@ -20,7 +21,9 @@ const BeforeAfterGallery: React.FC<BeforeAfterGalleryProps> = ({ items, serviceN
   if (!items || items.length === 0) {
     return (
       <div className="py-8 text-center">
-        <p className="text-gray-600 text-lg">No before & after examples available for {serviceName} yet.</p>
+        <p className="text-gray-600 text-lg">
+          No before & after examples available for {serviceName} yet.
+        </p>
       </div>
     );
   }
@@ -31,53 +34,37 @@ const BeforeAfterGallery: React.FC<BeforeAfterGalleryProps> = ({ items, serviceN
         <h3 className="text-3xl font-semibold text-center text-gray-800 mb-10">
           Before & After Gallery: {serviceName}
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12 lg:gap-x-10 lg:gap-y-16">
           {items.map((photoSet) => {
-            // Find one before and one after image from the photos array
-            const beforePhoto = photoSet.photos.find(p => p.type === PhotoType.BEFORE);
-            const afterPhoto = photoSet.photos.find(p => p.type === PhotoType.AFTER);
+            const beforePhoto = photoSet.photos.find((p) => p.type === PhotoType.BEFORE);
+            const afterPhoto = photoSet.photos.find((p) => p.type === PhotoType.AFTER);
 
-            // If essential images are missing, optionally skip this item or render a placeholder
             if (!beforePhoto || !afterPhoto) {
-              // console.warn(`PhotoSet ${photoSet.id} is missing a before or after photo, skipping.`);
-              return null; // Or render a placeholder card
+              return (
+                <div key={photoSet.id} className="bg-white rounded-xl shadow-lg overflow-hidden p-6 text-center">
+                  <p className="text-gray-500">Photo data incomplete for this set.</p>
+                  {photoSet.title && <p className="text-sm text-gray-400 mt-2">{photoSet.title}</p>}
+                </div>
+              );
             }
 
             return (
-              <div key={photoSet.id} className="bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300">
+              <div key={photoSet.id} className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col">
                 {photoSet.title && (
-                  <h4 className="text-xl font-semibold text-gray-800 px-6 py-4 bg-gray-100 border-b border-gray-200">
+                  <h4 className="text-xl font-semibold text-gray-800 px-6 py-4 bg-gray-100 border-b border-gray-200 text-center">
                     {photoSet.title}
                   </h4>
                 )}
-                <div className="grid grid-cols-2">
-                  <div className="relative h-64 md:h-80">
-                    <Image
-                      src={beforePhoto.url} // Use URL from found beforePhoto
-                      alt={`${photoSet.title || serviceName} - Before`}
-                      layout="fill"
-                      objectFit="cover"
-                      className="transition-opacity duration-300 hover:opacity-90"
-                    />
-                    <div className="absolute bottom-0 left-0 bg-black bg-opacity-60 text-white px-3 py-1 text-sm font-medium">
-                      BEFORE
-                    </div>
-                  </div>
-                  <div className="relative h-64 md:h-80">
-                    <Image
-                      src={afterPhoto.url} // Use URL from found afterPhoto
-                      alt={`${photoSet.title || serviceName} - After`}
-                      layout="fill"
-                      objectFit="cover"
-                      className="transition-opacity duration-300 hover:opacity-90"
-                    />
-                    <div className="absolute bottom-0 right-0 bg-green-600 bg-opacity-80 text-white px-3 py-1 text-sm font-medium">
-                      AFTER
-                    </div>
-                  </div>
+                <div className="relative w-full aspect-[4/3] sm:aspect-video md:aspect-[4/3]">
+                  <ReactCompareSlider
+                    itemOne={<ReactCompareSliderImage src={beforePhoto.url} alt={`${photoSet.title || serviceName} - Before`} />}
+                    itemTwo={<ReactCompareSliderImage src={afterPhoto.url} alt={`${photoSet.title || serviceName} - After`} />}
+                    className="w-full h-full rounded-b-lg md:rounded-b-none"
+                    style={{ width: '100%', height: '100%' }}
+                  />
                 </div>
                 {photoSet.description && (
-                  <p className="px-6 py-4 text-gray-700 text-sm">
+                  <p className="px-6 py-4 text-gray-700 text-sm mt-auto border-t border-gray-200">
                     {photoSet.description}
                   </p>
                 )}

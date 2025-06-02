@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowPathIcon, ChatBubbleLeftEllipsisIcon, PaperAirplaneIcon, UserCircleIcon, UserGroupIcon } from '@heroicons/react/24/outline';
+import { ArrowPathIcon, ChatBubbleLeftEllipsisIcon, PaperAirplaneIcon, UserCircleIcon, UserGroupIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 import type { RealtimeChannel } from '@supabase/supabase-js';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
@@ -12,6 +12,7 @@ import { supabase } from '@/lib/supabaseClient';
 interface ChatParticipant {
   id: string;
   name?: string | null;
+  email?: string | null;
   image?: string | null;
   role?: string;
 }
@@ -36,6 +37,12 @@ interface ChatConversation {
   title?: string;
   image?: string | null;
   lastMessage?: ChatMessage | null;
+  displayTitle: string;
+}
+
+interface MaintenanceWorker extends Pick<ChatParticipant, 'id' | 'name' | 'image'> {
+  // Add other specific fields if needed from the API response
+  email?: string;
 }
 
 // Simple debounce function
@@ -69,6 +76,10 @@ export default function MaintenanceChatPage() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null); 
 
+  const [activeWorkers, setActiveWorkers] = useState<MaintenanceWorker[]>([]);
+  const [selectedWorkerId, setSelectedWorkerId] = useState<string | null>(null);
+  const [isLoadingWorkers, setIsLoadingWorkers] = useState(true);
+
   const formatDateToTime = (dateInput: string | Date | undefined | null): string => {
     if (!dateInput) return ' ';
     try {
@@ -93,6 +104,34 @@ export default function MaintenanceChatPage() {
     scrollToBottom();
   }, [messages, typingUsers]); // Scroll when typing users change too
 
+  // Fetch active maintenance workers
+  useEffect(() => {
+    if (authStatus === 'authenticated') {
+      const fetchActiveWorkers = async () => {
+        setIsLoadingWorkers(true);
+        try {
+          const res = await fetch('/api/maintenance/workers/active');
+          if (!res.ok) {
+            throw new Error('Failed to fetch active workers');
+          }
+          const data = await res.json();
+          setActiveWorkers(data);
+          // Auto-select the logged-in user if they are in the list, or the first worker
+          if (data.length > 0) {
+            const loggedInWorker = data.find((w: MaintenanceWorker) => w.id === session?.user?.id);
+            setSelectedWorkerId(loggedInWorker ? loggedInWorker.id : data[0].id);
+          }
+        } catch (err: any) {
+          console.error("Error fetching active workers:", err);
+          // Optionally set an error state for workers
+        } finally {
+          setIsLoadingWorkers(false);
+        }
+      };
+      fetchActiveWorkers();
+    }
+  }, [authStatus, session?.user?.id]);
+
   // Fetch conversations
   useEffect(() => {
     if (authStatus === 'authenticated') {
@@ -106,38 +145,71 @@ export default function MaintenanceChatPage() {
             const errorData = await res.json().catch(() => ({ message: 'Failed to fetch conversations' }));
             throw new Error(errorData.message || 'Failed to fetch conversations');
           }
-          const data = await res.json();
+          let data = await res.json();
+
+          // Process conversations to correctly identify displayTitle for maintenance
+          data = data.map((conv: any) => {
+            const loggedInUserId = selectedWorkerId || session?.user?.id;
+            const customerParticipant = conv.participants.find((p: ChatParticipant) => p.role === 'CUSTOMER');
+            const otherParticipants = conv.participants.filter((p: ChatParticipant) => p.id !== loggedInUserId);
+            
+            let displayTitle = conv.displayTitle; // Keep original if already good
+
+            if (customerParticipant) {
+              displayTitle = customerParticipant.name || customerParticipant.email || 'Customer';
+            } else if (otherParticipants.length === 1) {
+              // If no customer, and one other participant (likely another staff)
+              displayTitle = otherParticipants[0].name || otherParticipants[0].email || 'Chat User';
+            } else if (otherParticipants.length > 1) {
+              // If no customer, and multiple other participants
+              displayTitle = otherParticipants.map((p: ChatParticipant) => p.name || p.email).join(', ');
+            }
+            // If it's a chat with self (only logged in user is participant), title might be "My Notes" or similar
+            // This case should be handled by the API's original displayTitle logic if selectedWorkerId is part of participants
+
+            return {
+              ...conv,
+              displayTitle: displayTitle,
+              // Ensure participants array is part of the conv object for selection logic
+              participants: conv.participants 
+            };
+          });
+
           setConversations(data);
         } catch (err: any) {
           setError(err.message);
           console.error(err);
+        } finally {
+            setIsLoadingConversations(false);
         }
-        setIsLoadingConversations(false);
       };
       fetchConversations();
     }
-  }, [authStatus]);
+  }, [authStatus, selectedWorkerId, session?.user?.id]);
 
   // Debounced function to send typing started event
   const debouncedSendTypingStarted = useCallback(
     debounce(() => {
-      if (selectedConversation && session?.user?.id && supabase.channel(`chat:${selectedConversation.id}`)) {
+      const currentSenderId = selectedWorkerId || session?.user?.id;
+      const currentSenderName = activeWorkers.find(w => w.id === currentSenderId)?.name || session?.user?.name || 'Someone';
+      if (selectedConversation && currentSenderId && supabase.channel(`chat:${selectedConversation.id}`)) {
         supabase.channel(`chat:${selectedConversation.id}`).send({
           type: 'broadcast',
           event: 'typing_started',
-          payload: { senderId: session.user.id, senderName: session.user.name || 'Someone' },
+          payload: { senderId: currentSenderId, senderName: currentSenderName },
         });
       }
     }, 500), 
-    [selectedConversation, session]
+    [selectedConversation, session, selectedWorkerId, activeWorkers]
   );
 
   const sendTypingStopped = () => {
-    if (selectedConversation && session?.user?.id && supabase.channel(`chat:${selectedConversation.id}`)) {
+    const currentSenderId = selectedWorkerId || session?.user?.id;
+    if (selectedConversation && currentSenderId && supabase.channel(`chat:${selectedConversation.id}`)) {
       supabase.channel(`chat:${selectedConversation.id}`).send({
         type: 'broadcast',
         event: 'typing_stopped',
-        payload: { senderId: session.user.id },
+        payload: { senderId: currentSenderId },
       });
     }
   };
@@ -151,7 +223,7 @@ export default function MaintenanceChatPage() {
     }
   };
 
-  // Fetch messages and subscribe to realtime updates (MODIFIED for typing events)
+  // Fetch messages and subscribe to realtime updates (MODIFIED for typing events & selectedWorkerId)
   useEffect(() => {
     let channel: RealtimeChannel | null = null;
 
@@ -213,7 +285,8 @@ export default function MaintenanceChatPage() {
         })
         .on('broadcast', { event: 'typing_started' }, (payload: any) => {
           const { senderId, senderName } = payload.payload;
-          if (senderId !== session?.user?.id) {
+          const currentUserId = selectedWorkerId || session?.user?.id;
+          if (senderId !== currentUserId) {
             setTypingUsers(prev => ({ ...prev, [senderId]: senderName }));
             if (typingTimeoutRef.current[senderId]) {
               clearTimeout(typingTimeoutRef.current[senderId]);
@@ -228,7 +301,8 @@ export default function MaintenanceChatPage() {
         })
         .on('broadcast', { event: 'typing_stopped' }, (payload: any) => {
           const { senderId } = payload.payload;
-          if (senderId !== session?.user?.id) {
+          const currentUserId = selectedWorkerId || session?.user?.id;
+          if (senderId !== currentUserId) {
             if (typingTimeoutRef.current[senderId]) {
               clearTimeout(typingTimeoutRef.current[senderId]);
             }
@@ -260,102 +334,92 @@ export default function MaintenanceChatPage() {
         supabase.removeChannel(channel).catch((err: any) => console.error('Error removing channel:', err));
       }
     };
-  }, [selectedConversation, session?.user?.id]);
+  }, [selectedConversation, session?.user?.id, selectedWorkerId]);
 
   useEffect(() => {
     scrollToBottom();
   }, [messages]); 
 
   const handleSelectConversation = (conversation: ChatConversation) => {
-    if (selectedConversation?.id === conversation.id && messages.length > 0) return; 
     setSelectedConversation(conversation);
+    // Determine the display name for the chat header
+    // Prioritize customer name if available
+    const loggedInUserId = selectedWorkerId || session?.user?.id;
+    const customerParticipant = conversation.participants.find(p => p.role === 'CUSTOMER');
+    let headerName = conversation.displayTitle; // Default to what came from the list
+
+    if (customerParticipant) {
+      headerName = customerParticipant.name || customerParticipant.email || 'Customer';
+    } else {
+      // Fallback for non-customer chats (e.g., staff-to-staff)
+      const otherParticipants = conversation.participants.filter(p => p.id !== loggedInUserId);
+      if (otherParticipants.length > 0) {
+        headerName = otherParticipants.map(p => p.name || p.email).join(', ');
+      } else if (conversation.participants.length === 1 && conversation.participants[0].id === loggedInUserId) {
+        headerName = "My Notes"; // Or similar for self-chat
+      }
+    }
+    // Update the selected conversation with a refined title for the header if necessary
+    setSelectedConversation(prev => prev ? ({...prev, title: headerName }) : null);
   };
 
   const handleSendMessage = async (e: FormEvent) => {
     e.preventDefault();
-    if (!newMessage.trim() || !selectedConversation || authStatus !== 'authenticated' || !session?.user?.id) return;
+    if (!newMessage.trim() || !selectedConversation || !selectedWorkerId) {
+      // Added !selectedWorkerId check
+      alert('Please select a worker to send as and type a message.');
+      return;
+    }
 
-    sendTypingStopped(); // Send typing stopped
+    const tempId = `temp-${Date.now()}`;
+    const senderForMessage = activeWorkers.find(w => w.id === selectedWorkerId);
 
-    const tempMessageId = `optimistic-${Date.now().toString()}`;
-    const senderId = session.user.id;
+    if (!senderForMessage) {
+        alert('Selected worker not found. Cannot send message.');
+        return;
+    }
+
+    // Optimistic UI update
     const optimisticMessage: ChatMessage = {
-      id: tempMessageId,
-      content: newMessage.trim(),
+      id: tempId,
       createdAt: new Date().toISOString(),
-      senderId: senderId,
-      sender: { id: senderId, name: session.user.name, image: session.user.image, role: session.user.role as string | undefined },
-      conversationId: selectedConversation.id
+      content: newMessage.trim(),
+      senderId: selectedWorkerId, // Use selected worker ID
+      sender: {
+        id: selectedWorkerId,
+        name: senderForMessage.name,
+        image: senderForMessage.image,
+        role: 'MAINTENANCE', // Assuming role
+      },
+      conversationId: selectedConversation.id,
     };
-    
-    console.log(`Optimistic message added: ${tempMessageId}`, optimisticMessage);
-    setMessages(prev => {
-      console.log('HANDLE_SEND_MESSAGE: Previous messages before adding optimistic:', prev.map(m => m.id));
-      const updated = [...prev, optimisticMessage];
-      console.log('HANDLE_SEND_MESSAGE: Messages after adding optimistic:', updated.map(m => m.id));
-      return updated;
-    });
-    const messageToSend = newMessage;
+    setMessages((prev) => [...prev, optimisticMessage]);
+    sendTypingStopped(); // Stop typing indicator immediately after sending
     setNewMessage('');
 
     try {
-      const res = await fetch(`/api/portal/chat/conversations/${selectedConversation.id}/messages`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: messageToSend.trim() }),
-      });
-
-      if (!res.ok) {
-        console.log(`HANDLE_SEND_MESSAGE: Send API failed. Rolling back optimistic message: ${tempMessageId}`);
-        setMessages(prev => {
-          console.log('HANDLE_SEND_MESSAGE: Previous messages before rollback:', prev.map(m => m.id));
-          const updated = prev.filter(msg => msg.id !== tempMessageId);
-          console.log('HANDLE_SEND_MESSAGE: Messages after rollback:', updated.map(m => m.id));
-          return updated;
-        });
-        const errorData = await res.json().catch(() => ({ message: 'Failed to send message' }));
-        throw new Error(errorData.message || 'Failed to send message');
-      }
-      
-      const confirmedMessage = await res.json() as ChatMessage;
-      console.log(`HANDLE_SEND_MESSAGE: Send API success. Confirmed message (DB ID ${confirmedMessage.id}) replacing optimistic ${tempMessageId}:`, confirmedMessage);
-
-      setMessages(prev => {
-        console.log('HANDLE_SEND_MESSAGE: Previous messages before replacing optimistic with confirmed:', prev.map(m => m.id));
-        const alreadyExistsViaBroadcast = prev.find(msg => msg.id === confirmedMessage.id);
-        if (alreadyExistsViaBroadcast) {
-          console.log(`HANDLE_SEND_MESSAGE: Confirmed message ID ${confirmedMessage.id} already added by broadcast. Removing optimistic ${tempMessageId}.`);
-          return prev.filter(msg => msg.id !== tempMessageId);
-        } else {
-          console.log(`HANDLE_SEND_MESSAGE: Confirmed message ID ${confirmedMessage.id} not yet added by broadcast. Replacing optimistic ${tempMessageId}.`);
-          return prev.map(msg => 
-            msg.id === tempMessageId ? { ...confirmedMessage, sender: optimisticMessage.sender } : msg
-          );
+      const res = await fetch(`/api/portal/chat/conversations/${selectedConversation.id}/messages`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            content: newMessage.trim(),
+            senderId: selectedWorkerId, // Send selected worker ID to backend
+            // The backend should ideally fetch/verify sender details based on this ID
+          }),
         }
-      });
-      
-      setConversations(prevConvs => prevConvs.map(conv => 
-        conv.id === selectedConversation.id 
-        ? { 
-            ...conv, 
-            lastMessage: { 
-              id: confirmedMessage.id,
-              content: confirmedMessage.content,
-              createdAt: confirmedMessage.createdAt,
-              senderId: confirmedMessage.senderId,
-              sender: optimisticMessage.sender, 
-              conversationId: confirmedMessage.conversationId,
-            },
-            updatedAt: confirmedMessage.createdAt 
-          }
-        : conv
-      ).sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()));
-
+      );
+      const savedMessage = await res.json();
+      if (!res.ok) {
+        throw new Error(savedMessage.error || 'Failed to send message');
+      }
+      // Replace optimistic message with saved one
+      setMessages((prev) => prev.map((msg) => (msg.id === tempId ? savedMessage : msg)));
     } catch (err: any) {
-      setError(err.message);
-      console.error(err);
-      setMessages(prev => prev.filter(msg => msg.id !== tempMessageId && msg.id !== (err.confirmedMessageId || ' '))); 
-      setNewMessage(messageToSend); 
+      console.error('Send message error:', err);
+      setError(`Failed to send: ${err.message}`);
+      // Revert optimistic update on error
+      setMessages((prev) => prev.filter((msg) => msg.id !== tempId));
     }
   };
   
@@ -381,6 +445,10 @@ export default function MaintenanceChatPage() {
   }
 
   const typingDisplayNames = Object.values(typingUsers).filter(name => name).join(', ');
+
+  const otherTypingUsers = Object.entries(typingUsers)
+    .filter(([userId]) => userId !== (selectedWorkerId || session?.user?.id)) // Filter out self
+    .map(([, userName]) => userName);
 
   return (
     <div className="flex h-[calc(100vh-8rem)] bg-slate-900 text-slate-100">
@@ -446,14 +514,25 @@ export default function MaintenanceChatPage() {
               <div>
                 <h2 className="text-lg font-semibold text-slate-100">{selectedConversation.title || 'Chat'}</h2>
                 {/* Display Typing Users */}
-                {typingDisplayNames && (
+                {otherTypingUsers.length > 0 && (
                   <p className="text-xs text-primary-400 animate-pulse">
-                    {typingDisplayNames} {Object.keys(typingUsers).length > 1 ? 'are' : 'is'} typing...
+                    {otherTypingUsers.join(', ')} {otherTypingUsers.length === 1 ? 'is' : 'are'} typing...
                   </p>
                 )}
               </div>
             </header>
-            <div ref={chatContainerRef} className="flex-grow overflow-y-auto p-4 space-y-4 bg-slate-900/80">
+            <div className="p-3 border-b border-slate-700 sticky top-0 bg-slate-800 z-10">
+              <h3 className="text-lg font-semibold text-sky-300 truncate">
+                {selectedConversation.title || selectedConversation.displayTitle || 'Chat'}
+              </h3>
+              {/* Optionally show other participants if not a 1:1 customer chat */}
+              {selectedConversation.participants && selectedConversation.participants.filter(p => p.id !== (selectedWorkerId || session?.user?.id) && p.role !== 'CUSTOMER').length > 0 && (
+                 <p className="text-xs text-slate-400 truncate">
+                   With: {selectedConversation.participants.filter(p => p.id !== (selectedWorkerId || session?.user?.id) && p.role !== 'CUSTOMER').map(p=>p.name || p.email).join(', ')}
+                 </p>
+              )}
+            </div>
+            <div ref={chatContainerRef} className="flex-1 p-4 space-y-4 overflow-y-auto scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-slate-750">
               {isLoadingMessages ? (
                 <div className="text-center text-slate-400">Loading messages...</div>
               ) : messages.length === 0 ? (

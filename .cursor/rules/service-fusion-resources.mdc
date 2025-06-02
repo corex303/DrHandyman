@@ -1,0 +1,828 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+\
+---
+description: Detailed guide to Service Fusion API resources, including endpoints, request/response formats, and parameters.
+globs: ["*"]
+alwaysApply: false
+---
+
+# Service Fusion API Resources Guide
+
+This guide provides detailed information about the various resources available through the Service Fusion API. For general API information, authentication, and error handling, please refer to the [Service Fusion API Guide](mdc:.cursor/rules/service-fusion-api.mdc). For data type definitions, see the [Service Fusion Types Guide](mdc:.cursor/rules/service-fusion-types.mdc).
+
+Below are the available resources:
+
+## `/calendar-tasks`
+
+Manages calendar tasks within Service Fusion.
+
+### Associated Types
+
+-   **`[CalendarTask](mdc:.cursor/rules/service-fusion-types.mdc#calendartask)` (List Item)**: Schema for an individual calendar task when listed.
+    *   `id`: integer - The calendar task\'s identifier.
+    *   `type`: string - The calendar task\'s type.
+    *   `description`: string - The calendar task\'s description.
+    *   `start_time`: string - The calendar task\'s start time.
+    *   `end_time`: string - The calendar task\'s end time.
+    *   `start_date`: datetime - The calendar task\'s start date.
+    *   `end_date`: datetime - The calendar task\'s end date.
+    *   `created_at`: datetime - The calendar task\'s created date.
+    *   `updated_at`: datetime - The calendar task\'s updated date.
+    *   `is_public`: boolean - The calendar task\'s is public flag.
+    *   `is_completed`: boolean - The calendar task\'s is completed flag.
+    *   `repeat_id`: integer - The calendar task\'s repeat id.
+    *   `users_id`: Array (integer) - The calendar task\'s users list of identifiers.
+    *   `customers_id`: Array (integer) - The calendar task\'s customers list of identifiers.
+    *   `jobs_id`: Array (integer) - The calendar task\'s jobs list of identifiers.
+    *   `estimates_id`: Array (integer) - The calendar task\'s estimates list of identifiers.
+    *   `repeat`: object - The calendar task\'s repeat details.
+        *   `id`: integer - The repeat\'s identifier.
+        *   `repeat_type`: string - The repeat\'s type.
+        *   `repeat_frequency`: integer - The repeat\'s frequency.
+        *   `repeat_weekly_days`: Array (string) - Days of the week for weekly repeats.
+        *   `repeat_monthly_type`: string - The repeat\'s monthly type.
+        *   `stop_repeat_type`: string - The repeat\'s stop type.
+        *   `stop_repeat_on_occurrence`: integer - The repeat\'s stop on occurrence.
+        *   `stop_repeat_on_date`: datetime - The repeat\'s stop on date.
+        *   `start_date`: datetime - The repeat\'s start date.
+        *   `end_date`: datetime - The repeat\'s end date.
+-   **`[CalendarTaskBody](mdc:.cursor/rules/service-fusion-types.mdc#calendartaskbody)`**: Schema for creating or updating a calendar task.
+    *   `type`: string (required) - Type of the calendar task.
+    *   `description`: string (required) - Description of the task.
+    *   `start_date`: datetime (required) - Start date of the task.
+    *   `end_date`: datetime (required) - End date of the task.
+    *   `start_time`: string (required) - Start time (e.g., "09:00").
+    *   `end_time`: string (required) - End time (e.g., "17:00").
+    *   `is_public`: boolean - Whether the task is public.
+    *   `is_completed`: boolean - Whether the task is completed.
+    *   `users`: Array (string) (required) - List of user IDs or headers to assign.
+    *   `customers`: Array (string) - List of customer IDs or headers to associate.
+    *   `jobs`: Array (string) - List of job IDs or headers to associate.
+    *   `estimates`: Array (string) - List of estimate IDs or headers to associate.
+    *   `repeat`: object - Repeat rule definition.
+        *   `repeat_type`: string (enum: `Daily`, `Weekly`, `Monthly`, `Yearly`)
+        *   `repeat_frequency`: integer (min: 1)
+        *   `repeat_weekly_days`: Array (string) (enum: `Sun`, `Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`) - Required if `repeat_type` is `Weekly`.
+        *   `repeat_monthly_type`: string (enum: `Day of month`, `Day of week`) - Required if `repeat_type` is `Monthly`.
+        *   `stop_repeat_type`: string (enum: `Never`, `On Date`, `On Occurrence`)
+        *   `stop_repeat_on_date`: datetime - Required if `stop_repeat_type` is `On Date`.
+        *   `stop_repeat_on_occurrence`: integer (min: 1) - Required if `stop_repeat_type` is `On Occurrence`.
+
+### Methods
+
+#### GET `/calendar-tasks`
+
+Retrieves a list of calendar tasks. Supports standard pagination, sorting, and filtering parameters as described in the [Service Fusion API Guide](mdc:.cursor/rules/service-fusion-api.mdc#basic-operations).
+
+-   **Request Parameters (Query)**:
+    -   `filters[users_id]`: integer - User\'s identifier.
+    -   `filters[customers_id]`: integer - Customer\'s identifier.
+    -   `filters[jobs_id]`: integer - Job\'s identifier.
+    -   `filters[estimates_id]`: integer - Estimate\'s identifier.
+    -   `filters[start_date_from]`: datetime - Start date from.
+    -   `filters[start_date_to]`: datetime - Start date to.
+    -   `filters[end_date_from]`: datetime - End date from.
+    -   `filters[end_date_to]`: datetime - End date to.
+    -   `filters[q]`: string - Search query.
+-   **Response**: `200 OK` with a list of `[CalendarTask](mdc:.cursor/rules/service-fusion-types.mdc#calendartask)` objects and meta-information.
+
+#### POST `/calendar-tasks`
+
+Creates a new calendar task.
+
+-   **Request Body**: `[CalendarTaskBody](mdc:.cursor/rules/service-fusion-types.mdc#calendartaskbody)`
+-   **Response**: `201 Created` with the created `[CalendarTask](mdc:.cursor/rules/service-fusion-types.mdc#calendartask)` object.
+    -   `422 Unprocessable Entity`: If validation fails.
+
+#### GET `/calendar-tasks/{id}`
+
+Retrieves a specific calendar task by its ID.
+
+-   **Response**: `200 OK` with the `[CalendarTask](mdc:.cursor/rules/service-fusion-types.mdc#calendartask)` object.
+    -   `404 Not Found`: If the task does not exist.
+
+#### PUT `/calendar-tasks/{id}`
+
+Updates an existing calendar task.
+
+-   **Request Body**: `[CalendarTaskBody](mdc:.cursor/rules/service-fusion-types.mdc#calendartaskbody)`
+-   **Response**: `200 OK` with the updated `[CalendarTask](mdc:.cursor/rules/service-fusion-types.mdc#calendartask)` object.
+    -   `404 Not Found`: If the task does not exist.
+    -   `422 Unprocessable Entity`: If validation fails.
+
+#### DELETE `/calendar-tasks/{id}`
+
+Deletes a calendar task. If the task is part of a repeat series, options are provided to delete a single occurrence or the entire series.
+
+-   **Request Parameters (Query - for repeating tasks)**:
+    -   `repeat_action`: string (enum: `all`, `one`, `all_following`) - Default: `one`.
+        -   `one`: Deletes only the current occurrence.
+        -   `all`: Deletes all occurrences in the series.
+        -   `all_following`: Deletes the current and all future occurrences.
+-   **Response**: `204 No Content` on successful deletion.
+    -   `404 Not Found`: If the task does not exist.
+
+---
+
+## `/customers`
+
+Manages customer information.
+
+### Associated Types
+
+-   **`[CustomerBody](mdc:.cursor/rules/service-fusion-types.mdc#customerbody)`**: Schema for creating or updating a customer.
+    *   `customer_name`: string (required)
+    *   `parent_customer`: string (ID or header of parent customer)
+    *   `account_number`: string (auto-generated if not provided)
+    *   `private_notes`: string
+    *   `public_notes`: string
+    *   `credit_rating`: string (enum: `A+`, `A`, `B+`, `B`, `C+`, `C`, `U`)
+    *   `labor_charge_type`: string (enum: `flat`, `hourly`)
+    *   `labor_charge_default_rate`: number
+    *   `last_serviced_date`: datetime
+    *   `is_bill_for_drive_time`: boolean
+    *   `is_vip`: boolean (default: `false`)
+    *   `referral_source`: string (ID or header of referral source)
+    *   `agent`: string (ID or header of agent)
+    *   `discount`: number
+    *   `discount_type`: string (enum: `$`, `%`)
+    *   `payment_type`: string (ID or header of payment type)
+    *   `payment_terms`: string
+    *   `assigned_contract`: string (ID or header of contract)
+    *   `industry`: string (ID or header of industry)
+    *   `is_taxable`: boolean (default: `true`)
+    *   `tax_item_name`: string (ID or header of tax item)
+    *   `qbo_sync_token`: integer
+    *   `qbo_currency`: string (enum: `USD`, `CAD`, `JMD`, `THB`; default: `USD` or company default)
+    *   `contacts`: Array of `[CustomerContactBody](mdc:.cursor/rules/service-fusion-types.mdc#customercontactbody)`
+    *   `locations`: Array of `[CustomerLocationBody](mdc:.cursor/rules/service-fusion-types.mdc#customerlocationbody)`
+    *   `custom_fields`: Array of `[CustomFieldBody](mdc:.cursor/rules/service-fusion-types.mdc#customfieldbody)` (See [service-fusion-types.mdc](mdc:.cursor/rules/service-fusion-types.mdc#customfieldbody))
+-   **`[CustomerView](mdc:.cursor/rules/service-fusion-types.mdc#customerview)`**: Schema for a customer when retrieved.
+    *   Includes fields from `[CustomerBody](mdc:.cursor/rules/service-fusion-types.mdc#customerbody)` plus:
+    *   `id`: integer (Customer ID)
+    *   `balance`: number
+    *   `created_at`: datetime
+    *   `updated_at`: datetime
+    *   `parent_customer_details`: object (expanded parent customer info)
+    *   `referral_source_details`: object (expanded referral source info)
+    *   `agent_details`: object (expanded agent info)
+    *   `payment_type_details`: object (expanded payment type info)
+    *   `assigned_contract_details`: object (expanded contract info)
+    *   `industry_details`: object (expanded industry info)
+    *   `tax_item_details`: object (expanded tax item info)
+    *   `contacts`: Array of `[CustomerContactView](mdc:.cursor/rules/service-fusion-types.mdc#customercontactview)`
+    *   `locations`: Array of `[CustomerLocationView](mdc:.cursor/rules/service-fusion-types.mdc#customerlocationview)`
+    *   `qbo_last_sync_time`: datetime
+-   **`[CustomerContactBody](mdc:.cursor/rules/service-fusion-types.mdc#customercontactbody)` / `[CustomerContactView](mdc:.cursor/rules/service-fusion-types.mdc#customercontactview)`**
+    *   `prefix`: string (enum: `Mr.`, `Mrs.`, etc.)
+    *   `fname`: string (required)
+    *   `lname`: string (required)
+    *   `suffix`: string
+    *   `contact_type`: string
+    *   `dob`: string (date of birth)
+    *   `anniversary`: string
+    *   `job_title`: string
+    *   `department`: string
+    *   `is_primary`: boolean (auto-set if first contact)
+    *   `phones`: Array of `[CustomerPhoneBody](mdc:.cursor/rules/service-fusion-types.mdc#customerphonebody)` / `[CustomerPhoneView](mdc:.cursor/rules/service-fusion-types.mdc#customerphoneview)`
+    *   `emails`: Array of `[CustomerEmailBody](mdc:.cursor/rules/service-fusion-types.mdc#customeremailbody)` / `[CustomerEmailView](mdc:.cursor/rules/service-fusion-types.mdc#customeremailview)`
+    *   (`id` present in View)
+-   **`[CustomerLocationBody](mdc:.cursor/rules/service-fusion-types.mdc#customerlocationbody)` / `[CustomerLocationView](mdc:.cursor/rules/service-fusion-types.mdc#customerlocationview)`**
+    *   `street_1`: string (required)
+    *   `street_2`: string
+    *   `city`: string (required)
+    *   `state_prov`: string (required)
+    *   `postal_code`: string (required)
+    *   `country`: string (required)
+    *   `nickname`: string
+    *   `gate_instructions`: string
+    *   `latitude`: number
+    *   `longitude`: number
+    *   `location_type`: string
+    *   `is_primary`: boolean (auto-set if first location)
+    *   `is_gated`: boolean
+    *   `is_bill_to`: boolean
+    *   `customer_contact`: string (ID or header of associated contact)
+    *   (`id` present in View, `customer_contact_details` in View)
+-   **`[CustomerPhoneBody](mdc:.cursor/rules/service-fusion-types.mdc#customerphonebody)` / `[CustomerPhoneView](mdc:.cursor/rules/service-fusion-types.mdc#customerphoneview)`**
+    *   `phone`: string (required, format: `XXX-XXX-XXXX`)
+    *   `ext`: integer
+    *   `type`: string (enum: `Business`, `Fax`, `Home`, `Mobile`, `Pager`, `Other`)
+    *   (`id` present in View)
+-   **`[CustomerEmailBody](mdc:.cursor/rules/service-fusion-types.mdc#customeremailbody)` / `[CustomerEmailView](mdc:.cursor/rules/service-fusion-types.mdc#customeremailview)`**
+    *   `email`: string (required, valid email format)
+    *   `class`: string (enum: `Work`, `Personal`, `Other`)
+    *   `types_accepted`: string (enum: `All`, `Invoice Only`, `Statement Only`)
+    *   (`id` present in View)
+
+### Methods
+
+#### GET `/customers`
+
+Retrieves a list of customers. Supports standard pagination, sorting, and filtering.
+
+-   **Request Parameters (Query - specific to customers)**:
+    -   `filters[q]`: string - Search query (matches name, account number, contacts, locations, custom fields).
+    -   `filters[parent_customer_id]`: integer
+    -   `filters[is_vip]`: boolean
+    -   `filters[status]`: string (enum: `Active`, `Inactive`)
+    -   `filters[agent_id]`: integer
+    -   `filters[referral_source_id]`: integer
+    -   `filters[industry_id]`: integer
+    -   `filters[created_at_from]`: datetime
+    -   `filters[created_at_to]`: datetime
+    -   `filters[updated_at_from]`: datetime
+    -   `filters[updated_at_to]`: datetime
+    -   `expand`: string - Comma-separated list of fields to expand (e.g., `parent_customer,contacts`).
+-   **Response**: `200 OK` with a list of `[CustomerView](mdc:.cursor/rules/service-fusion-types.mdc#customerview)` objects and meta-information.
+
+#### POST `/customers`
+
+Creates a new customer.
+
+-   **Request Body**: `[CustomerBody](mdc:.cursor/rules/service-fusion-types.mdc#customerbody)`
+-   **Response**: `201 Created` with the created `[CustomerView](mdc:.cursor/rules/service-fusion-types.mdc#customerview)` object.
+    -   `422 Unprocessable Entity`: If validation fails.
+
+#### GET `/customers/{id}`
+
+Retrieves a specific customer by ID.
+
+-   **Request Parameters (Query)**:
+    -   `expand`: string - Comma-separated list of fields to expand.
+-   **Response**: `200 OK` with `[CustomerView](mdc:.cursor/rules/service-fusion-types.mdc#customerview)` object.
+    -   `404 Not Found`: If the customer does not exist.
+
+#### PUT `/customers/{id}`
+
+Updates an existing customer.
+
+-   **Request Body**: `[CustomerBody](mdc:.cursor/rules/service-fusion-types.mdc#customerbody)`
+-   **Response**: `200 OK` with the updated `[CustomerView](mdc:.cursor/rules/service-fusion-types.mdc#customerview)` object.
+    -   `404 Not Found`
+    -   `422 Unprocessable Entity`
+
+#### DELETE `/customers/{id}`
+
+Deletes a customer. This is a soft delete; the customer will be marked as inactive.
+
+-   **Response**: `204 No Content`.
+    -   `404 Not Found`
+
+---
+
+## `/estimates`
+
+Manages estimates for potential jobs or services.
+
+### Associated Types
+
+-   **`[EstimateBody](mdc:.cursor/rules/service-fusion-types.mdc#estimatebody)`**: Schema for creating or updating an estimate.
+    *   `description`: string
+    *   `tech_notes`: string
+    *   `duration`: integer (seconds, default: 3600, min: 0, max: 86400)
+    *   `time_frame_promised_start`: string
+    *   `time_frame_promised_end`: string
+    *   `start_date`: datetime
+    *   `created_at`: datetime (default: current date/time)
+    *   `customer_name`: string (required, ID or header of customer)
+    *   `status`: string (ID or header of estimate status, default: company default for estimates)
+    *   `contact_first_name`: string (uses primary contact if not set)
+    *   `contact_last_name`: string (uses primary contact if not set)
+    *   `street_1`: string (uses primary location if not set)
+    *   `street_2`: string (uses primary location if not set)
+    *   `city`: string (uses primary location if not set)
+    *   `state_prov`: string (uses primary location if not set)
+    *   `postal_code`: string (uses primary location if not set)
+    *   `location_name`: string (uses primary location if not set)
+    *   `is_gated`: boolean (uses primary location if not set)
+    *   `gate_instructions`: string (uses primary location if not set)
+    *   `category`: string (ID or header of job category, optionally required based on company preferences)
+    *   `source`: string (ID or header of source, default: from customer)
+    *   `project`: string (ID or header of project)
+    *   `phase`: string (ID or header of phase)
+    *   `po_number`: string
+    *   `contract`: string (ID or header of contract, default: from customer)
+    *   `note_to_customer`: string (default: from company preferences)
+    *   `opportunity_rating`: integer (min: 0, max: 5)
+    *   `opportunity_owner`: string (ID or header of user, default: current user)
+    *   `custom_fields`: Array of `[CustomFieldBody](mdc:.cursor/rules/service-fusion-types.mdc#customfieldbody)` (See [service-fusion-types.mdc](mdc:.cursor/rules/service-fusion-types.mdc#customfieldbody))
+    *   `equipment`: Array of `[EstimateEquipmentBody](mdc:.cursor/rules/service-fusion-types.mdc#estimateequipmentbody)`
+    *   `techs_assigned`: Array of `[AssignedTechBody](mdc:.cursor/rules/service-fusion-types.mdc#assignedtechbody)` (ID or header of tech)
+    *   `tasks`: Array of `[EstimateTaskBody](mdc:.cursor/rules/service-fusion-types.mdc#estimatetaskbody)`
+    *   `notes`: Array of `[EstimateNoteBody](mdc:.cursor/rules/service-fusion-types.mdc#estimatenotebody)`
+    *   `products`: Array of `[EstimateProductBody](mdc:.cursor/rules/service-fusion-types.mdc#estimateproductbody)`
+    *   `services`: Array of `[EstimateServiceBody](mdc:.cursor/rules/service-fusion-types.mdc#estimateservicebody)`
+    *   `other_charges`: Array of `[EstimateOtherChargeBody](mdc:.cursor/rules/service-fusion-types.mdc#estimateotherchargebody)`
+    *   `tags`: Array of `[EstimateTagBody](mdc:.cursor/rules/service-fusion-types.mdc#estimatetagbody)`
+-   **`[EstimateView](mdc:.cursor/rules/service-fusion-types.mdc#estimateview)`**: Schema for an estimate when retrieved. Includes fields from `[EstimateBody](mdc:.cursor/rules/service-fusion-types.mdc#estimatebody)` plus additional fields like `id`, `total`, `subtotal`, `tax_total`, `created_by_user`, `updated_by_user`, expanded details for linked entities (customer, status, category, etc.), and `qbo_last_sync_time`.
+-   Refer to [service-fusion-types.mdc](mdc:.cursor/rules/service-fusion-types.mdc) for detailed sub-type schemas like `[EstimateEquipmentBody](mdc:.cursor/rules/service-fusion-types.mdc#estimateequipmentbody)`, `[AssignedTechBody](mdc:.cursor/rules/service-fusion-types.mdc#assignedtechbody)`, `[EstimateTaskBody](mdc:.cursor/rules/service-fusion-types.mdc#estimatetaskbody)`, etc.
+
+### Methods
+
+#### GET `/estimates`
+
+Retrieves a list of estimates. Supports standard pagination, sorting, and filtering.
+
+-   **Request Parameters (Query - specific to estimates)**:
+    -   `filters[q]`: string - Search query.
+    -   `filters[customer_id]`: integer
+    -   `filters[status_id]`: integer
+    -   `filters[category_id]`: integer
+    -   `filters[source_id]`: integer
+    -   `filters[opportunity_owner_id]`: integer
+    -   `filters[created_at_from]`: datetime
+    -   `filters[created_at_to]`: datetime
+    -   `filters[updated_at_from]`: datetime
+    -   `filters[updated_at_to]`: datetime
+    -   `filters[start_date_from]`: datetime
+    -   `filters[start_date_to]`: datetime
+    -   `expand`: string - Comma-separated list of fields to expand.
+-   **Response**: `200 OK` with a list of `[EstimateView](mdc:.cursor/rules/service-fusion-types.mdc#estimateview)` objects and meta-information.
+
+#### POST `/estimates`
+
+Creates a new estimate.
+
+-   **Request Body**: `[EstimateBody](mdc:.cursor/rules/service-fusion-types.mdc#estimatebody)`
+-   **Response**: `201 Created` with the created `[EstimateView](mdc:.cursor/rules/service-fusion-types.mdc#estimateview)` object.
+    -   `422 Unprocessable Entity`: If validation fails.
+
+#### GET `/estimates/{id}`
+
+Retrieves a specific estimate by ID.
+
+-   **Request Parameters (Query)**:
+    -   `expand`: string - Comma-separated list of fields to expand.
+-   **Response**: `200 OK` with the `[EstimateView](mdc:.cursor/rules/service-fusion-types.mdc#estimateview)` object.
+    -   `404 Not Found`: If the estimate does not exist.
+
+#### PUT `/estimates/{id}`
+
+Updates an existing estimate.
+
+-   **Request Body**: `[EstimateBody](mdc:.cursor/rules/service-fusion-types.mdc#estimatebody)`
+-   **Response**: `200 OK` with the updated `[EstimateView](mdc:.cursor/rules/service-fusion-types.mdc#estimateview)` object.
+    -   `404 Not Found`
+    -   `422 Unprocessable Entity`
+
+#### DELETE `/estimates/{id}`
+
+Deletes an estimate.
+
+-   **Response**: `204 No Content`.
+    -   `404 Not Found`
+
+#### POST `/estimates/{id}/convert`
+
+Converts an estimate into a job.
+
+-   **Response**: `200 OK` with the newly created Job object (see `[JobView](mdc:.cursor/rules/service-fusion-types.mdc#jobview)` in `/jobs` resource or [service-fusion-types.mdc](mdc:.cursor/rules/service-fusion-types.mdc#jobview)).
+    -   `404 Not Found`
+    -   `422 Unprocessable Entity` (e.g., if estimate already converted or has no line items).
+
+---
+
+## `/jobs`
+
+Manages jobs, which are typically work orders or service appointments.
+
+### Associated Types
+
+-   **`[JobBody](mdc:.cursor/rules/service-fusion-types.mdc#jobbody)`**: Schema for creating or updating a job.
+    *   `check_number`: string
+    *   `priority`: string (enum: `Low`, `Normal`, `High`; default: `Normal`)
+    *   `description`: string
+    *   `tech_notes`: string
+    *   `completion_notes`: string
+    *   `duration`: integer (seconds, default: 3600, min: 0, max: 86400)
+    *   `time_frame_promised_start`: string
+    *   `time_frame_promised_end`: string
+    *   `start_date`: datetime
+    *   `end_date`: datetime
+    *   `customer_name`: string (required, ID or header of customer)
+    *   `status`: string (ID or header of job status, default: company default for jobs, optionally required)
+    *   `contact_first_name`: string (uses primary contact if not set)
+    *   `contact_last_name`: string (uses primary contact if not set)
+    *   `street_1`: string (uses primary location if not set)
+    *   `street_2`: string (uses primary location if not set)
+    *   `city`: string (uses primary location if not set)
+    *   `state_prov`: string (uses primary location if not set)
+    *   `postal_code`: string (uses primary location if not set)
+    *   `location_name`: string (uses primary location if not set)
+    *   `is_gated`: boolean (uses primary location if not set)
+    *   `gate_instructions`: string (uses primary location if not set)
+    *   `category`: string (ID or header of job category, optionally required)
+    *   `source`: string (ID or header of source, default: from customer)
+    *   `payment_type`: string (ID or header of payment type, default: from customer or company prefs)
+    *   `customer_payment_terms`: string (default: from customer or company prefs)
+    *   `project`: string (ID or header of project)
+    *   `phase`: string (ID or header of phase)
+    *   `po_number`: string
+    *   `contract`: string (ID or header of contract, default: from customer)
+    *   `note_to_customer`: string (default: from company preferences)
+    *   `called_in_by`: string (ID or header of user)
+    *   `is_requires_follow_up`: boolean
+    *   `agents`: Array of `[AgentBody](mdc:.cursor/rules/service-fusion-types.mdc#agentbody)` (ID or header of agent)
+    *   `custom_fields`: Array of `[CustomFieldBody](mdc:.cursor/rules/service-fusion-types.mdc#customfieldbody)`
+    *   `equipment`: Array of `[JobEquipmentBody](mdc:.cursor/rules/service-fusion-types.mdc#jobequipmentbody)`
+    *   `techs_assigned`: Array of `[AssignedTechBody](mdc:.cursor/rules/service-fusion-types.mdc#assignedtechbody)` (ID or header of tech)
+    *   `tasks`: Array of `[JobTaskBody](mdc:.cursor/rules/service-fusion-types.mdc#jobtaskbody)`
+    *   `notes`: Array of `[JobNoteBody](mdc:.cursor/rules/service-fusion-types.mdc#jobnotebody)`
+    *   `products`: Array of `[JobProductBody](mdc:.cursor/rules/service-fusion-types.mdc#jobproductbody)`
+    *   `services`: Array of `[JobServiceBody](mdc:.cursor/rules/service-fusion-types.mdc#jobservicebody)`
+    *   `other_charges`: Array of `[JobOtherChargeBody](mdc:.cursor/rules/service-fusion-types.mdc#jobotherchargebody)`
+    *   `labor_charges`: Array of `[JobLaborChargeBody](mdc:.cursor/rules/service-fusion-types.mdc#joblaborchargebody)`
+    *   `expenses`: Array of `[JobExpenseBody](mdc:.cursor/rules/service-fusion-types.mdc#jobexpensebody)`
+-   **`[JobView](mdc:.cursor/rules/service-fusion-types.mdc#jobview)`**: Schema for a job when retrieved. Includes fields from `[JobBody](mdc:.cursor/rules/service-fusion-types.mdc#jobbody)` plus `id`, totals, timestamps, expanded linked entities, and QBO sync info.
+-   Refer to [service-fusion-types.mdc](mdc:.cursor/rules/service-fusion-types.mdc) for detailed sub-type schemas.
+
+### Methods
+
+#### GET `/jobs`
+
+Retrieves a list of jobs. Supports standard pagination, sorting, and filtering.
+
+-   **Request Parameters (Query - specific to jobs)**:
+    -   `filters[q]`: string - Search query.
+    -   `filters[customer_id]`: integer
+    -   `filters[status_id]`: integer
+    -   `filters[category_id]`: integer
+    -   `filters[source_id]`: integer
+    -   `filters[tech_id]`: integer (Assigned tech)
+    -   `filters[agent_id]`: integer
+    -   `filters[start_date_from]`: datetime
+    -   `filters[start_date_to]`: datetime
+    -   `filters[created_at_from]`: datetime
+    -   `filters[created_at_to]`: datetime
+    -   `filters[updated_at_from]`: datetime
+    -   `filters[updated_at_to]`: datetime
+    -   `filters[completed_at_from]`: datetime
+    -   `filters[completed_at_to]`: datetime
+    -   `expand`: string - Comma-separated list of fields to expand.
+-   **Response**: `200 OK` with a list of `[JobView](mdc:.cursor/rules/service-fusion-types.mdc#jobview)` objects and meta-information.
+
+#### POST `/jobs`
+
+Creates a new job.
+
+-   **Request Body**: `[JobBody](mdc:.cursor/rules/service-fusion-types.mdc#jobbody)`
+-   **Response**: `201 Created` with the created `[JobView](mdc:.cursor/rules/service-fusion-types.mdc#jobview)` object.
+    -   `422 Unprocessable Entity`
+
+#### GET `/jobs/{id}`
+
+Retrieves a specific job by ID.
+
+-   **Request Parameters (Query)**: `expand`
+-   **Response**: `200 OK` with `[JobView](mdc:.cursor/rules/service-fusion-types.mdc#jobview)`.
+    -   `404 Not Found`
+
+#### PUT `/jobs/{id}`
+
+Updates an existing job.
+
+-   **Request Body**: `[JobBody](mdc:.cursor/rules/service-fusion-types.mdc#jobbody)`
+-   **Response**: `200 OK` with updated `[JobView](mdc:.cursor/rules/service-fusion-types.mdc#jobview)`.
+    -   `404 Not Found`, `422 Unprocessable Entity`
+
+#### DELETE `/jobs/{id}`
+
+Deletes a job.
+
+-   **Response**: `204 No Content`.
+    -   `404 Not Found`
+
+#### POST `/jobs/{id}/convert-to-invoice`
+
+Converts a job into an invoice.
+
+-   **Response**: `200 OK` with the newly created Invoice object.
+    -   `404 Not Found`, `422 Unprocessable Entity`
+
+---
+
+## `/invoices`
+
+Manages customer invoices.
+
+### Associated Types
+
+-   **`[Invoice](mdc:.cursor/rules/service-fusion-types.mdc#invoice)` (List Item/View)**: Schema for an invoice.
+    *   `id`: integer - Invoice identifier.
+    *   `number`: integer - Invoice number.
+    *   `currency`: string
+    *   `po_number`: string
+    *   `terms`: string
+    *   `customer_message`: string
+    *   `notes`: string
+    *   `pay_online_url`: string
+    *   `qbo_invoice_no`: integer
+    *   `qbo_sync_token`: integer
+    *   `qbo_synced_date`: datetime
+    *   `qbo_id`: integer (QBO class ID)
+    *   `qbd_id`: string (QBD class ID)
+    *   `total`: number
+    *   `is_paid`: boolean
+    *   `date`: datetime (Invoice date)
+    *   `mail_send_date`: datetime
+    *   `created_at`: datetime
+    *   `updated_at`: datetime
+    *   `customer`: string (Header of attached customer: `{customer_name}`)
+    *   `customer_contact`: string (Header of attached contact: `{fname} {lname}`)
+    *   `payment_terms`: string (Header of attached payment term: `{name}`)
+    *   `bill_to_customer_id`: integer
+    *   `bill_to_customer_location_id`: integer
+    *   `bill_to_customer_contact_id`: integer
+    *   `bill_to_email_id`: integer
+    *   `bill_to_phone_id`: integer
+    *   (When retrieved individually, may include expanded details for `job`, `customer`, `customer_location`, `customer_contact`, `payment_type`, `payment_terms`, `tax_item`, `products`, `services`, `other_charges`, `payments`)
+-   **`[InvoiceBody](mdc:.cursor/rules/service-fusion-types.mdc#invoicebody)`**: Schema for creating an invoice (typically from a job).
+    *   `job_id`: integer (required) - ID of the job to convert.
+    *   `date`: datetime (default: current date)
+    *   `due_date`: datetime
+    *   `payment_terms`: string (ID or header)
+    *   `po_number`: string
+    *   `is_include_job_completion_notes`: boolean (default: `false`)
+    *   `is_include_job_tech_notes`: boolean (default: `false`)
+    *   `is_include_job_private_notes`: boolean (default: `false`)
+    *   `items`: Array of `[InvoiceItemBody](mdc:.cursor/rules/service-fusion-types.mdc#invoiceitembody)` (optional, if not provided, items are copied from job)
+        *   `type`: string (enum: `Product`, `Service`, `Other Charge`)
+        *   `name`: string
+        *   `description`: string
+        *   `rate`: number
+        *   `multiplier`: integer
+        *   `tax_id`: integer
+        *   `cost`: number
+        *   `is_show_rate_items`: boolean
+
+### Methods
+
+#### GET `/invoices`
+
+Retrieves a list of invoices. Supports standard pagination, sorting, and filtering.
+
+-   **Request Parameters (Query - specific to invoices)**:
+    -   `filters[q]`: string - Search query.
+    -   `filters[customer_id]`: integer
+    -   `filters[is_paid]`: boolean
+    -   `filters[date_from]`: datetime
+    -   `filters[date_to]`: datetime
+    -   `filters[created_at_from]`: datetime
+    -   `filters[created_at_to]`: datetime
+    -   `filters[updated_at_from]`: datetime
+    -   `filters[updated_at_to]`: datetime
+    -   `expand`: string - Comma-separated list of fields to expand.
+-   **Response**: `200 OK` with a list of `[Invoice](mdc:.cursor/rules/service-fusion-types.mdc#invoice)` objects and meta-information.
+
+#### POST `/invoices` (Typically for converting a job)
+
+Creates a new invoice, usually by converting a job.
+
+-   **Request Body**: `[InvoiceBody](mdc:.cursor/rules/service-fusion-types.mdc#invoicebody)` (primarily `job_id`).
+-   **Response**: `201 Created` with the created `[Invoice](mdc:.cursor/rules/service-fusion-types.mdc#invoice)` object.
+    -   `422 Unprocessable Entity`
+
+#### GET `/invoices/{id}`
+
+Retrieves a specific invoice by ID.
+
+-   **Request Parameters (Query)**: `expand`
+-   **Response**: `200 OK` with `[Invoice](mdc:.cursor/rules/service-fusion-types.mdc#invoice)`.
+    -   `404 Not Found`
+
+#### PUT `/invoices/{id}`
+
+Updates an existing invoice. (Note: The documentation implies limited direct update capabilities, mostly via QBO sync or payments. Direct update fields might be restricted).
+
+-   **Request Body**: (Fields for update, e.g., related to QBO)
+    *   `qbo_sync_token`: integer
+    *   `qbo_invoice_no`: string
+    *   `qbo_id`: integer
+    *   `qbd_id`: string
+-   **Response**: `200 OK` with updated `[Invoice](mdc:.cursor/rules/service-fusion-types.mdc#invoice)`.
+    -   `404 Not Found`, `422 Unprocessable Entity`
+
+#### DELETE `/invoices/{id}`
+
+Deletes an invoice.
+
+-   **Response**: `204 No Content`.
+    -   `404 Not Found`
+
+#### POST `/invoices/{id}/send`
+
+Sends an invoice to the customer via email.
+
+-   **Request Body**:
+    *   `email_from`: string (required, valid email)
+    *   `email_to`: string (required, valid email)
+    *   `subject`: string (required)
+    *   `message`: string (required)
+    *   `is_attach_pdf`: boolean (default: `true`)
+-   **Response**: `200 OK` (success message).
+    -   `404 Not Found`, `422 Unprocessable Entity`
+
+---
+
+## `/job-categories`
+
+Manages categories that can be assigned to jobs.
+
+### Associated Types
+
+-   **`[JobCategory](mdc:.cursor/rules/service-fusion-types.mdc#jobcategory)` (List Item/View)**: Schema for a job category.
+    *   `id`: integer
+    *   `name`: string
+
+### Methods
+
+#### GET `/job-categories`
+
+Retrieves a list of job categories. Supports standard pagination, sorting (`sort[name]`), and filtering (`filters[q]`, `filters[name]`).
+
+-   **Response**: `200 OK` with a list of `[JobCategory](mdc:.cursor/rules/service-fusion-types.mdc#jobcategory)` objects and meta-information.
+
+#### GET `/job-categories/{id}`
+
+Retrieves a specific job category by ID.
+
+-   **Response**: `200 OK` with `[JobCategory](mdc:.cursor/rules/service-fusion-types.mdc#jobcategory)`.
+    -   `404 Not Found`
+
+---
+
+## `/job-statuses`
+
+Manages statuses that can be assigned to jobs.
+
+### Associated Types
+
+-   **`[JobStatus](mdc:.cursor/rules/service-fusion-types.mdc#jobstatus)` (List Item/View)**: Schema for a job status.
+    *   `id`: integer
+    *   `code`: string
+    *   `name`: string
+    *   `is_custom`: string (boolean-like, e.g., "Yes"/"No")
+    *   `category`: string (Header of attached category: `{code}`)
+
+### Methods
+
+#### GET `/job-statuses`
+
+Retrieves a list of job statuses. Supports standard pagination, sorting (`sort[name]`, `sort[category]`), and filtering (`filters[q]`, `filters[name]`, `filters[category_code]`).
+
+-   **Response**: `200 OK` with a list of `[JobStatus](mdc:.cursor/rules/service-fusion-types.mdc#jobstatus)` objects and meta-information.
+
+#### GET `/job-statuses/{id}`
+
+Retrieves a specific job status by ID.
+
+-   **Response**: `200 OK`
+
+---
+
+## `/me`
+
+Provides information about the currently authenticated user.
+
+### Associated Types
+
+-   **`[MeView](mdc:.cursor/rules/service-fusion-types.mdc#meview)`**: Schema for the authenticated user.
+    *   `id`: integer - The authenticated user\'s identifier.
+    *   `first_name`: string - The authenticated user\'s first name.
+    *   `last_name`: string - The authenticated user\'s last name.
+    *   `email`: string - The authenticated user\'s email.
+    *   `_expandable`: Array (string) - List of fields that can be expanded.
+
+### Methods
+
+#### GET `/me`
+
+Retrieves information about the currently authorized user.
+
+-   **Request Parameters (Query)**:
+    -   `fields`: string (enum: `id`, `first_name`, `last_name`, `email`) - Comma-separated list of fields to return.
+    -   `expand`: string - Comma-separated list of extra-fields to be displayed.
+-   **Response**: `200 OK` with `[MeView](mdc:.cursor/rules/service-fusion-types.mdc#meview)` object.
+    *   Example: `{ "id": 123, "first_name": "John", "last_name": "Doe", "email": "john.doe@example.com", "_expandable": [] }`
+
+---
+
+## `/payment-types`
+
+Manages payment types available in the system.
+
+### Associated Types
+
+-   **`[PaymentType](mdc:.cursor/rules/service-fusion-types.mdc#paymenttype)` (List Item/View)**: Schema for a payment type.
+    *   `id`: integer - The payment type\'s identifier.
+    *   `code`: string - The payment type\'s code.
+    *   `short_name`: string - The payment type\'s short name.
+    *   `type`: string - The payment type\'s type (e.g., "Cash", "Check", "Credit Card").
+    *   `is_custom`: boolean - Whether the payment type is custom.
+
+### Methods
+
+#### GET `/payment-types`
+
+Retrieves a list of payment types. Supports standard pagination, sorting (`sort[short_name]`, `sort[type]`), and filtering (`filters[q]`, `filters[short_name]`, `filters[type]`).
+
+-   **Response**: `200 OK` with a list of `[PaymentType](mdc:.cursor/rules/service-fusion-types.mdc#paymenttype)` objects and meta-information.
+
+#### GET `/payment-types/{id}`
+
+Retrieves a specific payment type by ID.
+
+-   **Response**: `200 OK` with `[PaymentType](mdc:.cursor/rules/service-fusion-types.mdc#paymenttype)`.
+    -   `404 Not Found`
+
+---
+
+## `/sources`
+
+Manages referral sources or marketing sources.
+
+### Associated Types
+
+-   **`[Source](mdc:.cursor/rules/service-fusion-types.mdc#source)` (List Item/View)**: Schema for a source.
+    *   `id`: integer - The source\'s identifier.
+    *   `short_name`: string - The source\'s short name.
+    *   `long_name`: string - The source\'s long name.
+
+### Methods
+
+#### GET `/sources`
+
+Retrieves a list of sources. Supports standard pagination, sorting (`sort[short_name]`), and filtering (`filters[q]`, `filters[short_name]`).
+
+-   **Response**: `200 OK` with a list of `[Source](mdc:.cursor/rules/service-fusion-types.mdc#source)` objects and meta-information.
+
+#### GET `/sources/{id}`
+
+Retrieves a specific source by ID.
+
+-   **Response**: `200 OK` with `[Source](mdc:.cursor/rules/service-fusion-types.mdc#source)`.
+    -   `404 Not Found`
+
+---
+
+## `/techs`
+
+Manages technician (field worker/user) information.
+
+### Associated Types
+
+-   **`[Tech](mdc:.cursor/rules/service-fusion-types.mdc#tech)` (List Item/View)**: Schema for a technician.
+    *   `id`: integer
+    *   `first_name`: string
+    *   `last_name`: string
+    *   `nickname_on_workorder`: string
+    *   `nickname_on_dispatch`: string
+    *   `color_code`: string (hex color)
+    *   `email`: string
+    *   `phone_1`: string
+    *   `phone_2`: string
+    *   `gender`: string
+    *   `department`: string
+    *   `title`: string
+    *   `bio`: string
+    *   `is_phone_1_mobile`: boolean
+    *   `is_phone_1_visible_to_client`: boolean
+    *   `is_phone_2_mobile`: boolean
+    *   `is_phone_2_visible_to_client`: boolean
+    *   `is_sales_rep`: boolean
+    *   `is_field_worker`: boolean
+    *   `created_at`: datetime
+    *   `updated_at`: datetime
+
+### Methods
+
+#### GET `/techs`
+
+Retrieves a list of technicians. Supports standard pagination, sorting (e.g., `sort[first_name]`), and filtering (`filters[q]`, `filters[email]`, `filters[department]`, `filters[is_field_worker]`).
+
+-   **Response**: `200 OK` with a list of `[Tech](mdc:.cursor/rules/service-fusion-types.mdc#tech)` objects and meta-information.
+
+#### GET `/techs/{id}`
+
+Retrieves a specific technician by ID.
+
+-   **Response**: `200 OK` with `[Tech](mdc:.cursor/rules/service-fusion-types.mdc#tech)`.
+    -   `404 Not Found`
+
+
+
+
+
+
+
+
+
+
+
+
+---

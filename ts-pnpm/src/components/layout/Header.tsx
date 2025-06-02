@@ -17,6 +17,13 @@ const Header = ({ appearanceSettings: propsAppearanceSettings }: HeaderProps) =>
   const headerSettings = { ...defaultAppearanceSettings.header, ...appearanceSettings.header };
   // const logoUrl = appearanceSettings.logoUrl || '/images/dr-handyman-logo-transparent.png'; // Logo URL no longer needed here
 
+  // Ensure "Services" link is present
+  let finalNavLinks = [...(headerSettings.navLinks || [])];
+  const servicesLinkExists = finalNavLinks.some(link => link.href === '/services');
+  if (!servicesLinkExists) {
+    finalNavLinks.push({ id: 'services-link', text: 'Services', href: '/services' });
+  }
+
   const [isOpen, setIsOpen] = useState(false);
   const toggleButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -42,7 +49,7 @@ const Header = ({ appearanceSettings: propsAppearanceSettings }: HeaderProps) =>
 
         {/* Desktop Navigation */}
         <DesktopNavigation 
-          navLinks={headerSettings.navLinks}
+          navLinks={finalNavLinks}
           showCta={headerSettings.showCta}
           ctaText={headerSettings.ctaText}
           ctaLink={headerSettings.ctaLink}
@@ -70,7 +77,7 @@ const Header = ({ appearanceSettings: propsAppearanceSettings }: HeaderProps) =>
         <MobileNavigation 
           isOpen={isOpen} 
           onClose={toggleMenu} 
-          navLinks={headerSettings.navLinks} 
+          navLinks={finalNavLinks}
           showCta={headerSettings.showCta}
           ctaText={headerSettings.ctaText}
           ctaLink={headerSettings.ctaLink}      

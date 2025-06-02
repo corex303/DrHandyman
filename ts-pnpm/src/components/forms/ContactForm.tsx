@@ -1,7 +1,8 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { useForm } from "react-hook-form";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import * as z from "zod";
 
 const formSchema = z.object({
@@ -12,13 +13,16 @@ const formSchema = z.object({
   message: z.string().min(10, { message: "Message must be at least 10 characters." }),
 });
 
-type FormData = z.infer<typeof formSchema>;
+type FormDataFields = z.infer<typeof formSchema>;
 
 export default function ContactForm() {
   const [apiResponseMessage, setApiResponseMessage] = useState<string | null>(null);
   const [isApiError, setIsApiError] = useState<boolean>(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const form = useForm<FormData>({
+  const { executeRecaptcha } = useGoogleReCaptcha();
+
+  const form = useForm<FormDataFields>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
@@ -29,16 +33,51 @@ export default function ContactForm() {
     },
   });
 
-  const onSubmit = async (data: FormData) => {
+  const handleRecaptchaVerify = useCallback(async () => {
+    if (!executeRecaptcha) {
+      console.log("Execute recaptcha not yet available");
+      setIsApiError(true);
+      setApiResponseMessage("ReCAPTCHA not ready. Please try again in a moment.");
+      return null;
+    }
+    try {
+      const token = await executeRecaptcha('contactFormSubmit');
+      return token;
+    } catch (error) {
+      console.error("Error executing reCAPTCHA:", error);
+      setIsApiError(true);
+      setApiResponseMessage("Failed to verify reCAPTCHA. Please try again.");
+      return null;
+    }
+  }, [executeRecaptcha]);
+
+  const onSubmit = async (data: FormDataFields) => {
     setApiResponseMessage(null);
     setIsApiError(false);
+
+    const token = await handleRecaptchaVerify();
+    if (!token) {
+      return;
+    }
+
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        formData.append(key, String(value));
+      }
+    });
+    formData.append("g-recaptcha-response", token);
+
+    if (fileInputRef.current?.files) {
+      Array.from(fileInputRef.current.files).forEach((file) => {
+        formData.append("attachments", file);
+      });
+    }
+
     try {
-      const response = await fetch('/api/contact', {
+      const response = await fetch('/api/service-inquiry', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
+        body: formData,
       });
 
       const result = await response.json();
@@ -48,7 +87,8 @@ export default function ContactForm() {
         if (result.errors) {
           let errorMessages = "Please correct the following errors:";
           for (const field in result.errors) {
-            errorMessages += `\n- ${field}: ${result.errors[field].join(', ')}`;
+            const errorsArray = Array.isArray(result.errors[field]) ? result.errors[field] : [result.errors[field]];
+            errorMessages += `\n- ${field}: ${errorsArray.join(', ')}`;
           }
           setApiResponseMessage(errorMessages);
         } else {
@@ -57,6 +97,9 @@ export default function ContactForm() {
       } else {
         setApiResponseMessage(result.message || "Form submitted successfully!");
         form.reset();
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
       }
     } catch (error) {
       setIsApiError(true);
@@ -122,29 +165,17 @@ export default function ContactForm() {
           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
         >
           <option value="">Select a service</option>
+          <option value="roofing">Roofing</option>
+          <option value="plumbing">Plumbing</option>
+          <option value="painting">Painting</option>
+          <option value="hvac">HVAC</option>
+          <option value="flooring">Flooring</option>
+          <option value="exterior-work">Exterior Work</option>
+          <option value="electrical">Electrical</option>
+          <option value="general-repairs">General Repairs</option>
           <option value="carpentry">Carpentry</option>
-          <option value="concrete">Concrete</option>
-          <option value="concrete_repair">Concrete Repair</option>
-          <option value="demolition">Demolition</option>
-          <option value="door_installation_repair">Door Installation/Repair</option>
-          <option value="drywall_repair_texture">Drywall Repair/Texture</option>
-          <option value="fence_repair_replacement">Fence Repair/Replacement</option>
-          <option value="fixture_installation_repair">Fixture Installation/Repair</option>
-          <option value="flooring_repair_replacement">Flooring Repair/Replacement</option>
-          <option value="foundation_repair">Foundation Repair</option>
-          <option value="framing">Framing</option>
-          <option value="general_maintenance">General Maintenance</option>
-          <option value="gutter_cleaning_repair">Gutter Cleaning/Repair</option>
-          <option value="hvac_repair_maintenance">HVAC Repair/Maintenance</option>
-          <option value="insulation_installation">Insulation Installation</option>
-          <option value="landscaping_yard_work">Landscaping/Yard Work</option>
-          <option value="painting_interior_exterior">Painting (Interior/Exterior)</option>
-          <option value="plumbing_repair_installation">Plumbing Repair/Installation</option>
-          <option value="pressure_washing">Pressure Washing</option>
-          <option value="roof_repair_maintenance">Roof Repair/Maintenance</option>
-          <option value="siding_repair_installation">Siding Repair/Installation</option>
-          <option value="tile_installation_repair">Tile Installation/Repair</option>
-          <option value="window_installation_repair">Window Installation/Repair</option>
+          <option value="concrete-repair">Concrete Repair</option>
+          <option value="deck-building-repair">Deck Building / Repair</option>
           <option value="other">Other</option>
         </select>
         {form.formState.errors.service && (
@@ -154,17 +185,33 @@ export default function ContactForm() {
 
       <div>
         <label htmlFor="message" className="block text-sm font-medium text-gray-700">
-          Message
+          Message / Description of Work
         </label>
         <textarea
           id="message"
           rows={4}
           {...form.register("message")}
           className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          placeholder="Please describe the issue or service you need in detail."
         />
         {form.formState.errors.message && (
           <p className="mt-1 text-sm text-red-600">{form.formState.errors.message.message}</p>
         )}
+      </div>
+
+      <div>
+        <label htmlFor="attachments" className="block text-sm font-medium text-gray-700">
+          Upload Photos (Optional)
+        </label>
+        <input
+          id="attachments"
+          type="file"
+          multiple
+          ref={fileInputRef}
+          className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          accept="image/png, image/jpeg, image/gif, image/webp"
+        />
+        <p className="mt-1 text-xs text-gray-500">You can upload multiple images (PNG, JPG, GIF, WEBP).</p>
       </div>
 
       {apiResponseMessage && (
@@ -179,7 +226,7 @@ export default function ContactForm() {
           disabled={form.formState.isSubmitting}
           className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
         >
-          {form.formState.isSubmitting ? "Submitting..." : "Send Message"}
+          {form.formState.isSubmitting ? "Submitting Inquiry..." : "Send Inquiry"}
         </button>
       </div>
     </form>

@@ -1,0 +1,245 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+\
+---
+description: Comprehensive guide to the Service Fusion API, including authentication, base URLs, request/response formats, rate limiting, and error handling.
+globs: ["*"]
+alwaysApply: false
+---
+
+# Service Fusion API Guide
+
+This guide provides comprehensive information for interacting with the Service Fusion API.
+
+## Overview
+
+The Service Fusion API allows programmatic access to data stored in your Service Fusion account.
+
+-   **Version**: `v1`
+-   **Base URI**: `https://api.servicefusion.com/{version}` (e.g., `https://api.servicefusion.com/v1`)
+-   **Supported Media Type**: `application/json` (default for `Content-Type` and `Accept` headers)
+-   **Supported Protocols**: `https` (HTTP requests will be redirected to HTTPS)
+
+## Authentication
+
+An Access Token is required for all API requests. It can be sent in two ways (do not use both):
+
+1.  **Authorization Header**: `Authorization: Bearer {{access_token}}`
+2.  **Query Parameter**: `?access_token={{access_token}}`
+
+The API uses OAuth 2.0 and supports two grant flows:
+
+### 1. Authorization Code Grant
+
+This method is for applications where users log in with their Service Fusion credentials.
+
+**Steps:**
+
+1.  **Register your app in Service Fusion OAuth Apps:**
+    *   Go to OAuth Apps in your Service Fusion account.
+    *   Create a new app, providing a Name and Redirect URL.
+    *   Save the generated Client ID and Client Secret.
+2.  **Direct user to Authorization URL:**
+    ```
+    https://api.servicefusion.com/oauth/authorize
+       ?response_type=code
+       &client_id=YOUR_APP_CLIENT_ID
+       &redirect_uri=YOUR_APP_REDIRECT_URL
+       &state=YOUR_USER_BOUND_VALUE
+    ```
+    *   `response_type`: (required) Must be `code`.
+    *   `client_id`: (required) Your app's Client ID.
+    *   `redirect_uri`: (optional) Must match the one configured for your app.
+    *   `state`: (optional, recommended) A value to protect against CSRF.
+3.  **Exchange authorization code for an access token:**
+    After user authentication, they are redirected to your `redirect_uri` with `code` and `state` parameters. Verify `state`, then make a POST request:
+    ```bash
+    curl --request POST \\
+      --url 'https://api.servicefusion.com/oauth/access_token' \\
+      --header 'content-type: application/json' \\
+      --data '{
+        "grant_type": "authorization_code",
+        "client_id": "YOUR_APP_CLIENT_ID",
+        "client_secret": "YOUR_APP_CLIENT_SECRET",
+        "code": "QUERY_PARAMETER_CODE",
+        "redirect_uri": "YOUR_APP_REDIRECT_URL"
+      }'
+    ```
+    *   `grant_type`: (required) Must be `authorization_code`.
+    *   The `code` is valid for 60 seconds and can be used once.
+    *   Response includes `access_token`, `token_type`, `expires_in`, and `refresh_token`.
+    *   Errors are represented by an `[OAuthTokenError](mdc:.cursor/rules/service-fusion-types.mdc#oauthtokenerror)`.
+
+### 2. Client Credentials Grant
+
+This method uses the client's ID and Secret directly. Suitable for server-to-server integrations.
+
+**Steps:**
+
+1.  **Obtain Client ID and Secret:** Find these on the OAuth Consumer page in the Service Fusion account.
+2.  **Request an Access Token:**
+    ```bash
+    curl --request POST \\
+      --url 'https://api.servicefusion.com/oauth/access_token' \\
+      --header 'content-type: application/json' \\
+      --data '{
+        "grant_type": "client_credentials",
+        "client_id": "YOUR_USER_CLIENT_ID",
+        "client_secret": "YOUR_USER_CLIENT_SECRET"
+      }'
+    ```
+    *   `grant_type`: (required) Must be `client_credentials`.
+    *   Response includes `access_token`, `token_type`, `expires_in`, and `refresh_token`.
+    *   Errors are represented by an `[OAuthTokenError](mdc:.cursor/rules/service-fusion-types.mdc#oauthtokenerror)`.
+
+### Refreshing an Access Token
+
+When an access token expires, use the `refresh_token` to get a new one:
+
+```bash
+curl --request POST \\
+  --url 'https://api.servicefusion.com/oauth/access_token' \\
+  --header 'content-type: application/json' \\
+  --data '{
+    "grant_type": "refresh_token",
+    "refresh_token": "YOUR_REFRESH_TOKEN"
+  }'
+```
+*   `grant_type`: (required) Must be `refresh_token`.
+
+## API Request Format
+
+-   **Endpoint Structure**: `https://api.servicefusion.com/{version}/{resource}`
+    -   `version`: Current is `v1`.
+    -   `resource`: See [Service Fusion Resources](mdc:.cursor/rules/service-fusion-resources.mdc).
+-   **Content-Type**: `application/json` is default and currently the only supported for requests.
+-   **Accept Header**:
+    -   `application/json` (default response format)
+    -   `application/xml`
+
+## Basic Operations
+
+### 1. Getting a list of records (GET /resource)
+
+-   Returns a list of records for the specified resource.
+-   HTTP Status: `200 OK` on success.
+-   **Response Structure**:
+    ```json
+    {
+        "items": [
+            // Array of resource records
+        ],
+        "_meta": {
+            "totalCount": 200,
+            "pageCount": 20,
+            "currentPage": 1,
+            "perPage": 10
+        }
+    }
+    ```
+-   **Pagination and Filtering Parameters**:
+    -   `page`: Page number (default: `1`).
+    -   `per-page`: Records per page (1-50, default: `10`).
+    -   `sort`: Sort order (e.g., `?sort=-name,description`).
+    -   `filters`: Filter criteria (e.g., `?filters[name]=John&filters[description]=Walter`).
+    -   `fields`: Comma-separated list of fields to return (e.g., `?fields=name,description`). Default returns all fields.
+-   **Pagination Headers**:
+    -   `X-Pagination-Total-Count`: Total number of resources.
+    -   `X-Pagination-Page-Count`: Total number of pages.
+    -   `X-Pagination-Current-Page`: Current page number.
+    -   `X-Pagination-Per-Page`: Number of resources per page.
+
+### 2. Getting a single record by ID (GET /resource/{id})
+
+-   Returns a single record by its ID.
+-   HTTP Status: `200 OK` on success.
+-   **Response Structure**:
+    ```json
+    {
+        // Resource object fields
+        "id": "1",
+        "first_name": "Max",
+        // ...
+    }
+    ```
+-   **Parameters**:
+    -   `fields`: Comma-separated list of fields to return.
+
+### 3. Creating a new record (POST /resource)
+
+-   Creates a new record for the specified resource.
+-   HTTP Status: `201 Created` on success.
+-   **Response Structure**:
+    ```json
+    {
+        // Created resource object fields
+        "id": "1",
+        "first_name": "Max",
+        // ...
+    }
+    ```
+-   **Parameters**:
+    -   `fields`: Comma-separated list of fields to return in the response.
+
+## Rate Limits
+
+-   **Limit**: 60 requests per minute per access token.
+-   **Headers for Rate Limit Status**:
+    -   `X-Rate-Limit-Limit`: Max requests per minute (60).
+    -   `X-Rate-Limit-Remaining`: Requests remaining in the current window.
+    -   `X-Rate-Limit-Reset`: UTC epoch seconds when the window resets.
+-   If the limit is exceeded, a `429 Too Many Requests` status code is returned.
+
+## Error Handling
+
+-   **HTTP Status Codes**:
+    -   `2xx`: Successful
+    -   `3xx`: Redirection
+    -   `4xx`: Client Error
+    -   `5xx`: Server Error
+-   **Validation Error (HTTP 422)**:
+    Returned if there's an error in create/update validation.
+    ```json
+    [
+        {
+            "field": "name",
+            "message": "Name is too long (maximum is 45 characters)."
+        }
+    ]
+    ```
+    (See `[ErrorValidation](mdc:.cursor/rules/service-fusion-types.mdc#errorvalidation)`)
+-   **Other Exceptions (HTTP 4xx or 5xx)**:
+    Represented by an Error Type.
+    ```json
+    {
+        "code": 500,
+        "name": "Internal server error.",
+        "message": "Failed to create the object for unknown reason."
+    }
+    ```
+    (See `[Error](mdc:.cursor/rules/service-fusion-types.mdc#error)`)
+
+## Available Resources
+
+A complete list of all supported resources can be found in the [Service Fusion Resources Guide](mdc:.cursor/rules/service-fusion-resources.mdc).
+
+The base API resources are:
+- `/me`
+- `/calendar-tasks`
+- `/customers`
+- `/jobs`
+- `/job-categories`
+- `/job-statuses`
+- `/estimates`
+- `/invoices`
+- `/payment-types`
+- `/sources`
+- `/techs`
+
+---
+*This rule provides a general guide to the Service Fusion API. For specific resource details or data type definitions, refer to the linked resource and type guides.*
+
+

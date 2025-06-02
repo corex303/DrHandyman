@@ -226,6 +226,9 @@ exports.Prisma.PhotoSetScalarFieldEnum = {
 exports.Prisma.PhotoScalarFieldEnum = {
   id: 'id',
   url: 'url',
+  filename: 'filename',
+  size: 'size',
+  contentType: 'contentType',
   type: 'type',
   uploadedAt: 'uploadedAt',
   photoSetId: 'photoSetId'
@@ -291,6 +294,7 @@ exports.Prisma.ChatConversationScalarFieldEnum = {
   id: 'id',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  title: 'title',
   deletedAt: 'deletedAt',
   customerId: 'customerId',
   staffMemberId: 'staffMemberId',
@@ -360,6 +364,16 @@ exports.Prisma.ChatParticipantInfoScalarFieldEnum = {
 exports.Prisma.GlobalStaffActivityScalarFieldEnum = {
   id: 'id',
   lastActivePing: 'lastActivePing'
+};
+
+exports.Prisma.InquiryAttachmentScalarFieldEnum = {
+  id: 'id',
+  inquiryId: 'inquiryId',
+  fileName: 'fileName',
+  fileType: 'fileType',
+  fileSize: 'fileSize',
+  filePath: 'filePath',
+  uploadedAt: 'uploadedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -434,7 +448,8 @@ exports.Prisma.ModelName = {
   InvoiceLineItem: 'InvoiceLineItem',
   Payment: 'Payment',
   ChatParticipantInfo: 'ChatParticipantInfo',
-  GlobalStaffActivity: 'GlobalStaffActivity'
+  GlobalStaffActivity: 'GlobalStaffActivity',
+  InquiryAttachment: 'InquiryAttachment'
 };
 
 /**

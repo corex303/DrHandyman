@@ -111,16 +111,15 @@ export default async function ServiceDetailPage(props: ServiceDetailPageProps) {
 
   const { service, approvedPhotoSets } = pageData;
 
-  // TODO: Fetch these from a global config or environment variables
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.drhandymannc.com'; // Fallback
-  const siteName = 'Dr. Handyman NC';
+  // siteUrl and siteName are now sourced from @/config/site within ServiceSchemaMarkup
+  // The generateMetadata function also sources these from process.env variables.
 
   return (
     <>
-      <ServiceSchemaMarkup service={service} siteUrl={siteUrl} siteName={siteName} />
-      <div className="container mx-auto px-4 py-8">
+      <ServiceSchemaMarkup service={service} />
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <article>
-          <h1 className="mb-6 text-4xl font-bold text-gray-800 text-center">{service.name}</h1>
+          <h1 className="mb-6 text-3xl sm:text-4xl font-bold text-gray-800 text-center">{service.name}</h1>
 
           {service.imageUrl && (
             <div className="mb-8 w-full max-w-3xl mx-auto">
@@ -136,7 +135,7 @@ export default async function ServiceDetailPage(props: ServiceDetailPageProps) {
           )}
 
           <div
-            className="prose prose-lg max-w-3xl mx-auto text-gray-700 mb-10"
+            className="prose prose-lg lg:prose-xl max-w-3xl mx-auto text-gray-700 mb-10 sm:mb-12 text-center"
             dangerouslySetInnerHTML={{ __html: service.description }}
           />
 
@@ -149,10 +148,10 @@ export default async function ServiceDetailPage(props: ServiceDetailPageProps) {
             </p>
           )}
 
-          <div className="mt-16 text-center">
+          <div className="mt-12 sm:mt-16 text-center">
             <Link 
               href="/contact" 
-              className="bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-blue-700 transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+              className="bg-blue-600 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold text-base sm:text-lg hover:bg-blue-700 transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 block w-full max-w-xs mx-auto sm:inline-block sm:w-auto"
             >
               Get a Quote for {service.name}
             </Link>

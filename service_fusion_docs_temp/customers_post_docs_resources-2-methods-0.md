@@ -1,1 +1,0 @@
-Create a new Customer. POST https://api.servicefusion.com/{version}/customers Traits: tra.customer-fieldable, tra.formatable

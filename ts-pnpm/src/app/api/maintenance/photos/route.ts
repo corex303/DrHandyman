@@ -1,10 +1,12 @@
 import { put } from "@vercel/blob";
 import { NextRequest, NextResponse } from "next/server";
 import sharp from "sharp";
+import { PrismaClient, PhotoType, ApprovalStatus } from '@prisma/client';
+import { z } from 'zod';
+import fs from 'fs/promises';
+import path from 'path';
 
-import prisma from '@/lib/prisma';
-
-import { ApprovalStatus,PhotoType } from '../../../../../generated/prisma-client';
+const prisma = new PrismaClient();
 
 const ALLOWED_FILE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
 const MAX_FILE_SIZE_MB = 10;
@@ -16,6 +18,25 @@ interface ProcessedPhotoData {
   url: string;
   type: PhotoType;
 }
+
+const UPLOADS_DIR = path.join(process.cwd(), 'public', 'uploads', 'maintenance-photos');
+
+async function ensureUploadsDirExists() {
+  try {
+    await fs.mkdir(UPLOADS_DIR, { recursive: true });
+  } catch (error) {
+    console.error("Error creating uploads directory:", error);
+    // Optionally re-throw or handle as per application's error handling strategy
+  }
+}
+
+// Zod schema for validation (can be expanded)
+const photoSetSchema = z.object({
+  title: z.string().optional(),
+  description: z.string().optional(),
+  serviceCategory: z.string(), 
+  maintenanceWorkerId: z.string(), // Assuming worker ID is passed
+});
 
 // Helper function to process and upload a single image
 async function processAndUploadImage(file: File, fileType: PhotoType): Promise<ProcessedPhotoData> {
@@ -65,132 +86,106 @@ async function processAndUploadImage(file: File, fileType: PhotoType): Promise<P
   }
 }
 
+async function createPhotoSetWithPhotos(formData: FormData) {
+  await ensureUploadsDirExists();
 
-// Function to create PhotoSet and associated Photo records
-async function createPhotoSetWithPhotos(data: {
-  maintenanceWorkerId: string;
-  serviceCategory: string;
-  description: string;
-  uploadedPhotosData: ProcessedPhotoData[]; // Combined list of before and after photo data
-}) {
-  console.log("Creating PhotoSet with Photos in Prisma:", data.maintenanceWorkerId, data.serviceCategory);
-  try {
-    const newPhotoSet = await prisma.photoSet.create({
-      data: {
-        maintenanceWorkerId: data.maintenanceWorkerId,
-        serviceCategory: data.serviceCategory,
-        description: data.description,
-        status: ApprovalStatus.PENDING, // Default status
-        photos: {
-          create: data.uploadedPhotosData.map(photo => ({
-            url: photo.url,
-            type: photo.type,
-          })),
-        },
-      },
-      include: {
-        photos: true, // Include the created photos in the return
-      },
-    });
-    console.log("Successfully created PhotoSet with ID:", newPhotoSet.id, "and", newPhotoSet.photos.length, "photos.");
-    return newPhotoSet;
-  } catch (error) {
-    console.error("Prisma Error creating PhotoSet with Photos:", error);
-    throw new Error("Could not save photo set and photo metadata to database.");
+  const rawTitle = formData.get('title') as string | null;
+  const rawDescription = formData.get('description') as string | null;
+  const rawServiceCategory = formData.get('serviceCategory') as string | null;
+  const rawMaintenanceWorkerId = formData.get('maintenanceWorkerId') as string | null;
+
+  if (!rawServiceCategory) {
+    throw new Error('Service category is required');
   }
+  if (!rawMaintenanceWorkerId) {
+    throw new Error('Maintenance worker ID is required');
+  }
+
+  const photoSetData = {
+    title: rawTitle || undefined,
+    description: rawDescription || undefined,
+    serviceCategory: rawServiceCategory,
+    status: ApprovalStatus.PENDING, // Default status
+    maintenanceWorkerId: rawMaintenanceWorkerId,
+    submittedAt: new Date(),
+  };
+
+  // Validate with Zod (optional, but good practice)
+  // photoSetSchema.parse(photoSetData);
+
+  const createdPhotoSet = await prisma.photoSet.create({
+    data: photoSetData,
+  });
+
+  const photosToCreate = [];
+  const beforeFiles = formData.getAll('beforePhotos') as File[];
+  const afterFiles = formData.getAll('afterPhotos') as File[];
+
+  for (const file of beforeFiles) {
+    if (file && file.size > 0) {
+      const bytes = await file.arrayBuffer();
+      const buffer = Buffer.from(bytes);
+      const processedBuffer = await sharp(buffer).rotate().toBuffer(); // Auto-rotate
+      const filename = `${createdPhotoSet.id}-${PhotoType.BEFORE}-${Date.now()}-${file.name}`;
+      const filepath = path.join(UPLOADS_DIR, filename);
+      await fs.writeFile(filepath, processedBuffer); // Save processed buffer
+      photosToCreate.push({
+        url: `/uploads/maintenance-photos/${filename}`,
+        type: PhotoType.BEFORE,
+        photoSetId: createdPhotoSet.id,
+        uploadedAt: new Date(),
+        filename: file.name,
+        size: processedBuffer.length, // Size of the processed file
+        contentType: file.type,
+      });
+    }
+  }
+
+  for (const file of afterFiles) {
+    if (file && file.size > 0) {
+      const bytes = await file.arrayBuffer();
+      const buffer = Buffer.from(bytes);
+      const processedBuffer = await sharp(buffer).rotate().toBuffer(); // Auto-rotate
+      const filename = `${createdPhotoSet.id}-${PhotoType.AFTER}-${Date.now()}-${file.name}`;
+      const filepath = path.join(UPLOADS_DIR, filename);
+      await fs.writeFile(filepath, processedBuffer); // Save processed buffer
+      photosToCreate.push({
+        url: `/uploads/maintenance-photos/${filename}`,
+        type: PhotoType.AFTER,
+        photoSetId: createdPhotoSet.id,
+        uploadedAt: new Date(),
+        filename: file.name,
+        size: processedBuffer.length, // Size of the processed file
+        contentType: file.type,
+      });
+    }
+  }
+
+  if (photosToCreate.length > 0) {
+    await prisma.photo.createMany({
+      data: photosToCreate,
+    });
+  }
+
+  return createdPhotoSet;
 }
 
+// POST /api/maintenance/photos
+// Handles photo set creation with before/after photo uploads
 export async function POST(request: NextRequest) {
+  // Authentication should be handled by middleware before this point
+  // e.g., checking for a valid maintenance_session cookie.
+
   try {
     const formData = await request.formData();
-
-    const beforeImageFiles = formData.getAll("beforeImages") as File[];
-    const afterImageFiles = formData.getAll("afterImages") as File[];
-    const serviceCategory = formData.get("serviceCategory") as string | null;
-    const description = formData.get("description") as string | null;
-    const maintenanceWorkerId = formData.get("maintenanceWorkerId") as string | null;
-
-    if (beforeImageFiles.length === 0 || afterImageFiles.length === 0 || !serviceCategory || !maintenanceWorkerId) {
-      return NextResponse.json(
-        { message: "Missing required fields: at least one before/after image, serviceCategory, or maintenanceWorkerId." },
-        { status: 400 }
-      );
+    const newPhotoSet = await createPhotoSetWithPhotos(formData);
+    return NextResponse.json(newPhotoSet, { status: 201 });
+  } catch (error: any) {
+    console.error("Failed to create photo set:", error);
+    // Consider more specific error handling based on error type
+    if (error.message.includes('required')) {
+        return NextResponse.json({ error: error.message }, { status: 400 });
     }
-    
-    console.log(`Received ${beforeImageFiles.length} before images and ${afterImageFiles.length} after images.`);
-
-    // Process and upload all images in parallel
-    const beforePhotoPromises = beforeImageFiles.map(file => processAndUploadImage(file, PhotoType.BEFORE));
-    const afterPhotoPromises = afterImageFiles.map(file => processAndUploadImage(file, PhotoType.AFTER));
-
-    const settledBeforePhotos = await Promise.allSettled(beforePhotoPromises);
-    const settledAfterPhotos = await Promise.allSettled(afterPhotoPromises);
-
-    const uploadedBeforePhotosData: ProcessedPhotoData[] = [];
-    const uploadErrors: string[] = [];
-
-    settledBeforePhotos.forEach(result => {
-      if (result.status === 'fulfilled') {
-        uploadedBeforePhotosData.push(result.value);
-      } else {
-        uploadErrors.push(result.reason.message || 'An unknown error occurred during before image upload.');
-      }
-    });
-
-    const uploadedAfterPhotosData: ProcessedPhotoData[] = [];
-    settledAfterPhotos.forEach(result => {
-      if (result.status === 'fulfilled') {
-        uploadedAfterPhotosData.push(result.value);
-      } else {
-        uploadErrors.push(result.reason.message || 'An unknown error occurred during after image upload.');
-      }
-    });
-
-    if (uploadErrors.length > 0) {
-      // TODO: Consider deleting successfully uploaded blobs if some uploads fail, to avoid orphaned files.
-      // This would require collecting all successful blob URLs and then calling del() for each.
-      console.error("Errors during image processing/upload:", uploadErrors);
-      return NextResponse.json(
-        { message: "One or more images failed to process or upload.", errors: uploadErrors },
-        { status: 500 }
-      );
-    }
-    
-    if (uploadedBeforePhotosData.length === 0 && uploadedAfterPhotosData.length === 0 ) {
-         return NextResponse.json(
-            { message: "No images were successfully processed and uploaded." },
-            { status: 500 }
-         );
-    }
-
-
-    // Save metadata to database
-    const allUploadedPhotosData = [...uploadedBeforePhotosData, ...uploadedAfterPhotosData];
-    
-    const savedRecord = await createPhotoSetWithPhotos({
-      maintenanceWorkerId,
-      serviceCategory,
-      description: description || "",
-      uploadedPhotosData: allUploadedPhotosData,
-    });
-
-    return NextResponse.json(
-      {
-        message: "Photos submitted successfully and pending approval.",
-        data: savedRecord,
-      },
-      { status: 201 }
-    );
-
-  } catch (error) {
-    console.error("Error processing photo upload request:", error);
-    let errorMessage = "An unknown error occurred processing the upload request.";
-    if (error instanceof Error) {
-      errorMessage = error.message;
-    }
-    return NextResponse.json(
-      { message: "Failed to process photo upload.", error: errorMessage },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to process photo upload.' }, { status: 500 });
   }
 } 

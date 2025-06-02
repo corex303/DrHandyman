@@ -1,0 +1,2109 @@
+---
+description: Service Fusion Data Types and Schemas
+globs: 
+alwaysApply: false
+---
+\
+---
+description: Dictionary of all data types and schemas used by the Service Fusion API.
+globs: ["*"]
+alwaysApply: false
+---
+
+# Service Fusion API Types Guide
+
+This guide serves as a dictionary for all data types and schemas used by the Service Fusion API. For general API information, refer to the [Service Fusion API Guide](mdc:.cursor/rules/service-fusion-api.mdc). For resource-specific details, see the [Service Fusion Resources Guide](mdc:.cursor/rules/service-fusion-resources.mdc).
+
+Each type definition includes its properties, their data types, and descriptions where available.
+
+## `Document`
+
+A schema for generic documents.
+
+*   `name`: string - The document's name.
+*   `file_location`: string - The document's file location.
+*   `doc_type`: string - The document's type.
+*   `comment`: string - The document's comment.
+*   `sort`: integer - The document's sort order.
+*   `is_private`: boolean - Whether the document is private.
+*   `created_at`: datetime - Timestamp of creation.
+*   `updated_at`: datetime - Timestamp of last update.
+*   `customer_doc_id`: integer - ID of an attached customer document.
+
+## `Picture`
+
+A schema for picture documents (shares structure with `Document`).
+
+*   `name`: string - The picture's name.
+*   `file_location`: string - The picture's file location.
+*   `doc_type`: string - The picture's type.
+*   `comment`: string - The picture's comment.
+*   `sort`: integer - The picture's sort order.
+*   `is_private`: boolean - Whether the picture is private.
+*   `created_at`: datetime - Timestamp of creation.
+*   `updated_at`: datetime - Timestamp of last update.
+*   `customer_doc_id`: integer - ID of an attached customer document.
+
+## `PaymentType`
+
+Defines a payment type.
+
+*   `id`: integer - The type's identifier.
+*   `code`: string - The type's code.
+*   `short_name`: string - The type's short name.
+*   `type`: string - The type's type (e.g., "Cash", "Credit Card").
+*   `is_custom`: boolean - Whether the type is custom.
+
+## `JobTaskBody`
+
+Schema for the body when creating or updating a job task.
+
+*   `description`: string (required) - The task's description.
+*   `is_completed`: boolean (default: `false`) - Completion status of the task.
+
+## `JobService`
+
+Schema for a service associated with a job.
+
+*   `name`: string - The service's name.
+*   `description`: string - The service's description.
+*   `multiplier`: integer - The service's quantity.
+*   `rate`: number - The service's rate.
+*   `total`: number - The service's total.
+*   `cost`: number - The service's cost.
+*   `actual_cost`: number - The service's actual cost.
+*   `item_index`: integer - The service's item index.
+*   `parent_index`: integer - The service's parent index.
+*   `created_at`: datetime - Timestamp of creation.
+*   `updated_at`: datetime - Timestamp of last update.
+*   `is_show_rate_items`: boolean - Flag to show rate items.
+*   `tax`: string - Header of attached tax (e.g., "{short_name}").
+*   `service`: string - Header of attached service (e.g., "{short_description}").
+*   `service_list_id`: integer - ID of attached service list.
+*   `service_rate_id`: integer - ID of attached service rate.
+*   `pattern_row_id`: integer - ID of attached pattern row.
+*   `qbo_class_id`: integer - ID of attached QBO class.
+*   `qbd_class_id`: integer - ID of attached QBD class.
+
+## `JobOtherChargeBody`
+
+Schema for the body when creating or updating a job's other charges.
+
+*   `name`: string (optional) - Name of the other charge. Defaults to name from `other_charge` if not passed.
+*   `rate`: number (optional) - Rate of the other charge. Defaults to rate from `other_charge` if not passed.
+*   `is_percentage`: boolean (optional) - Whether the charge is a percentage. Defaults to value from `other_charge` if not passed.
+*   `other_charge`: string (required) - ID or header of the base other charge type.
+
+## `JobOtherCharge`
+
+Schema for an 'other charge' associated with a job.
+
+*   `name`: string - The other charge's name.
+*   `rate`: number - The other charge's rate.
+*   `total`: number - The other charge's total.
+*   `charge_index`: integer - The other charge's index.
+*   `parent_index`: integer - The other charge's parent index.
+*   `is_percentage`: boolean - Whether the charge is a percentage.
+*   `is_discount`: boolean - Whether the charge is a discount.
+*   `created_at`: datetime - Timestamp of creation.
+*   `updated_at`: datetime - Timestamp of last update.
+*   `other_charge`: string - Header of the base other charge type.
+*   `applies_to`: string - What the charge applies to.
+*   `service_list_id`: integer - ID of attached service list.
+*   `other_charge_id`: integer - ID of attached base other charge type.
+*   `pattern_row_id`: integer - ID of attached pattern row.
+*   `qbo_class_id`: integer - ID of attached QBO class.
+*   `qbd_class_id`: integer - ID of attached QBD class.
+
+## `JobNoteBody`
+
+Schema for the body when creating or updating a job note.
+
+*   `notes`: string (required) - The text of the note.
+
+## `JobLaborChargeBody`
+
+Schema for the body when creating or updating a job's labor charges.
+
+*   `drive_time`: integer (optional) - Drive time in minutes. Forbidden if `drive_time_start`/`end` passed. Defaults to calculated difference or 0.
+*   `drive_time_rate`: number (default: 0) - Rate for drive time.
+*   `drive_time_cost`: number (default: 0) - Cost of drive time.
+*   `drive_time_start`: string (optional) - Start time for drive. Required if `drive_time_end` passed.
+*   `drive_time_end`: string (optional) - End time for drive. Required if `drive_time_start` passed. Must be > `drive_time_start`.
+*   `is_drive_time_billed`: boolean (default: `false`) - Whether drive time is billed.
+*   `labor_time`: integer (optional) - Labor time in minutes. Forbidden if `labor_time_start`/`end` passed. Defaults to calculated difference or 0.
+*   `labor_time_rate`: number (default: 0) - Rate for labor time.
+*   `labor_time_cost`: number (default: 0) - Cost of labor time.
+*   `labor_time_start`: string (optional) - Start time for labor. Required if `labor_time_end` passed.
+*   `labor_time_end`: string (optional) - End time for labor. Required if `labor_time_start` passed. Must be > `labor_time_start`.
+*   `labor_date`: datetime (optional) - Date of labor.
+*   `is_labor_time_billed`: boolean (default: `false`) - Whether labor time is billed.
+*   `user`: string (optional) - ID or header of the user/tech associated with the labor.
+
+## `JobDocument`
+
+Schema for a document attached to a job (shares structure with `Document`).
+
+*   `name`: string - The document's name.
+*   `file_location`: string - The document's file location.
+*   `doc_type`: string - The document's type.
+*   `comment`: string - The document's comment.
+*   `sort`: integer - The document's sort order.
+*   `is_private`: boolean - Whether the document is private.
+*   `created_at`: datetime - Timestamp of creation.
+*   `updated_at`: datetime - Timestamp of last update.
+*   `customer_doc_id`: integer - ID of an attached customer document.
+
+## `JobCategoryView`
+
+Schema for viewing a job category.
+
+*   `id`: integer - The job category's identifier.
+*   `name`: string - The job category's name.
+*   `_expandable`: Array (string) (required) - List of fields that are not expanded and can be expanded into objects.
+
+## `TechView`
+
+Schema for viewing a technician (similar to `Tech` but includes `_expandable`).
+
+*   `id`: integer - The tech's identifier.
+*   `first_name`: string - The tech's first name.
+*   `last_name`: string - The tech's last name.
+*   `nickname_on_workorder`: string - Nickname on workorder.
+*   `nickname_on_dispatch`: string - Nickname on dispatch.
+*   `color_code`: string - Color code for the tech.
+*   `email`: string - The tech's email.
+*   `phone_1`: string - Primary phone number.
+*   `phone_2`: string - Secondary phone number.
+*   `gender`: string - Gender of the tech.
+*   `department`: string - Department.
+*   `title`: string - Job title.
+*   `bio`: string - Biography or notes.
+*   `is_phone_1_mobile`: boolean - If primary phone is mobile.
+*   `is_phone_1_visible_to_client`: boolean - If primary phone is visible to client.
+*   `is_phone_2_mobile`: boolean - If secondary phone is mobile.
+*   `is_phone_2_visible_to_client`: boolean - If secondary phone is visible to client.
+*   `is_sales_rep`: boolean - If the tech is a sales representative.
+*   `is_field_worker`: boolean - If the tech is a field worker.
+*   `created_at`: datetime - Timestamp of creation.
+*   `updated_at`: datetime - Timestamp of last update.
+*   `_expandable`: Array (string) (required) - List of fields that can be expanded.
+
+## `Tech`
+
+Schema for a technician.
+
+*   `id`: integer - The tech's identifier.
+*   `first_name`: string - The tech's first name.
+*   `last_name`: string - The tech's last name.
+*   `nickname_on_workorder`: string - Nickname on workorder.
+*   `nickname_on_dispatch`: string - Nickname on dispatch.
+*   `color_code`: string - Color code for the tech.
+*   `email`: string - The tech's email.
+*   `phone_1`: string - Primary phone number.
+*   `phone_2`: string - Secondary phone number.
+*   `gender`: string - Gender of the tech.
+*   `department`: string - Department.
+*   `title`: string - Job title.
+*   `bio`: string - Biography or notes.
+*   `is_phone_1_mobile`: boolean - If primary phone is mobile.
+*   `is_phone_1_visible_to_client`: boolean - If primary phone is visible to client.
+*   `is_phone_2_mobile`: boolean - If secondary phone is mobile.
+*   `is_phone_2_visible_to_client`: boolean - If secondary phone is visible to client.
+*   `is_sales_rep`: boolean - If the tech is a sales representative.
+*   `is_field_worker`: boolean - If the tech is a field worker.
+*   `created_at`: datetime - Timestamp of creation.
+*   `updated_at`: datetime - Timestamp of last update.
+
+## `SourceView`
+
+Schema for viewing a source (similar to `Source` but includes `_expandable`).
+
+*   `id`: integer - The source's identifier.
+*   `short_name`: string - The source's short name.
+*   `long_name`: string - The source's long name.
+*   `_expandable`: Array (string) (required) - List of fields that can be expanded.
+
+## `Source`
+
+Schema for a source.
+
+*   `id`: integer - The source's identifier.
+*   `short_name`: string - The source's short name.
+*   `long_name`: string - The source's long name.
+
+## `PrintableWorkOrder`
+
+Schema for a printable work order link.
+
+*   `name`: string - The printable work order's name.
+*   `url`: string - The URL to the printable work order.
+
+## `PaymentTypeView`
+
+Schema for viewing a payment type (similar to `PaymentType` but includes `_expandable`).
+
+*   `id`: integer - The type's identifier.
+*   `code`: string - The type's code.
+*   `short_name`: string - The type's short name.
+*   `type`: string - The type's type.
+*   `is_custom`: boolean - Whether the type is custom.
+*   `_expandable`: Array (string) (required) - List of fields that can be expanded.
+
+## `Payment`
+
+Schema for a payment transaction.
+
+*   `transaction_type`: string - The payment's transaction type.
+*   `transaction_token`: string - The payment's transaction token.
+*   `transaction_id`: string - ID of the attached transaction.
+*   `payment_transaction_id`: integer - ID of the attached payment transaction.
+*   `original_transaction_id`: integer - ID of the attached original transaction.
+*   `apply_to`: string - What the payment applies to.
+*   `amount`: number - The payment's amount.
+*   `memo`: string - The payment's memo.
+*   `authorization_code`: string - The payment's authorization code.
+*   `bill_to_street_address`: string - Billing street address.
+*   `bill_to_postal_code`: string - Billing postal code.
+*   `bill_to_country`: string - Billing country.
+*   `reference_number`: string - The payment's reference number.
+*   `is_resync_qbo`: boolean - Flag to resync with QuickBooks Online.
+*   `created_at`: datetime - Timestamp of creation.
+*   `updated_at`: datetime - Timestamp of last update.
+*   `received_on`: datetime - Date the payment was received.
+*   `qbo_synced_date`: datetime - Date synced with QuickBooks Online.
+*   `qbo_id`: integer - ID of attached QBO class.
+*   `qbd_id`: string - ID of attached QBD class.
+*   `customer`: string - Header of attached customer (e.g., "{customer_name}").
+*   `type`: string - Header of attached customer payment method or payment type.
+*   `invoice_id`: integer - ID of the attached invoice.
+*   `gateway_id`: integer - ID of the attached payment gateway.
+*   `receipt_id`: string - ID of the attached receipt.
+
+## `MeView`
+
+Schema for the currently authenticated user.
+
+*   `id`: integer - The authenticated user's identifier.
+*   `first_name`: string - The authenticated user's first name.
+*   `last_name`: string - The authenticated user's last name.
+*   `email`: string - The authenticated user's email.
+*   `_expandable`: Array (string) (required) - List of fields that can be expanded.
+
+## `JobVisit`
+
+Schema for a job visit.
+
+*   `notes_for_techs`: string - Notes for technicians.
+*   `time_frame_promised_start`: string - Promised start time frame.
+*   `time_frame_promised_end`: string - Promised end time frame.
+*   `duration`: integer - Visit duration in seconds.
+*   `is_text_notified`: boolean - If text notification was sent.
+*   `is_voice_notified`: boolean - If voice notification was sent.
+*   `start_date`: datetime - Visit start date.
+*   `status`: string - Header of attached status (e.g., "{name}").
+*   `techs_assigned`: Array (object) - List of assigned technicians.
+    *   `id`: integer - Assigned tech's identifier.
+    *   `first_name`: string - Assigned tech's first name.
+    *   `last_name`: string - Assigned tech's last name.
+
+## `JobTask`
+
+Schema for a task associated with a job.
+
+*   `type`: string - The task's type.
+*   `description`: string - The task's description.
+*   `start_time`: string - The task's start time.
+*   `start_date`: datetime - The task's start date.
+*   `end_date`: datetime - The task's end date.
+*   `is_completed`: boolean - Completion status of the task.
+*   `created_at`: datetime - Timestamp of creation.
+*   `updated_at`: datetime - Timestamp of last update.
+
+## `JobTagBody`
+
+Schema for the body when creating or updating a job tag.
+
+*   `tag`: string (required) - The unique tag string.
+
+## `JobTag`
+
+Schema for a tag associated with a job.
+
+*   `tag`: string - The tag's unique tag.
+*   `created_at`: datetime - Timestamp of creation.
+*   `updated_at`: datetime - Timestamp of last update.
+
+## `JobSignature`
+
+Schema for a job signature.
+
+*   `type`: string - The signature's type.
+*   `file_name`: string - The signature's file name.
+*   `created_at`: datetime - Timestamp of creation.
+*   `updated_at`: datetime - Timestamp of last update.
+
+## `JobServiceBody`
+
+Schema for the body when creating or updating a job service.
+
+*   `name`: string (optional) - Name of the service. Defaults to name from `service` if not passed.
+*   `description`: string (optional) - Description of the service. Defaults to description from `service` if not passed.
+*   `multiplier`: integer (optional, min: 1) - Quantity of the service. Defaults to quantity from `service` if not passed.
+*   `rate`: number (optional) - Rate of the service. Defaults to rate from `service` if not passed.
+*   `cost`: number (optional) - Cost of the service. Defaults to cost from `service` if not passed.
+*   `is_show_rate_items`: boolean (default: `false`) - Flag to show rate items.
+*   `tax`: string (optional) - ID or header of the tax to attach.
+*   `service`: string (required) - ID or header of the base service to attach.
+
+## `JobProductBody`
+
+Schema for the body when creating or updating a job product.
+
+*   `name`: string (optional) - Name of the product. Defaults to name from `product` if not passed.
+*   `description`: string (optional) - Description of the product. Defaults to description from `product` if not passed.
+*   `multiplier`: integer (optional, min: 1) - Quantity of the product. Defaults to quantity from `product` if not passed.
+*   `rate`: number (optional) - Rate of the product. Defaults to rate from `product` if not passed.
+*   `cost`: number (optional) - Cost of the product. Defaults to cost from `product` if not passed.
+*   `is_show_rate_items`: boolean (default: `false`) - Flag to show rate items.
+*   `tax`: string (optional) - ID or header of the tax to attach.
+*   `product`: string (required) - ID or header of the base product to attach.
+
+## `JobProduct`
+
+Schema for a product associated with a job.
+
+*   `name`: string - The product's name.
+*   `description`: string - The product's description.
+*   `multiplier`: integer - The product's quantity.
+*   `rate`: number - The product's rate.
+*   `total`: number - The product's total.
+*   `cost`: number - The product's cost.
+*   `actual_cost`: number - The product's actual cost.
+*   `item_index`: integer - The product's item index.
+*   `parent_index`: integer - The product's parent index.
+*   `created_at`: datetime - Timestamp of creation.
+*   `updated_at`: datetime - Timestamp of last update.
+*   `is_show_rate_items`: boolean - Flag to show rate items.
+*   `tax`: string - Header of attached tax.
+*   `product`: string - Header of attached product.
+*   `product_list_id`: integer - ID of attached product list.
+*   `warehouse_id`: integer - ID of attached warehouse.
+*   `pattern_row_id`: integer - ID of attached pattern row.
+*   `qbo_class_id`: integer - ID of attached QBO class.
+*   `qbd_class_id`: integer - ID of attached QBD class.
+
+## `JobNote`
+
+Schema for a job note.
+
+*   `notes`: string - The note's text.
+*   `created_at`: datetime - Timestamp of creation.
+*   `updated_at`: datetime - Timestamp of last update.
+
+## `JobLaborCharge`
+
+Schema for a job labor charge.
+
+*   `drive_time`: integer - Drive time in seconds.
+*   `drive_time_rate`: number - Rate for drive time.
+*   `drive_time_cost`: number - Cost for drive time.
+*   `drive_time_start`: string - Start time of drive.
+*   `drive_time_end`: string - End time of drive.
+*   `is_drive_time_billed`: boolean - Whether drive time is billed.
+*   `labor_time`: integer - Labor time in seconds.
+*   `labor_time_rate`: number - Rate for labor time.
+*   `labor_time_cost`: number - Cost for labor time.
+*   `labor_time_start`: string - Start time of labor.
+*   `labor_time_end`: string - End time of labor.
+*   `labor_date`: datetime - Date of labor.
+*   `is_labor_time_billed`: boolean - Whether labor time is billed.
+*   `total`: number - Total labor charge.
+*   `created_at`: datetime - Timestamp of creation.
+*   `updated_at`: datetime - Timestamp of last update.
+*   `is_status_generated`: boolean - Whether status was auto-generated.
+*   `user`: string - Header of the user associated with the charge (e.g., "John Doe").
+*   `visit_id`: integer - ID of the associated job visit.
+*   `qbo_class_id`: integer - QuickBooks Online class ID.
+*   `qbd_class_id`: integer - QuickBooks Desktop class ID.
+
+## `JobExpenseBody`
+
+Schema for the body of a job expense when creating/updating.
+
+*   `purchased_from`: string - Vendor name.
+*   `notes`: string - Expense notes.
+*   `amount`: number - Expense amount (default: 0).
+*   `is_billable`: boolean - Whether the expense is billable (default: false).
+*   `date`: datetime - Date of the expense.
+*   `user`: string - User ID or header (e.g., "John Doe") associated.
+*   `category`: string - Category ID or header (e.g., "Materials"). Defaults to the first existing category if not provided.
+
+## `JobExpense`
+
+Schema for a job expense.
+
+*   `purchased_from`: string - Vendor name.
+*   `notes`: string - Expense notes.
+*   `amount`: number - Expense amount.
+*   `is_billable`: boolean - Whether the expense is billable.
+*   `date`: datetime - Date of the expense.
+*   `created_at`: datetime - Timestamp of creation.
+*   `updated_at`: datetime - Timestamp of last update.
+*   `user`: string - Header of the user associated (e.g., "John Doe").
+*   `category`: string - Header of the category associated (e.g., "Materials").
+*   `qbo_class_id`: integer - QuickBooks Online class ID.
+*   `qbd_class_id`: integer - QuickBooks Desktop class ID.
+
+## `JobStatusView`
+
+Schema for viewing a job status (includes `_expandable`).
+
+*   `id`: integer - Job status identifier.
+*   `code`: string - Job status code.
+*   `name`: string - Job status name.
+*   `is_custom`: string - Whether the status is custom.
+*   `category`: string - Header of the category associated with the status (e.g., "Open").
+*   `_expandable`: Array (string) - List of fields that can be expanded.
+
+## `JobStatus`
+
+Schema for a job status.
+
+*   `id`: integer - Job status identifier.
+*   `code`: string - Job status code.
+*   `name`: string - Job status name.
+*   `is_custom`: string - Whether the status is custom.
+*   `category`: string - Header of the category associated with the status (e.g., "Open").
+
+## `JobCategory`
+
+Schema for a job category.
+
+*   `id`: integer - Job category identifier.
+*   `name`: string - Job category name.
+
+## `JobView`
+
+Comprehensive schema for a job, often used when viewing job details.
+
+*   `id`: integer - Job identifier.
+*   `number`: string - Job number.
+*   `check_number`: string - Check number associated with the job.
+*   `priority`: string - Job priority.
+*   `description`: string - Job description.
+*   `tech_notes`: string - Notes for technicians.
+*   `completion_notes`: string - Notes upon job completion.
+*   `payment_status`: string - Current payment status.
+*   `taxes_fees_total`: number - Total amount of taxes and fees.
+*   `drive_labor_total`: number - Total for drive and labor time.
+*   `billable_expenses_total`: number - Total of billable expenses.
+*   `total`: number - Grand total for the job.
+*   `payments_deposits_total`: number - Total payments and deposits received.
+*   `due_total`: number - Remaining amount due.
+*   `cost_total`: number - Total cost associated with the job.
+*   `duration`: integer - Job duration in seconds.
+*   `time_frame_promised_start`: string - Promised start time frame.
+*   `time_frame_promised_end`: string - Promised end time frame.
+*   `start_date`: datetime - Actual start date and time.
+*   `end_date`: datetime - Actual end date and time.
+*   `created_at`: datetime - Timestamp of job creation.
+*   `updated_at`: datetime - Timestamp of last job update.
+*   `closed_at`: datetime - Timestamp when the job was closed.
+*   `customer_id`: integer - ID of the associated customer.
+*   `customer_name`: string - Name of the associated customer.
+*   `parent_customer`: string - Name of the parent customer, if applicable.
+*   `status`: string - Header of the job's current status (e.g., "Scheduled").
+*   `sub_status`: string - Header of the job's current sub-status.
+*   `contact_first_name`: string - First name of the job contact.
+*   `contact_last_name`: string - Last name of the job contact.
+*   `street_1`: string - Street address (line 1).
+*   `street_2`: string - Street address (line 2).
+*   `city`: string - City.
+*   `state_prov`: string - State or province.
+*   `postal_code`: string - Postal code.
+*   `location_name`: string - Name of the job location.
+*   `is_gated`: boolean - Whether the location is gated.
+*   `gate_instructions`: string - Instructions for gate access.
+*   `category`: string - Header of the job category (e.g., "Installation").
+*   `source`: string - Header of the job source (e.g., "Referral").
+*   `payment_type`: string - Header of the payment type (e.g., "Credit Card").
+*   `customer_payment_terms`: string - Header of the customer's payment terms.
+*   `project`: string - Header of the associated project.
+*   `phase`: string - Header of the associated project phase.
+*   `po_number`: string - Purchase order number.
+*   `contract`: string - Header of the associated contract.
+*   `note_to_customer`: string - Note intended for the customer.
+*   `called_in_by`: string - Person who called in the job.
+*   `is_requires_follow_up`: boolean - Whether the job requires follow-up.
+*   `agents`: Array (object) - List of agents associated with the job.
+    *   `id`: integer - Agent ID.
+    *   `first_name`: string - Agent's first name.
+    *   `last_name`: string - Agent's last name.
+*   `custom_fields`: Array (object) - List of custom fields.
+    *   `name`: string - Custom field name.
+    *   `value`: any - Custom field value.
+    *   `type`: string - Custom field type.
+    *   `group`: string - Custom field group.
+*   `created_at`: datetime - Creation timestamp.
+*   `updated_at`: datetime - Last update timestamp.
+    *   `is_required`: boolean - If the field is required.
+*   `pictures`: Array (`Picture`) - List of pictures associated with the job. (See `Picture` type)
+*   `documents`: Array (`Document`) - List of documents associated with the job. (See `Document` type)
+*   `equipment`: Array (object) - List of equipment used or serviced.
+    *   `id`: integer - Equipment ID.
+    *   `type`: string - Equipment type.
+    *   `make`: string - Equipment make.
+    *   `model`: string - Equipment model.
+    *   `sku`: string - Equipment SKU.
+    *   `serial_number`: string - Equipment serial number.
+    *   `location`: string - Equipment location.
+    *   `notes`: string - Notes about the equipment.
+    *   `extended_warranty_provider`: string - Provider of extended warranty.
+    *   `is_extended_warranty`: boolean - If has extended warranty.
+    *   `extended_warranty_date`: datetime - Extended warranty expiration date.
+    *   `warranty_date`: datetime - Standard warranty expiration date.
+    *   `install_date`: datetime - Installation date.
+    *   `created_at`: datetime - Creation timestamp.
+    *   `updated_at`: datetime - Last update timestamp.
+    *   `customer_id`: integer - Associated customer ID.
+    *   `customer`: string - Associated customer name.
+    *   `customer_location`: string - Associated customer location.
+    *   `custom_fields`: Array (object) - Custom fields for the equipment. (Similar structure to job custom_fields)
+*   `techs_assigned`: Array (object) - List of technicians assigned.
+    *   `id`: integer - Technician ID.
+    *   `first_name`: string - Technician's first name.
+    *   `last_name`: string - Technician's last name.
+*   `tasks`: Array (`JobTask`) - List of tasks for the job. (See `JobTask` type)
+*   `notes`: Array (`JobNote`) - List of notes for the job. (See `JobNote` type)
+*   `products`: Array (`JobProduct`) - List of products used/sold. (See `JobProduct` type)
+*   `services`: Array (`JobService`) - List of services performed. (See `JobService` type)
+*   `other_charges`: Array (`JobOtherCharge`) - List of other charges. (See `JobOtherCharge` type)
+*   `labor_charges`: Array (`JobLaborCharge`) - List of labor charges. (See `JobLaborCharge` type)
+*   `expenses`: Array (`JobExpense`) - List of expenses. (See `JobExpense` type)
+*   `payments`: Array (`Payment`) - List of payments. (See `Payment` type)
+*   `invoices`: Array (`TypeInvoice`) - List of invoices. (See `TypeInvoice` type)
+*   `signatures`: Array (`JobSignature`) - List of signatures. (See `JobSignature` type)
+*   `printable_work_order`: Array (`PrintableWorkOrder`) - Link(s) to printable work orders. (See `PrintableWorkOrder` type)
+*   `visits`: Array (object) - List of job visits.
+    *   `notes_for_techs`: string - Notes for technicians for this visit.
+    *   `time_frame_promised_start`: string - Promised start time frame for the visit.
+    *   `time_frame_promised_end`: string - Promised end time frame for the visit.
+    *   `duration`: integer - Duration of the visit in seconds.
+    *   `is_text_notified`: boolean - If text notification was sent.
+    *   `is_voice_notified`: boolean - If voice notification was sent.
+    *   `start_date`: datetime - Actual start date and time of the visit.
+    *   `status`: string - Header of the visit's status (e.g., "En Route").
+    *   `techs_assigned`: Array (object) - Technicians assigned to this specific visit. (Similar structure to job techs_assigned)
+*   `_expandable`: Array (string) - List of fields that can be expanded.
+
+## `JobBody`
+
+Schema for creating or updating a job.
+
+*   `description`: string
+*   `tech_notes`: string
+*   `duration`: integer (seconds, default: 3600, min: 0, max: 86400)
+*   `time_frame_promised_start`: string
+*   `time_frame_promised_end`: string
+*   `start_date`: datetime
+*   `created_at`: datetime (default: current date/time)
+*   `customer_name`: string (required, ID or header of customer)
+*   `status`: string (ID or header of job status, default: company default for jobs)
+*   `sub_status`: string (ID or header of job sub_status)
+*   `contact_first_name`: string (uses primary contact if not set)
+*   `contact_last_name`: string (uses primary contact if not set)
+*   `street_1`: string (uses primary location if not set)
+*   `street_2`: string (uses primary location if not set)
+*   `city`: string (uses primary location if not set)
+*   `state_prov`: string (uses primary location if not set)
+*   `postal_code`: string (uses primary location if not set)
+*   `location_name`: string (uses primary location if not set)
+*   `is_gated`: boolean (uses primary location if not set)
+*   `gate_instructions`: string (uses primary location if not set)
+*   `category`: string (ID or header of category, optionally required)
+*   `source`: string (ID or header of source, default from customer)
+*   `payment_type`: string (ID or header of payment type)
+*   `project`: string (ID or header of project)
+*   `phase`: string (ID or header of phase)
+*   `po_number`: string
+*   `contract`: string (ID or header of contract, default from customer)
+*   `note_to_customer`: string (default from company preferences)
+*   `estimate_id`: integer (ID of estimate to convert)
+*   `custom_fields`: Array (object)
+    *   `name`: string (required)
+    *   `value`: any (required)
+*   `equipment`: Array (object) - List of equipment to associate.
+    *   `id`: string (ID or header of existing equipment, otherwise new is created)
+    *   `type`: string
+    *   `make`: string
+    *   `model`: string
+    *   `sku`: string
+    *   `serial_number`: string
+    *   `location`: string
+    *   `notes`: string
+    *   `extended_warranty_provider`: string
+    *   `is_extended_warranty`: boolean (default: false)
+    *   `extended_warranty_date`: datetime
+    *   `warranty_date`: datetime
+    *   `install_date`: datetime
+    *   `customer_location`: string (ID or header of customer location)
+    *   `custom_fields`: Array (object)
+        *   `name`: string (required)
+        *   `value`: any (required)
+*   `techs_assigned`: Array (object) - List of technicians to assign.
+    *   `id`: integer (ID of tech, otherwise search by name)
+    *   `first_name`: string (required if ID not provided)
+    *   `last_name`: string (required if ID not provided)
+*   `visits`: Array (object) - Job visits.
+    *   `start_date`: datetime (required)
+    *   `end_date`: datetime (required)
+    *   `start_time`: string (required)
+    *   `end_time`: string (required)
+    *   `is_confirmed`: boolean (default: false)
+    *   `arrival_window`: string (default: "Any Time")
+    *   `notes`: string
+    *   `techs_assigned`: Array (object)
+        *   `id`: integer
+        *   `first_name`: string
+        *   `last_name`: string
+*   `tasks`: Array (object) - Job tasks.
+    *   `description`: string (required)
+    *   `is_completed`: boolean (default: false)
+*   `notes`: Array (object) - Job notes.
+    *   `notes`: string (required)
+*   `products`: Array (object) - Products associated with the job.
+    *   `name`: string (default from product)
+    *   `description`: string (default from product)
+    *   `multiplier`: integer (default from product, min: 1)
+    *   `rate`: number (default from product)
+    *   `cost`: number (default from product)
+    *   `is_show_rate_items`: boolean (default: false)
+    *   `tax`: string (ID or header of tax)
+    *   `product`: string (required, ID or header of product)
+*   `services`: Array (object) - Services associated with the job.
+    *   `name`: string (default from service)
+    *   `description`: string (default from service)
+    *   `multiplier`: integer (default from service, min: 1)
+    *   `rate`: number (default from service)
+    *   `cost`: number (default from service)
+    *   `is_show_rate_items`: boolean (default: false)
+    *   `tax`: string (ID or header of tax)
+    *   `service`: string (required, ID or header of service)
+*   `other_charges`: Array (object) - Other charges for the job.
+    *   `name`: string (default from other charge)
+    *   `rate`: number (default from other charge)
+    *   `is_percentage`: boolean (default from other charge)
+    *   `other_charge`: string (required, ID or header of other charge)
+*   `tags`: Array (object) - Tags for the job.
+    *   `tag`: string (required)
+
+## `Job`
+
+Schema for a job. (Similar to `JobView`, but without `_expandable` and some nested structures might be simpler ID references instead of full objects).
+
+*   `id`: integer
+*   `number`: string
+*   `description`: string
+*   `tech_notes`: string
+*   `customer_payment_terms`: string
+*   `payment_status`: string
+*   `taxes_fees_total`: number
+*   `total`: number
+*   `due_total`: number
+*   `cost_total`: number
+*   `duration`: integer
+*   `time_frame_promised_start`: string
+*   `time_frame_promised_end`: string
+*   `start_date`: datetime
+*   `created_at`: datetime
+*   `updated_at`: datetime
+*   `customer_id`: integer
+*   `customer_name`: string
+*   `parent_customer`: string
+*   `status`: string
+*   `sub_status`: string
+*   `contact_first_name`: string
+*   `contact_last_name`: string
+*   `street_1`: string
+*   `street_2`: string
+*   `city`: string
+*   `state_prov`: string
+*   `postal_code`: string
+*   `location_name`: string
+*   `is_gated`: boolean
+*   `gate_instructions`: string
+*   `category`: string
+*   `source`: string
+*   `payment_type`: string
+*   `project`: string
+*   `phase`: string
+*   `po_number`: string
+*   `contract`: string
+*   `note_to_customer`: string
+*   `opportunity_rating`: integer
+*   `opportunity_owner`: string
+*   `agents`: Array (object)
+    *   `id`: integer
+    *   `first_name`: string
+    *   `last_name`: string
+*   `custom_fields`: Array (object)
+    *   `name`: string
+    *   `value`: any
+    *   `type`: string
+    *   `group`: string
+    *   `created_at`: datetime
+    *   `updated_at`: datetime
+    *   `is_required`: boolean
+*   `pictures`: Array (object) - Refer to `Picture` or `Document` type.
+*   `documents`: Array (object) - Refer to `Document` type.
+*   `equipment`: Array (object) - Refer to `JobEquipment` or similar type.
+*   `techs_assigned`: Array (object)
+    *   `id`: integer
+    *   `first_name`: string
+    *   `last_name`: string
+*   `visits`: Array (object) - Refer to `JobVisit` type.
+*   `tasks`: Array (object) - Refer to `JobTask` type.
+*   `notes`: Array (object) - Refer to `JobNote` type.
+*   `products`: Array (object) - Refer to `JobProduct` type.
+*   `services`: Array (object) - Refer to `JobService` type.
+*   `labor_charges`: Array (object) - Refer to `JobLaborCharge` type.
+*   `other_charges`: Array (object) - Refer to `JobOtherCharge` type.
+*   `expenses`: Array (object) - Refer to `JobExpense` type.
+*   `payments`: Array (object) - Refer to `Payment` type.
+*   `signatures`: Array (object) - Refer to `JobSignature` type.
+*   `printable_work_order`: Array (object)
+    *   `name`: string
+    *   `url`: string
+*   `tags`: Array (object) - Refer to `JobTag` type.
+
+## `InvoiceView`
+
+Schema for an invoice, including `_expandable` fields.
+
+*   `id`: integer - The invoice's identifier.
+*   `number`: integer - The invoice's number.
+*   `currency`: string - The invoice's currency.
+*   `po_number`: string - The invoice's po number.
+*   `terms`: string - The invoice's terms.
+*   `customer_message`: string - The invoice's customer message.
+*   `notes`: string - The invoice's notes.
+*   `pay_online_url`: string - The invoice's pay online url.
+*   `qbo_invoice_no`: integer - The invoice's qbo invoice no.
+*   `qbo_sync_token`: integer - The invoice's qbo sync token.
+*   `qbo_synced_date`: datetime - The invoice's qbo synced date.
+*   `qbo_id`: integer - The invoice's qbo class id.
+*   `qbd_id`: string - The invoice's qbd class id.
+*   `total`: number - The invoice's total.
+*   `is_paid`: boolean - The invoice's is paid flag.
+*   `date`: datetime - The invoice's date.
+*   `mail_send_date`: datetime - The invoice's mail send date.
+*   `created_at`: datetime - The invoice's created date.
+*   `updated_at`: datetime - The invoice's updated date.
+*   `customer`: string - Header of attached customer: `{customer_name}`.
+*   `customer_contact`: string - Header of attached contact: `{fname} {lname}`.
+*   `payment_terms`: string - Header of attached payment term: `{name}`.
+*   `bill_to_customer_id`: integer - ID of attached bill to customer.
+*   `bill_to_customer_location_id`: integer - ID of attached bill to customer location.
+*   `bill_to_customer_contact_id`: integer - ID of attached bill to customer contact.
+*   `bill_to_email_id`: integer - ID of attached bill to email.
+*   `bill_to_phone_id`: integer - ID of attached bill to phone.
+*   `_expandable`: Array (string) - List of fields that can be expanded.
+
+## `Invoice`
+
+Schema for an invoice (similar to `InvoiceView` but without `_expandable`).
+
+*   `id`: integer - The invoice's identifier.
+*   `number`: integer - The invoice's number.
+*   `currency`: string - The invoice's currency.
+*   `po_number`: string - The invoice's po number.
+*   `terms`: string - The invoice's terms.
+*   `customer_message`: string - The invoice's customer message.
+*   `notes`: string - The invoice's notes.
+*   `pay_online_url`: string - The invoice's pay online url.
+*   `qbo_invoice_no`: integer - The invoice's qbo invoice no.
+*   `qbo_sync_token`: integer - The invoice's qbo sync token.
+*   `qbo_synced_date`: datetime - The invoice's qbo synced date.
+*   `qbo_id`: integer - The invoice's qbo class id.
+*   `qbd_id`: string - The invoice's qbd class id.
+*   `total`: number - The invoice's total.
+*   `is_paid`: boolean - The invoice's is paid flag.
+*   `date`: datetime - The invoice's date.
+*   `mail_send_date`: datetime - The invoice's mail send date.
+*   `created_at`: datetime - The invoice's created date.
+*   `updated_at`: datetime - The invoice's updated date.
+*   `customer`: string - Header of attached customer.
+*   `customer_contact`: string - Header of attached contact.
+*   `payment_terms`: string - Header of attached payment term.
+*   `bill_to_customer_id`: integer - ID of attached bill to customer.
+*   `bill_to_customer_location_id`: integer - ID of attached bill to customer location.
+*   `bill_to_customer_contact_id`: integer - ID of attached bill to customer contact.
+*   `bill_to_email_id`: integer - ID of attached bill to email.
+*   `bill_to_phone_id`: integer - ID of attached bill to phone.
+
+## `EstimateView`
+
+Schema for an estimate, including `_expandable` fields. (Very extensive, fields listed below are a summary. Refer to original doc for full structure of nested arrays like `products`, `services`, `equipment` etc.)
+
+*   `id`: integer
+*   `number`: string
+*   `description`: string
+*   `tech_notes`: string
+*   `customer_payment_terms`: string
+*   `payment_status`: string
+*   `taxes_fees_total`: number
+*   `total`: number
+*   `due_total`: number
+*   `cost_total`: number
+*   `duration`: integer
+*   `time_frame_promised_start`: string
+*   `time_frame_promised_end`: string
+*   `start_date`: datetime
+*   `created_at`: datetime
+*   `updated_at`: datetime
+*   `customer_id`: integer
+*   `customer_name`: string
+*   `parent_customer`: string
+*   `status`: string
+*   `sub_status`: string
+*   `contact_first_name`: string
+*   `contact_last_name`: string
+*   `street_1`: string
+*   `street_2`: string
+*   `city`: string
+*   `state_prov`: string
+*   `postal_code`: string
+*   `location_name`: string
+*   `is_gated`: boolean
+*   `gate_instructions`: string
+*   `category`: string
+*   `source`: string
+*   `payment_type`: string
+*   `project`: string
+*   `phase`: string
+*   `po_number`: string
+*   `contract`: string
+*   `note_to_customer`: string
+*   `opportunity_rating`: integer
+*   `opportunity_owner`: string
+*   `agents`: Array (object)
+*   `custom_fields`: Array (object)
+*   `pictures`: Array (object) - Refer to `Picture` or `Document` type.
+*   `documents`: Array (object) - Refer to `Document` type.
+*   `equipment`: Array (object)
+*   `techs_assigned`: Array (object)
+*   `tasks`: Array (object)
+*   `notes`: Array (object)
+*   `products`: Array (object)
+*   `services`: Array (object)
+*   `other_charges`: Array (object)
+*   `payments`: Array (object)
+*   `signatures`: Array (object)
+*   `printable_work_order`: Array (object)
+*   `tags`: Array (object)
+*   `_expandable`: Array (string)
+
+## `EstimateBody`
+
+Schema for creating or updating an estimate. (Also extensive, fields are a summary.)
+
+*   `description`: string
+*   `tech_notes`: string
+*   `duration`: integer
+*   `time_frame_promised_start`: string
+*   `time_frame_promised_end`: string
+*   `start_date`: datetime
+*   `created_at`: datetime
+*   `customer_name`: string (required)
+*   `status`: string
+*   `contact_first_name`: string
+*   `contact_last_name`: string
+*   `street_1`: string
+*   `street_2`: string
+*   `city`: string
+*   `state_prov`: string
+*   `postal_code`: string
+*   `location_name`: string
+*   `is_gated`: boolean
+*   `gate_instructions`: string
+*   `category`: string
+*   `source`: string
+*   `project`: string
+*   `phase`: string
+*   `po_number`: string
+*   `contract`: string
+*   `note_to_customer`: string
+*   `opportunity_rating`: integer
+*   `opportunity_owner`: string
+*   `custom_fields`: Array (object)
+*   `equipment`: Array (object)
+*   `techs_assigned`: Array (object)
+*   `tasks`: Array (object)
+*   `notes`: Array (object)
+*   `products`: Array (object)
+*   `services`: Array (object)
+*   `other_charges`: Array (object)
+*   `tags`: Array (object)
+
+## `Estimate`
+
+Schema for an estimate (similar to `EstimateView` but without `_expandable`). (Extensive, fields are a summary.)
+
+*   `id`: integer
+*   `number`: string
+*   `description`: string
+*   ... (many fields similar to `EstimateView`) ...
+*   `agents`: Array (object)
+*   `custom_fields`: Array (object)
+*   `pictures`: Array (object)
+*   `documents`: Array (object)
+*   `equipment`: Array (object)
+*   `techs_assigned`: Array (object)
+*   `tasks`: Array (object)
+*   `notes`: Array (object)
+*   `products`: Array (object)
+*   `services`: Array (object)
+*   `other_charges`: Array (object)
+*   `payments`: Array (object)
+*   `signatures`: Array (object)
+*   `printable_work_order`: Array (object)
+*   `tags`: Array (object)
+
+## `CustomerView`
+
+Schema for a customer, including `_expandable` fields.
+
+    *   `id`: integer
+*   `customer_name`: string
+*   `fully_qualified_name`: string
+*   `parent_customer`: string
+*   `account_number`: string
+*   `account_balance`: number
+*   `private_notes`: string
+*   `public_notes`: string
+*   `credit_rating`: string
+*   `labor_charge_type`: string
+*   `labor_charge_default_rate`: number
+*   `last_serviced_date`: datetime
+*   `is_bill_for_drive_time`: boolean
+*   `is_vip`: boolean
+*   `referral_source`: string
+*   `agent`: string
+*   `discount`: number
+*   `discount_type`: string
+*   `payment_type`: string
+*   `payment_terms`: string
+*   `assigned_contract`: string
+*   `industry`: string
+*   `is_taxable`: boolean
+*   `tax_item_name`: string
+*   `qbo_sync_token`: integer
+*   `qbo_currency`: string
+*   `qbo_id`: integer
+*   `qbd_id`: string
+*   `created_at`: datetime
+*   `updated_at`: datetime
+*   `contacts`: Array (object)
+    *   `prefix`: string
+    *   `fname`: string
+    *   `lname`: string
+    *   `suffix`: string
+    *   `contact_type`: string
+    *   `dob`: string
+    *   `anniversary`: string
+    *   `job_title`: string
+    *   `department`: string
+    *   `created_at`: datetime
+    *   `updated_at`: datetime
+    *   `is_primary`: boolean
+    *   `phones`: Array (object)
+    *   `emails`: Array (object)
+*   `locations`: Array (object)
+    *   `street_1`: string
+    *   `street_2`: string
+    *   `city`: string
+    *   `state_prov`: string
+    *   `postal_code`: string
+    *   `country`: string
+    *   `nickname`: string
+    *   `gate_instructions`: string
+    *   `latitude`: number
+    *   `longitude`: number
+    *   `location_type`: string
+    *   `created_at`: datetime
+    *   `updated_at`: datetime
+    *   `is_primary`: boolean
+    *   `is_gated`: boolean
+    *   `is_bill_to`: boolean
+    *   `customer_contact`: string
+*   `custom_fields`: Array (object)
+*   `_expandable`: Array (string)
+
+## `CustomerBody`
+
+Schema for creating or updating a customer.
+
+*   `customer_name`: string (required)
+*   `parent_customer`: string
+*   `account_number`: string
+*   `private_notes`: string
+*   `public_notes`: string
+*   `credit_rating`: string (enum: A+, A, B+, B, C+, C, U)
+*   `labor_charge_type`: string (enum: flat, hourly)
+*   `labor_charge_default_rate`: number
+*   `last_serviced_date`: datetime
+*   `is_bill_for_drive_time`: boolean
+*   `is_vip`: boolean
+*   `referral_source`: string
+*   `agent`: string
+*   `discount`: number
+*   `discount_type`: string (enum: $, %)
+*   `payment_type`: string
+*   `payment_terms`: string
+*   `assigned_contract`: string
+*   `industry`: string
+*   `is_taxable`: boolean
+*   `tax_item_name`: string
+*   `qbo_sync_token`: integer
+*   `qbo_currency`: string (enum: USD, CAD, JMD, THB)
+*   `contacts`: Array (object)
+    *   `prefix`: string (enum)
+    *   `fname`: string (required)
+    *   `lname`: string (required)
+    *   `suffix`: string
+    *   `contact_type`: string
+    *   `dob`: string
+    *   `anniversary`: string
+    *   `job_title`: string
+    *   `department`: string
+    *   `is_primary`: boolean
+    *   `phones`: Array (object)
+    *   `emails`: Array (object)
+*   `locations`: Array (object)
+    *   `street_1`: string (required)
+    *   `street_2`: string
+    *   `city`: string
+    *   `state_prov`: string
+    *   `postal_code`: string
+    *   `country`: string
+    *   `nickname`: string
+    *   `gate_instructions`: string
+    *   `latitude`: number
+    *   `longitude`: number
+    *   `location_type`: string
+    *   `is_primary`: boolean
+    *   `is_gated`: boolean
+    *   `is_bill_to`: boolean
+    *   `customer_contact`: string
+*   `custom_fields`: Array (object)
+    *   `name`: string (required)
+    *   `value`: any (required)
+
+## `Customer`
+
+Schema for a customer (similar to `CustomerView` but without `_expandable`).
+
+*   `id`: integer
+*   `customer_name`: string
+*   ... (many fields similar to `CustomerView`) ...
+*   `contacts`: Array (object)
+*   `locations`: Array (object)
+*   `custom_fields`: Array (object)
+
+## `CalendarTaskView`
+
+Schema for a calendar task, including `_expandable` and `repeat` object.
+
+    *   `id`: integer
+*   `type`: string
+*   `description`: string
+*   `start_time`: string
+*   `end_time`: string
+*   `start_date`: datetime
+*   `end_date`: datetime
+*   `created_at`: datetime
+*   `updated_at`: datetime
+*   `is_public`: boolean
+*   `is_completed`: boolean
+*   `repeat_id`: integer
+*   `users_id`: Array (integer) (required)
+*   `customers_id`: Array (integer) (required)
+*   `jobs_id`: Array (integer) (required)
+*   `estimates_id`: Array (integer) (required)
+*   `repeat`: object
+    *   `id`: integer
+    *   `repeat_type`: string
+    *   `repeat_frequency`: integer
+    *   `repeat_weekly_days`: Array (string)
+    *   `repeat_monthly_type`: string
+    *   `stop_repeat_type`: string
+    *   `stop_repeat_on_occurrence`: integer
+    *   `stop_repeat_on_date`: datetime
+    *   `start_date`: datetime
+    *   `end_date`: datetime
+*   `_expandable`: Array (string) (required)
+
+## `CalendarTask`
+
+Schema for a calendar task (similar to `CalendarTaskView` but without `_expandable`).
+
+    *   `id`: integer
+*   `type`: string
+*   `description`: string
+*   `start_time`: string
+*   `end_time`: string
+*   `start_date`: datetime
+*   `end_date`: datetime
+*   `created_at`: datetime
+*   `updated_at`: datetime
+*   `is_public`: boolean
+*   `is_completed`: boolean
+*   `repeat_id`: integer
+*   `users_id`: Array (integer) (required)
+*   `customers_id`: Array (integer) (required)
+*   `jobs_id`: Array (integer) (required)
+*   `estimates_id`: Array (integer) (required)
+*   `repeat`: object (same structure as in `CalendarTaskView`)
+
+---
+
+### Type: Agent
+An agent's schema.
+
+```json
+{
+  "id": "integer",
+  "first_name": "string",
+  "last_name": "string"
+}
+```
+
+**Parameters:**
+*   `id` (integer): The agent's identifier.
+*   `first_name` (string): The agent's first name.
+*   `last_name` (string): The agent's last name.
+
+---
+
+### Type: AgentBody
+An agent's body schema.
+
+```json
+{
+  "id": "integer",
+  "first_name": "string",
+  "last_name": "string"
+}
+```
+
+**Parameters:**
+*   `id` (integer): Used to send the agent's identifier that will be searched. If this field is set then the entry will be searched by it, otherwise the search will be performed by its full name.
+    *   Default value: If not passed, it takes the value from full name search entry.
+*   `first_name` (string): Used to send the agent's first name that will be searched. Required field for full name search.
+    *   Default value: If field `id` passed, it takes the value from search entry.
+*   `last_name` (string): Used to send the agent's last name that will be searched. Required field for full name search.
+    *   Default value: If field `id` passed, it takes the value from search entry.
+
+---
+
+### Type: AssignedTech
+An assigned tech's schema.
+
+```json
+{
+  "id": "integer",
+  "first_name": "string",
+  "last_name": "string"
+}
+```
+
+**Parameters:**
+*   `id` (integer): The assigned tech's identifier.
+*   `first_name` (string): The assigned tech's first name.
+*   `last_name` (string): The assigned tech's last name.
+
+---
+
+### Type: AssignedTechBody
+An assigned tech's body schema.
+
+```json
+{
+  "id": "integer",
+  "first_name": "string",
+  "last_name": "string"
+}
+```
+
+**Parameters:**
+*   `id` (integer): Used to send the assigned tech's identifier that will be searched. If this field is set then the entry will be searched by it, otherwise the search will be performed by its full name.
+    *   Default value: If not passed, it takes the value from full name search entry.
+*   `first_name` (string): Used to send the assigned tech's first name that will be searched. Required field for full name search.
+    *   Default value: If field `id` passed, it takes the value from search entry.
+*   `last_name` (string): Used to send the assigned tech's last name that will be searched. Required field for full name search.
+    *   Default value: If field `id` passed, it takes the value from search entry.
+
+---
+
+### Type: CalendarTaskRepeat
+A calendar task repeat's schema.
+
+```json
+{
+  "id": "integer",
+  "repeat_type": "string",
+  "repeat_frequency": "integer",
+  "repeat_weekly_days": [
+    "string"
+  ],
+  "repeat_monthly_type": "string",
+  "stop_repeat_type": "string",
+  "stop_repeat_on_occurrence": "integer",
+  "stop_repeat_on_date": "datetime",
+  "start_date": "datetime",
+  "end_date": "datetime"
+}
+```
+
+**Parameters:**
+*   `id` (integer): The repeat's identifier.
+*   `repeat_type` (string): The repeat's type.
+*   `repeat_frequency` (integer): The repeat's frequency.
+*   `repeat_weekly_days` (Array, Required): The repeat's weekly days list.
+    *   `repeat_weekly_days items` (string): The repeat's weekly day.
+*   `repeat_monthly_type` (string): The repeat's monthly type.
+*   `stop_repeat_type` (string): The repeat's stop type.
+*   `stop_repeat_on_occurrence` (integer): The repeat's stop on occurrence.
+*   `stop_repeat_on_date` (datetime): The repeat's stop on date.
+*   `start_date` (datetime): The repeat's start date.
+*   `end_date` (datetime): The repeat's end date.
+
+---
+
+### Type: 500Error
+Internal server's error schema.
+
+```json
+{
+  "code": "integer",
+  "name": "string",
+  "message": "string"
+}
+```
+
+**Parameters:**
+*   `code` (integer): The error code associated with the error.
+*   `name` (string): The error name associated with the error.
+*   `message` (string): The error message associated with the error.
+
+---
+
+### Type: 429Error
+Too many requests client's error schema.
+
+```json
+{
+  "code": "integer",
+  "name": "string",
+  "message": "string"
+}
+```
+
+**Parameters:**
+*   `code` (integer): The error code associated with the error.
+*   `name` (string): The error name associated with the error.
+*   `message` (string): The error message associated with the error.
+
+---
+
+### Type: 422Error
+Unprocessable entity client's error schema.
+
+```json
+[
+{
+  "field": "string",
+  "message": "string"
+}
+]
+```
+
+**Parameters:**
+*   Array of items:
+*   `field` (string): The error field associated with the error.
+*   `message` (string): The error message associated with the error.
+
+---
+
+### Type: 415Error
+Unsupported media type client's error schema.
+
+```json
+{
+  "code": "integer",
+  "name": "string",
+  "message": "string"
+}
+```
+
+**Parameters:**
+*   `code` (integer): The error code associated with the error.
+*   `name` (string): The error name associated with the error.
+*   `message` (string): The error message associated with the error.
+
+---
+
+### Type: 405Error
+Method not allowed client's error schema.
+
+```json
+{
+  "code": "integer",
+  "name": "string",
+  "message": "string"
+}
+```
+
+**Parameters:**
+*   `code` (integer): The error code associated with the error.
+*   `name` (string): The error name associated with the error.
+*   `message` (string): The error message associated with the error.
+
+---
+
+### Type: 404Error
+Not found client's error schema.
+
+```json
+{
+  "code": "integer",
+  "name": "string",
+  "message": "string"
+}
+```
+
+**Parameters:**
+*   `code` (integer): The error code associated with the error.
+*   `name` (string): The error name associated with the error.
+*   `message` (string): The error message associated with the error.
+
+---
+
+### Type: 400Error
+Bad request client's error schema.
+
+```json
+{
+  "code": "integer",
+  "name": "string",
+  "message": "string"
+}
+```
+
+**Parameters:**
+*   `code` (integer): The error code associated with the error.
+*   `name` (string): The error name associated with the error.
+*   `message` (string): The error message associated with the error.
+
+---
+
+### Type: Error
+An error's schema.
+
+```json
+{
+  "code": "integer",
+  "name": "string",
+  "message": "string"
+}
+```
+
+**Parameters:**
+*   `code` (integer): The error code associated with the error.
+*   `name` (string): The error name associated with the error.
+*   `message` (string): The error message associated with the error.
+
+---
+
+### Type: OAuthTokenError
+An authentication error's schema.
+
+```json
+{
+  "error": "string",
+  "error_description": "string"
+}
+```
+
+**Parameters:**
+*   `error` (string): The error title.
+*   `error_description` (string): The error description.
+
+---
+
+### Type: OAuthToken
+An authentication schema.
+
+```json
+{
+  "access_token": "string",
+  "token_type": "string",
+  "expires_in": "integer",
+  "refresh_token": "string"
+}
+```
+
+**Parameters:**
+*   `access_token` (string): The access token string as issued by the authorization server.
+*   `token_type` (string): The type of token this is.
+*   `expires_in` (integer): The duration of time the access token is granted for.
+*   `refresh_token` (string): When an access token expires (exceeds the expires_in time), the refresh_token is used to obtain a new access token.
+
+---
+
+### Type: CustomField
+A custom field's schema.
+
+```json
+{
+  "name": "string",
+  "value": "any",
+  "type": "string",
+  "group": "string",
+  "created_at": "datetime",
+  "updated_at": "datetime",
+  "is_required": "boolean"
+}
+```
+
+**Parameters:**
+*   `name` (string): The custom field's name.
+*   `value` (any): The custom field's value.
+*   `type` (string): The custom field's type.
+*   `group` (string): The custom field's group.
+*   `created_at` (datetime): The custom field's created date.
+*   `updated_at` (datetime): The custom field's updated date.
+*   `is_required` (boolean): The custom field's is required flag.
+
+---
+
+### Type: CustomFieldBody
+A custom field's body schema.
+
+```json
+{
+  "name": "string",
+  "value": "any"
+}
+```
+
+**Parameters:**
+*   `name` (string, Required): Used to send the custom field's name that will be set.
+*   `value` (any, Required): Used to send the custom field's value that will be set.
+
+---
+
+### Type: CustomerContact
+A customer contact's schema.
+
+```json
+{
+  "prefix": "string",
+  "fname": "string",
+  "lname": "string",
+  "suffix": "string",
+  "contact_type": "string",
+  "dob": "string",
+  "anniversary": "string",
+  "job_title": "string",
+  "department": "string",
+  "created_at": "datetime",
+  "updated_at": "datetime",
+  "is_primary": "boolean",
+  "phones": [
+    {
+      "phone": "string",
+      "ext": "integer",
+      "type": "string",
+      "created_at": "datetime",
+      "updated_at": "datetime",
+      "is_mobile": "boolean"
+    }
+  ],
+  "emails": [
+    {
+      "email": "string",
+      "class": "string",
+      "types_accepted": "string",
+      "created_at": "datetime",
+      "updated_at": "datetime"
+    }
+  ]
+}
+```
+
+**Parameters:**
+*   `prefix` (string): The contact's prefix.
+*   `fname` (string): The contact's first name.
+*   `lname` (string): The contact's last name.
+*   `suffix` (string): The contact's suffix.
+*   `contact_type` (string): The contact's type.
+*   `dob` (string): The contact's dob.
+*   `anniversary` (string): The contact's anniversary.
+*   `job_title` (string): The contact's job title.
+*   `department` (string): The contact's department.
+*   `created_at` (datetime): The contact's created date.
+*   `updated_at` (datetime): The contact's updated date.
+*   `is_primary` (boolean): The contact's is primary flag.
+*   `phones` (Array): The contact's phones list.
+    *   `phone` (string): The phone's number.
+    *   `ext` (integer): The phone's extension.
+    *   `type` (string): The phone's type.
+    *   `created_at` (datetime): The phone's created date.
+    *   `updated_at` (datetime): The phone's updated date.
+    *   `is_mobile` (boolean): The phone's is mobile flag.
+*   `emails` (Array): The contact's emails list.
+    *   `email` (string): The email's address.
+    *   `class` (string): The email's class.
+    *   `types_accepted` (string): The email's types accepted.
+    *   `created_at` (datetime): The email's created date.
+    *   `updated_at` (datetime): The email's updated date.
+
+---
+
+### Type: CustomerContactBody
+A customer contact's body schema.
+
+```json
+{
+  "prefix": "string",
+  "fname": "string",
+  "lname": "string",
+  "suffix": "string",
+  "contact_type": "string",
+  "dob": "string",
+  "anniversary": "string",
+  "job_title": "string",
+  "department": "string",
+  "is_primary": "boolean",
+  "phones": [
+    {
+      "phone": "string",
+      "ext": "integer",
+      "type": "string"
+    }
+  ],
+  "emails": [
+    {
+      "email": "string",
+      "class": "string",
+      "types_accepted": "string"
+    }
+  ]
+}
+```
+
+**Parameters:**
+*   `prefix` (string, Enum): Used to send the contact's prefix that will be set.
+    *   Possible values: Mr., Mrs., Ms., Dr., Atty., Prof., Hon., Gov., Ofc., Rep., Sen., Amb., Sec., Pvt., Cpl., Sgt., Adm., Gen., Maj., Capt., Cmdr., Lt., Lt Col., Col.
+*   `fname` (string, Required): Used to send the contact's first name that will be set.
+*   `lname` (string, Required): Used to send the contact's last name that will be set.
+*   `suffix` (string): Used to send the contact's suffix that will be set.
+*   `contact_type` (string): Used to send the contact's type that will be set.
+*   `dob` (string): Used to send the contact's dob that will be set.
+*   `anniversary` (string): Used to send the contact's anniversary that will be set.
+*   `job_title` (string): Used to send the contact's job title that will be set.
+*   `department` (string): Used to send the contact's department that will be set.
+*   `is_primary` (boolean): Used to send the contact's is primary flag that will be set. When it is passed as true, then the customer's existing primary contact (if any) will become secondary, and this one will become the primary one.
+    *   Default value: If not passed and the customer does not have primary contact, it takes the value `true`, else if the customer already have primary contact, it takes the value `false`.
+*   `phones` (Array): Used to send the contact's phones list that will be set.
+    *   Default value: array
+    *   `phone` (string, Required): Used to send the phone's number that will be set.
+        *   Validation pattern: `^[0-9]{3}\-[0-9]{3}\-[0-9]{4}$`
+    *   `ext` (integer): Used to send the phone's extension that will be set.
+    *   `type` (string, Enum): Used to send the phone's type that will be set.
+        *   Possible values: Mobile, Home, Work, Other
+*   `emails` (Array): Used to send the contact's emails list that will be set.
+    *   Default value: array
+    *   `email` (string, Required): Used to send the email's address that will be set.
+        *   Validation pattern: `^[^@]*<[a-zA-Z0-9!#$%&\'*+\\/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&\'*+\\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](mdc:?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](mdc:?:[a-zA-Z0-9-]*[a-zA-Z0-9])?>$`
+    *   `class` (string, Enum): Used to send the email's class that will be set.
+        *   Possible values: Personal, Business, Other
+*   `types_accepted` (string, Enum): Used to send the email's types accepted that will be set. Accepted value is comma-separated string.
+    *   Possible values: CONF, STATUS, PMT, INV
+
+---
+
+### Type: CustomerEmail
+A customer email's schema.
+
+```json
+{
+  "email": "string",
+  "class": "string",
+  "types_accepted": "string",
+  "created_at": "datetime",
+  "updated_at": "datetime"
+}
+```
+
+**Parameters:**
+*   `email` (string): The email's address.
+*   `class` (string): The email's class.
+*   `types_accepted` (string): The email's types accepted.
+*   `created_at` (datetime): The email's created date.
+*   `updated_at` (datetime): The email's updated date.
+
+---
+
+### Type: CustomerEmailBody
+A customer email's body schema.
+
+```json
+{
+  "email": "string",
+  "class": "string",
+  "types_accepted": "string"
+}
+```
+
+**Parameters:**
+*   `email` (string, Required): Used to send the email's address that will be set.
+    *   Validation pattern: `^[^@]*<[a-zA-Z0-9!#$%&\'*+\\/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&\'*+\\/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](mdc:?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](mdc:?:[a-zA-Z0-9-]*[a-zA-Z0-9])?>$`
+*   `class` (string, Enum): Used to send the email's class that will be set.
+    *   Possible values: Personal, Business, Other
+*   `types_accepted` (string, Enum): Used to send the email's types accepted that will be set. Accepted value is comma-separated string.
+    *   Possible values: CONF, STATUS, PMT, INV
+
+---
+
+### Type: CustomerLocation
+A customer location's schema.
+
+```json
+{
+  "street_1": "string",
+  "street_2": "string",
+  "city": "string",
+  "state_prov": "string",
+  "postal_code": "string",
+  "country": "string",
+  "nickname": "string",
+  "gate_instructions": "string",
+  "latitude": "number",
+  "longitude": "number",
+  "location_type": "string",
+  "created_at": "datetime",
+  "updated_at": "datetime",
+  "is_primary": "boolean",
+  "is_gated": "boolean",
+  "is_bill_to": "boolean",
+  "customer_contact": "string"
+}
+```
+
+**Parameters:**
+*   `street_1` (string): The location's street 1.
+*   `street_2` (string): The location's street 2.
+*   `city` (string): The location's city.
+*   `state_prov` (string): The location's state.
+*   `postal_code` (string): The location's postal code.
+*   `country` (string): The location's country.
+*   `nickname` (string): The location's nickname.
+*   `gate_instructions` (string): The location's gate instructions.
+*   `latitude` (number): The location's latitude.
+*   `longitude` (number): The location's longitude.
+*   `location_type` (string): The location's type.
+*   `created_at` (datetime): The location's created date.
+*   `updated_at` (datetime): The location's updated date.
+*   `is_primary` (boolean): The location's is primary flag.
+*   `is_gated` (boolean): The location's is gated flag.
+*   `is_bill_to` (boolean): The location's is bill to flag.
+*   `customer_contact` (string): The header of attached customer contact to the location (Note: header - [string] the customer contact's fields concatenated by pattern {fname} {lname} with space as separator).
+
+---
+
+### Type: CustomerLocationBody
+A customer location's body schema.
+
+```json
+{
+  "street_1": "string",
+  "street_2": "string",
+  "city": "string",
+  "state_prov": "string",
+  "postal_code": "string",
+  "country": "string",
+  "nickname": "string",
+  "gate_instructions": "string",
+  "latitude": "number",
+  "longitude": "number",
+  "location_type": "string",
+  "is_primary": "boolean",
+  "is_gated": "boolean",
+  "is_bill_to": "boolean",
+  "customer_contact": "string"
+}
+```
+
+**Parameters:**
+*   `street_1` (string, Required): Used to send the location's street 1 that will be set.
+*   `street_2` (string): Used to send the location's street 2 that will be set.
+*   `city` (string): Used to send the location's city that will be set.
+*   `state_prov` (string): Used to send the location's state that will be set.
+*   `postal_code` (string): Used to send the location's postal code that will be set.
+*   `country` (string): Used to send the location's country that will be set.
+*   `nickname` (string): Used to send the location's nickname that will be set.
+*   `gate_instructions` (string): Used to send the location's gate instructions that will be set.
+*   `latitude` (number): Used to send the location's latitude that will be set.
+    *   Default value: 0
+*   `longitude` (number): Used to send the location's longitude that will be set.
+    *   Default value: 0
+*   `location_type` (string): Used to send the location's type that will be set.
+*   `is_primary` (boolean): Used to send the location's is primary flag that will be set. When it is passed as true, then the customer's existing primary location (if any) will become secondary, and this one will become the primary one.
+    *   Default value: If not passed and the customer does not have primary location, it takes the value `true`, else if the customer already have primary location, it takes the value `false`.
+*   `is_gated` (boolean): Used to send the location's is gated flag that will be set.
+    *   Default value: false
+*   `is_bill_to` (boolean): Used to send the location's is bill to flag that will be set.
+    *   Default value: false
+*   `customer_contact` (string): Used to send a customer contact's id or header that will be attached to the location (Note: id - [integer] the customer contact's identifier, header - [string] the customer contact's fields concatenated by pattern {fname} {lname} with space as separator).
+
+---
+
+### Type: CustomerPhone
+A customer phone's schema.
+
+```json
+{
+  "phone": "string",
+  "ext": "integer",
+  "type": "string",
+  "created_at": "datetime",
+  "updated_at": "datetime",
+  "is_mobile": "boolean"
+}
+```
+
+**Parameters:**
+*   `phone` (string): The phone's number.
+*   `ext` (integer): The phone's extension.
+*   `type` (string): The phone's type.
+*   `created_at` (datetime): The phone's created date.
+*   `updated_at` (datetime): The phone's updated date.
+*   `is_mobile` (boolean): The phone's is mobile flag.
+
+---
+
+### Type: CustomerPhoneBody
+A customer phone's body schema.
+
+```json
+{
+  "phone": "string",
+  "ext": "integer",
+  "type": "string"
+}
+```
+
+**Parameters:**
+*   `phone` (string, Required): Used to send the phone's number that will be set.
+    *   Validation pattern: `^[0-9]{3}\-[0-9]{3}\-[0-9]{4}$`
+*   `ext` (integer): Used to send the phone's extension that will be set.
+*   `type` (string, Enum): Used to send the phone's type that will be set.
+    *   Possible values: Mobile, Home, Work, Other
+
+---
+
+### Type: Equipment
+An equipment's schema.
+
+```json
+{
+  "id": "integer",
+  "type": "string",
+  "make": "string",
+  "model": "string",
+  "sku": "string",
+  "serial_number": "string",
+  "location": "string",
+  "notes": "string",
+  "extended_warranty_provider": "string",
+  "is_extended_warranty": "boolean",
+  "extended_warranty_date": "datetime",
+  "warranty_date": "datetime",
+  "install_date": "datetime",
+  "created_at": "datetime",
+  "updated_at": "datetime",
+  "customer_id": "integer",
+  "customer": "string",
+  "customer_location": "string",
+  "custom_fields": [
+    {
+      "name": "string",
+      "value": "any",
+      "type": "string",
+      "group": "string",
+      "created_at": "datetime",
+      "updated_at": "datetime",
+      "is_required": "boolean"
+    }
+  ]
+}
+```
+
+**Parameters:**
+*   `id` (integer): The equipment's identifier.
+*   `type` (string): The equipment's type.
+*   `make` (string): The equipment's make.
+*   `model` (string): The equipment's model.
+*   `sku` (string): The equipment's sku.
+*   `serial_number` (string): The equipment's serial number.
+*   `location` (string): The equipment's location.
+*   `notes` (string): The equipment's notes.
+*   `extended_warranty_provider` (string): The equipment's extended warranty provider.
+*   `is_extended_warranty` (boolean): The equipment's is extended warranty flag.
+*   `extended_warranty_date` (datetime): The equipment's extended warranty date.
+*   `warranty_date` (datetime): The equipment's warranty date.
+*   `install_date` (datetime): The equipment's install date.
+*   `created_at` (datetime): The equipment's created date.
+*   `updated_at` (datetime): The equipment's updated date.
+*   `customer_id` (integer): The id of attached customer to the equipment (Note: id - [integer] the customer's identifier).
+*   `customer` (string): The header of attached customer to the equipment (Note: header - [string] the customer's fields concatenated by pattern {customer_name}).
+*   `customer_location` (string): The header of attached customer location to the equipment (Note: header - [string] the customer location's fields concatenated by pattern {nickname} {street_1} {city} with space as separator).
+*   `custom_fields` (Array): The equipment's custom fields list.
+    *   `name` (string): The custom field's name.
+    *   `value` (any): The custom field's value.
+    *   `type` (string): The custom field's type.
+    *   `group` (string): The custom field's group.
+    *   `created_at` (datetime): The custom field's created date.
+    *   `updated_at` (datetime): The custom field's updated date.
+    *   `is_required` (boolean): The custom field's is required flag.
+
+---
+
+### Type: EquipmentBody
+An equipment's body schema.
+
+```json
+{
+  "id": "string",
+  "type": "string",
+  "make": "string",
+  "model": "string",
+  "sku": "string",
+  "serial_number": "string",
+  "location": "string",
+  "notes": "string",
+  "extended_warranty_provider": "string",
+  "is_extended_warranty": "boolean",
+  "extended_warranty_date": "datetime",
+  "warranty_date": "datetime",
+  "install_date": "datetime",
+  "customer_location": "string",
+  "custom_fields": [
+    {
+      "name": "string",
+      "value": "any"
+    }
+  ]
+}
+```
+
+**Parameters:**
+*   `id` (string): Used to send the equipment's identifier that will be searched. You may pass this parameter if you do not want to create new entry but assign existing one. You may assign by identifier or header (Note: identifier - [integer] the equipment's identifier, header - [string] the equipment's fields concatenated by pattern {type}:{make}:{model}:{serial_number} with colon as separator).
+    *   Default value: If not passed, it creates new one.
+*   `type` (string): Used to send the equipment's type that will be set.
+*   `make` (string): Used to send the equipment's make that will be set.
+*   `model` (string): Used to send the equipment's model that will be set.
+*   `sku` (string): Used to send the equipment's sku that will be set.
+*   `serial_number` (string): Used to send the equipment's serial number that will be set.
+*   `location` (string): Used to send the equipment's location that will be set.
+*   `notes` (string): Used to send the equipment's notes that will be set.
+*   `extended_warranty_provider` (string): Used to send the equipment's extended warranty provider that will be set.
+*   `is_extended_warranty` (boolean): Used to send the equipment's is extended warranty flag that will be set.
+    *   Default value: false
+*   `extended_warranty_date` (datetime): Used to send the equipment's extended warranty date that will be set.
+*   `warranty_date` (datetime): Used to send the equipment's warranty date that will be set.
+*   `install_date` (datetime): Used to send the equipment's install date that will be set.
+*   `customer_location` (string): Used to send a customer location's id or header that will be attached to the equipment (Note: id - [integer] the customer location's identifier, header - [string] the customer location's fields concatenated by pattern {nickname} {street_1} {city} with space as separator).
+*   `custom_fields` (Array): Used to send the equipment's custom fields list that will be set.
+    *   Default value: If some custom field (configured into the custom fields settings) not passed, it creates the new one with its default value.
+    *   `name` (string, Required): Used to send the custom field's name that will be set.
+    *   `value` (any, Required): Used to send the custom field's value that will be set.
+
+---
+
+### Type: EquipmentView
+An equipment's schema.
+
+```json
+{
+  "id": "integer",
+  "type": "string",
+  "make": "string",
+  "model": "string",
+  "sku": "string",
+  "serial_number": "string",
+  "location": "string",
+  "notes": "string",
+  "extended_warranty_provider": "string",
+  "is_extended_warranty": "boolean",
+  "extended_warranty_date": "datetime",
+  "warranty_date": "datetime",
+  "install_date": "datetime",
+  "created_at": "datetime",
+  "updated_at": "datetime",
+  "customer_id": "integer",
+  "customer": "string",
+  "customer_location": "string",
+  "custom_fields": [
+    {
+      "name": "string",
+      "value": "any",
+      "type": "string",
+      "group": "string",
+      "created_at": "datetime",
+      "updated_at": "datetime",
+      "is_required": "boolean"
+    }
+  ],
+  "_expandable": [
+    "string"
+  ]
+}
+```
+
+**Parameters:**
+*   `id` (integer): The equipment's identifier.
+*   `type` (string): The equipment's type.
+*   `make` (string): The equipment's make.
+*   `model` (string): The equipment's model.
+*   `sku` (string): The equipment's sku.
+*   `serial_number` (string): The equipment's serial number.
+*   `location` (string): The equipment's location.
+*   `notes` (string): The equipment's notes.
+*   `extended_warranty_provider` (string): The equipment's extended warranty provider.
+*   `is_extended_warranty` (boolean): The equipment's is extended warranty flag.
+*   `extended_warranty_date` (datetime): The equipment's extended warranty date.
+*   `warranty_date` (datetime): The equipment's warranty date.
+*   `install_date` (datetime): The equipment's install date.
+*   `created_at` (datetime): The equipment's created date.
+*   `updated_at` (datetime): The equipment's updated date.
+*   `customer_id` (integer): The id of attached customer to the equipment (Note: id - [integer] the customer's identifier).
+*   `customer` (string): The header of attached customer to the equipment (Note: header - [string] the customer's fields concatenated by pattern {customer_name}).
+*   `customer_location` (string): The header of attached customer location to the equipment (Note: header - [string] the customer location's fields concatenated by pattern {nickname} {street_1} {city} with space as separator).
+*   `custom_fields` (Array): The equipment's custom fields list.
+    *   `name` (string): The custom field's name.
+    *   `value` (any): The custom field's value.
+    *   `type` (string): The custom field's type.
+    *   `group` (string): The custom field's group.
+    *   `created_at` (datetime): The custom field's created date.
+    *   `updated_at` (datetime): The custom field's updated date.
+    *   `is_required` (boolean): The custom field's is required flag.
+*   `_expandable` (Array, Required): The extra-field's list that are not expanded and can be expanded into objects.
+    *   `_expandable items` (string): The extra-field that are not expanded and can be expanded into object.
+
+---
+
+### Type: CalendarTask
+A calendar task's schema.
+
+```json
+{
+  "id": "integer",
+  "type": "string",
+  "description": "string",
+  "start_time": "string",
+  "end_time": "string",
+  "start_date": "datetime",
+  "end_date": "datetime",
+  "created_at": "datetime",
+  "updated_at": "datetime",
+  "is_public": "boolean",
+  "is_completed": "boolean",
+  "repeat_id": "integer",
+  "users_id": [
+    "integer"
+  ],
+  "customers_id": [
+    "integer"
+  ],
+  "jobs_id": [
+    "integer"
+  ],
+  "estimates_id": [
+    "integer"
+  ],
+  "repeat": {
+    "id": "integer",
+    "repeat_type": "string",
+    "repeat_frequency": "integer",
+    "repeat_weekly_days": [
+      "string"
+    ],
+    "repeat_monthly_type": "string",
+    "stop_repeat_type": "string",
+    "stop_repeat_on_occurrence": "integer",
+    "stop_repeat_on_date": "datetime",
+    "start_date": "datetime",
+    "end_date": "datetime"
+  }
+}
+```
+
+**Parameters:**
+*   `id` (integer): The calendar task's identifier.
+*   `type` (string): The calendar task's type.
+*   `description` (string): The calendar task's description.
+*   `start_time` (string): The calendar task's start time.
+*   `end_time` (string): The calendar task's end time.
+*   `start_date` (datetime): The calendar task's start date.
+*   `end_date` (datetime): The calendar task's end date.
+*   `created_at` (datetime): The calendar task's created date.
+*   `updated_at` (datetime): The calendar task's updated date.
+*   `is_public` (boolean): The calendar task's is public flag.
+*   `is_completed` (boolean): The calendar task's is completed flag.
+*   `repeat_id` (integer): The calendar task's repeat id.
+*   `users_id` (Array, Required): The calendar task's users list of identifiers.
+    *   `users_id items` (integer): The calendar task user's identifier.
+*   `customers_id` (Array, Required): The calendar task's customers list of identifiers.
+    *   `customers_id items` (integer): The calendar task customer's identifier.
+*   `jobs_id` (Array, Required): The calendar task's jobs list of identifiers.
+    *   `jobs_id items` (integer): The calendar task job's identifier.
+*   `estimates_id` (Array, Required): The calendar task's estimates list of identifiers.
+    *   `estimates_id items` (integer): The calendar task estimate's identifier.
+*   `repeat` (object): The calendar task's repeat.
+    *   Example value:
+        ```json
+        {
+          "id": 92,
+          "repeat_type": "Daily",
+          "repeat_frequency": 2,
+          "repeat_weekly_days": [],
+          "repeat_monthly_type": null,
+          "stop_repeat_type": "On Occurrence",
+          "stop_repeat_on_occurrence": 10,
+          "stop_repeat_on_date": null,
+          "start_date": "2021-05-27T00:00:00+00:00",
+          "end_date": "2021-06-14T00:00:00+00:00"
+        }
+        ```
+    *   `id` (integer): The repeat's identifier.
+    *   `repeat_type` (string): The repeat's type.
+    *   `repeat_frequency` (integer): The repeat's frequency.
+    *   `repeat_monthly_type` (string): The repeat's monthly type.
+    *   `stop_repeat_type` (string): The repeat's stop type.
+    *   `stop_repeat_on_occurrence` (integer): The repeat's stop on occurrence.
+    *   `stop_repeat_on_date` (datetime): The repeat's stop on date.
+    *   `start_date` (datetime): The repeat's start date.
+    *   `end_date` (datetime): The repeat's end date.
+
+
+
+
+
+
+
+
+

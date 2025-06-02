@@ -25,7 +25,18 @@ export interface AppearanceSettings {
     ctaLink?: string;
     ctaBackgroundColor?: string;
     ctaTextColor?: string;
-    navLinks?: Array<{ id: string; text: string; href: string; subLinks?: Array<{ id: string; text: string; href: string }> }>;
+    navLinks?: Array<{ 
+      id: string; 
+      text: string; 
+      href: string; 
+      iconSrc?: string; // Added for top-level links if needed in future
+      subLinks?: Array<{ 
+        id: string; 
+        text: string; 
+        href: string; 
+        iconSrc?: string; // <<<< Added iconSrc here for subLinks
+      }> 
+    }>;
   };
   footer?: {
     layout?: 'standard' | 'compact' | 'minimal';
@@ -245,7 +256,7 @@ export const defaultAppearanceSettings: AppearanceSettings = {
     layout: 'standard',
     showCta: true,
     ctaText: 'Get a Quote',
-    ctaLink: '/contact',
+    ctaLink: '/service-inquiry',
     navLinks: [
       { id: 'home', text: 'Home', href: '/' },
       { 
@@ -253,13 +264,18 @@ export const defaultAppearanceSettings: AppearanceSettings = {
         text: 'Services', 
         href: '/services', 
         subLinks: [
-          { id: 'flooring', text: 'Flooring', href: '/services/flooring' },
-          { id: 'plumbing', text: 'Plumbing', href: '/services/plumbing' },
-          { id: 'electrical', text: 'Electrical', href: '/services/electrical' },
+          { id: 'roofing', text: 'Roofing', href: '/services/roofing', iconSrc: '/images/icons/roofing.png' },
+          { id: 'plumbing', text: 'Plumbing', href: '/services/plumbing', iconSrc: '/images/icons/plumb.png' },
+          { id: 'painting', text: 'Painting', href: '/services/painting', iconSrc: '/images/icons/paint.png' },
+          { id: 'hvac', text: 'HVAC', href: '/services/hvac', iconSrc: '/images/icons/hvac.png' },
+          { id: 'flooring', text: 'Flooring', href: '/services/flooring', iconSrc: '/images/icons/flooring.png' },
+          { id: 'exterior-work', text: 'Exterior Work', href: '/services/exterior-work', iconSrc: '/images/icons/exterior.png' },
+          { id: 'electrical', text: 'Electrical', href: '/services/electrical', iconSrc: '/images/icons/electric.png' },
+          { id: 'general-repair', text: 'General Repairs', href: '/services/general-repairs', iconSrc: '/images/icons/repair.png' }, // Matched slug from seed
         ]
       },
       { id: 'about', text: 'About', href: '/about' },
-      { id: 'contact', text: 'Contact', href: '/contact' },
+      { id: 'service-inquiry', text: 'Service Inquiry', href: '/service-inquiry' },
     ],
   },
   footer: {

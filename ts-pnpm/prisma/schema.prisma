@@ -127,6 +127,8 @@ model Inquiry {
   updatedAt     DateTime @updatedAt
   customerId    String? // Added for relation
   customer      User?    @relation("CustomerInquiries", fields: [customerId], references: [id]) // Added for relation
+  attachments   InquiryAttachment[] // Relation to attachments
+  // photoSets     PhotoSet[] @relation("InquiryPhotoSets") // Reverted: This relation is not needed here
 }
 
 model SiteSettings {
@@ -185,6 +187,8 @@ model PhotoSet {
   photos              Photo[] // Relation to multiple photos
   customerId          String? // Added for relation
   customer            User?             @relation("CustomerPhotoSets", fields: [customerId], references: [id]) // Added for relation
+  // inquiryId           String?           // Reverted: This field is not needed here
+  // inquiry             Inquiry?          @relation("InquiryPhotoSets", fields: [inquiryId], references: [id]) // Reverted: This relation is not needed here
 }
 
 // Enum for Photo Type
@@ -197,10 +201,15 @@ enum PhotoType {
 model Photo {
   id         String    @id @default(cuid())
   url        String
-  type       PhotoType // To distinguish Before/After images
+  filename   String?   // Original filename
+  size       Int?      // File size in bytes
+  contentType String?  // MIME type
+  type       PhotoType // BEFORE or AFTER
   uploadedAt DateTime  @default(now())
   photoSetId String
-  photoSet   PhotoSet  @relation(fields: [photoSetId], references: [id], onDelete: Cascade)
+  photoSet   PhotoSet  @relation(fields: [photoSetId], references: [id])
+
+  @@index([photoSetId])
 }
 
 model MaintenanceWorker {
@@ -293,6 +302,7 @@ model ChatConversation {
   id        String    @id @default(cuid())
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+  title     String?   // Optional title for the conversation
   deletedAt DateTime? // For soft deletes
 
   participants User[]        @relation("ChatParticipants")
@@ -417,4 +427,18 @@ model ChatParticipantInfo {
 model GlobalStaffActivity {
   id             String   @id @default("singleton_staff_activity") // Use a fixed ID for the single record
   lastActivePing DateTime @updatedAt // Automatically updates when the record is updated
+}
+
+// New model for Inquiry Attachments
+model InquiryAttachment {
+  id        String   @id @default(cuid())
+  inquiryId String
+  inquiry   Inquiry  @relation(fields: [inquiryId], references: [id], onDelete: Cascade)
+  fileName  String   // Original file name
+  fileType  String   // MIME type
+  fileSize  Int      // Size in bytes
+  filePath  String   // Path where the file is stored (e.g., local path or cloud URL)
+  uploadedAt DateTime @default(now())
+
+  @@index([inquiryId])
 }

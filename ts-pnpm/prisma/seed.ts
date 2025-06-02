@@ -8,14 +8,77 @@ async function main() {
 
   // Seed Services
   const servicesToSeed = [
-    { name: "Carpentry", description: "Expert carpentry services for repairs, installations, and custom work.", slug: "carpentry" },
-    { name: "Concrete Repair", description: "Professional concrete repair for driveways, patios, and foundations.", slug: "concrete-repair" },
-    { name: "Deck Building / Repair", description: "Custom deck building and repair services to enhance your outdoor space.", slug: "deck-building-repair" },
-    { name: "Flooring Installation", description: "Installation of various flooring types including hardwood, laminate, and tile.", slug: "flooring-installation" },
-    { name: "Interior / Exterior Painting", description: "High-quality interior and exterior painting services.", slug: "interior-exterior-painting" },
-    { name: "Plumbing Repairs", description: "Reliable plumbing repair services for leaks, clogs, and installations.", slug: "plumbing-repairs" },
-    { name: "Roofing", description: "Roofing repairs and installation services to protect your home.", slug: "roofing" },
-    { name: "General Handyman Services", description: "Versatile handyman services for all your home repair and maintenance needs.", slug: "general-handyman-services" }
+    // Combined and updated list based on icons and previous seed data
+    {
+      name: "Roofing", 
+      description: "Comprehensive roofing services, repairs, and replacements to protect your home.", 
+      slug: "roofing", 
+      imageUrl: "/images/services/placeholder-roofing.jpg" 
+    },
+    {
+      name: "Plumbing", 
+      description: "Full-service plumbing for leaks, installations, and emergencies, including repairs.", 
+      slug: "plumbing", 
+      imageUrl: "/images/services/placeholder-plumbing.jpg"
+    },
+    {
+      name: "Painting", 
+      description: "Professional interior and exterior painting services for a fresh, new look.", 
+      slug: "painting", 
+      imageUrl: "/images/services/placeholder-painting.jpg"
+    },
+    {
+      name: "HVAC", 
+      description: "Heating, ventilation, and air conditioning services, repairs, and installations.", 
+      slug: "hvac", 
+      imageUrl: "/images/services/placeholder-hvac.jpg"
+    },
+    {
+      name: "Flooring", 
+      description: "Expert flooring installation for various types including hardwood, tile, and laminate.", 
+      slug: "flooring", 
+      imageUrl: "/images/services/placeholder-flooring.jpg"
+    },
+    {
+      name: "Exterior Work", 
+      description: "Siding, gutters, pressure washing, and other exterior home maintenance and improvements.", 
+      slug: "exterior-work", 
+      imageUrl: "/images/services/placeholder-exterior.jpg"
+    },
+    {
+      name: "Electrical", 
+      description: "Safe and reliable electrical repairs, installations, and upgrades for your home.", 
+      slug: "electrical", 
+      imageUrl: "/images/services/placeholder-electrical.jpg"
+    },
+    {
+      name: "General Repairs", // Renamed for clarity based on icon
+      description: "Versatile handyman services for all your home repair and maintenance tasks, big or small.", 
+      slug: "general-repairs", // Matched to new name
+      imageUrl: "/images/services/placeholder-general-repairs.jpg"
+    },
+    {
+      name: "Carpentry", 
+      description: "Expert carpentry services for repairs, installations, and custom woodworking projects.", 
+      slug: "carpentry", 
+      imageUrl: "/images/services/placeholder-carpentry.jpg"
+    },
+    {
+      name: "Concrete Repair", 
+      description: "Professional concrete repair for driveways, patios, foundations, and walkways.", 
+      slug: "concrete-repair", 
+      imageUrl: "/images/services/placeholder-concrete.jpg"
+    },
+    {
+      name: "Deck Building / Repair", 
+      description: "Custom deck building, repair, and refinishing services to enhance your outdoor living space.", 
+      slug: "deck-building-repair", 
+      imageUrl: "/images/services/placeholder-deck.jpg"
+    }
+    // Removed original individual entries like "Flooring Installation" if covered by consolidated "Flooring"
+    // Removed "Interior / Exterior Painting" if covered by consolidated "Painting"
+    // Removed "Plumbing Repairs" if covered by consolidated "Plumbing"
+    // Removed "General Handyman Services" if covered by "General Repairs"
   ];
 
   for (const serviceData of servicesToSeed) {

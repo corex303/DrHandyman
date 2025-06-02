@@ -118,6 +118,11 @@ export type ChatParticipantInfo = $Result.DefaultSelection<Prisma.$ChatParticipa
  * 
  */
 export type GlobalStaffActivity = $Result.DefaultSelection<Prisma.$GlobalStaffActivityPayload>
+/**
+ * Model InquiryAttachment
+ * 
+ */
+export type InquiryAttachment = $Result.DefaultSelection<Prisma.$InquiryAttachmentPayload>
 
 /**
  * Enums
@@ -512,6 +517,16 @@ export class PrismaClient<
     * ```
     */
   get globalStaffActivity(): Prisma.GlobalStaffActivityDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.inquiryAttachment`: Exposes CRUD operations for the **InquiryAttachment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more InquiryAttachments
+    * const inquiryAttachments = await prisma.inquiryAttachment.findMany()
+    * ```
+    */
+  get inquiryAttachment(): Prisma.InquiryAttachmentDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -972,7 +987,8 @@ export namespace Prisma {
     InvoiceLineItem: 'InvoiceLineItem',
     Payment: 'Payment',
     ChatParticipantInfo: 'ChatParticipantInfo',
-    GlobalStaffActivity: 'GlobalStaffActivity'
+    GlobalStaffActivity: 'GlobalStaffActivity',
+    InquiryAttachment: 'InquiryAttachment'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -991,7 +1007,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "service" | "portfolioItem" | "testimonial" | "inquiry" | "siteSettings" | "image" | "photoSet" | "photo" | "maintenanceWorker" | "account" | "session" | "verificationToken" | "appearanceSettings" | "chatConversation" | "chatMessage" | "invoice" | "invoiceLineItem" | "payment" | "chatParticipantInfo" | "globalStaffActivity"
+      modelProps: "user" | "service" | "portfolioItem" | "testimonial" | "inquiry" | "siteSettings" | "image" | "photoSet" | "photo" | "maintenanceWorker" | "account" | "session" | "verificationToken" | "appearanceSettings" | "chatConversation" | "chatMessage" | "invoice" | "invoiceLineItem" | "payment" | "chatParticipantInfo" | "globalStaffActivity" | "inquiryAttachment"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2549,6 +2565,80 @@ export namespace Prisma {
           }
         }
       }
+      InquiryAttachment: {
+        payload: Prisma.$InquiryAttachmentPayload<ExtArgs>
+        fields: Prisma.InquiryAttachmentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InquiryAttachmentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InquiryAttachmentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InquiryAttachmentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InquiryAttachmentPayload>
+          }
+          findFirst: {
+            args: Prisma.InquiryAttachmentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InquiryAttachmentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InquiryAttachmentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InquiryAttachmentPayload>
+          }
+          findMany: {
+            args: Prisma.InquiryAttachmentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InquiryAttachmentPayload>[]
+          }
+          create: {
+            args: Prisma.InquiryAttachmentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InquiryAttachmentPayload>
+          }
+          createMany: {
+            args: Prisma.InquiryAttachmentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.InquiryAttachmentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InquiryAttachmentPayload>[]
+          }
+          delete: {
+            args: Prisma.InquiryAttachmentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InquiryAttachmentPayload>
+          }
+          update: {
+            args: Prisma.InquiryAttachmentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InquiryAttachmentPayload>
+          }
+          deleteMany: {
+            args: Prisma.InquiryAttachmentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InquiryAttachmentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.InquiryAttachmentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InquiryAttachmentPayload>[]
+          }
+          upsert: {
+            args: Prisma.InquiryAttachmentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InquiryAttachmentPayload>
+          }
+          aggregate: {
+            args: Prisma.InquiryAttachmentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInquiryAttachment>
+          }
+          groupBy: {
+            args: Prisma.InquiryAttachmentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InquiryAttachmentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InquiryAttachmentCountArgs<ExtArgs>
+            result: $Utils.Optional<InquiryAttachmentCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2654,6 +2744,7 @@ export namespace Prisma {
     payment?: PaymentOmit
     chatParticipantInfo?: ChatParticipantInfoOmit
     globalStaffActivity?: GlobalStaffActivityOmit
+    inquiryAttachment?: InquiryAttachmentOmit
   }
 
   /* Types for Logging */
@@ -2910,6 +3001,37 @@ export namespace Prisma {
    */
   export type ServiceCountOutputTypeCountPortfolioItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PortfolioItemWhereInput
+  }
+
+
+  /**
+   * Count Type InquiryCountOutputType
+   */
+
+  export type InquiryCountOutputType = {
+    attachments: number
+  }
+
+  export type InquiryCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    attachments?: boolean | InquiryCountOutputTypeCountAttachmentsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * InquiryCountOutputType without action
+   */
+  export type InquiryCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InquiryCountOutputType
+     */
+    select?: InquiryCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * InquiryCountOutputType without action
+   */
+  export type InquiryCountOutputTypeCountAttachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InquiryAttachmentWhereInput
   }
 
 
@@ -8146,6 +8268,8 @@ export namespace Prisma {
     updatedAt?: boolean
     customerId?: boolean
     customer?: boolean | Inquiry$customerArgs<ExtArgs>
+    attachments?: boolean | Inquiry$attachmentsArgs<ExtArgs>
+    _count?: boolean | InquiryCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["inquiry"]>
 
   export type InquirySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -8192,6 +8316,8 @@ export namespace Prisma {
   export type InquiryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customerName" | "customerEmail" | "customerPhone" | "serviceNeeded" | "message" | "isArchived" | "createdAt" | "updatedAt" | "customerId", ExtArgs["result"]["inquiry"]>
   export type InquiryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | Inquiry$customerArgs<ExtArgs>
+    attachments?: boolean | Inquiry$attachmentsArgs<ExtArgs>
+    _count?: boolean | InquiryCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type InquiryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | Inquiry$customerArgs<ExtArgs>
@@ -8204,6 +8330,7 @@ export namespace Prisma {
     name: "Inquiry"
     objects: {
       customer: Prisma.$UserPayload<ExtArgs> | null
+      attachments: Prisma.$InquiryAttachmentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8611,6 +8738,7 @@ export namespace Prisma {
   export interface Prisma__InquiryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     customer<T extends Inquiry$customerArgs<ExtArgs> = {}>(args?: Subset<T, Inquiry$customerArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    attachments<T extends Inquiry$attachmentsArgs<ExtArgs> = {}>(args?: Subset<T, Inquiry$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InquiryAttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9062,6 +9190,30 @@ export namespace Prisma {
      */
     include?: UserInclude<ExtArgs> | null
     where?: UserWhereInput
+  }
+
+  /**
+   * Inquiry.attachments
+   */
+  export type Inquiry$attachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InquiryAttachment
+     */
+    select?: InquiryAttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InquiryAttachment
+     */
+    omit?: InquiryAttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InquiryAttachmentInclude<ExtArgs> | null
+    where?: InquiryAttachmentWhereInput
+    orderBy?: InquiryAttachmentOrderByWithRelationInput | InquiryAttachmentOrderByWithRelationInput[]
+    cursor?: InquiryAttachmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InquiryAttachmentScalarFieldEnum | InquiryAttachmentScalarFieldEnum[]
   }
 
   /**
@@ -12476,13 +12628,26 @@ export namespace Prisma {
 
   export type AggregatePhoto = {
     _count: PhotoCountAggregateOutputType | null
+    _avg: PhotoAvgAggregateOutputType | null
+    _sum: PhotoSumAggregateOutputType | null
     _min: PhotoMinAggregateOutputType | null
     _max: PhotoMaxAggregateOutputType | null
+  }
+
+  export type PhotoAvgAggregateOutputType = {
+    size: number | null
+  }
+
+  export type PhotoSumAggregateOutputType = {
+    size: number | null
   }
 
   export type PhotoMinAggregateOutputType = {
     id: string | null
     url: string | null
+    filename: string | null
+    size: number | null
+    contentType: string | null
     type: $Enums.PhotoType | null
     uploadedAt: Date | null
     photoSetId: string | null
@@ -12491,6 +12656,9 @@ export namespace Prisma {
   export type PhotoMaxAggregateOutputType = {
     id: string | null
     url: string | null
+    filename: string | null
+    size: number | null
+    contentType: string | null
     type: $Enums.PhotoType | null
     uploadedAt: Date | null
     photoSetId: string | null
@@ -12499,6 +12667,9 @@ export namespace Prisma {
   export type PhotoCountAggregateOutputType = {
     id: number
     url: number
+    filename: number
+    size: number
+    contentType: number
     type: number
     uploadedAt: number
     photoSetId: number
@@ -12506,9 +12677,20 @@ export namespace Prisma {
   }
 
 
+  export type PhotoAvgAggregateInputType = {
+    size?: true
+  }
+
+  export type PhotoSumAggregateInputType = {
+    size?: true
+  }
+
   export type PhotoMinAggregateInputType = {
     id?: true
     url?: true
+    filename?: true
+    size?: true
+    contentType?: true
     type?: true
     uploadedAt?: true
     photoSetId?: true
@@ -12517,6 +12699,9 @@ export namespace Prisma {
   export type PhotoMaxAggregateInputType = {
     id?: true
     url?: true
+    filename?: true
+    size?: true
+    contentType?: true
     type?: true
     uploadedAt?: true
     photoSetId?: true
@@ -12525,6 +12710,9 @@ export namespace Prisma {
   export type PhotoCountAggregateInputType = {
     id?: true
     url?: true
+    filename?: true
+    size?: true
+    contentType?: true
     type?: true
     uploadedAt?: true
     photoSetId?: true
@@ -12569,6 +12757,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: PhotoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PhotoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: PhotoMinAggregateInputType
@@ -12599,6 +12799,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: PhotoCountAggregateInputType | true
+    _avg?: PhotoAvgAggregateInputType
+    _sum?: PhotoSumAggregateInputType
     _min?: PhotoMinAggregateInputType
     _max?: PhotoMaxAggregateInputType
   }
@@ -12606,10 +12808,15 @@ export namespace Prisma {
   export type PhotoGroupByOutputType = {
     id: string
     url: string
+    filename: string | null
+    size: number | null
+    contentType: string | null
     type: $Enums.PhotoType
     uploadedAt: Date
     photoSetId: string
     _count: PhotoCountAggregateOutputType | null
+    _avg: PhotoAvgAggregateOutputType | null
+    _sum: PhotoSumAggregateOutputType | null
     _min: PhotoMinAggregateOutputType | null
     _max: PhotoMaxAggregateOutputType | null
   }
@@ -12631,6 +12838,9 @@ export namespace Prisma {
   export type PhotoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     url?: boolean
+    filename?: boolean
+    size?: boolean
+    contentType?: boolean
     type?: boolean
     uploadedAt?: boolean
     photoSetId?: boolean
@@ -12640,6 +12850,9 @@ export namespace Prisma {
   export type PhotoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     url?: boolean
+    filename?: boolean
+    size?: boolean
+    contentType?: boolean
     type?: boolean
     uploadedAt?: boolean
     photoSetId?: boolean
@@ -12649,6 +12862,9 @@ export namespace Prisma {
   export type PhotoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     url?: boolean
+    filename?: boolean
+    size?: boolean
+    contentType?: boolean
     type?: boolean
     uploadedAt?: boolean
     photoSetId?: boolean
@@ -12658,12 +12874,15 @@ export namespace Prisma {
   export type PhotoSelectScalar = {
     id?: boolean
     url?: boolean
+    filename?: boolean
+    size?: boolean
+    contentType?: boolean
     type?: boolean
     uploadedAt?: boolean
     photoSetId?: boolean
   }
 
-  export type PhotoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "url" | "type" | "uploadedAt" | "photoSetId", ExtArgs["result"]["photo"]>
+  export type PhotoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "url" | "filename" | "size" | "contentType" | "type" | "uploadedAt" | "photoSetId", ExtArgs["result"]["photo"]>
   export type PhotoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     photoSet?: boolean | PhotoSetDefaultArgs<ExtArgs>
   }
@@ -12682,6 +12901,9 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       url: string
+      filename: string | null
+      size: number | null
+      contentType: string | null
       type: $Enums.PhotoType
       uploadedAt: Date
       photoSetId: string
@@ -13111,6 +13333,9 @@ export namespace Prisma {
   interface PhotoFieldRefs {
     readonly id: FieldRef<"Photo", 'String'>
     readonly url: FieldRef<"Photo", 'String'>
+    readonly filename: FieldRef<"Photo", 'String'>
+    readonly size: FieldRef<"Photo", 'Int'>
+    readonly contentType: FieldRef<"Photo", 'String'>
     readonly type: FieldRef<"Photo", 'PhotoType'>
     readonly uploadedAt: FieldRef<"Photo", 'DateTime'>
     readonly photoSetId: FieldRef<"Photo", 'String'>
@@ -19060,6 +19285,7 @@ export namespace Prisma {
     id: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    title: string | null
     deletedAt: Date | null
     customerId: string | null
     staffMemberId: string | null
@@ -19071,6 +19297,7 @@ export namespace Prisma {
     id: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    title: string | null
     deletedAt: Date | null
     customerId: string | null
     staffMemberId: string | null
@@ -19082,6 +19309,7 @@ export namespace Prisma {
     id: number
     createdAt: number
     updatedAt: number
+    title: number
     deletedAt: number
     customerId: number
     staffMemberId: number
@@ -19095,6 +19323,7 @@ export namespace Prisma {
     id?: true
     createdAt?: true
     updatedAt?: true
+    title?: true
     deletedAt?: true
     customerId?: true
     staffMemberId?: true
@@ -19106,6 +19335,7 @@ export namespace Prisma {
     id?: true
     createdAt?: true
     updatedAt?: true
+    title?: true
     deletedAt?: true
     customerId?: true
     staffMemberId?: true
@@ -19117,6 +19347,7 @@ export namespace Prisma {
     id?: true
     createdAt?: true
     updatedAt?: true
+    title?: true
     deletedAt?: true
     customerId?: true
     staffMemberId?: true
@@ -19201,6 +19432,7 @@ export namespace Prisma {
     id: string
     createdAt: Date
     updatedAt: Date
+    title: string | null
     deletedAt: Date | null
     customerId: string | null
     staffMemberId: string | null
@@ -19229,6 +19461,7 @@ export namespace Prisma {
     id?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    title?: boolean
     deletedAt?: boolean
     customerId?: boolean
     staffMemberId?: boolean
@@ -19246,6 +19479,7 @@ export namespace Prisma {
     id?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    title?: boolean
     deletedAt?: boolean
     customerId?: boolean
     staffMemberId?: boolean
@@ -19259,6 +19493,7 @@ export namespace Prisma {
     id?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    title?: boolean
     deletedAt?: boolean
     customerId?: boolean
     staffMemberId?: boolean
@@ -19272,6 +19507,7 @@ export namespace Prisma {
     id?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    title?: boolean
     deletedAt?: boolean
     customerId?: boolean
     staffMemberId?: boolean
@@ -19279,7 +19515,7 @@ export namespace Prisma {
     lastMessageAt?: boolean
   }
 
-  export type ChatConversationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "deletedAt" | "customerId" | "staffMemberId" | "lastMessage" | "lastMessageAt", ExtArgs["result"]["chatConversation"]>
+  export type ChatConversationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "title" | "deletedAt" | "customerId" | "staffMemberId" | "lastMessage" | "lastMessageAt", ExtArgs["result"]["chatConversation"]>
   export type ChatConversationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     participants?: boolean | ChatConversation$participantsArgs<ExtArgs>
     messages?: boolean | ChatConversation$messagesArgs<ExtArgs>
@@ -19310,6 +19546,7 @@ export namespace Prisma {
       id: string
       createdAt: Date
       updatedAt: Date
+      title: string | null
       deletedAt: Date | null
       customerId: string | null
       staffMemberId: string | null
@@ -19746,6 +19983,7 @@ export namespace Prisma {
     readonly id: FieldRef<"ChatConversation", 'String'>
     readonly createdAt: FieldRef<"ChatConversation", 'DateTime'>
     readonly updatedAt: FieldRef<"ChatConversation", 'DateTime'>
+    readonly title: FieldRef<"ChatConversation", 'String'>
     readonly deletedAt: FieldRef<"ChatConversation", 'DateTime'>
     readonly customerId: FieldRef<"ChatConversation", 'String'>
     readonly staffMemberId: FieldRef<"ChatConversation", 'String'>
@@ -26991,6 +27229,1124 @@ export namespace Prisma {
 
 
   /**
+   * Model InquiryAttachment
+   */
+
+  export type AggregateInquiryAttachment = {
+    _count: InquiryAttachmentCountAggregateOutputType | null
+    _avg: InquiryAttachmentAvgAggregateOutputType | null
+    _sum: InquiryAttachmentSumAggregateOutputType | null
+    _min: InquiryAttachmentMinAggregateOutputType | null
+    _max: InquiryAttachmentMaxAggregateOutputType | null
+  }
+
+  export type InquiryAttachmentAvgAggregateOutputType = {
+    fileSize: number | null
+  }
+
+  export type InquiryAttachmentSumAggregateOutputType = {
+    fileSize: number | null
+  }
+
+  export type InquiryAttachmentMinAggregateOutputType = {
+    id: string | null
+    inquiryId: string | null
+    fileName: string | null
+    fileType: string | null
+    fileSize: number | null
+    filePath: string | null
+    uploadedAt: Date | null
+  }
+
+  export type InquiryAttachmentMaxAggregateOutputType = {
+    id: string | null
+    inquiryId: string | null
+    fileName: string | null
+    fileType: string | null
+    fileSize: number | null
+    filePath: string | null
+    uploadedAt: Date | null
+  }
+
+  export type InquiryAttachmentCountAggregateOutputType = {
+    id: number
+    inquiryId: number
+    fileName: number
+    fileType: number
+    fileSize: number
+    filePath: number
+    uploadedAt: number
+    _all: number
+  }
+
+
+  export type InquiryAttachmentAvgAggregateInputType = {
+    fileSize?: true
+  }
+
+  export type InquiryAttachmentSumAggregateInputType = {
+    fileSize?: true
+  }
+
+  export type InquiryAttachmentMinAggregateInputType = {
+    id?: true
+    inquiryId?: true
+    fileName?: true
+    fileType?: true
+    fileSize?: true
+    filePath?: true
+    uploadedAt?: true
+  }
+
+  export type InquiryAttachmentMaxAggregateInputType = {
+    id?: true
+    inquiryId?: true
+    fileName?: true
+    fileType?: true
+    fileSize?: true
+    filePath?: true
+    uploadedAt?: true
+  }
+
+  export type InquiryAttachmentCountAggregateInputType = {
+    id?: true
+    inquiryId?: true
+    fileName?: true
+    fileType?: true
+    fileSize?: true
+    filePath?: true
+    uploadedAt?: true
+    _all?: true
+  }
+
+  export type InquiryAttachmentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InquiryAttachment to aggregate.
+     */
+    where?: InquiryAttachmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InquiryAttachments to fetch.
+     */
+    orderBy?: InquiryAttachmentOrderByWithRelationInput | InquiryAttachmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: InquiryAttachmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InquiryAttachments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InquiryAttachments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned InquiryAttachments
+    **/
+    _count?: true | InquiryAttachmentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: InquiryAttachmentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: InquiryAttachmentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InquiryAttachmentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InquiryAttachmentMaxAggregateInputType
+  }
+
+  export type GetInquiryAttachmentAggregateType<T extends InquiryAttachmentAggregateArgs> = {
+        [P in keyof T & keyof AggregateInquiryAttachment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInquiryAttachment[P]>
+      : GetScalarType<T[P], AggregateInquiryAttachment[P]>
+  }
+
+
+
+
+  export type InquiryAttachmentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InquiryAttachmentWhereInput
+    orderBy?: InquiryAttachmentOrderByWithAggregationInput | InquiryAttachmentOrderByWithAggregationInput[]
+    by: InquiryAttachmentScalarFieldEnum[] | InquiryAttachmentScalarFieldEnum
+    having?: InquiryAttachmentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InquiryAttachmentCountAggregateInputType | true
+    _avg?: InquiryAttachmentAvgAggregateInputType
+    _sum?: InquiryAttachmentSumAggregateInputType
+    _min?: InquiryAttachmentMinAggregateInputType
+    _max?: InquiryAttachmentMaxAggregateInputType
+  }
+
+  export type InquiryAttachmentGroupByOutputType = {
+    id: string
+    inquiryId: string
+    fileName: string
+    fileType: string
+    fileSize: number
+    filePath: string
+    uploadedAt: Date
+    _count: InquiryAttachmentCountAggregateOutputType | null
+    _avg: InquiryAttachmentAvgAggregateOutputType | null
+    _sum: InquiryAttachmentSumAggregateOutputType | null
+    _min: InquiryAttachmentMinAggregateOutputType | null
+    _max: InquiryAttachmentMaxAggregateOutputType | null
+  }
+
+  type GetInquiryAttachmentGroupByPayload<T extends InquiryAttachmentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InquiryAttachmentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InquiryAttachmentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InquiryAttachmentGroupByOutputType[P]>
+            : GetScalarType<T[P], InquiryAttachmentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type InquiryAttachmentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    inquiryId?: boolean
+    fileName?: boolean
+    fileType?: boolean
+    fileSize?: boolean
+    filePath?: boolean
+    uploadedAt?: boolean
+    inquiry?: boolean | InquiryDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["inquiryAttachment"]>
+
+  export type InquiryAttachmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    inquiryId?: boolean
+    fileName?: boolean
+    fileType?: boolean
+    fileSize?: boolean
+    filePath?: boolean
+    uploadedAt?: boolean
+    inquiry?: boolean | InquiryDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["inquiryAttachment"]>
+
+  export type InquiryAttachmentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    inquiryId?: boolean
+    fileName?: boolean
+    fileType?: boolean
+    fileSize?: boolean
+    filePath?: boolean
+    uploadedAt?: boolean
+    inquiry?: boolean | InquiryDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["inquiryAttachment"]>
+
+  export type InquiryAttachmentSelectScalar = {
+    id?: boolean
+    inquiryId?: boolean
+    fileName?: boolean
+    fileType?: boolean
+    fileSize?: boolean
+    filePath?: boolean
+    uploadedAt?: boolean
+  }
+
+  export type InquiryAttachmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "inquiryId" | "fileName" | "fileType" | "fileSize" | "filePath" | "uploadedAt", ExtArgs["result"]["inquiryAttachment"]>
+  export type InquiryAttachmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    inquiry?: boolean | InquiryDefaultArgs<ExtArgs>
+  }
+  export type InquiryAttachmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    inquiry?: boolean | InquiryDefaultArgs<ExtArgs>
+  }
+  export type InquiryAttachmentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    inquiry?: boolean | InquiryDefaultArgs<ExtArgs>
+  }
+
+  export type $InquiryAttachmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "InquiryAttachment"
+    objects: {
+      inquiry: Prisma.$InquiryPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      inquiryId: string
+      fileName: string
+      fileType: string
+      fileSize: number
+      filePath: string
+      uploadedAt: Date
+    }, ExtArgs["result"]["inquiryAttachment"]>
+    composites: {}
+  }
+
+  type InquiryAttachmentGetPayload<S extends boolean | null | undefined | InquiryAttachmentDefaultArgs> = $Result.GetResult<Prisma.$InquiryAttachmentPayload, S>
+
+  type InquiryAttachmentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<InquiryAttachmentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: InquiryAttachmentCountAggregateInputType | true
+    }
+
+  export interface InquiryAttachmentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['InquiryAttachment'], meta: { name: 'InquiryAttachment' } }
+    /**
+     * Find zero or one InquiryAttachment that matches the filter.
+     * @param {InquiryAttachmentFindUniqueArgs} args - Arguments to find a InquiryAttachment
+     * @example
+     * // Get one InquiryAttachment
+     * const inquiryAttachment = await prisma.inquiryAttachment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends InquiryAttachmentFindUniqueArgs>(args: SelectSubset<T, InquiryAttachmentFindUniqueArgs<ExtArgs>>): Prisma__InquiryAttachmentClient<$Result.GetResult<Prisma.$InquiryAttachmentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one InquiryAttachment that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {InquiryAttachmentFindUniqueOrThrowArgs} args - Arguments to find a InquiryAttachment
+     * @example
+     * // Get one InquiryAttachment
+     * const inquiryAttachment = await prisma.inquiryAttachment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends InquiryAttachmentFindUniqueOrThrowArgs>(args: SelectSubset<T, InquiryAttachmentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InquiryAttachmentClient<$Result.GetResult<Prisma.$InquiryAttachmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first InquiryAttachment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InquiryAttachmentFindFirstArgs} args - Arguments to find a InquiryAttachment
+     * @example
+     * // Get one InquiryAttachment
+     * const inquiryAttachment = await prisma.inquiryAttachment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends InquiryAttachmentFindFirstArgs>(args?: SelectSubset<T, InquiryAttachmentFindFirstArgs<ExtArgs>>): Prisma__InquiryAttachmentClient<$Result.GetResult<Prisma.$InquiryAttachmentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first InquiryAttachment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InquiryAttachmentFindFirstOrThrowArgs} args - Arguments to find a InquiryAttachment
+     * @example
+     * // Get one InquiryAttachment
+     * const inquiryAttachment = await prisma.inquiryAttachment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends InquiryAttachmentFindFirstOrThrowArgs>(args?: SelectSubset<T, InquiryAttachmentFindFirstOrThrowArgs<ExtArgs>>): Prisma__InquiryAttachmentClient<$Result.GetResult<Prisma.$InquiryAttachmentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more InquiryAttachments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InquiryAttachmentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all InquiryAttachments
+     * const inquiryAttachments = await prisma.inquiryAttachment.findMany()
+     * 
+     * // Get first 10 InquiryAttachments
+     * const inquiryAttachments = await prisma.inquiryAttachment.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const inquiryAttachmentWithIdOnly = await prisma.inquiryAttachment.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends InquiryAttachmentFindManyArgs>(args?: SelectSubset<T, InquiryAttachmentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InquiryAttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a InquiryAttachment.
+     * @param {InquiryAttachmentCreateArgs} args - Arguments to create a InquiryAttachment.
+     * @example
+     * // Create one InquiryAttachment
+     * const InquiryAttachment = await prisma.inquiryAttachment.create({
+     *   data: {
+     *     // ... data to create a InquiryAttachment
+     *   }
+     * })
+     * 
+     */
+    create<T extends InquiryAttachmentCreateArgs>(args: SelectSubset<T, InquiryAttachmentCreateArgs<ExtArgs>>): Prisma__InquiryAttachmentClient<$Result.GetResult<Prisma.$InquiryAttachmentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many InquiryAttachments.
+     * @param {InquiryAttachmentCreateManyArgs} args - Arguments to create many InquiryAttachments.
+     * @example
+     * // Create many InquiryAttachments
+     * const inquiryAttachment = await prisma.inquiryAttachment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends InquiryAttachmentCreateManyArgs>(args?: SelectSubset<T, InquiryAttachmentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many InquiryAttachments and returns the data saved in the database.
+     * @param {InquiryAttachmentCreateManyAndReturnArgs} args - Arguments to create many InquiryAttachments.
+     * @example
+     * // Create many InquiryAttachments
+     * const inquiryAttachment = await prisma.inquiryAttachment.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many InquiryAttachments and only return the `id`
+     * const inquiryAttachmentWithIdOnly = await prisma.inquiryAttachment.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends InquiryAttachmentCreateManyAndReturnArgs>(args?: SelectSubset<T, InquiryAttachmentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InquiryAttachmentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a InquiryAttachment.
+     * @param {InquiryAttachmentDeleteArgs} args - Arguments to delete one InquiryAttachment.
+     * @example
+     * // Delete one InquiryAttachment
+     * const InquiryAttachment = await prisma.inquiryAttachment.delete({
+     *   where: {
+     *     // ... filter to delete one InquiryAttachment
+     *   }
+     * })
+     * 
+     */
+    delete<T extends InquiryAttachmentDeleteArgs>(args: SelectSubset<T, InquiryAttachmentDeleteArgs<ExtArgs>>): Prisma__InquiryAttachmentClient<$Result.GetResult<Prisma.$InquiryAttachmentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one InquiryAttachment.
+     * @param {InquiryAttachmentUpdateArgs} args - Arguments to update one InquiryAttachment.
+     * @example
+     * // Update one InquiryAttachment
+     * const inquiryAttachment = await prisma.inquiryAttachment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends InquiryAttachmentUpdateArgs>(args: SelectSubset<T, InquiryAttachmentUpdateArgs<ExtArgs>>): Prisma__InquiryAttachmentClient<$Result.GetResult<Prisma.$InquiryAttachmentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more InquiryAttachments.
+     * @param {InquiryAttachmentDeleteManyArgs} args - Arguments to filter InquiryAttachments to delete.
+     * @example
+     * // Delete a few InquiryAttachments
+     * const { count } = await prisma.inquiryAttachment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends InquiryAttachmentDeleteManyArgs>(args?: SelectSubset<T, InquiryAttachmentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InquiryAttachments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InquiryAttachmentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many InquiryAttachments
+     * const inquiryAttachment = await prisma.inquiryAttachment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends InquiryAttachmentUpdateManyArgs>(args: SelectSubset<T, InquiryAttachmentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InquiryAttachments and returns the data updated in the database.
+     * @param {InquiryAttachmentUpdateManyAndReturnArgs} args - Arguments to update many InquiryAttachments.
+     * @example
+     * // Update many InquiryAttachments
+     * const inquiryAttachment = await prisma.inquiryAttachment.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more InquiryAttachments and only return the `id`
+     * const inquiryAttachmentWithIdOnly = await prisma.inquiryAttachment.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends InquiryAttachmentUpdateManyAndReturnArgs>(args: SelectSubset<T, InquiryAttachmentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InquiryAttachmentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one InquiryAttachment.
+     * @param {InquiryAttachmentUpsertArgs} args - Arguments to update or create a InquiryAttachment.
+     * @example
+     * // Update or create a InquiryAttachment
+     * const inquiryAttachment = await prisma.inquiryAttachment.upsert({
+     *   create: {
+     *     // ... data to create a InquiryAttachment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the InquiryAttachment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InquiryAttachmentUpsertArgs>(args: SelectSubset<T, InquiryAttachmentUpsertArgs<ExtArgs>>): Prisma__InquiryAttachmentClient<$Result.GetResult<Prisma.$InquiryAttachmentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of InquiryAttachments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InquiryAttachmentCountArgs} args - Arguments to filter InquiryAttachments to count.
+     * @example
+     * // Count the number of InquiryAttachments
+     * const count = await prisma.inquiryAttachment.count({
+     *   where: {
+     *     // ... the filter for the InquiryAttachments we want to count
+     *   }
+     * })
+    **/
+    count<T extends InquiryAttachmentCountArgs>(
+      args?: Subset<T, InquiryAttachmentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InquiryAttachmentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a InquiryAttachment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InquiryAttachmentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InquiryAttachmentAggregateArgs>(args: Subset<T, InquiryAttachmentAggregateArgs>): Prisma.PrismaPromise<GetInquiryAttachmentAggregateType<T>>
+
+    /**
+     * Group by InquiryAttachment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InquiryAttachmentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends InquiryAttachmentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: InquiryAttachmentGroupByArgs['orderBy'] }
+        : { orderBy?: InquiryAttachmentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, InquiryAttachmentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInquiryAttachmentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the InquiryAttachment model
+   */
+  readonly fields: InquiryAttachmentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for InquiryAttachment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__InquiryAttachmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    inquiry<T extends InquiryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, InquiryDefaultArgs<ExtArgs>>): Prisma__InquiryClient<$Result.GetResult<Prisma.$InquiryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the InquiryAttachment model
+   */
+  interface InquiryAttachmentFieldRefs {
+    readonly id: FieldRef<"InquiryAttachment", 'String'>
+    readonly inquiryId: FieldRef<"InquiryAttachment", 'String'>
+    readonly fileName: FieldRef<"InquiryAttachment", 'String'>
+    readonly fileType: FieldRef<"InquiryAttachment", 'String'>
+    readonly fileSize: FieldRef<"InquiryAttachment", 'Int'>
+    readonly filePath: FieldRef<"InquiryAttachment", 'String'>
+    readonly uploadedAt: FieldRef<"InquiryAttachment", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * InquiryAttachment findUnique
+   */
+  export type InquiryAttachmentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InquiryAttachment
+     */
+    select?: InquiryAttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InquiryAttachment
+     */
+    omit?: InquiryAttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InquiryAttachmentInclude<ExtArgs> | null
+    /**
+     * Filter, which InquiryAttachment to fetch.
+     */
+    where: InquiryAttachmentWhereUniqueInput
+  }
+
+  /**
+   * InquiryAttachment findUniqueOrThrow
+   */
+  export type InquiryAttachmentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InquiryAttachment
+     */
+    select?: InquiryAttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InquiryAttachment
+     */
+    omit?: InquiryAttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InquiryAttachmentInclude<ExtArgs> | null
+    /**
+     * Filter, which InquiryAttachment to fetch.
+     */
+    where: InquiryAttachmentWhereUniqueInput
+  }
+
+  /**
+   * InquiryAttachment findFirst
+   */
+  export type InquiryAttachmentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InquiryAttachment
+     */
+    select?: InquiryAttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InquiryAttachment
+     */
+    omit?: InquiryAttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InquiryAttachmentInclude<ExtArgs> | null
+    /**
+     * Filter, which InquiryAttachment to fetch.
+     */
+    where?: InquiryAttachmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InquiryAttachments to fetch.
+     */
+    orderBy?: InquiryAttachmentOrderByWithRelationInput | InquiryAttachmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InquiryAttachments.
+     */
+    cursor?: InquiryAttachmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InquiryAttachments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InquiryAttachments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InquiryAttachments.
+     */
+    distinct?: InquiryAttachmentScalarFieldEnum | InquiryAttachmentScalarFieldEnum[]
+  }
+
+  /**
+   * InquiryAttachment findFirstOrThrow
+   */
+  export type InquiryAttachmentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InquiryAttachment
+     */
+    select?: InquiryAttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InquiryAttachment
+     */
+    omit?: InquiryAttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InquiryAttachmentInclude<ExtArgs> | null
+    /**
+     * Filter, which InquiryAttachment to fetch.
+     */
+    where?: InquiryAttachmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InquiryAttachments to fetch.
+     */
+    orderBy?: InquiryAttachmentOrderByWithRelationInput | InquiryAttachmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InquiryAttachments.
+     */
+    cursor?: InquiryAttachmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InquiryAttachments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InquiryAttachments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InquiryAttachments.
+     */
+    distinct?: InquiryAttachmentScalarFieldEnum | InquiryAttachmentScalarFieldEnum[]
+  }
+
+  /**
+   * InquiryAttachment findMany
+   */
+  export type InquiryAttachmentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InquiryAttachment
+     */
+    select?: InquiryAttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InquiryAttachment
+     */
+    omit?: InquiryAttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InquiryAttachmentInclude<ExtArgs> | null
+    /**
+     * Filter, which InquiryAttachments to fetch.
+     */
+    where?: InquiryAttachmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InquiryAttachments to fetch.
+     */
+    orderBy?: InquiryAttachmentOrderByWithRelationInput | InquiryAttachmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing InquiryAttachments.
+     */
+    cursor?: InquiryAttachmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InquiryAttachments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InquiryAttachments.
+     */
+    skip?: number
+    distinct?: InquiryAttachmentScalarFieldEnum | InquiryAttachmentScalarFieldEnum[]
+  }
+
+  /**
+   * InquiryAttachment create
+   */
+  export type InquiryAttachmentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InquiryAttachment
+     */
+    select?: InquiryAttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InquiryAttachment
+     */
+    omit?: InquiryAttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InquiryAttachmentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a InquiryAttachment.
+     */
+    data: XOR<InquiryAttachmentCreateInput, InquiryAttachmentUncheckedCreateInput>
+  }
+
+  /**
+   * InquiryAttachment createMany
+   */
+  export type InquiryAttachmentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many InquiryAttachments.
+     */
+    data: InquiryAttachmentCreateManyInput | InquiryAttachmentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * InquiryAttachment createManyAndReturn
+   */
+  export type InquiryAttachmentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InquiryAttachment
+     */
+    select?: InquiryAttachmentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the InquiryAttachment
+     */
+    omit?: InquiryAttachmentOmit<ExtArgs> | null
+    /**
+     * The data used to create many InquiryAttachments.
+     */
+    data: InquiryAttachmentCreateManyInput | InquiryAttachmentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InquiryAttachmentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * InquiryAttachment update
+   */
+  export type InquiryAttachmentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InquiryAttachment
+     */
+    select?: InquiryAttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InquiryAttachment
+     */
+    omit?: InquiryAttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InquiryAttachmentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a InquiryAttachment.
+     */
+    data: XOR<InquiryAttachmentUpdateInput, InquiryAttachmentUncheckedUpdateInput>
+    /**
+     * Choose, which InquiryAttachment to update.
+     */
+    where: InquiryAttachmentWhereUniqueInput
+  }
+
+  /**
+   * InquiryAttachment updateMany
+   */
+  export type InquiryAttachmentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update InquiryAttachments.
+     */
+    data: XOR<InquiryAttachmentUpdateManyMutationInput, InquiryAttachmentUncheckedUpdateManyInput>
+    /**
+     * Filter which InquiryAttachments to update
+     */
+    where?: InquiryAttachmentWhereInput
+    /**
+     * Limit how many InquiryAttachments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * InquiryAttachment updateManyAndReturn
+   */
+  export type InquiryAttachmentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InquiryAttachment
+     */
+    select?: InquiryAttachmentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the InquiryAttachment
+     */
+    omit?: InquiryAttachmentOmit<ExtArgs> | null
+    /**
+     * The data used to update InquiryAttachments.
+     */
+    data: XOR<InquiryAttachmentUpdateManyMutationInput, InquiryAttachmentUncheckedUpdateManyInput>
+    /**
+     * Filter which InquiryAttachments to update
+     */
+    where?: InquiryAttachmentWhereInput
+    /**
+     * Limit how many InquiryAttachments to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InquiryAttachmentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * InquiryAttachment upsert
+   */
+  export type InquiryAttachmentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InquiryAttachment
+     */
+    select?: InquiryAttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InquiryAttachment
+     */
+    omit?: InquiryAttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InquiryAttachmentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the InquiryAttachment to update in case it exists.
+     */
+    where: InquiryAttachmentWhereUniqueInput
+    /**
+     * In case the InquiryAttachment found by the `where` argument doesn't exist, create a new InquiryAttachment with this data.
+     */
+    create: XOR<InquiryAttachmentCreateInput, InquiryAttachmentUncheckedCreateInput>
+    /**
+     * In case the InquiryAttachment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InquiryAttachmentUpdateInput, InquiryAttachmentUncheckedUpdateInput>
+  }
+
+  /**
+   * InquiryAttachment delete
+   */
+  export type InquiryAttachmentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InquiryAttachment
+     */
+    select?: InquiryAttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InquiryAttachment
+     */
+    omit?: InquiryAttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InquiryAttachmentInclude<ExtArgs> | null
+    /**
+     * Filter which InquiryAttachment to delete.
+     */
+    where: InquiryAttachmentWhereUniqueInput
+  }
+
+  /**
+   * InquiryAttachment deleteMany
+   */
+  export type InquiryAttachmentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InquiryAttachments to delete
+     */
+    where?: InquiryAttachmentWhereInput
+    /**
+     * Limit how many InquiryAttachments to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * InquiryAttachment without action
+   */
+  export type InquiryAttachmentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InquiryAttachment
+     */
+    select?: InquiryAttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InquiryAttachment
+     */
+    omit?: InquiryAttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InquiryAttachmentInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -27134,6 +28490,9 @@ export namespace Prisma {
   export const PhotoScalarFieldEnum: {
     id: 'id',
     url: 'url',
+    filename: 'filename',
+    size: 'size',
+    contentType: 'contentType',
     type: 'type',
     uploadedAt: 'uploadedAt',
     photoSetId: 'photoSetId'
@@ -27217,6 +28576,7 @@ export namespace Prisma {
     id: 'id',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
+    title: 'title',
     deletedAt: 'deletedAt',
     customerId: 'customerId',
     staffMemberId: 'staffMemberId',
@@ -27307,6 +28667,19 @@ export namespace Prisma {
   };
 
   export type GlobalStaffActivityScalarFieldEnum = (typeof GlobalStaffActivityScalarFieldEnum)[keyof typeof GlobalStaffActivityScalarFieldEnum]
+
+
+  export const InquiryAttachmentScalarFieldEnum: {
+    id: 'id',
+    inquiryId: 'inquiryId',
+    fileName: 'fileName',
+    fileType: 'fileType',
+    fileSize: 'fileSize',
+    filePath: 'filePath',
+    uploadedAt: 'uploadedAt'
+  };
+
+  export type InquiryAttachmentScalarFieldEnum = (typeof InquiryAttachmentScalarFieldEnum)[keyof typeof InquiryAttachmentScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -27433,20 +28806,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'PhotoType'
-   */
-  export type EnumPhotoTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PhotoType'>
-    
-
-
-  /**
-   * Reference to a field of type 'PhotoType[]'
-   */
-  export type ListEnumPhotoTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PhotoType[]'>
-    
-
-
-  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -27457,6 +28816,20 @@ export namespace Prisma {
    * Reference to a field of type 'Int[]'
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'PhotoType'
+   */
+  export type EnumPhotoTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PhotoType'>
+    
+
+
+  /**
+   * Reference to a field of type 'PhotoType[]'
+   */
+  export type ListEnumPhotoTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PhotoType[]'>
     
 
 
@@ -27861,6 +29234,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Inquiry"> | Date | string
     customerId?: StringNullableFilter<"Inquiry"> | string | null
     customer?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    attachments?: InquiryAttachmentListRelationFilter
   }
 
   export type InquiryOrderByWithRelationInput = {
@@ -27875,6 +29249,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     customerId?: SortOrderInput | SortOrder
     customer?: UserOrderByWithRelationInput
+    attachments?: InquiryAttachmentOrderByRelationAggregateInput
   }
 
   export type InquiryWhereUniqueInput = Prisma.AtLeast<{
@@ -27892,6 +29267,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Inquiry"> | Date | string
     customerId?: StringNullableFilter<"Inquiry"> | string | null
     customer?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    attachments?: InquiryAttachmentListRelationFilter
   }, "id">
 
   export type InquiryOrderByWithAggregationInput = {
@@ -28180,6 +29556,9 @@ export namespace Prisma {
     NOT?: PhotoWhereInput | PhotoWhereInput[]
     id?: StringFilter<"Photo"> | string
     url?: StringFilter<"Photo"> | string
+    filename?: StringNullableFilter<"Photo"> | string | null
+    size?: IntNullableFilter<"Photo"> | number | null
+    contentType?: StringNullableFilter<"Photo"> | string | null
     type?: EnumPhotoTypeFilter<"Photo"> | $Enums.PhotoType
     uploadedAt?: DateTimeFilter<"Photo"> | Date | string
     photoSetId?: StringFilter<"Photo"> | string
@@ -28189,6 +29568,9 @@ export namespace Prisma {
   export type PhotoOrderByWithRelationInput = {
     id?: SortOrder
     url?: SortOrder
+    filename?: SortOrderInput | SortOrder
+    size?: SortOrderInput | SortOrder
+    contentType?: SortOrderInput | SortOrder
     type?: SortOrder
     uploadedAt?: SortOrder
     photoSetId?: SortOrder
@@ -28201,6 +29583,9 @@ export namespace Prisma {
     OR?: PhotoWhereInput[]
     NOT?: PhotoWhereInput | PhotoWhereInput[]
     url?: StringFilter<"Photo"> | string
+    filename?: StringNullableFilter<"Photo"> | string | null
+    size?: IntNullableFilter<"Photo"> | number | null
+    contentType?: StringNullableFilter<"Photo"> | string | null
     type?: EnumPhotoTypeFilter<"Photo"> | $Enums.PhotoType
     uploadedAt?: DateTimeFilter<"Photo"> | Date | string
     photoSetId?: StringFilter<"Photo"> | string
@@ -28210,12 +29595,17 @@ export namespace Prisma {
   export type PhotoOrderByWithAggregationInput = {
     id?: SortOrder
     url?: SortOrder
+    filename?: SortOrderInput | SortOrder
+    size?: SortOrderInput | SortOrder
+    contentType?: SortOrderInput | SortOrder
     type?: SortOrder
     uploadedAt?: SortOrder
     photoSetId?: SortOrder
     _count?: PhotoCountOrderByAggregateInput
+    _avg?: PhotoAvgOrderByAggregateInput
     _max?: PhotoMaxOrderByAggregateInput
     _min?: PhotoMinOrderByAggregateInput
+    _sum?: PhotoSumOrderByAggregateInput
   }
 
   export type PhotoScalarWhereWithAggregatesInput = {
@@ -28224,6 +29614,9 @@ export namespace Prisma {
     NOT?: PhotoScalarWhereWithAggregatesInput | PhotoScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Photo"> | string
     url?: StringWithAggregatesFilter<"Photo"> | string
+    filename?: StringNullableWithAggregatesFilter<"Photo"> | string | null
+    size?: IntNullableWithAggregatesFilter<"Photo"> | number | null
+    contentType?: StringNullableWithAggregatesFilter<"Photo"> | string | null
     type?: EnumPhotoTypeWithAggregatesFilter<"Photo"> | $Enums.PhotoType
     uploadedAt?: DateTimeWithAggregatesFilter<"Photo"> | Date | string
     photoSetId?: StringWithAggregatesFilter<"Photo"> | string
@@ -28595,6 +29988,7 @@ export namespace Prisma {
     id?: StringFilter<"ChatConversation"> | string
     createdAt?: DateTimeFilter<"ChatConversation"> | Date | string
     updatedAt?: DateTimeFilter<"ChatConversation"> | Date | string
+    title?: StringNullableFilter<"ChatConversation"> | string | null
     deletedAt?: DateTimeNullableFilter<"ChatConversation"> | Date | string | null
     customerId?: StringNullableFilter<"ChatConversation"> | string | null
     staffMemberId?: StringNullableFilter<"ChatConversation"> | string | null
@@ -28611,6 +30005,7 @@ export namespace Prisma {
     id?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    title?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
     customerId?: SortOrderInput | SortOrder
     staffMemberId?: SortOrderInput | SortOrder
@@ -28630,6 +30025,7 @@ export namespace Prisma {
     NOT?: ChatConversationWhereInput | ChatConversationWhereInput[]
     createdAt?: DateTimeFilter<"ChatConversation"> | Date | string
     updatedAt?: DateTimeFilter<"ChatConversation"> | Date | string
+    title?: StringNullableFilter<"ChatConversation"> | string | null
     deletedAt?: DateTimeNullableFilter<"ChatConversation"> | Date | string | null
     customerId?: StringNullableFilter<"ChatConversation"> | string | null
     staffMemberId?: StringNullableFilter<"ChatConversation"> | string | null
@@ -28646,6 +30042,7 @@ export namespace Prisma {
     id?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    title?: SortOrderInput | SortOrder
     deletedAt?: SortOrderInput | SortOrder
     customerId?: SortOrderInput | SortOrder
     staffMemberId?: SortOrderInput | SortOrder
@@ -28663,6 +30060,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"ChatConversation"> | string
     createdAt?: DateTimeWithAggregatesFilter<"ChatConversation"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ChatConversation"> | Date | string
+    title?: StringNullableWithAggregatesFilter<"ChatConversation"> | string | null
     deletedAt?: DateTimeNullableWithAggregatesFilter<"ChatConversation"> | Date | string | null
     customerId?: StringNullableWithAggregatesFilter<"ChatConversation"> | string | null
     staffMemberId?: StringNullableWithAggregatesFilter<"ChatConversation"> | string | null
@@ -29098,6 +30496,73 @@ export namespace Prisma {
     lastActivePing?: DateTimeWithAggregatesFilter<"GlobalStaffActivity"> | Date | string
   }
 
+  export type InquiryAttachmentWhereInput = {
+    AND?: InquiryAttachmentWhereInput | InquiryAttachmentWhereInput[]
+    OR?: InquiryAttachmentWhereInput[]
+    NOT?: InquiryAttachmentWhereInput | InquiryAttachmentWhereInput[]
+    id?: StringFilter<"InquiryAttachment"> | string
+    inquiryId?: StringFilter<"InquiryAttachment"> | string
+    fileName?: StringFilter<"InquiryAttachment"> | string
+    fileType?: StringFilter<"InquiryAttachment"> | string
+    fileSize?: IntFilter<"InquiryAttachment"> | number
+    filePath?: StringFilter<"InquiryAttachment"> | string
+    uploadedAt?: DateTimeFilter<"InquiryAttachment"> | Date | string
+    inquiry?: XOR<InquiryScalarRelationFilter, InquiryWhereInput>
+  }
+
+  export type InquiryAttachmentOrderByWithRelationInput = {
+    id?: SortOrder
+    inquiryId?: SortOrder
+    fileName?: SortOrder
+    fileType?: SortOrder
+    fileSize?: SortOrder
+    filePath?: SortOrder
+    uploadedAt?: SortOrder
+    inquiry?: InquiryOrderByWithRelationInput
+  }
+
+  export type InquiryAttachmentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: InquiryAttachmentWhereInput | InquiryAttachmentWhereInput[]
+    OR?: InquiryAttachmentWhereInput[]
+    NOT?: InquiryAttachmentWhereInput | InquiryAttachmentWhereInput[]
+    inquiryId?: StringFilter<"InquiryAttachment"> | string
+    fileName?: StringFilter<"InquiryAttachment"> | string
+    fileType?: StringFilter<"InquiryAttachment"> | string
+    fileSize?: IntFilter<"InquiryAttachment"> | number
+    filePath?: StringFilter<"InquiryAttachment"> | string
+    uploadedAt?: DateTimeFilter<"InquiryAttachment"> | Date | string
+    inquiry?: XOR<InquiryScalarRelationFilter, InquiryWhereInput>
+  }, "id">
+
+  export type InquiryAttachmentOrderByWithAggregationInput = {
+    id?: SortOrder
+    inquiryId?: SortOrder
+    fileName?: SortOrder
+    fileType?: SortOrder
+    fileSize?: SortOrder
+    filePath?: SortOrder
+    uploadedAt?: SortOrder
+    _count?: InquiryAttachmentCountOrderByAggregateInput
+    _avg?: InquiryAttachmentAvgOrderByAggregateInput
+    _max?: InquiryAttachmentMaxOrderByAggregateInput
+    _min?: InquiryAttachmentMinOrderByAggregateInput
+    _sum?: InquiryAttachmentSumOrderByAggregateInput
+  }
+
+  export type InquiryAttachmentScalarWhereWithAggregatesInput = {
+    AND?: InquiryAttachmentScalarWhereWithAggregatesInput | InquiryAttachmentScalarWhereWithAggregatesInput[]
+    OR?: InquiryAttachmentScalarWhereWithAggregatesInput[]
+    NOT?: InquiryAttachmentScalarWhereWithAggregatesInput | InquiryAttachmentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"InquiryAttachment"> | string
+    inquiryId?: StringWithAggregatesFilter<"InquiryAttachment"> | string
+    fileName?: StringWithAggregatesFilter<"InquiryAttachment"> | string
+    fileType?: StringWithAggregatesFilter<"InquiryAttachment"> | string
+    fileSize?: IntWithAggregatesFilter<"InquiryAttachment"> | number
+    filePath?: StringWithAggregatesFilter<"InquiryAttachment"> | string
+    uploadedAt?: DateTimeWithAggregatesFilter<"InquiryAttachment"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name?: string | null
@@ -29520,6 +30985,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     customer?: UserCreateNestedOneWithoutCustomerInquiriesInput
+    attachments?: InquiryAttachmentCreateNestedManyWithoutInquiryInput
   }
 
   export type InquiryUncheckedCreateInput = {
@@ -29533,6 +30999,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     customerId?: string | null
+    attachments?: InquiryAttachmentUncheckedCreateNestedManyWithoutInquiryInput
   }
 
   export type InquiryUpdateInput = {
@@ -29546,6 +31013,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customer?: UserUpdateOneWithoutCustomerInquiriesNestedInput
+    attachments?: InquiryAttachmentUpdateManyWithoutInquiryNestedInput
   }
 
   export type InquiryUncheckedUpdateInput = {
@@ -29559,6 +31027,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customerId?: NullableStringFieldUpdateOperationsInput | string | null
+    attachments?: InquiryAttachmentUncheckedUpdateManyWithoutInquiryNestedInput
   }
 
   export type InquiryCreateManyInput = {
@@ -29883,6 +31352,9 @@ export namespace Prisma {
   export type PhotoCreateInput = {
     id?: string
     url: string
+    filename?: string | null
+    size?: number | null
+    contentType?: string | null
     type: $Enums.PhotoType
     uploadedAt?: Date | string
     photoSet: PhotoSetCreateNestedOneWithoutPhotosInput
@@ -29891,6 +31363,9 @@ export namespace Prisma {
   export type PhotoUncheckedCreateInput = {
     id?: string
     url: string
+    filename?: string | null
+    size?: number | null
+    contentType?: string | null
     type: $Enums.PhotoType
     uploadedAt?: Date | string
     photoSetId: string
@@ -29899,6 +31374,9 @@ export namespace Prisma {
   export type PhotoUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
+    filename?: NullableStringFieldUpdateOperationsInput | string | null
+    size?: NullableIntFieldUpdateOperationsInput | number | null
+    contentType?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumPhotoTypeFieldUpdateOperationsInput | $Enums.PhotoType
     uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     photoSet?: PhotoSetUpdateOneRequiredWithoutPhotosNestedInput
@@ -29907,6 +31385,9 @@ export namespace Prisma {
   export type PhotoUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
+    filename?: NullableStringFieldUpdateOperationsInput | string | null
+    size?: NullableIntFieldUpdateOperationsInput | number | null
+    contentType?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumPhotoTypeFieldUpdateOperationsInput | $Enums.PhotoType
     uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     photoSetId?: StringFieldUpdateOperationsInput | string
@@ -29915,6 +31396,9 @@ export namespace Prisma {
   export type PhotoCreateManyInput = {
     id?: string
     url: string
+    filename?: string | null
+    size?: number | null
+    contentType?: string | null
     type: $Enums.PhotoType
     uploadedAt?: Date | string
     photoSetId: string
@@ -29923,6 +31407,9 @@ export namespace Prisma {
   export type PhotoUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
+    filename?: NullableStringFieldUpdateOperationsInput | string | null
+    size?: NullableIntFieldUpdateOperationsInput | number | null
+    contentType?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumPhotoTypeFieldUpdateOperationsInput | $Enums.PhotoType
     uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -29930,6 +31417,9 @@ export namespace Prisma {
   export type PhotoUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
+    filename?: NullableStringFieldUpdateOperationsInput | string | null
+    size?: NullableIntFieldUpdateOperationsInput | number | null
+    contentType?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumPhotoTypeFieldUpdateOperationsInput | $Enums.PhotoType
     uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     photoSetId?: StringFieldUpdateOperationsInput | string
@@ -30331,6 +31821,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    title?: string | null
     deletedAt?: Date | string | null
     lastMessage?: string | null
     lastMessageAt?: Date | string | null
@@ -30345,6 +31836,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    title?: string | null
     deletedAt?: Date | string | null
     customerId?: string | null
     staffMemberId?: string | null
@@ -30359,6 +31851,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastMessage?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -30373,6 +31866,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     customerId?: NullableStringFieldUpdateOperationsInput | string | null
     staffMemberId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -30387,6 +31881,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    title?: string | null
     deletedAt?: Date | string | null
     customerId?: string | null
     staffMemberId?: string | null
@@ -30398,6 +31893,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastMessage?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -30407,6 +31903,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     customerId?: NullableStringFieldUpdateOperationsInput | string | null
     staffMemberId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -30863,6 +32360,75 @@ export namespace Prisma {
     lastActivePing?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type InquiryAttachmentCreateInput = {
+    id?: string
+    fileName: string
+    fileType: string
+    fileSize: number
+    filePath: string
+    uploadedAt?: Date | string
+    inquiry: InquiryCreateNestedOneWithoutAttachmentsInput
+  }
+
+  export type InquiryAttachmentUncheckedCreateInput = {
+    id?: string
+    inquiryId: string
+    fileName: string
+    fileType: string
+    fileSize: number
+    filePath: string
+    uploadedAt?: Date | string
+  }
+
+  export type InquiryAttachmentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileType?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    filePath?: StringFieldUpdateOperationsInput | string
+    uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    inquiry?: InquiryUpdateOneRequiredWithoutAttachmentsNestedInput
+  }
+
+  export type InquiryAttachmentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    inquiryId?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileType?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    filePath?: StringFieldUpdateOperationsInput | string
+    uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InquiryAttachmentCreateManyInput = {
+    id?: string
+    inquiryId: string
+    fileName: string
+    fileType: string
+    fileSize: number
+    filePath: string
+    uploadedAt?: Date | string
+  }
+
+  export type InquiryAttachmentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileType?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    filePath?: StringFieldUpdateOperationsInput | string
+    uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InquiryAttachmentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    inquiryId?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileType?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    filePath?: StringFieldUpdateOperationsInput | string
+    uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -31294,6 +32860,16 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type InquiryAttachmentListRelationFilter = {
+    every?: InquiryAttachmentWhereInput
+    some?: InquiryAttachmentWhereInput
+    none?: InquiryAttachmentWhereInput
+  }
+
+  export type InquiryAttachmentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type InquiryCountOrderByAggregateInput = {
     id?: SortOrder
     customerName?: SortOrder
@@ -31530,6 +33106,17 @@ export namespace Prisma {
     _max?: NestedEnumApprovalStatusFilter<$PrismaModel>
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type EnumPhotoTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.PhotoType | EnumPhotoTypeFieldRefInput<$PrismaModel>
     in?: $Enums.PhotoType[] | ListEnumPhotoTypeFieldRefInput<$PrismaModel>
@@ -31545,14 +33132,24 @@ export namespace Prisma {
   export type PhotoCountOrderByAggregateInput = {
     id?: SortOrder
     url?: SortOrder
+    filename?: SortOrder
+    size?: SortOrder
+    contentType?: SortOrder
     type?: SortOrder
     uploadedAt?: SortOrder
     photoSetId?: SortOrder
   }
 
+  export type PhotoAvgOrderByAggregateInput = {
+    size?: SortOrder
+  }
+
   export type PhotoMaxOrderByAggregateInput = {
     id?: SortOrder
     url?: SortOrder
+    filename?: SortOrder
+    size?: SortOrder
+    contentType?: SortOrder
     type?: SortOrder
     uploadedAt?: SortOrder
     photoSetId?: SortOrder
@@ -31561,9 +33158,32 @@ export namespace Prisma {
   export type PhotoMinOrderByAggregateInput = {
     id?: SortOrder
     url?: SortOrder
+    filename?: SortOrder
+    size?: SortOrder
+    contentType?: SortOrder
     type?: SortOrder
     uploadedAt?: SortOrder
     photoSetId?: SortOrder
+  }
+
+  export type PhotoSumOrderByAggregateInput = {
+    size?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type EnumPhotoTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -31601,17 +33221,6 @@ export namespace Prisma {
     userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type UserScalarRelationFilter = {
@@ -31675,22 +33284,6 @@ export namespace Prisma {
 
   export type AccountSumOrderByAggregateInput = {
     expires_at?: SortOrder
-  }
-
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type SessionCountOrderByAggregateInput = {
@@ -31808,6 +33401,7 @@ export namespace Prisma {
     id?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    title?: SortOrder
     deletedAt?: SortOrder
     customerId?: SortOrder
     staffMemberId?: SortOrder
@@ -31819,6 +33413,7 @@ export namespace Prisma {
     id?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    title?: SortOrder
     deletedAt?: SortOrder
     customerId?: SortOrder
     staffMemberId?: SortOrder
@@ -31830,6 +33425,7 @@ export namespace Prisma {
     id?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    title?: SortOrder
     deletedAt?: SortOrder
     customerId?: SortOrder
     staffMemberId?: SortOrder
@@ -32144,6 +33740,76 @@ export namespace Prisma {
   export type GlobalStaffActivityMinOrderByAggregateInput = {
     id?: SortOrder
     lastActivePing?: SortOrder
+  }
+
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type InquiryScalarRelationFilter = {
+    is?: InquiryWhereInput
+    isNot?: InquiryWhereInput
+  }
+
+  export type InquiryAttachmentCountOrderByAggregateInput = {
+    id?: SortOrder
+    inquiryId?: SortOrder
+    fileName?: SortOrder
+    fileType?: SortOrder
+    fileSize?: SortOrder
+    filePath?: SortOrder
+    uploadedAt?: SortOrder
+  }
+
+  export type InquiryAttachmentAvgOrderByAggregateInput = {
+    fileSize?: SortOrder
+  }
+
+  export type InquiryAttachmentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    inquiryId?: SortOrder
+    fileName?: SortOrder
+    fileType?: SortOrder
+    fileSize?: SortOrder
+    filePath?: SortOrder
+    uploadedAt?: SortOrder
+  }
+
+  export type InquiryAttachmentMinOrderByAggregateInput = {
+    id?: SortOrder
+    inquiryId?: SortOrder
+    fileName?: SortOrder
+    fileType?: SortOrder
+    fileSize?: SortOrder
+    filePath?: SortOrder
+    uploadedAt?: SortOrder
+  }
+
+  export type InquiryAttachmentSumOrderByAggregateInput = {
+    fileSize?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type AccountCreateNestedManyWithoutUserInput = {
@@ -32870,6 +34536,20 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type InquiryAttachmentCreateNestedManyWithoutInquiryInput = {
+    create?: XOR<InquiryAttachmentCreateWithoutInquiryInput, InquiryAttachmentUncheckedCreateWithoutInquiryInput> | InquiryAttachmentCreateWithoutInquiryInput[] | InquiryAttachmentUncheckedCreateWithoutInquiryInput[]
+    connectOrCreate?: InquiryAttachmentCreateOrConnectWithoutInquiryInput | InquiryAttachmentCreateOrConnectWithoutInquiryInput[]
+    createMany?: InquiryAttachmentCreateManyInquiryInputEnvelope
+    connect?: InquiryAttachmentWhereUniqueInput | InquiryAttachmentWhereUniqueInput[]
+  }
+
+  export type InquiryAttachmentUncheckedCreateNestedManyWithoutInquiryInput = {
+    create?: XOR<InquiryAttachmentCreateWithoutInquiryInput, InquiryAttachmentUncheckedCreateWithoutInquiryInput> | InquiryAttachmentCreateWithoutInquiryInput[] | InquiryAttachmentUncheckedCreateWithoutInquiryInput[]
+    connectOrCreate?: InquiryAttachmentCreateOrConnectWithoutInquiryInput | InquiryAttachmentCreateOrConnectWithoutInquiryInput[]
+    createMany?: InquiryAttachmentCreateManyInquiryInputEnvelope
+    connect?: InquiryAttachmentWhereUniqueInput | InquiryAttachmentWhereUniqueInput[]
+  }
+
   export type UserUpdateOneWithoutCustomerInquiriesNestedInput = {
     create?: XOR<UserCreateWithoutCustomerInquiriesInput, UserUncheckedCreateWithoutCustomerInquiriesInput>
     connectOrCreate?: UserCreateOrConnectWithoutCustomerInquiriesInput
@@ -32878,6 +34558,34 @@ export namespace Prisma {
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCustomerInquiriesInput, UserUpdateWithoutCustomerInquiriesInput>, UserUncheckedUpdateWithoutCustomerInquiriesInput>
+  }
+
+  export type InquiryAttachmentUpdateManyWithoutInquiryNestedInput = {
+    create?: XOR<InquiryAttachmentCreateWithoutInquiryInput, InquiryAttachmentUncheckedCreateWithoutInquiryInput> | InquiryAttachmentCreateWithoutInquiryInput[] | InquiryAttachmentUncheckedCreateWithoutInquiryInput[]
+    connectOrCreate?: InquiryAttachmentCreateOrConnectWithoutInquiryInput | InquiryAttachmentCreateOrConnectWithoutInquiryInput[]
+    upsert?: InquiryAttachmentUpsertWithWhereUniqueWithoutInquiryInput | InquiryAttachmentUpsertWithWhereUniqueWithoutInquiryInput[]
+    createMany?: InquiryAttachmentCreateManyInquiryInputEnvelope
+    set?: InquiryAttachmentWhereUniqueInput | InquiryAttachmentWhereUniqueInput[]
+    disconnect?: InquiryAttachmentWhereUniqueInput | InquiryAttachmentWhereUniqueInput[]
+    delete?: InquiryAttachmentWhereUniqueInput | InquiryAttachmentWhereUniqueInput[]
+    connect?: InquiryAttachmentWhereUniqueInput | InquiryAttachmentWhereUniqueInput[]
+    update?: InquiryAttachmentUpdateWithWhereUniqueWithoutInquiryInput | InquiryAttachmentUpdateWithWhereUniqueWithoutInquiryInput[]
+    updateMany?: InquiryAttachmentUpdateManyWithWhereWithoutInquiryInput | InquiryAttachmentUpdateManyWithWhereWithoutInquiryInput[]
+    deleteMany?: InquiryAttachmentScalarWhereInput | InquiryAttachmentScalarWhereInput[]
+  }
+
+  export type InquiryAttachmentUncheckedUpdateManyWithoutInquiryNestedInput = {
+    create?: XOR<InquiryAttachmentCreateWithoutInquiryInput, InquiryAttachmentUncheckedCreateWithoutInquiryInput> | InquiryAttachmentCreateWithoutInquiryInput[] | InquiryAttachmentUncheckedCreateWithoutInquiryInput[]
+    connectOrCreate?: InquiryAttachmentCreateOrConnectWithoutInquiryInput | InquiryAttachmentCreateOrConnectWithoutInquiryInput[]
+    upsert?: InquiryAttachmentUpsertWithWhereUniqueWithoutInquiryInput | InquiryAttachmentUpsertWithWhereUniqueWithoutInquiryInput[]
+    createMany?: InquiryAttachmentCreateManyInquiryInputEnvelope
+    set?: InquiryAttachmentWhereUniqueInput | InquiryAttachmentWhereUniqueInput[]
+    disconnect?: InquiryAttachmentWhereUniqueInput | InquiryAttachmentWhereUniqueInput[]
+    delete?: InquiryAttachmentWhereUniqueInput | InquiryAttachmentWhereUniqueInput[]
+    connect?: InquiryAttachmentWhereUniqueInput | InquiryAttachmentWhereUniqueInput[]
+    update?: InquiryAttachmentUpdateWithWhereUniqueWithoutInquiryInput | InquiryAttachmentUpdateWithWhereUniqueWithoutInquiryInput[]
+    updateMany?: InquiryAttachmentUpdateManyWithWhereWithoutInquiryInput | InquiryAttachmentUpdateManyWithWhereWithoutInquiryInput[]
+    deleteMany?: InquiryAttachmentScalarWhereInput | InquiryAttachmentScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutUploadedImagesInput = {
@@ -32978,6 +34686,14 @@ export namespace Prisma {
     connect?: PhotoSetWhereUniqueInput
   }
 
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type EnumPhotoTypeFieldUpdateOperationsInput = {
     set?: $Enums.PhotoType
   }
@@ -33052,14 +34768,6 @@ export namespace Prisma {
     create?: XOR<UserCreateWithoutAccountsInput, UserUncheckedCreateWithoutAccountsInput>
     connectOrCreate?: UserCreateOrConnectWithoutAccountsInput
     connect?: UserWhereUniqueInput
-  }
-
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type UserUpdateOneRequiredWithoutAccountsNestedInput = {
@@ -33446,6 +35154,28 @@ export namespace Prisma {
     update?: XOR<XOR<ChatConversationUpdateToOneWithWhereWithoutParticipantActivityInput, ChatConversationUpdateWithoutParticipantActivityInput>, ChatConversationUncheckedUpdateWithoutParticipantActivityInput>
   }
 
+  export type InquiryCreateNestedOneWithoutAttachmentsInput = {
+    create?: XOR<InquiryCreateWithoutAttachmentsInput, InquiryUncheckedCreateWithoutAttachmentsInput>
+    connectOrCreate?: InquiryCreateOrConnectWithoutAttachmentsInput
+    connect?: InquiryWhereUniqueInput
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type InquiryUpdateOneRequiredWithoutAttachmentsNestedInput = {
+    create?: XOR<InquiryCreateWithoutAttachmentsInput, InquiryUncheckedCreateWithoutAttachmentsInput>
+    connectOrCreate?: InquiryCreateOrConnectWithoutAttachmentsInput
+    upsert?: InquiryUpsertWithoutAttachmentsInput
+    connect?: InquiryWhereUniqueInput
+    update?: XOR<XOR<InquiryUpdateToOneWithWhereWithoutAttachmentsInput, InquiryUpdateWithoutAttachmentsInput>, InquiryUncheckedUpdateWithoutAttachmentsInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -33657,16 +35387,6 @@ export namespace Prisma {
     not?: NestedEnumPhotoTypeFilter<$PrismaModel> | $Enums.PhotoType
   }
 
-  export type NestedEnumPhotoTypeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.PhotoType | EnumPhotoTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.PhotoType[] | ListEnumPhotoTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.PhotoType[] | ListEnumPhotoTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumPhotoTypeWithAggregatesFilter<$PrismaModel> | $Enums.PhotoType
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumPhotoTypeFilter<$PrismaModel>
-    _max?: NestedEnumPhotoTypeFilter<$PrismaModel>
-  }
-
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
@@ -33692,6 +35412,16 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedEnumPhotoTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PhotoType | EnumPhotoTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.PhotoType[] | ListEnumPhotoTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PhotoType[] | ListEnumPhotoTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumPhotoTypeWithAggregatesFilter<$PrismaModel> | $Enums.PhotoType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPhotoTypeFilter<$PrismaModel>
+    _max?: NestedEnumPhotoTypeFilter<$PrismaModel>
   }
 
   export type NestedFloatFilter<$PrismaModel = never> = {
@@ -33736,6 +35466,22 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumInvoiceStatusFilter<$PrismaModel>
     _max?: NestedEnumInvoiceStatusFilter<$PrismaModel>
+  }
+
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type AccountCreateWithoutUserInput = {
@@ -33914,6 +35660,7 @@ export namespace Prisma {
     isArchived?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    attachments?: InquiryAttachmentCreateNestedManyWithoutInquiryInput
   }
 
   export type InquiryUncheckedCreateWithoutCustomerInput = {
@@ -33926,6 +35673,7 @@ export namespace Prisma {
     isArchived?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    attachments?: InquiryAttachmentUncheckedCreateNestedManyWithoutInquiryInput
   }
 
   export type InquiryCreateOrConnectWithoutCustomerInput = {
@@ -34040,6 +35788,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    title?: string | null
     deletedAt?: Date | string | null
     lastMessage?: string | null
     lastMessageAt?: Date | string | null
@@ -34053,6 +35802,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    title?: string | null
     deletedAt?: Date | string | null
     customerId?: string | null
     staffMemberId?: string | null
@@ -34105,6 +35855,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    title?: string | null
     deletedAt?: Date | string | null
     lastMessage?: string | null
     lastMessageAt?: Date | string | null
@@ -34118,6 +35869,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    title?: string | null
     deletedAt?: Date | string | null
     staffMemberId?: string | null
     lastMessage?: string | null
@@ -34141,6 +35893,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    title?: string | null
     deletedAt?: Date | string | null
     lastMessage?: string | null
     lastMessageAt?: Date | string | null
@@ -34154,6 +35907,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    title?: string | null
     deletedAt?: Date | string | null
     customerId?: string | null
     lastMessage?: string | null
@@ -34556,6 +36310,7 @@ export namespace Prisma {
     id?: StringFilter<"ChatConversation"> | string
     createdAt?: DateTimeFilter<"ChatConversation"> | Date | string
     updatedAt?: DateTimeFilter<"ChatConversation"> | Date | string
+    title?: StringNullableFilter<"ChatConversation"> | string | null
     deletedAt?: DateTimeNullableFilter<"ChatConversation"> | Date | string | null
     customerId?: StringNullableFilter<"ChatConversation"> | string | null
     staffMemberId?: StringNullableFilter<"ChatConversation"> | string | null
@@ -35118,6 +36873,34 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutCustomerInquiriesInput, UserUncheckedCreateWithoutCustomerInquiriesInput>
   }
 
+  export type InquiryAttachmentCreateWithoutInquiryInput = {
+    id?: string
+    fileName: string
+    fileType: string
+    fileSize: number
+    filePath: string
+    uploadedAt?: Date | string
+  }
+
+  export type InquiryAttachmentUncheckedCreateWithoutInquiryInput = {
+    id?: string
+    fileName: string
+    fileType: string
+    fileSize: number
+    filePath: string
+    uploadedAt?: Date | string
+  }
+
+  export type InquiryAttachmentCreateOrConnectWithoutInquiryInput = {
+    where: InquiryAttachmentWhereUniqueInput
+    create: XOR<InquiryAttachmentCreateWithoutInquiryInput, InquiryAttachmentUncheckedCreateWithoutInquiryInput>
+  }
+
+  export type InquiryAttachmentCreateManyInquiryInputEnvelope = {
+    data: InquiryAttachmentCreateManyInquiryInput | InquiryAttachmentCreateManyInquiryInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutCustomerInquiriesInput = {
     update: XOR<UserUpdateWithoutCustomerInquiriesInput, UserUncheckedUpdateWithoutCustomerInquiriesInput>
     create: XOR<UserCreateWithoutCustomerInquiriesInput, UserUncheckedCreateWithoutCustomerInquiriesInput>
@@ -35183,6 +36966,35 @@ export namespace Prisma {
     staffConversations?: ChatConversationUncheckedUpdateManyWithoutStaffMemberNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutCustomerNestedInput
     activityInConversations?: ChatParticipantInfoUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type InquiryAttachmentUpsertWithWhereUniqueWithoutInquiryInput = {
+    where: InquiryAttachmentWhereUniqueInput
+    update: XOR<InquiryAttachmentUpdateWithoutInquiryInput, InquiryAttachmentUncheckedUpdateWithoutInquiryInput>
+    create: XOR<InquiryAttachmentCreateWithoutInquiryInput, InquiryAttachmentUncheckedCreateWithoutInquiryInput>
+  }
+
+  export type InquiryAttachmentUpdateWithWhereUniqueWithoutInquiryInput = {
+    where: InquiryAttachmentWhereUniqueInput
+    data: XOR<InquiryAttachmentUpdateWithoutInquiryInput, InquiryAttachmentUncheckedUpdateWithoutInquiryInput>
+  }
+
+  export type InquiryAttachmentUpdateManyWithWhereWithoutInquiryInput = {
+    where: InquiryAttachmentScalarWhereInput
+    data: XOR<InquiryAttachmentUpdateManyMutationInput, InquiryAttachmentUncheckedUpdateManyWithoutInquiryInput>
+  }
+
+  export type InquiryAttachmentScalarWhereInput = {
+    AND?: InquiryAttachmentScalarWhereInput | InquiryAttachmentScalarWhereInput[]
+    OR?: InquiryAttachmentScalarWhereInput[]
+    NOT?: InquiryAttachmentScalarWhereInput | InquiryAttachmentScalarWhereInput[]
+    id?: StringFilter<"InquiryAttachment"> | string
+    inquiryId?: StringFilter<"InquiryAttachment"> | string
+    fileName?: StringFilter<"InquiryAttachment"> | string
+    fileType?: StringFilter<"InquiryAttachment"> | string
+    fileSize?: IntFilter<"InquiryAttachment"> | number
+    filePath?: StringFilter<"InquiryAttachment"> | string
+    uploadedAt?: DateTimeFilter<"InquiryAttachment"> | Date | string
   }
 
   export type UserCreateWithoutUploadedImagesInput = {
@@ -35339,6 +37151,9 @@ export namespace Prisma {
   export type PhotoCreateWithoutPhotoSetInput = {
     id?: string
     url: string
+    filename?: string | null
+    size?: number | null
+    contentType?: string | null
     type: $Enums.PhotoType
     uploadedAt?: Date | string
   }
@@ -35346,6 +37161,9 @@ export namespace Prisma {
   export type PhotoUncheckedCreateWithoutPhotoSetInput = {
     id?: string
     url: string
+    filename?: string | null
+    size?: number | null
+    contentType?: string | null
     type: $Enums.PhotoType
     uploadedAt?: Date | string
   }
@@ -35472,6 +37290,9 @@ export namespace Prisma {
     NOT?: PhotoScalarWhereInput | PhotoScalarWhereInput[]
     id?: StringFilter<"Photo"> | string
     url?: StringFilter<"Photo"> | string
+    filename?: StringNullableFilter<"Photo"> | string | null
+    size?: IntNullableFilter<"Photo"> | number | null
+    contentType?: StringNullableFilter<"Photo"> | string | null
     type?: EnumPhotoTypeFilter<"Photo"> | $Enums.PhotoType
     uploadedAt?: DateTimeFilter<"Photo"> | Date | string
     photoSetId?: StringFilter<"Photo"> | string
@@ -36673,6 +38494,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    title?: string | null
     deletedAt?: Date | string | null
     lastMessage?: string | null
     lastMessageAt?: Date | string | null
@@ -36686,6 +38508,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    title?: string | null
     deletedAt?: Date | string | null
     customerId?: string | null
     staffMemberId?: string | null
@@ -36782,6 +38605,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastMessage?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -36795,6 +38619,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     customerId?: NullableStringFieldUpdateOperationsInput | string | null
     staffMemberId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -37283,6 +39108,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    title?: string | null
     deletedAt?: Date | string | null
     lastMessage?: string | null
     lastMessageAt?: Date | string | null
@@ -37296,6 +39122,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    title?: string | null
     deletedAt?: Date | string | null
     customerId?: string | null
     staffMemberId?: string | null
@@ -37392,6 +39219,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastMessage?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -37405,6 +39233,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     customerId?: NullableStringFieldUpdateOperationsInput | string | null
     staffMemberId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -37412,6 +39241,74 @@ export namespace Prisma {
     lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     participants?: UserUncheckedUpdateManyWithoutCreatedConversationsNestedInput
     messages?: ChatMessageUncheckedUpdateManyWithoutConversationNestedInput
+  }
+
+  export type InquiryCreateWithoutAttachmentsInput = {
+    id?: string
+    customerName: string
+    customerEmail: string
+    customerPhone?: string | null
+    serviceNeeded?: string | null
+    message: string
+    isArchived?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customer?: UserCreateNestedOneWithoutCustomerInquiriesInput
+  }
+
+  export type InquiryUncheckedCreateWithoutAttachmentsInput = {
+    id?: string
+    customerName: string
+    customerEmail: string
+    customerPhone?: string | null
+    serviceNeeded?: string | null
+    message: string
+    isArchived?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customerId?: string | null
+  }
+
+  export type InquiryCreateOrConnectWithoutAttachmentsInput = {
+    where: InquiryWhereUniqueInput
+    create: XOR<InquiryCreateWithoutAttachmentsInput, InquiryUncheckedCreateWithoutAttachmentsInput>
+  }
+
+  export type InquiryUpsertWithoutAttachmentsInput = {
+    update: XOR<InquiryUpdateWithoutAttachmentsInput, InquiryUncheckedUpdateWithoutAttachmentsInput>
+    create: XOR<InquiryCreateWithoutAttachmentsInput, InquiryUncheckedCreateWithoutAttachmentsInput>
+    where?: InquiryWhereInput
+  }
+
+  export type InquiryUpdateToOneWithWhereWithoutAttachmentsInput = {
+    where?: InquiryWhereInput
+    data: XOR<InquiryUpdateWithoutAttachmentsInput, InquiryUncheckedUpdateWithoutAttachmentsInput>
+  }
+
+  export type InquiryUpdateWithoutAttachmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    customerEmail?: StringFieldUpdateOperationsInput | string
+    customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceNeeded?: NullableStringFieldUpdateOperationsInput | string | null
+    message?: StringFieldUpdateOperationsInput | string
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer?: UserUpdateOneWithoutCustomerInquiriesNestedInput
+  }
+
+  export type InquiryUncheckedUpdateWithoutAttachmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    customerEmail?: StringFieldUpdateOperationsInput | string
+    customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceNeeded?: NullableStringFieldUpdateOperationsInput | string | null
+    message?: StringFieldUpdateOperationsInput | string
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customerId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AccountCreateManyUserInput = {
@@ -37510,6 +39407,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    title?: string | null
     deletedAt?: Date | string | null
     staffMemberId?: string | null
     lastMessage?: string | null
@@ -37520,6 +39418,7 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    title?: string | null
     deletedAt?: Date | string | null
     customerId?: string | null
     lastMessage?: string | null
@@ -37729,6 +39628,7 @@ export namespace Prisma {
     isArchived?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attachments?: InquiryAttachmentUpdateManyWithoutInquiryNestedInput
   }
 
   export type InquiryUncheckedUpdateWithoutCustomerInput = {
@@ -37741,6 +39641,7 @@ export namespace Prisma {
     isArchived?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attachments?: InquiryAttachmentUncheckedUpdateManyWithoutInquiryNestedInput
   }
 
   export type InquiryUncheckedUpdateManyWithoutCustomerInput = {
@@ -37794,6 +39695,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastMessage?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -37807,6 +39709,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     customerId?: NullableStringFieldUpdateOperationsInput | string | null
     staffMemberId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -37820,6 +39723,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     customerId?: NullableStringFieldUpdateOperationsInput | string | null
     staffMemberId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -37867,6 +39771,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastMessage?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -37880,6 +39785,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     staffMemberId?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessage?: NullableStringFieldUpdateOperationsInput | string | null
@@ -37893,6 +39799,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     staffMemberId?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessage?: NullableStringFieldUpdateOperationsInput | string | null
@@ -37903,6 +39810,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     lastMessage?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessageAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -37916,6 +39824,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     customerId?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessage?: NullableStringFieldUpdateOperationsInput | string | null
@@ -37929,6 +39838,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     customerId?: NullableStringFieldUpdateOperationsInput | string | null
     lastMessage?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38055,9 +39965,48 @@ export namespace Prisma {
     jobDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type InquiryAttachmentCreateManyInquiryInput = {
+    id?: string
+    fileName: string
+    fileType: string
+    fileSize: number
+    filePath: string
+    uploadedAt?: Date | string
+  }
+
+  export type InquiryAttachmentUpdateWithoutInquiryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileType?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    filePath?: StringFieldUpdateOperationsInput | string
+    uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InquiryAttachmentUncheckedUpdateWithoutInquiryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileType?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    filePath?: StringFieldUpdateOperationsInput | string
+    uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InquiryAttachmentUncheckedUpdateManyWithoutInquiryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    fileType?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    filePath?: StringFieldUpdateOperationsInput | string
+    uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type PhotoCreateManyPhotoSetInput = {
     id?: string
     url: string
+    filename?: string | null
+    size?: number | null
+    contentType?: string | null
     type: $Enums.PhotoType
     uploadedAt?: Date | string
   }
@@ -38065,6 +40014,9 @@ export namespace Prisma {
   export type PhotoUpdateWithoutPhotoSetInput = {
     id?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
+    filename?: NullableStringFieldUpdateOperationsInput | string | null
+    size?: NullableIntFieldUpdateOperationsInput | number | null
+    contentType?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumPhotoTypeFieldUpdateOperationsInput | $Enums.PhotoType
     uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -38072,6 +40024,9 @@ export namespace Prisma {
   export type PhotoUncheckedUpdateWithoutPhotoSetInput = {
     id?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
+    filename?: NullableStringFieldUpdateOperationsInput | string | null
+    size?: NullableIntFieldUpdateOperationsInput | number | null
+    contentType?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumPhotoTypeFieldUpdateOperationsInput | $Enums.PhotoType
     uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -38079,6 +40034,9 @@ export namespace Prisma {
   export type PhotoUncheckedUpdateManyWithoutPhotoSetInput = {
     id?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
+    filename?: NullableStringFieldUpdateOperationsInput | string | null
+    size?: NullableIntFieldUpdateOperationsInput | number | null
+    contentType?: NullableStringFieldUpdateOperationsInput | string | null
     type?: EnumPhotoTypeFieldUpdateOperationsInput | $Enums.PhotoType
     uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
