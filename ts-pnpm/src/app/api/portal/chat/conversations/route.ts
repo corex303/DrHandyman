@@ -7,7 +7,7 @@ import { NextRequest } from 'next/server';
 
 import prisma from '@/lib/prisma';
 
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/lib/auth/options';
 
 // Helper type for processing conversations
 interface ProcessedChatConversation extends Omit<ChatConversation, 'lastMessage'> { // Omit the original lastMessage to redefine it safely if needed, or ensure alignment

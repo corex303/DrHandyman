@@ -1,16 +1,25 @@
-import { NextResponse } from 'next/server';
-import { PrismaClient, ApprovalStatus } from '@prisma/client';
+import { NextRequest, NextResponse } from 'next/server';
+import { ApprovalStatus } from '@prisma/client';
+import prisma from '@/lib/prisma';
 import { z } from 'zod';
 
-const prisma = new PrismaClient();
+// const prisma = new PrismaClient();
+
+// Define the context interface, typing params as a Promise
+interface RouteContext {
+  params: Promise<{
+    id: string;
+  }>;
+}
 
 // Zod schema for status update validation
 const updateStatusSchema = z.object({
   status: z.enum([ApprovalStatus.APPROVED, ApprovalStatus.REJECTED]),
 });
 
-export async function PATCH(request: Request, { params }: { params: { id: string } }) {
-  const { id } = params;
+export async function PATCH(request: NextRequest, context: RouteContext) {
+  const actualParams = await context.params;
+  const { id } = actualParams;
 
   if (!id) {
     return NextResponse.json({ error: 'PhotoSet ID is required' }, { status: 400 });

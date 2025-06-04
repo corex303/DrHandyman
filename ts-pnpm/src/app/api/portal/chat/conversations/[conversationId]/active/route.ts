@@ -4,13 +4,21 @@ import { getToken } from 'next-auth/jwt';
 import prisma from '@/lib/prisma';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin'; // Fully replaced line
 
-export async function POST(request: NextRequest, { params }: { params: { conversationId: string } }) {
+// Define the context interface, typing params as a Promise
+interface RouteContext {
+  params: Promise<{ // Params is now a Promise
+    conversationId: string;
+  }>;
+}
+
+export async function POST(request: NextRequest, context: RouteContext) { // Changed params to context: RouteContext
   const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
   if (!token?.sub) {
     return NextResponse.json({ error: 'Unauthorized: No user session found' }, { status: 401 });
   }
   const userId = token.sub;
-  const { conversationId } = params;
+  const actualParams = await context.params; // Await params
+  const { conversationId } = actualParams; // Use awaited params
 
   if (!conversationId) {
     return NextResponse.json({ error: 'Conversation ID is required' }, { status: 400 });

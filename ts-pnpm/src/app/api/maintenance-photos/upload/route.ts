@@ -1,10 +1,11 @@
 import { put } from '@vercel/blob';
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
+import { v2 as cloudinary } from 'cloudinary';
 
 import prisma from '@/lib/prisma'; // Assuming prisma client is at lib/prisma
 
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'; // Adjust path if needed
+import { authOptions } from '@/lib/auth/options';
 
 export async function POST(request: Request): Promise<NextResponse> {
   const session = await getServerSession(authOptions);

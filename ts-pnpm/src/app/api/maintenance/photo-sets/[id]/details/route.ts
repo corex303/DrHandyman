@@ -1,16 +1,22 @@
-import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
+import { NextRequest, NextResponse } from 'next/server';
+import prisma from '@/lib/prisma';
 import { z } from 'zod';
 
-const prisma = new PrismaClient();
+// Define the context interface, typing params as a Promise
+interface RouteContext {
+  params: Promise<{ // Params is now a Promise
+    id: string;
+  }>;
+}
 
 const updateDetailsSchema = z.object({
   title: z.string().min(1, "Title cannot be empty").optional(),
   description: z.string().optional(),
 });
 
-export async function PATCH(request: Request, { params }: { params: { id: string } }) {
-  const { id } = params;
+export async function PATCH(request: NextRequest, context: RouteContext) { // Changed params to context: RouteContext
+  const actualParams = await context.params; // Await params
+  const { id } = actualParams; // Use awaited params
 
   if (!id) {
     return NextResponse.json({ error: 'PhotoSet ID is required' }, { status: 400 });

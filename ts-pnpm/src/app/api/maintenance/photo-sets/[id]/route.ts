@@ -1,10 +1,16 @@
-import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
+import { NextRequest, NextResponse } from 'next/server';
+import prisma from '@/lib/prisma';
 
-const prisma = new PrismaClient();
+// Define the context interface, typing params as a Promise
+interface RouteContext {
+  params: Promise<{
+    id: string;
+  }>;
+}
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
-  const { id } = params;
+export async function GET(request: NextRequest, context: RouteContext) {
+  const actualParams = await context.params;
+  const { id } = actualParams;
 
   if (!id) {
     return NextResponse.json({ error: 'PhotoSet ID is required' }, { status: 400 });

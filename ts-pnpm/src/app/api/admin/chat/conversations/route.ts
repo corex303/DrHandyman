@@ -6,7 +6,8 @@ import { getToken } from 'next-auth/jwt';
 import { NextRequest } from 'next/server';
 
 import prisma from '@/lib/prisma';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'; // Centralized authOptions
+import { authOptions } from '@/lib/auth/options';
+import { pusherServer } from '@/lib/pusher/server';
 
 // GET /api/admin/chat/conversations
 // List all conversations for admins, with potential filtering
