@@ -30,17 +30,17 @@ export async function GET(request: Request) {
             filePath: true, // This is the URL or path to the attachment
           },
         },
-        photoSets: { // Include associated photo sets
-          include: {
-            photos: true, // And their photos for the gallery
-            maintenanceWorker: {
-              select: {
-                id: true,
-                name: true,
-              }
-            }
-          }
-        }
+        // photoSets: { // Include associated photo sets -- REMOVED due to schema change
+        //   include: {
+        //     photos: true, // And their photos for the gallery
+        //     maintenanceWorker: {
+        //       select: {
+        //         id: true,
+        //         name: true,
+        //       }
+        //     }
+        //   }
+        // }
       },
     });
 

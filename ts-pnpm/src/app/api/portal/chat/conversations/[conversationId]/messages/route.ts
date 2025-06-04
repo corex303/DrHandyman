@@ -11,7 +11,7 @@ import prisma from '@/lib/prisma'; // Corrected: Import the singleton instance
 import { authOptions } from '@/lib/auth/options';
 // Note: Supabase client for real-time events would be initialized elsewhere (e.g., in a lib file)
 // import { supabase } from '@/lib/supabaseClient'; 
-import { pusherServer } from '@/lib/pusher/server';
+// import { pusherServer } from '@/lib/pusher/server'; // Commented out as the path/module doesn't exist
 
 interface MessagesContext {
   params: Promise<{
@@ -94,7 +94,7 @@ export async function GET(request: Request, props: MessagesContext) {
 // Send a new message to a specific conversation
 export async function POST(
   request: NextRequest,
-  { params }: { params: { conversationId: string } }
+  context: MessagesContext,
 ) {
   const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
   if (!token?.sub) {
@@ -102,7 +102,9 @@ export async function POST(
   }
   const userId = token.sub;
 
-  const { conversationId } = params;
+  const actualParams = await context.params;
+  const { conversationId } = actualParams;
+
   if (!conversationId) {
     console.error('POST message: Conversation ID is required but was not provided in params.');
     return NextResponse.json({ error: 'Conversation ID is required' }, { status: 400 });

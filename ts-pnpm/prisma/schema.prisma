@@ -47,7 +47,7 @@ model User {
   lastSeenAt             DateTime?           @updatedAt
   accounts               Account[]
   sessions               Session[]
-  // emailVerificationRequests EmailVerificationRequest[] // Commented out
+  emailVerificationRequests EmailVerificationRequest[] // Uncommented
   createdAt              DateTime            @default(now())
   updatedAt              DateTime            @updatedAt
   services               Service[]
@@ -261,17 +261,17 @@ model VerificationToken {
 }
 
 // Commented out as it's not needed for passwordless magic link flow
-// model EmailVerificationRequest {
-//   id        String   @id @default(cuid())
-//   userId    String
-//   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-//   token     String   @unique
-//   expires   DateTime
-//   createdAt DateTime @default(now())
-//   verifiedAt DateTime?
-//
-//   @@index([userId])
-// }
+model EmailVerificationRequest {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  expires   DateTime
+  createdAt DateTime @default(now())
+  verifiedAt DateTime?
+
+  @@index([userId])
+}
 
 // New Model for Appearance Settings
 model AppearanceSettings {

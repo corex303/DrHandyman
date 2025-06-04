@@ -1,12 +1,20 @@
 'use client';
 
-import { loadStripe,Stripe } from '@stripe/stripe-js';
+import { loadStripe, Stripe, PaymentIntent } from '@stripe/stripe-js';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 // Load Stripe.js with your publishable key
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
+
+// Define an interface for PaymentIntent with expected metadata structure
+interface CustomPaymentIntent extends PaymentIntent {
+  metadata: {
+    invoiceNumber?: string;
+    // Add other expected metadata properties here if any
+  };
+}
 
 export default function PaymentConfirmationPage() {
   const searchParams = useSearchParams();
@@ -41,12 +49,15 @@ export default function PaymentConfirmationPage() {
         return;
       }
 
-      setPaymentStatus(paymentIntent.status);
+      // Cast to our custom type
+      const customPaymentIntent = paymentIntent as CustomPaymentIntent;
 
-      switch (paymentIntent.status) {
+      setPaymentStatus(customPaymentIntent.status);
+
+      switch (customPaymentIntent.status) {
         case 'succeeded':
           setMessage(
-            `Payment successful! Thank you for your payment. Your invoice number was: ${paymentIntent.metadata.invoiceNumber || 'N/A'}.`
+            `Payment successful! Thank you for your payment. Your invoice number was: ${customPaymentIntent.metadata.invoiceNumber || 'N/A'}.`
           );
           // TODO: Here you would typically:
           // 1. Update your database with the successful payment.

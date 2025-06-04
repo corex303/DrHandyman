@@ -335,6 +335,19 @@ A guiding principle for technology selection is to prioritize free and open-sour
 *   **Code repository:** Git (e.g., GitHub, GitLab, Bitbucket).
 *   **Development environment:** Node.js, pnpm/npm/yarn.
 
+**Development Learnings & Best Practices:**
+
+*   **React Icons TypeScript Errors:** When using `react-icons`, directly rendering components of type `IconType` can lead to TypeScript build errors (e.g., `\'ReactNode\' is not a valid JSX element`). This is due to `IconType`'s `ReactNode` return type, which may include `undefined`.
+    *   **Solution:** Utilize a shared wrapper component like `[WrappedReactIcon.tsx](mdc:ts-pnpm/src/components/ui/WrappedReactIcon.tsx)`. This component explicitly casts the icon to `React.ElementType` before rendering, ensuring type safety. Consistent use of this wrapper (see `[error.tsx](mdc:ts-pnpm/src/app/error.tsx)` or `[not-found.tsx](mdc:ts-pnpm/src/app/not-found.tsx)`) is recommended to prevent these build failures.
+*   **Stripe PaymentIntent Metadata:** Accessing custom `metadata` (e.g., `invoiceNumber`) on a Stripe `PaymentIntent` object can cause type errors because the default type from `@stripe/stripe-js` does not include these custom fields.
+    *   **Solution:** Define a custom TypeScript interface that extends `PaymentIntent` and specifies the structure of your `metadata` object. Cast the retrieved `paymentIntent` object to this custom type before accessing its `metadata` properties. An example of this pattern can be found in `[payment/confirmation/page.tsx](mdc:ts-pnpm/src/app/payment/confirmation/page.tsx)`.
+*   **Prisma Schema and Client Synchronization:** Type errors indicating that a model, field, or relation does not exist on the `PrismaClient` (e.g., `Property \'X\' does not exist...`) often stem from discrepancies between your application code and the `[schema.prisma](mdc:ts-pnpm/prisma/schema.prisma)` file.
+    *   **Troubleshooting Steps:**
+        1.  **Verify Naming:** Ensure model, field, and relation names in your code exactly match (case-sensitive) the definitions in `schema.prisma`.
+        2.  **Check for Comments:** Confirm that the required models or relations are not commented out in `schema.prisma`.
+        3.  **Regenerate Client:** **Crucially, after any modification to `schema.prisma`, always regenerate the Prisma client by running `pnpm prisma generate`** (or `npx prisma generate`). This updates the client to reflect the latest schema.
+        4.  **Review `include` Clauses:** If errors relate to `ModelInclude<DefaultArgs>`, double-check that the relations specified in `include` clauses are correctly defined and active in the schema.
+
 ## h. Design and user interface
 
 *   **Branding:**

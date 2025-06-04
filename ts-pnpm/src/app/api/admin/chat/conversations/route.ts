@@ -7,7 +7,7 @@ import { NextRequest } from 'next/server';
 
 import prisma from '@/lib/prisma';
 import { authOptions } from '@/lib/auth/options';
-import { pusherServer } from '@/lib/pusher/server';
+// import { pusherServer } from '@/lib/pusher/server'; // Commented out as the path/module doesn't exist
 
 // GET /api/admin/chat/conversations
 // List all conversations for admins, with potential filtering

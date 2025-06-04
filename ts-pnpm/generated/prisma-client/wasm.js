@@ -271,6 +271,15 @@ exports.Prisma.VerificationTokenScalarFieldEnum = {
   expires: 'expires'
 };
 
+exports.Prisma.EmailVerificationRequestScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  token: 'token',
+  expires: 'expires',
+  createdAt: 'createdAt',
+  verifiedAt: 'verifiedAt'
+};
+
 exports.Prisma.AppearanceSettingsScalarFieldEnum = {
   id: 'id',
   siteTitle: 'siteTitle',
@@ -441,6 +450,7 @@ exports.Prisma.ModelName = {
   Account: 'Account',
   Session: 'Session',
   VerificationToken: 'VerificationToken',
+  EmailVerificationRequest: 'EmailVerificationRequest',
   AppearanceSettings: 'AppearanceSettings',
   ChatConversation: 'ChatConversation',
   ChatMessage: 'ChatMessage',

@@ -79,6 +79,11 @@ export type Session = $Result.DefaultSelection<Prisma.$SessionPayload>
  */
 export type VerificationToken = $Result.DefaultSelection<Prisma.$VerificationTokenPayload>
 /**
+ * Model EmailVerificationRequest
+ * 
+ */
+export type EmailVerificationRequest = $Result.DefaultSelection<Prisma.$EmailVerificationRequestPayload>
+/**
  * Model AppearanceSettings
  * 
  */
@@ -437,6 +442,16 @@ export class PrismaClient<
     * ```
     */
   get verificationToken(): Prisma.VerificationTokenDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.emailVerificationRequest`: Exposes CRUD operations for the **EmailVerificationRequest** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EmailVerificationRequests
+    * const emailVerificationRequests = await prisma.emailVerificationRequest.findMany()
+    * ```
+    */
+  get emailVerificationRequest(): Prisma.EmailVerificationRequestDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.appearanceSettings`: Exposes CRUD operations for the **AppearanceSettings** model.
@@ -980,6 +995,7 @@ export namespace Prisma {
     Account: 'Account',
     Session: 'Session',
     VerificationToken: 'VerificationToken',
+    EmailVerificationRequest: 'EmailVerificationRequest',
     AppearanceSettings: 'AppearanceSettings',
     ChatConversation: 'ChatConversation',
     ChatMessage: 'ChatMessage',
@@ -1007,7 +1023,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "service" | "portfolioItem" | "testimonial" | "inquiry" | "siteSettings" | "image" | "photoSet" | "photo" | "maintenanceWorker" | "account" | "session" | "verificationToken" | "appearanceSettings" | "chatConversation" | "chatMessage" | "invoice" | "invoiceLineItem" | "payment" | "chatParticipantInfo" | "globalStaffActivity" | "inquiryAttachment"
+      modelProps: "user" | "service" | "portfolioItem" | "testimonial" | "inquiry" | "siteSettings" | "image" | "photoSet" | "photo" | "maintenanceWorker" | "account" | "session" | "verificationToken" | "emailVerificationRequest" | "appearanceSettings" | "chatConversation" | "chatMessage" | "invoice" | "invoiceLineItem" | "payment" | "chatParticipantInfo" | "globalStaffActivity" | "inquiryAttachment"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1973,6 +1989,80 @@ export namespace Prisma {
           }
         }
       }
+      EmailVerificationRequest: {
+        payload: Prisma.$EmailVerificationRequestPayload<ExtArgs>
+        fields: Prisma.EmailVerificationRequestFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.EmailVerificationRequestFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationRequestPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.EmailVerificationRequestFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationRequestPayload>
+          }
+          findFirst: {
+            args: Prisma.EmailVerificationRequestFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationRequestPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.EmailVerificationRequestFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationRequestPayload>
+          }
+          findMany: {
+            args: Prisma.EmailVerificationRequestFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationRequestPayload>[]
+          }
+          create: {
+            args: Prisma.EmailVerificationRequestCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationRequestPayload>
+          }
+          createMany: {
+            args: Prisma.EmailVerificationRequestCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.EmailVerificationRequestCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationRequestPayload>[]
+          }
+          delete: {
+            args: Prisma.EmailVerificationRequestDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationRequestPayload>
+          }
+          update: {
+            args: Prisma.EmailVerificationRequestUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationRequestPayload>
+          }
+          deleteMany: {
+            args: Prisma.EmailVerificationRequestDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.EmailVerificationRequestUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.EmailVerificationRequestUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationRequestPayload>[]
+          }
+          upsert: {
+            args: Prisma.EmailVerificationRequestUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EmailVerificationRequestPayload>
+          }
+          aggregate: {
+            args: Prisma.EmailVerificationRequestAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEmailVerificationRequest>
+          }
+          groupBy: {
+            args: Prisma.EmailVerificationRequestGroupByArgs<ExtArgs>
+            result: $Utils.Optional<EmailVerificationRequestGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.EmailVerificationRequestCountArgs<ExtArgs>
+            result: $Utils.Optional<EmailVerificationRequestCountAggregateOutputType> | number
+          }
+        }
+      }
       AppearanceSettings: {
         payload: Prisma.$AppearanceSettingsPayload<ExtArgs>
         fields: Prisma.AppearanceSettingsFieldRefs
@@ -2736,6 +2826,7 @@ export namespace Prisma {
     account?: AccountOmit
     session?: SessionOmit
     verificationToken?: VerificationTokenOmit
+    emailVerificationRequest?: EmailVerificationRequestOmit
     appearanceSettings?: AppearanceSettingsOmit
     chatConversation?: ChatConversationOmit
     chatMessage?: ChatMessageOmit
@@ -2841,6 +2932,7 @@ export namespace Prisma {
   export type UserCountOutputType = {
     accounts: number
     sessions: number
+    emailVerificationRequests: number
     services: number
     uploadedImages: number
     uploadedPortfolioItems: number
@@ -2857,6 +2949,7 @@ export namespace Prisma {
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
     sessions?: boolean | UserCountOutputTypeCountSessionsArgs
+    emailVerificationRequests?: boolean | UserCountOutputTypeCountEmailVerificationRequestsArgs
     services?: boolean | UserCountOutputTypeCountServicesArgs
     uploadedImages?: boolean | UserCountOutputTypeCountUploadedImagesArgs
     uploadedPortfolioItems?: boolean | UserCountOutputTypeCountUploadedPortfolioItemsArgs
@@ -2893,6 +2986,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SessionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountEmailVerificationRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EmailVerificationRequestWhereInput
   }
 
   /**
@@ -3404,6 +3504,7 @@ export namespace Prisma {
     updatedAt?: boolean
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
+    emailVerificationRequests?: boolean | User$emailVerificationRequestsArgs<ExtArgs>
     services?: boolean | User$servicesArgs<ExtArgs>
     uploadedImages?: boolean | User$uploadedImagesArgs<ExtArgs>
     uploadedPortfolioItems?: boolean | User$uploadedPortfolioItemsArgs<ExtArgs>
@@ -3466,6 +3567,7 @@ export namespace Prisma {
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
+    emailVerificationRequests?: boolean | User$emailVerificationRequestsArgs<ExtArgs>
     services?: boolean | User$servicesArgs<ExtArgs>
     uploadedImages?: boolean | User$uploadedImagesArgs<ExtArgs>
     uploadedPortfolioItems?: boolean | User$uploadedPortfolioItemsArgs<ExtArgs>
@@ -3489,6 +3591,7 @@ export namespace Prisma {
     objects: {
       accounts: Prisma.$AccountPayload<ExtArgs>[]
       sessions: Prisma.$SessionPayload<ExtArgs>[]
+      emailVerificationRequests: Prisma.$EmailVerificationRequestPayload<ExtArgs>[]
       services: Prisma.$ServicePayload<ExtArgs>[]
       uploadedImages: Prisma.$ImagePayload<ExtArgs>[]
       uploadedPortfolioItems: Prisma.$PortfolioItemPayload<ExtArgs>[]
@@ -3911,6 +4014,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    emailVerificationRequests<T extends User$emailVerificationRequestsArgs<ExtArgs> = {}>(args?: Subset<T, User$emailVerificationRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailVerificationRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     services<T extends User$servicesArgs<ExtArgs> = {}>(args?: Subset<T, User$servicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     uploadedImages<T extends User$uploadedImagesArgs<ExtArgs> = {}>(args?: Subset<T, User$uploadedImagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     uploadedPortfolioItems<T extends User$uploadedPortfolioItemsArgs<ExtArgs> = {}>(args?: Subset<T, User$uploadedPortfolioItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PortfolioItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -4397,6 +4501,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: SessionScalarFieldEnum | SessionScalarFieldEnum[]
+  }
+
+  /**
+   * User.emailVerificationRequests
+   */
+  export type User$emailVerificationRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerificationRequest
+     */
+    select?: EmailVerificationRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerificationRequest
+     */
+    omit?: EmailVerificationRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationRequestInclude<ExtArgs> | null
+    where?: EmailVerificationRequestWhereInput
+    orderBy?: EmailVerificationRequestOrderByWithRelationInput | EmailVerificationRequestOrderByWithRelationInput[]
+    cursor?: EmailVerificationRequestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: EmailVerificationRequestScalarFieldEnum | EmailVerificationRequestScalarFieldEnum[]
   }
 
   /**
@@ -18071,6 +18199,1077 @@ export namespace Prisma {
 
 
   /**
+   * Model EmailVerificationRequest
+   */
+
+  export type AggregateEmailVerificationRequest = {
+    _count: EmailVerificationRequestCountAggregateOutputType | null
+    _min: EmailVerificationRequestMinAggregateOutputType | null
+    _max: EmailVerificationRequestMaxAggregateOutputType | null
+  }
+
+  export type EmailVerificationRequestMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    token: string | null
+    expires: Date | null
+    createdAt: Date | null
+    verifiedAt: Date | null
+  }
+
+  export type EmailVerificationRequestMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    token: string | null
+    expires: Date | null
+    createdAt: Date | null
+    verifiedAt: Date | null
+  }
+
+  export type EmailVerificationRequestCountAggregateOutputType = {
+    id: number
+    userId: number
+    token: number
+    expires: number
+    createdAt: number
+    verifiedAt: number
+    _all: number
+  }
+
+
+  export type EmailVerificationRequestMinAggregateInputType = {
+    id?: true
+    userId?: true
+    token?: true
+    expires?: true
+    createdAt?: true
+    verifiedAt?: true
+  }
+
+  export type EmailVerificationRequestMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    token?: true
+    expires?: true
+    createdAt?: true
+    verifiedAt?: true
+  }
+
+  export type EmailVerificationRequestCountAggregateInputType = {
+    id?: true
+    userId?: true
+    token?: true
+    expires?: true
+    createdAt?: true
+    verifiedAt?: true
+    _all?: true
+  }
+
+  export type EmailVerificationRequestAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EmailVerificationRequest to aggregate.
+     */
+    where?: EmailVerificationRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EmailVerificationRequests to fetch.
+     */
+    orderBy?: EmailVerificationRequestOrderByWithRelationInput | EmailVerificationRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: EmailVerificationRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EmailVerificationRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EmailVerificationRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned EmailVerificationRequests
+    **/
+    _count?: true | EmailVerificationRequestCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: EmailVerificationRequestMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: EmailVerificationRequestMaxAggregateInputType
+  }
+
+  export type GetEmailVerificationRequestAggregateType<T extends EmailVerificationRequestAggregateArgs> = {
+        [P in keyof T & keyof AggregateEmailVerificationRequest]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateEmailVerificationRequest[P]>
+      : GetScalarType<T[P], AggregateEmailVerificationRequest[P]>
+  }
+
+
+
+
+  export type EmailVerificationRequestGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EmailVerificationRequestWhereInput
+    orderBy?: EmailVerificationRequestOrderByWithAggregationInput | EmailVerificationRequestOrderByWithAggregationInput[]
+    by: EmailVerificationRequestScalarFieldEnum[] | EmailVerificationRequestScalarFieldEnum
+    having?: EmailVerificationRequestScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: EmailVerificationRequestCountAggregateInputType | true
+    _min?: EmailVerificationRequestMinAggregateInputType
+    _max?: EmailVerificationRequestMaxAggregateInputType
+  }
+
+  export type EmailVerificationRequestGroupByOutputType = {
+    id: string
+    userId: string
+    token: string
+    expires: Date
+    createdAt: Date
+    verifiedAt: Date | null
+    _count: EmailVerificationRequestCountAggregateOutputType | null
+    _min: EmailVerificationRequestMinAggregateOutputType | null
+    _max: EmailVerificationRequestMaxAggregateOutputType | null
+  }
+
+  type GetEmailVerificationRequestGroupByPayload<T extends EmailVerificationRequestGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<EmailVerificationRequestGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof EmailVerificationRequestGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], EmailVerificationRequestGroupByOutputType[P]>
+            : GetScalarType<T[P], EmailVerificationRequestGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type EmailVerificationRequestSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    token?: boolean
+    expires?: boolean
+    createdAt?: boolean
+    verifiedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["emailVerificationRequest"]>
+
+  export type EmailVerificationRequestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    token?: boolean
+    expires?: boolean
+    createdAt?: boolean
+    verifiedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["emailVerificationRequest"]>
+
+  export type EmailVerificationRequestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    token?: boolean
+    expires?: boolean
+    createdAt?: boolean
+    verifiedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["emailVerificationRequest"]>
+
+  export type EmailVerificationRequestSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    token?: boolean
+    expires?: boolean
+    createdAt?: boolean
+    verifiedAt?: boolean
+  }
+
+  export type EmailVerificationRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "token" | "expires" | "createdAt" | "verifiedAt", ExtArgs["result"]["emailVerificationRequest"]>
+  export type EmailVerificationRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type EmailVerificationRequestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type EmailVerificationRequestIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $EmailVerificationRequestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "EmailVerificationRequest"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      token: string
+      expires: Date
+      createdAt: Date
+      verifiedAt: Date | null
+    }, ExtArgs["result"]["emailVerificationRequest"]>
+    composites: {}
+  }
+
+  type EmailVerificationRequestGetPayload<S extends boolean | null | undefined | EmailVerificationRequestDefaultArgs> = $Result.GetResult<Prisma.$EmailVerificationRequestPayload, S>
+
+  type EmailVerificationRequestCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<EmailVerificationRequestFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: EmailVerificationRequestCountAggregateInputType | true
+    }
+
+  export interface EmailVerificationRequestDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['EmailVerificationRequest'], meta: { name: 'EmailVerificationRequest' } }
+    /**
+     * Find zero or one EmailVerificationRequest that matches the filter.
+     * @param {EmailVerificationRequestFindUniqueArgs} args - Arguments to find a EmailVerificationRequest
+     * @example
+     * // Get one EmailVerificationRequest
+     * const emailVerificationRequest = await prisma.emailVerificationRequest.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends EmailVerificationRequestFindUniqueArgs>(args: SelectSubset<T, EmailVerificationRequestFindUniqueArgs<ExtArgs>>): Prisma__EmailVerificationRequestClient<$Result.GetResult<Prisma.$EmailVerificationRequestPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one EmailVerificationRequest that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {EmailVerificationRequestFindUniqueOrThrowArgs} args - Arguments to find a EmailVerificationRequest
+     * @example
+     * // Get one EmailVerificationRequest
+     * const emailVerificationRequest = await prisma.emailVerificationRequest.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends EmailVerificationRequestFindUniqueOrThrowArgs>(args: SelectSubset<T, EmailVerificationRequestFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EmailVerificationRequestClient<$Result.GetResult<Prisma.$EmailVerificationRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EmailVerificationRequest that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailVerificationRequestFindFirstArgs} args - Arguments to find a EmailVerificationRequest
+     * @example
+     * // Get one EmailVerificationRequest
+     * const emailVerificationRequest = await prisma.emailVerificationRequest.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends EmailVerificationRequestFindFirstArgs>(args?: SelectSubset<T, EmailVerificationRequestFindFirstArgs<ExtArgs>>): Prisma__EmailVerificationRequestClient<$Result.GetResult<Prisma.$EmailVerificationRequestPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EmailVerificationRequest that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailVerificationRequestFindFirstOrThrowArgs} args - Arguments to find a EmailVerificationRequest
+     * @example
+     * // Get one EmailVerificationRequest
+     * const emailVerificationRequest = await prisma.emailVerificationRequest.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends EmailVerificationRequestFindFirstOrThrowArgs>(args?: SelectSubset<T, EmailVerificationRequestFindFirstOrThrowArgs<ExtArgs>>): Prisma__EmailVerificationRequestClient<$Result.GetResult<Prisma.$EmailVerificationRequestPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more EmailVerificationRequests that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailVerificationRequestFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all EmailVerificationRequests
+     * const emailVerificationRequests = await prisma.emailVerificationRequest.findMany()
+     * 
+     * // Get first 10 EmailVerificationRequests
+     * const emailVerificationRequests = await prisma.emailVerificationRequest.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const emailVerificationRequestWithIdOnly = await prisma.emailVerificationRequest.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends EmailVerificationRequestFindManyArgs>(args?: SelectSubset<T, EmailVerificationRequestFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailVerificationRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a EmailVerificationRequest.
+     * @param {EmailVerificationRequestCreateArgs} args - Arguments to create a EmailVerificationRequest.
+     * @example
+     * // Create one EmailVerificationRequest
+     * const EmailVerificationRequest = await prisma.emailVerificationRequest.create({
+     *   data: {
+     *     // ... data to create a EmailVerificationRequest
+     *   }
+     * })
+     * 
+     */
+    create<T extends EmailVerificationRequestCreateArgs>(args: SelectSubset<T, EmailVerificationRequestCreateArgs<ExtArgs>>): Prisma__EmailVerificationRequestClient<$Result.GetResult<Prisma.$EmailVerificationRequestPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many EmailVerificationRequests.
+     * @param {EmailVerificationRequestCreateManyArgs} args - Arguments to create many EmailVerificationRequests.
+     * @example
+     * // Create many EmailVerificationRequests
+     * const emailVerificationRequest = await prisma.emailVerificationRequest.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends EmailVerificationRequestCreateManyArgs>(args?: SelectSubset<T, EmailVerificationRequestCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many EmailVerificationRequests and returns the data saved in the database.
+     * @param {EmailVerificationRequestCreateManyAndReturnArgs} args - Arguments to create many EmailVerificationRequests.
+     * @example
+     * // Create many EmailVerificationRequests
+     * const emailVerificationRequest = await prisma.emailVerificationRequest.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many EmailVerificationRequests and only return the `id`
+     * const emailVerificationRequestWithIdOnly = await prisma.emailVerificationRequest.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends EmailVerificationRequestCreateManyAndReturnArgs>(args?: SelectSubset<T, EmailVerificationRequestCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailVerificationRequestPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a EmailVerificationRequest.
+     * @param {EmailVerificationRequestDeleteArgs} args - Arguments to delete one EmailVerificationRequest.
+     * @example
+     * // Delete one EmailVerificationRequest
+     * const EmailVerificationRequest = await prisma.emailVerificationRequest.delete({
+     *   where: {
+     *     // ... filter to delete one EmailVerificationRequest
+     *   }
+     * })
+     * 
+     */
+    delete<T extends EmailVerificationRequestDeleteArgs>(args: SelectSubset<T, EmailVerificationRequestDeleteArgs<ExtArgs>>): Prisma__EmailVerificationRequestClient<$Result.GetResult<Prisma.$EmailVerificationRequestPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one EmailVerificationRequest.
+     * @param {EmailVerificationRequestUpdateArgs} args - Arguments to update one EmailVerificationRequest.
+     * @example
+     * // Update one EmailVerificationRequest
+     * const emailVerificationRequest = await prisma.emailVerificationRequest.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends EmailVerificationRequestUpdateArgs>(args: SelectSubset<T, EmailVerificationRequestUpdateArgs<ExtArgs>>): Prisma__EmailVerificationRequestClient<$Result.GetResult<Prisma.$EmailVerificationRequestPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more EmailVerificationRequests.
+     * @param {EmailVerificationRequestDeleteManyArgs} args - Arguments to filter EmailVerificationRequests to delete.
+     * @example
+     * // Delete a few EmailVerificationRequests
+     * const { count } = await prisma.emailVerificationRequest.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends EmailVerificationRequestDeleteManyArgs>(args?: SelectSubset<T, EmailVerificationRequestDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EmailVerificationRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailVerificationRequestUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many EmailVerificationRequests
+     * const emailVerificationRequest = await prisma.emailVerificationRequest.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends EmailVerificationRequestUpdateManyArgs>(args: SelectSubset<T, EmailVerificationRequestUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EmailVerificationRequests and returns the data updated in the database.
+     * @param {EmailVerificationRequestUpdateManyAndReturnArgs} args - Arguments to update many EmailVerificationRequests.
+     * @example
+     * // Update many EmailVerificationRequests
+     * const emailVerificationRequest = await prisma.emailVerificationRequest.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more EmailVerificationRequests and only return the `id`
+     * const emailVerificationRequestWithIdOnly = await prisma.emailVerificationRequest.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends EmailVerificationRequestUpdateManyAndReturnArgs>(args: SelectSubset<T, EmailVerificationRequestUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailVerificationRequestPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one EmailVerificationRequest.
+     * @param {EmailVerificationRequestUpsertArgs} args - Arguments to update or create a EmailVerificationRequest.
+     * @example
+     * // Update or create a EmailVerificationRequest
+     * const emailVerificationRequest = await prisma.emailVerificationRequest.upsert({
+     *   create: {
+     *     // ... data to create a EmailVerificationRequest
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the EmailVerificationRequest we want to update
+     *   }
+     * })
+     */
+    upsert<T extends EmailVerificationRequestUpsertArgs>(args: SelectSubset<T, EmailVerificationRequestUpsertArgs<ExtArgs>>): Prisma__EmailVerificationRequestClient<$Result.GetResult<Prisma.$EmailVerificationRequestPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of EmailVerificationRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailVerificationRequestCountArgs} args - Arguments to filter EmailVerificationRequests to count.
+     * @example
+     * // Count the number of EmailVerificationRequests
+     * const count = await prisma.emailVerificationRequest.count({
+     *   where: {
+     *     // ... the filter for the EmailVerificationRequests we want to count
+     *   }
+     * })
+    **/
+    count<T extends EmailVerificationRequestCountArgs>(
+      args?: Subset<T, EmailVerificationRequestCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], EmailVerificationRequestCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a EmailVerificationRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailVerificationRequestAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends EmailVerificationRequestAggregateArgs>(args: Subset<T, EmailVerificationRequestAggregateArgs>): Prisma.PrismaPromise<GetEmailVerificationRequestAggregateType<T>>
+
+    /**
+     * Group by EmailVerificationRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EmailVerificationRequestGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends EmailVerificationRequestGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: EmailVerificationRequestGroupByArgs['orderBy'] }
+        : { orderBy?: EmailVerificationRequestGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, EmailVerificationRequestGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEmailVerificationRequestGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the EmailVerificationRequest model
+   */
+  readonly fields: EmailVerificationRequestFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for EmailVerificationRequest.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__EmailVerificationRequestClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the EmailVerificationRequest model
+   */
+  interface EmailVerificationRequestFieldRefs {
+    readonly id: FieldRef<"EmailVerificationRequest", 'String'>
+    readonly userId: FieldRef<"EmailVerificationRequest", 'String'>
+    readonly token: FieldRef<"EmailVerificationRequest", 'String'>
+    readonly expires: FieldRef<"EmailVerificationRequest", 'DateTime'>
+    readonly createdAt: FieldRef<"EmailVerificationRequest", 'DateTime'>
+    readonly verifiedAt: FieldRef<"EmailVerificationRequest", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * EmailVerificationRequest findUnique
+   */
+  export type EmailVerificationRequestFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerificationRequest
+     */
+    select?: EmailVerificationRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerificationRequest
+     */
+    omit?: EmailVerificationRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which EmailVerificationRequest to fetch.
+     */
+    where: EmailVerificationRequestWhereUniqueInput
+  }
+
+  /**
+   * EmailVerificationRequest findUniqueOrThrow
+   */
+  export type EmailVerificationRequestFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerificationRequest
+     */
+    select?: EmailVerificationRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerificationRequest
+     */
+    omit?: EmailVerificationRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which EmailVerificationRequest to fetch.
+     */
+    where: EmailVerificationRequestWhereUniqueInput
+  }
+
+  /**
+   * EmailVerificationRequest findFirst
+   */
+  export type EmailVerificationRequestFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerificationRequest
+     */
+    select?: EmailVerificationRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerificationRequest
+     */
+    omit?: EmailVerificationRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which EmailVerificationRequest to fetch.
+     */
+    where?: EmailVerificationRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EmailVerificationRequests to fetch.
+     */
+    orderBy?: EmailVerificationRequestOrderByWithRelationInput | EmailVerificationRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EmailVerificationRequests.
+     */
+    cursor?: EmailVerificationRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EmailVerificationRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EmailVerificationRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EmailVerificationRequests.
+     */
+    distinct?: EmailVerificationRequestScalarFieldEnum | EmailVerificationRequestScalarFieldEnum[]
+  }
+
+  /**
+   * EmailVerificationRequest findFirstOrThrow
+   */
+  export type EmailVerificationRequestFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerificationRequest
+     */
+    select?: EmailVerificationRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerificationRequest
+     */
+    omit?: EmailVerificationRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which EmailVerificationRequest to fetch.
+     */
+    where?: EmailVerificationRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EmailVerificationRequests to fetch.
+     */
+    orderBy?: EmailVerificationRequestOrderByWithRelationInput | EmailVerificationRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EmailVerificationRequests.
+     */
+    cursor?: EmailVerificationRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EmailVerificationRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EmailVerificationRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EmailVerificationRequests.
+     */
+    distinct?: EmailVerificationRequestScalarFieldEnum | EmailVerificationRequestScalarFieldEnum[]
+  }
+
+  /**
+   * EmailVerificationRequest findMany
+   */
+  export type EmailVerificationRequestFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerificationRequest
+     */
+    select?: EmailVerificationRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerificationRequest
+     */
+    omit?: EmailVerificationRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which EmailVerificationRequests to fetch.
+     */
+    where?: EmailVerificationRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EmailVerificationRequests to fetch.
+     */
+    orderBy?: EmailVerificationRequestOrderByWithRelationInput | EmailVerificationRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing EmailVerificationRequests.
+     */
+    cursor?: EmailVerificationRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EmailVerificationRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EmailVerificationRequests.
+     */
+    skip?: number
+    distinct?: EmailVerificationRequestScalarFieldEnum | EmailVerificationRequestScalarFieldEnum[]
+  }
+
+  /**
+   * EmailVerificationRequest create
+   */
+  export type EmailVerificationRequestCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerificationRequest
+     */
+    select?: EmailVerificationRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerificationRequest
+     */
+    omit?: EmailVerificationRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to create a EmailVerificationRequest.
+     */
+    data: XOR<EmailVerificationRequestCreateInput, EmailVerificationRequestUncheckedCreateInput>
+  }
+
+  /**
+   * EmailVerificationRequest createMany
+   */
+  export type EmailVerificationRequestCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many EmailVerificationRequests.
+     */
+    data: EmailVerificationRequestCreateManyInput | EmailVerificationRequestCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * EmailVerificationRequest createManyAndReturn
+   */
+  export type EmailVerificationRequestCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerificationRequest
+     */
+    select?: EmailVerificationRequestSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerificationRequest
+     */
+    omit?: EmailVerificationRequestOmit<ExtArgs> | null
+    /**
+     * The data used to create many EmailVerificationRequests.
+     */
+    data: EmailVerificationRequestCreateManyInput | EmailVerificationRequestCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationRequestIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * EmailVerificationRequest update
+   */
+  export type EmailVerificationRequestUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerificationRequest
+     */
+    select?: EmailVerificationRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerificationRequest
+     */
+    omit?: EmailVerificationRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to update a EmailVerificationRequest.
+     */
+    data: XOR<EmailVerificationRequestUpdateInput, EmailVerificationRequestUncheckedUpdateInput>
+    /**
+     * Choose, which EmailVerificationRequest to update.
+     */
+    where: EmailVerificationRequestWhereUniqueInput
+  }
+
+  /**
+   * EmailVerificationRequest updateMany
+   */
+  export type EmailVerificationRequestUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update EmailVerificationRequests.
+     */
+    data: XOR<EmailVerificationRequestUpdateManyMutationInput, EmailVerificationRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which EmailVerificationRequests to update
+     */
+    where?: EmailVerificationRequestWhereInput
+    /**
+     * Limit how many EmailVerificationRequests to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * EmailVerificationRequest updateManyAndReturn
+   */
+  export type EmailVerificationRequestUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerificationRequest
+     */
+    select?: EmailVerificationRequestSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerificationRequest
+     */
+    omit?: EmailVerificationRequestOmit<ExtArgs> | null
+    /**
+     * The data used to update EmailVerificationRequests.
+     */
+    data: XOR<EmailVerificationRequestUpdateManyMutationInput, EmailVerificationRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which EmailVerificationRequests to update
+     */
+    where?: EmailVerificationRequestWhereInput
+    /**
+     * Limit how many EmailVerificationRequests to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationRequestIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * EmailVerificationRequest upsert
+   */
+  export type EmailVerificationRequestUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerificationRequest
+     */
+    select?: EmailVerificationRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerificationRequest
+     */
+    omit?: EmailVerificationRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationRequestInclude<ExtArgs> | null
+    /**
+     * The filter to search for the EmailVerificationRequest to update in case it exists.
+     */
+    where: EmailVerificationRequestWhereUniqueInput
+    /**
+     * In case the EmailVerificationRequest found by the `where` argument doesn't exist, create a new EmailVerificationRequest with this data.
+     */
+    create: XOR<EmailVerificationRequestCreateInput, EmailVerificationRequestUncheckedCreateInput>
+    /**
+     * In case the EmailVerificationRequest was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<EmailVerificationRequestUpdateInput, EmailVerificationRequestUncheckedUpdateInput>
+  }
+
+  /**
+   * EmailVerificationRequest delete
+   */
+  export type EmailVerificationRequestDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerificationRequest
+     */
+    select?: EmailVerificationRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerificationRequest
+     */
+    omit?: EmailVerificationRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationRequestInclude<ExtArgs> | null
+    /**
+     * Filter which EmailVerificationRequest to delete.
+     */
+    where: EmailVerificationRequestWhereUniqueInput
+  }
+
+  /**
+   * EmailVerificationRequest deleteMany
+   */
+  export type EmailVerificationRequestDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EmailVerificationRequests to delete
+     */
+    where?: EmailVerificationRequestWhereInput
+    /**
+     * Limit how many EmailVerificationRequests to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * EmailVerificationRequest without action
+   */
+  export type EmailVerificationRequestDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EmailVerificationRequest
+     */
+    select?: EmailVerificationRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EmailVerificationRequest
+     */
+    omit?: EmailVerificationRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmailVerificationRequestInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model AppearanceSettings
    */
 
@@ -28550,6 +29749,18 @@ export namespace Prisma {
   export type VerificationTokenScalarFieldEnum = (typeof VerificationTokenScalarFieldEnum)[keyof typeof VerificationTokenScalarFieldEnum]
 
 
+  export const EmailVerificationRequestScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    token: 'token',
+    expires: 'expires',
+    createdAt: 'createdAt',
+    verifiedAt: 'verifiedAt'
+  };
+
+  export type EmailVerificationRequestScalarFieldEnum = (typeof EmailVerificationRequestScalarFieldEnum)[keyof typeof EmailVerificationRequestScalarFieldEnum]
+
+
   export const AppearanceSettingsScalarFieldEnum: {
     id: 'id',
     siteTitle: 'siteTitle',
@@ -28881,6 +30092,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
+    emailVerificationRequests?: EmailVerificationRequestListRelationFilter
     services?: ServiceListRelationFilter
     uploadedImages?: ImageListRelationFilter
     uploadedPortfolioItems?: PortfolioItemListRelationFilter
@@ -28910,6 +30122,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     accounts?: AccountOrderByRelationAggregateInput
     sessions?: SessionOrderByRelationAggregateInput
+    emailVerificationRequests?: EmailVerificationRequestOrderByRelationAggregateInput
     services?: ServiceOrderByRelationAggregateInput
     uploadedImages?: ImageOrderByRelationAggregateInput
     uploadedPortfolioItems?: PortfolioItemOrderByRelationAggregateInput
@@ -28942,6 +30155,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
+    emailVerificationRequests?: EmailVerificationRequestListRelationFilter
     services?: ServiceListRelationFilter
     uploadedImages?: ImageListRelationFilter
     uploadedPortfolioItems?: PortfolioItemListRelationFilter
@@ -29871,6 +31085,66 @@ export namespace Prisma {
     expires?: DateTimeWithAggregatesFilter<"VerificationToken"> | Date | string
   }
 
+  export type EmailVerificationRequestWhereInput = {
+    AND?: EmailVerificationRequestWhereInput | EmailVerificationRequestWhereInput[]
+    OR?: EmailVerificationRequestWhereInput[]
+    NOT?: EmailVerificationRequestWhereInput | EmailVerificationRequestWhereInput[]
+    id?: StringFilter<"EmailVerificationRequest"> | string
+    userId?: StringFilter<"EmailVerificationRequest"> | string
+    token?: StringFilter<"EmailVerificationRequest"> | string
+    expires?: DateTimeFilter<"EmailVerificationRequest"> | Date | string
+    createdAt?: DateTimeFilter<"EmailVerificationRequest"> | Date | string
+    verifiedAt?: DateTimeNullableFilter<"EmailVerificationRequest"> | Date | string | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type EmailVerificationRequestOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    token?: SortOrder
+    expires?: SortOrder
+    createdAt?: SortOrder
+    verifiedAt?: SortOrderInput | SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type EmailVerificationRequestWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    token?: string
+    AND?: EmailVerificationRequestWhereInput | EmailVerificationRequestWhereInput[]
+    OR?: EmailVerificationRequestWhereInput[]
+    NOT?: EmailVerificationRequestWhereInput | EmailVerificationRequestWhereInput[]
+    userId?: StringFilter<"EmailVerificationRequest"> | string
+    expires?: DateTimeFilter<"EmailVerificationRequest"> | Date | string
+    createdAt?: DateTimeFilter<"EmailVerificationRequest"> | Date | string
+    verifiedAt?: DateTimeNullableFilter<"EmailVerificationRequest"> | Date | string | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "token">
+
+  export type EmailVerificationRequestOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    token?: SortOrder
+    expires?: SortOrder
+    createdAt?: SortOrder
+    verifiedAt?: SortOrderInput | SortOrder
+    _count?: EmailVerificationRequestCountOrderByAggregateInput
+    _max?: EmailVerificationRequestMaxOrderByAggregateInput
+    _min?: EmailVerificationRequestMinOrderByAggregateInput
+  }
+
+  export type EmailVerificationRequestScalarWhereWithAggregatesInput = {
+    AND?: EmailVerificationRequestScalarWhereWithAggregatesInput | EmailVerificationRequestScalarWhereWithAggregatesInput[]
+    OR?: EmailVerificationRequestScalarWhereWithAggregatesInput[]
+    NOT?: EmailVerificationRequestScalarWhereWithAggregatesInput | EmailVerificationRequestScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"EmailVerificationRequest"> | string
+    userId?: StringWithAggregatesFilter<"EmailVerificationRequest"> | string
+    token?: StringWithAggregatesFilter<"EmailVerificationRequest"> | string
+    expires?: DateTimeWithAggregatesFilter<"EmailVerificationRequest"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"EmailVerificationRequest"> | Date | string
+    verifiedAt?: DateTimeNullableWithAggregatesFilter<"EmailVerificationRequest"> | Date | string | null
+  }
+
   export type AppearanceSettingsWhereInput = {
     AND?: AppearanceSettingsWhereInput | AppearanceSettingsWhereInput[]
     OR?: AppearanceSettingsWhereInput[]
@@ -30577,6 +31851,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
+    emailVerificationRequests?: EmailVerificationRequestCreateNestedManyWithoutUserInput
     services?: ServiceCreateNestedManyWithoutManagedByInput
     uploadedImages?: ImageCreateNestedManyWithoutUploaderInput
     uploadedPortfolioItems?: PortfolioItemCreateNestedManyWithoutUploadedByInput
@@ -30606,6 +31881,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    emailVerificationRequests?: EmailVerificationRequestUncheckedCreateNestedManyWithoutUserInput
     services?: ServiceUncheckedCreateNestedManyWithoutManagedByInput
     uploadedImages?: ImageUncheckedCreateNestedManyWithoutUploaderInput
     uploadedPortfolioItems?: PortfolioItemUncheckedCreateNestedManyWithoutUploadedByInput
@@ -30635,6 +31911,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    emailVerificationRequests?: EmailVerificationRequestUpdateManyWithoutUserNestedInput
     services?: ServiceUpdateManyWithoutManagedByNestedInput
     uploadedImages?: ImageUpdateManyWithoutUploaderNestedInput
     uploadedPortfolioItems?: PortfolioItemUpdateManyWithoutUploadedByNestedInput
@@ -30664,6 +31941,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    emailVerificationRequests?: EmailVerificationRequestUncheckedUpdateManyWithoutUserNestedInput
     services?: ServiceUncheckedUpdateManyWithoutManagedByNestedInput
     uploadedImages?: ImageUncheckedUpdateManyWithoutUploaderNestedInput
     uploadedPortfolioItems?: PortfolioItemUncheckedUpdateManyWithoutUploadedByNestedInput
@@ -31685,6 +32963,68 @@ export namespace Prisma {
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type EmailVerificationRequestCreateInput = {
+    id?: string
+    token: string
+    expires: Date | string
+    createdAt?: Date | string
+    verifiedAt?: Date | string | null
+    user: UserCreateNestedOneWithoutEmailVerificationRequestsInput
+  }
+
+  export type EmailVerificationRequestUncheckedCreateInput = {
+    id?: string
+    userId: string
+    token: string
+    expires: Date | string
+    createdAt?: Date | string
+    verifiedAt?: Date | string | null
+  }
+
+  export type EmailVerificationRequestUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutEmailVerificationRequestsNestedInput
+  }
+
+  export type EmailVerificationRequestUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type EmailVerificationRequestCreateManyInput = {
+    id?: string
+    userId: string
+    token: string
+    expires: Date | string
+    createdAt?: Date | string
+    verifiedAt?: Date | string | null
+  }
+
+  export type EmailVerificationRequestUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type EmailVerificationRequestUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type AppearanceSettingsCreateInput = {
     id?: string
     siteTitle?: string | null
@@ -32500,6 +33840,12 @@ export namespace Prisma {
     none?: SessionWhereInput
   }
 
+  export type EmailVerificationRequestListRelationFilter = {
+    every?: EmailVerificationRequestWhereInput
+    some?: EmailVerificationRequestWhereInput
+    none?: EmailVerificationRequestWhereInput
+  }
+
   export type ServiceListRelationFilter = {
     every?: ServiceWhereInput
     some?: ServiceWhereInput
@@ -32574,6 +33920,10 @@ export namespace Prisma {
   }
 
   export type SessionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type EmailVerificationRequestOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -33330,6 +34680,33 @@ export namespace Prisma {
     expires?: SortOrder
   }
 
+  export type EmailVerificationRequestCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    token?: SortOrder
+    expires?: SortOrder
+    createdAt?: SortOrder
+    verifiedAt?: SortOrder
+  }
+
+  export type EmailVerificationRequestMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    token?: SortOrder
+    expires?: SortOrder
+    createdAt?: SortOrder
+    verifiedAt?: SortOrder
+  }
+
+  export type EmailVerificationRequestMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    token?: SortOrder
+    expires?: SortOrder
+    createdAt?: SortOrder
+    verifiedAt?: SortOrder
+  }
+
   export type AppearanceSettingsCountOrderByAggregateInput = {
     id?: SortOrder
     siteTitle?: SortOrder
@@ -33826,6 +35203,13 @@ export namespace Prisma {
     connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
   }
 
+  export type EmailVerificationRequestCreateNestedManyWithoutUserInput = {
+    create?: XOR<EmailVerificationRequestCreateWithoutUserInput, EmailVerificationRequestUncheckedCreateWithoutUserInput> | EmailVerificationRequestCreateWithoutUserInput[] | EmailVerificationRequestUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: EmailVerificationRequestCreateOrConnectWithoutUserInput | EmailVerificationRequestCreateOrConnectWithoutUserInput[]
+    createMany?: EmailVerificationRequestCreateManyUserInputEnvelope
+    connect?: EmailVerificationRequestWhereUniqueInput | EmailVerificationRequestWhereUniqueInput[]
+  }
+
   export type ServiceCreateNestedManyWithoutManagedByInput = {
     create?: XOR<ServiceCreateWithoutManagedByInput, ServiceUncheckedCreateWithoutManagedByInput> | ServiceCreateWithoutManagedByInput[] | ServiceUncheckedCreateWithoutManagedByInput[]
     connectOrCreate?: ServiceCreateOrConnectWithoutManagedByInput | ServiceCreateOrConnectWithoutManagedByInput[]
@@ -33926,6 +35310,13 @@ export namespace Prisma {
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
     createMany?: SessionCreateManyUserInputEnvelope
     connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+  }
+
+  export type EmailVerificationRequestUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<EmailVerificationRequestCreateWithoutUserInput, EmailVerificationRequestUncheckedCreateWithoutUserInput> | EmailVerificationRequestCreateWithoutUserInput[] | EmailVerificationRequestUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: EmailVerificationRequestCreateOrConnectWithoutUserInput | EmailVerificationRequestCreateOrConnectWithoutUserInput[]
+    createMany?: EmailVerificationRequestCreateManyUserInputEnvelope
+    connect?: EmailVerificationRequestWhereUniqueInput | EmailVerificationRequestWhereUniqueInput[]
   }
 
   export type ServiceUncheckedCreateNestedManyWithoutManagedByInput = {
@@ -34062,6 +35453,20 @@ export namespace Prisma {
     update?: SessionUpdateWithWhereUniqueWithoutUserInput | SessionUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: SessionUpdateManyWithWhereWithoutUserInput | SessionUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
+  }
+
+  export type EmailVerificationRequestUpdateManyWithoutUserNestedInput = {
+    create?: XOR<EmailVerificationRequestCreateWithoutUserInput, EmailVerificationRequestUncheckedCreateWithoutUserInput> | EmailVerificationRequestCreateWithoutUserInput[] | EmailVerificationRequestUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: EmailVerificationRequestCreateOrConnectWithoutUserInput | EmailVerificationRequestCreateOrConnectWithoutUserInput[]
+    upsert?: EmailVerificationRequestUpsertWithWhereUniqueWithoutUserInput | EmailVerificationRequestUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: EmailVerificationRequestCreateManyUserInputEnvelope
+    set?: EmailVerificationRequestWhereUniqueInput | EmailVerificationRequestWhereUniqueInput[]
+    disconnect?: EmailVerificationRequestWhereUniqueInput | EmailVerificationRequestWhereUniqueInput[]
+    delete?: EmailVerificationRequestWhereUniqueInput | EmailVerificationRequestWhereUniqueInput[]
+    connect?: EmailVerificationRequestWhereUniqueInput | EmailVerificationRequestWhereUniqueInput[]
+    update?: EmailVerificationRequestUpdateWithWhereUniqueWithoutUserInput | EmailVerificationRequestUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: EmailVerificationRequestUpdateManyWithWhereWithoutUserInput | EmailVerificationRequestUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: EmailVerificationRequestScalarWhereInput | EmailVerificationRequestScalarWhereInput[]
   }
 
   export type ServiceUpdateManyWithoutManagedByNestedInput = {
@@ -34263,6 +35668,20 @@ export namespace Prisma {
     update?: SessionUpdateWithWhereUniqueWithoutUserInput | SessionUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: SessionUpdateManyWithWhereWithoutUserInput | SessionUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
+  }
+
+  export type EmailVerificationRequestUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<EmailVerificationRequestCreateWithoutUserInput, EmailVerificationRequestUncheckedCreateWithoutUserInput> | EmailVerificationRequestCreateWithoutUserInput[] | EmailVerificationRequestUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: EmailVerificationRequestCreateOrConnectWithoutUserInput | EmailVerificationRequestCreateOrConnectWithoutUserInput[]
+    upsert?: EmailVerificationRequestUpsertWithWhereUniqueWithoutUserInput | EmailVerificationRequestUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: EmailVerificationRequestCreateManyUserInputEnvelope
+    set?: EmailVerificationRequestWhereUniqueInput | EmailVerificationRequestWhereUniqueInput[]
+    disconnect?: EmailVerificationRequestWhereUniqueInput | EmailVerificationRequestWhereUniqueInput[]
+    delete?: EmailVerificationRequestWhereUniqueInput | EmailVerificationRequestWhereUniqueInput[]
+    connect?: EmailVerificationRequestWhereUniqueInput | EmailVerificationRequestWhereUniqueInput[]
+    update?: EmailVerificationRequestUpdateWithWhereUniqueWithoutUserInput | EmailVerificationRequestUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: EmailVerificationRequestUpdateManyWithWhereWithoutUserInput | EmailVerificationRequestUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: EmailVerificationRequestScalarWhereInput | EmailVerificationRequestScalarWhereInput[]
   }
 
   export type ServiceUncheckedUpdateManyWithoutManagedByNestedInput = {
@@ -34790,6 +36209,20 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutSessionsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSessionsInput, UserUpdateWithoutSessionsInput>, UserUncheckedUpdateWithoutSessionsInput>
+  }
+
+  export type UserCreateNestedOneWithoutEmailVerificationRequestsInput = {
+    create?: XOR<UserCreateWithoutEmailVerificationRequestsInput, UserUncheckedCreateWithoutEmailVerificationRequestsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutEmailVerificationRequestsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutEmailVerificationRequestsNestedInput = {
+    create?: XOR<UserCreateWithoutEmailVerificationRequestsInput, UserUncheckedCreateWithoutEmailVerificationRequestsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutEmailVerificationRequestsInput
+    upsert?: UserUpsertWithoutEmailVerificationRequestsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutEmailVerificationRequestsInput, UserUpdateWithoutEmailVerificationRequestsInput>, UserUncheckedUpdateWithoutEmailVerificationRequestsInput>
   }
 
   export type UserCreateNestedOneWithoutAppearanceSettingInput = {
@@ -35544,6 +36977,32 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type EmailVerificationRequestCreateWithoutUserInput = {
+    id?: string
+    token: string
+    expires: Date | string
+    createdAt?: Date | string
+    verifiedAt?: Date | string | null
+  }
+
+  export type EmailVerificationRequestUncheckedCreateWithoutUserInput = {
+    id?: string
+    token: string
+    expires: Date | string
+    createdAt?: Date | string
+    verifiedAt?: Date | string | null
+  }
+
+  export type EmailVerificationRequestCreateOrConnectWithoutUserInput = {
+    where: EmailVerificationRequestWhereUniqueInput
+    create: XOR<EmailVerificationRequestCreateWithoutUserInput, EmailVerificationRequestUncheckedCreateWithoutUserInput>
+  }
+
+  export type EmailVerificationRequestCreateManyUserInputEnvelope = {
+    data: EmailVerificationRequestCreateManyUserInput | EmailVerificationRequestCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ServiceCreateWithoutManagedByInput = {
     id?: string
     name: string
@@ -36051,6 +37510,34 @@ export namespace Prisma {
     expires?: DateTimeFilter<"Session"> | Date | string
   }
 
+  export type EmailVerificationRequestUpsertWithWhereUniqueWithoutUserInput = {
+    where: EmailVerificationRequestWhereUniqueInput
+    update: XOR<EmailVerificationRequestUpdateWithoutUserInput, EmailVerificationRequestUncheckedUpdateWithoutUserInput>
+    create: XOR<EmailVerificationRequestCreateWithoutUserInput, EmailVerificationRequestUncheckedCreateWithoutUserInput>
+  }
+
+  export type EmailVerificationRequestUpdateWithWhereUniqueWithoutUserInput = {
+    where: EmailVerificationRequestWhereUniqueInput
+    data: XOR<EmailVerificationRequestUpdateWithoutUserInput, EmailVerificationRequestUncheckedUpdateWithoutUserInput>
+  }
+
+  export type EmailVerificationRequestUpdateManyWithWhereWithoutUserInput = {
+    where: EmailVerificationRequestScalarWhereInput
+    data: XOR<EmailVerificationRequestUpdateManyMutationInput, EmailVerificationRequestUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type EmailVerificationRequestScalarWhereInput = {
+    AND?: EmailVerificationRequestScalarWhereInput | EmailVerificationRequestScalarWhereInput[]
+    OR?: EmailVerificationRequestScalarWhereInput[]
+    NOT?: EmailVerificationRequestScalarWhereInput | EmailVerificationRequestScalarWhereInput[]
+    id?: StringFilter<"EmailVerificationRequest"> | string
+    userId?: StringFilter<"EmailVerificationRequest"> | string
+    token?: StringFilter<"EmailVerificationRequest"> | string
+    expires?: DateTimeFilter<"EmailVerificationRequest"> | Date | string
+    createdAt?: DateTimeFilter<"EmailVerificationRequest"> | Date | string
+    verifiedAt?: DateTimeNullableFilter<"EmailVerificationRequest"> | Date | string | null
+  }
+
   export type ServiceUpsertWithWhereUniqueWithoutManagedByInput = {
     where: ServiceWhereUniqueInput
     update: XOR<ServiceUpdateWithoutManagedByInput, ServiceUncheckedUpdateWithoutManagedByInput>
@@ -36494,6 +37981,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
+    emailVerificationRequests?: EmailVerificationRequestCreateNestedManyWithoutUserInput
     uploadedImages?: ImageCreateNestedManyWithoutUploaderInput
     uploadedPortfolioItems?: PortfolioItemCreateNestedManyWithoutUploadedByInput
     customerInquiries?: InquiryCreateNestedManyWithoutCustomerInput
@@ -36522,6 +38010,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    emailVerificationRequests?: EmailVerificationRequestUncheckedCreateNestedManyWithoutUserInput
     uploadedImages?: ImageUncheckedCreateNestedManyWithoutUploaderInput
     uploadedPortfolioItems?: PortfolioItemUncheckedCreateNestedManyWithoutUploadedByInput
     customerInquiries?: InquiryUncheckedCreateNestedManyWithoutCustomerInput
@@ -36582,6 +38071,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    emailVerificationRequests?: EmailVerificationRequestUpdateManyWithoutUserNestedInput
     uploadedImages?: ImageUpdateManyWithoutUploaderNestedInput
     uploadedPortfolioItems?: PortfolioItemUpdateManyWithoutUploadedByNestedInput
     customerInquiries?: InquiryUpdateManyWithoutCustomerNestedInput
@@ -36610,6 +38100,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    emailVerificationRequests?: EmailVerificationRequestUncheckedUpdateManyWithoutUserNestedInput
     uploadedImages?: ImageUncheckedUpdateManyWithoutUploaderNestedInput
     uploadedPortfolioItems?: PortfolioItemUncheckedUpdateManyWithoutUploadedByNestedInput
     customerInquiries?: InquiryUncheckedUpdateManyWithoutCustomerNestedInput
@@ -36665,6 +38156,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
+    emailVerificationRequests?: EmailVerificationRequestCreateNestedManyWithoutUserInput
     services?: ServiceCreateNestedManyWithoutManagedByInput
     uploadedImages?: ImageCreateNestedManyWithoutUploaderInput
     customerInquiries?: InquiryCreateNestedManyWithoutCustomerInput
@@ -36693,6 +38185,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    emailVerificationRequests?: EmailVerificationRequestUncheckedCreateNestedManyWithoutUserInput
     services?: ServiceUncheckedCreateNestedManyWithoutManagedByInput
     uploadedImages?: ImageUncheckedCreateNestedManyWithoutUploaderInput
     customerInquiries?: InquiryUncheckedCreateNestedManyWithoutCustomerInput
@@ -36770,6 +38263,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    emailVerificationRequests?: EmailVerificationRequestUpdateManyWithoutUserNestedInput
     services?: ServiceUpdateManyWithoutManagedByNestedInput
     uploadedImages?: ImageUpdateManyWithoutUploaderNestedInput
     customerInquiries?: InquiryUpdateManyWithoutCustomerNestedInput
@@ -36798,6 +38292,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    emailVerificationRequests?: EmailVerificationRequestUncheckedUpdateManyWithoutUserNestedInput
     services?: ServiceUncheckedUpdateManyWithoutManagedByNestedInput
     uploadedImages?: ImageUncheckedUpdateManyWithoutUploaderNestedInput
     customerInquiries?: InquiryUncheckedUpdateManyWithoutCustomerNestedInput
@@ -36826,6 +38321,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
+    emailVerificationRequests?: EmailVerificationRequestCreateNestedManyWithoutUserInput
     services?: ServiceCreateNestedManyWithoutManagedByInput
     uploadedImages?: ImageCreateNestedManyWithoutUploaderInput
     uploadedPortfolioItems?: PortfolioItemCreateNestedManyWithoutUploadedByInput
@@ -36854,6 +38350,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    emailVerificationRequests?: EmailVerificationRequestUncheckedCreateNestedManyWithoutUserInput
     services?: ServiceUncheckedCreateNestedManyWithoutManagedByInput
     uploadedImages?: ImageUncheckedCreateNestedManyWithoutUploaderInput
     uploadedPortfolioItems?: PortfolioItemUncheckedCreateNestedManyWithoutUploadedByInput
@@ -36926,6 +38423,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    emailVerificationRequests?: EmailVerificationRequestUpdateManyWithoutUserNestedInput
     services?: ServiceUpdateManyWithoutManagedByNestedInput
     uploadedImages?: ImageUpdateManyWithoutUploaderNestedInput
     uploadedPortfolioItems?: PortfolioItemUpdateManyWithoutUploadedByNestedInput
@@ -36954,6 +38452,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    emailVerificationRequests?: EmailVerificationRequestUncheckedUpdateManyWithoutUserNestedInput
     services?: ServiceUncheckedUpdateManyWithoutManagedByNestedInput
     uploadedImages?: ImageUncheckedUpdateManyWithoutUploaderNestedInput
     uploadedPortfolioItems?: PortfolioItemUncheckedUpdateManyWithoutUploadedByNestedInput
@@ -37011,6 +38510,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
+    emailVerificationRequests?: EmailVerificationRequestCreateNestedManyWithoutUserInput
     services?: ServiceCreateNestedManyWithoutManagedByInput
     uploadedPortfolioItems?: PortfolioItemCreateNestedManyWithoutUploadedByInput
     customerInquiries?: InquiryCreateNestedManyWithoutCustomerInput
@@ -37039,6 +38539,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    emailVerificationRequests?: EmailVerificationRequestUncheckedCreateNestedManyWithoutUserInput
     services?: ServiceUncheckedCreateNestedManyWithoutManagedByInput
     uploadedPortfolioItems?: PortfolioItemUncheckedCreateNestedManyWithoutUploadedByInput
     customerInquiries?: InquiryUncheckedCreateNestedManyWithoutCustomerInput
@@ -37083,6 +38584,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    emailVerificationRequests?: EmailVerificationRequestUpdateManyWithoutUserNestedInput
     services?: ServiceUpdateManyWithoutManagedByNestedInput
     uploadedPortfolioItems?: PortfolioItemUpdateManyWithoutUploadedByNestedInput
     customerInquiries?: InquiryUpdateManyWithoutCustomerNestedInput
@@ -37111,6 +38613,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    emailVerificationRequests?: EmailVerificationRequestUncheckedUpdateManyWithoutUserNestedInput
     services?: ServiceUncheckedUpdateManyWithoutManagedByNestedInput
     uploadedPortfolioItems?: PortfolioItemUncheckedUpdateManyWithoutUploadedByNestedInput
     customerInquiries?: InquiryUncheckedUpdateManyWithoutCustomerNestedInput
@@ -37192,6 +38695,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
+    emailVerificationRequests?: EmailVerificationRequestCreateNestedManyWithoutUserInput
     services?: ServiceCreateNestedManyWithoutManagedByInput
     uploadedImages?: ImageCreateNestedManyWithoutUploaderInput
     uploadedPortfolioItems?: PortfolioItemCreateNestedManyWithoutUploadedByInput
@@ -37220,6 +38724,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    emailVerificationRequests?: EmailVerificationRequestUncheckedCreateNestedManyWithoutUserInput
     services?: ServiceUncheckedCreateNestedManyWithoutManagedByInput
     uploadedImages?: ImageUncheckedCreateNestedManyWithoutUploaderInput
     uploadedPortfolioItems?: PortfolioItemUncheckedCreateNestedManyWithoutUploadedByInput
@@ -37323,6 +38828,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    emailVerificationRequests?: EmailVerificationRequestUpdateManyWithoutUserNestedInput
     services?: ServiceUpdateManyWithoutManagedByNestedInput
     uploadedImages?: ImageUpdateManyWithoutUploaderNestedInput
     uploadedPortfolioItems?: PortfolioItemUpdateManyWithoutUploadedByNestedInput
@@ -37351,6 +38857,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    emailVerificationRequests?: EmailVerificationRequestUncheckedUpdateManyWithoutUserNestedInput
     services?: ServiceUncheckedUpdateManyWithoutManagedByNestedInput
     uploadedImages?: ImageUncheckedUpdateManyWithoutUploaderNestedInput
     uploadedPortfolioItems?: PortfolioItemUncheckedUpdateManyWithoutUploadedByNestedInput
@@ -37477,6 +38984,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
+    emailVerificationRequests?: EmailVerificationRequestCreateNestedManyWithoutUserInput
     services?: ServiceCreateNestedManyWithoutManagedByInput
     uploadedImages?: ImageCreateNestedManyWithoutUploaderInput
     uploadedPortfolioItems?: PortfolioItemCreateNestedManyWithoutUploadedByInput
@@ -37505,6 +39013,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    emailVerificationRequests?: EmailVerificationRequestUncheckedCreateNestedManyWithoutUserInput
     services?: ServiceUncheckedCreateNestedManyWithoutManagedByInput
     uploadedImages?: ImageUncheckedCreateNestedManyWithoutUploaderInput
     uploadedPortfolioItems?: PortfolioItemUncheckedCreateNestedManyWithoutUploadedByInput
@@ -37565,6 +39074,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    emailVerificationRequests?: EmailVerificationRequestUpdateManyWithoutUserNestedInput
     services?: ServiceUpdateManyWithoutManagedByNestedInput
     uploadedImages?: ImageUpdateManyWithoutUploaderNestedInput
     uploadedPortfolioItems?: PortfolioItemUpdateManyWithoutUploadedByNestedInput
@@ -37593,6 +39103,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    emailVerificationRequests?: EmailVerificationRequestUncheckedUpdateManyWithoutUserNestedInput
     services?: ServiceUncheckedUpdateManyWithoutManagedByNestedInput
     uploadedImages?: ImageUncheckedUpdateManyWithoutUploaderNestedInput
     uploadedPortfolioItems?: PortfolioItemUncheckedUpdateManyWithoutUploadedByNestedInput
@@ -37620,6 +39131,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
+    emailVerificationRequests?: EmailVerificationRequestCreateNestedManyWithoutUserInput
     services?: ServiceCreateNestedManyWithoutManagedByInput
     uploadedImages?: ImageCreateNestedManyWithoutUploaderInput
     uploadedPortfolioItems?: PortfolioItemCreateNestedManyWithoutUploadedByInput
@@ -37648,6 +39160,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    emailVerificationRequests?: EmailVerificationRequestUncheckedCreateNestedManyWithoutUserInput
     services?: ServiceUncheckedCreateNestedManyWithoutManagedByInput
     uploadedImages?: ImageUncheckedCreateNestedManyWithoutUploaderInput
     uploadedPortfolioItems?: PortfolioItemUncheckedCreateNestedManyWithoutUploadedByInput
@@ -37692,6 +39205,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    emailVerificationRequests?: EmailVerificationRequestUpdateManyWithoutUserNestedInput
     services?: ServiceUpdateManyWithoutManagedByNestedInput
     uploadedImages?: ImageUpdateManyWithoutUploaderNestedInput
     uploadedPortfolioItems?: PortfolioItemUpdateManyWithoutUploadedByNestedInput
@@ -37720,6 +39234,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    emailVerificationRequests?: EmailVerificationRequestUncheckedUpdateManyWithoutUserNestedInput
     services?: ServiceUncheckedUpdateManyWithoutManagedByNestedInput
     uploadedImages?: ImageUncheckedUpdateManyWithoutUploaderNestedInput
     uploadedPortfolioItems?: PortfolioItemUncheckedUpdateManyWithoutUploadedByNestedInput
@@ -37748,6 +39263,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
+    emailVerificationRequests?: EmailVerificationRequestCreateNestedManyWithoutUserInput
     services?: ServiceCreateNestedManyWithoutManagedByInput
     uploadedImages?: ImageCreateNestedManyWithoutUploaderInput
     uploadedPortfolioItems?: PortfolioItemCreateNestedManyWithoutUploadedByInput
@@ -37776,6 +39292,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    emailVerificationRequests?: EmailVerificationRequestUncheckedCreateNestedManyWithoutUserInput
     services?: ServiceUncheckedCreateNestedManyWithoutManagedByInput
     uploadedImages?: ImageUncheckedCreateNestedManyWithoutUploaderInput
     uploadedPortfolioItems?: PortfolioItemUncheckedCreateNestedManyWithoutUploadedByInput
@@ -37820,6 +39337,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
+    emailVerificationRequests?: EmailVerificationRequestUpdateManyWithoutUserNestedInput
     services?: ServiceUpdateManyWithoutManagedByNestedInput
     uploadedImages?: ImageUpdateManyWithoutUploaderNestedInput
     uploadedPortfolioItems?: PortfolioItemUpdateManyWithoutUploadedByNestedInput
@@ -37848,6 +39366,139 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    emailVerificationRequests?: EmailVerificationRequestUncheckedUpdateManyWithoutUserNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutManagedByNestedInput
+    uploadedImages?: ImageUncheckedUpdateManyWithoutUploaderNestedInput
+    uploadedPortfolioItems?: PortfolioItemUncheckedUpdateManyWithoutUploadedByNestedInput
+    customerInquiries?: InquiryUncheckedUpdateManyWithoutCustomerNestedInput
+    customerPhotoSets?: PhotoSetUncheckedUpdateManyWithoutCustomerNestedInput
+    maintenanceWorker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
+    appearanceSetting?: AppearanceSettingsUncheckedUpdateOneWithoutAdminNestedInput
+    createdConversations?: ChatConversationUncheckedUpdateManyWithoutParticipantsNestedInput
+    sentMessages?: ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
+    customerConversations?: ChatConversationUncheckedUpdateManyWithoutCustomerNestedInput
+    staffConversations?: ChatConversationUncheckedUpdateManyWithoutStaffMemberNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutCustomerNestedInput
+    activityInConversations?: ChatParticipantInfoUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutEmailVerificationRequestsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    password?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    hashedPassword?: string | null
+    role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    services?: ServiceCreateNestedManyWithoutManagedByInput
+    uploadedImages?: ImageCreateNestedManyWithoutUploaderInput
+    uploadedPortfolioItems?: PortfolioItemCreateNestedManyWithoutUploadedByInput
+    customerInquiries?: InquiryCreateNestedManyWithoutCustomerInput
+    customerPhotoSets?: PhotoSetCreateNestedManyWithoutCustomerInput
+    maintenanceWorker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
+    appearanceSetting?: AppearanceSettingsCreateNestedOneWithoutAdminInput
+    createdConversations?: ChatConversationCreateNestedManyWithoutParticipantsInput
+    sentMessages?: ChatMessageCreateNestedManyWithoutSenderInput
+    customerConversations?: ChatConversationCreateNestedManyWithoutCustomerInput
+    staffConversations?: ChatConversationCreateNestedManyWithoutStaffMemberInput
+    invoices?: InvoiceCreateNestedManyWithoutCustomerInput
+    activityInConversations?: ChatParticipantInfoCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutEmailVerificationRequestsInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    password?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    hashedPassword?: string | null
+    role?: $Enums.UserRole
+    lastSeenAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    services?: ServiceUncheckedCreateNestedManyWithoutManagedByInput
+    uploadedImages?: ImageUncheckedCreateNestedManyWithoutUploaderInput
+    uploadedPortfolioItems?: PortfolioItemUncheckedCreateNestedManyWithoutUploadedByInput
+    customerInquiries?: InquiryUncheckedCreateNestedManyWithoutCustomerInput
+    customerPhotoSets?: PhotoSetUncheckedCreateNestedManyWithoutCustomerInput
+    maintenanceWorker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
+    appearanceSetting?: AppearanceSettingsUncheckedCreateNestedOneWithoutAdminInput
+    createdConversations?: ChatConversationUncheckedCreateNestedManyWithoutParticipantsInput
+    sentMessages?: ChatMessageUncheckedCreateNestedManyWithoutSenderInput
+    customerConversations?: ChatConversationUncheckedCreateNestedManyWithoutCustomerInput
+    staffConversations?: ChatConversationUncheckedCreateNestedManyWithoutStaffMemberInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutCustomerInput
+    activityInConversations?: ChatParticipantInfoUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutEmailVerificationRequestsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutEmailVerificationRequestsInput, UserUncheckedCreateWithoutEmailVerificationRequestsInput>
+  }
+
+  export type UserUpsertWithoutEmailVerificationRequestsInput = {
+    update: XOR<UserUpdateWithoutEmailVerificationRequestsInput, UserUncheckedUpdateWithoutEmailVerificationRequestsInput>
+    create: XOR<UserCreateWithoutEmailVerificationRequestsInput, UserUncheckedCreateWithoutEmailVerificationRequestsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutEmailVerificationRequestsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutEmailVerificationRequestsInput, UserUncheckedUpdateWithoutEmailVerificationRequestsInput>
+  }
+
+  export type UserUpdateWithoutEmailVerificationRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    services?: ServiceUpdateManyWithoutManagedByNestedInput
+    uploadedImages?: ImageUpdateManyWithoutUploaderNestedInput
+    uploadedPortfolioItems?: PortfolioItemUpdateManyWithoutUploadedByNestedInput
+    customerInquiries?: InquiryUpdateManyWithoutCustomerNestedInput
+    customerPhotoSets?: PhotoSetUpdateManyWithoutCustomerNestedInput
+    maintenanceWorker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
+    appearanceSetting?: AppearanceSettingsUpdateOneWithoutAdminNestedInput
+    createdConversations?: ChatConversationUpdateManyWithoutParticipantsNestedInput
+    sentMessages?: ChatMessageUpdateManyWithoutSenderNestedInput
+    customerConversations?: ChatConversationUpdateManyWithoutCustomerNestedInput
+    staffConversations?: ChatConversationUpdateManyWithoutStaffMemberNestedInput
+    invoices?: InvoiceUpdateManyWithoutCustomerNestedInput
+    activityInConversations?: ChatParticipantInfoUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutEmailVerificationRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    hashedPassword?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     services?: ServiceUncheckedUpdateManyWithoutManagedByNestedInput
     uploadedImages?: ImageUncheckedUpdateManyWithoutUploaderNestedInput
     uploadedPortfolioItems?: PortfolioItemUncheckedUpdateManyWithoutUploadedByNestedInput
@@ -37877,6 +39528,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
+    emailVerificationRequests?: EmailVerificationRequestCreateNestedManyWithoutUserInput
     services?: ServiceCreateNestedManyWithoutManagedByInput
     uploadedImages?: ImageCreateNestedManyWithoutUploaderInput
     uploadedPortfolioItems?: PortfolioItemCreateNestedManyWithoutUploadedByInput
@@ -37905,6 +39557,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    emailVerificationRequests?: EmailVerificationRequestUncheckedCreateNestedManyWithoutUserInput
     services?: ServiceUncheckedCreateNestedManyWithoutManagedByInput
     uploadedImages?: ImageUncheckedCreateNestedManyWithoutUploaderInput
     uploadedPortfolioItems?: PortfolioItemUncheckedCreateNestedManyWithoutUploadedByInput
@@ -37949,6 +39602,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    emailVerificationRequests?: EmailVerificationRequestUpdateManyWithoutUserNestedInput
     services?: ServiceUpdateManyWithoutManagedByNestedInput
     uploadedImages?: ImageUpdateManyWithoutUploaderNestedInput
     uploadedPortfolioItems?: PortfolioItemUpdateManyWithoutUploadedByNestedInput
@@ -37977,6 +39631,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    emailVerificationRequests?: EmailVerificationRequestUncheckedUpdateManyWithoutUserNestedInput
     services?: ServiceUncheckedUpdateManyWithoutManagedByNestedInput
     uploadedImages?: ImageUncheckedUpdateManyWithoutUploaderNestedInput
     uploadedPortfolioItems?: PortfolioItemUncheckedUpdateManyWithoutUploadedByNestedInput
@@ -38005,6 +39660,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
+    emailVerificationRequests?: EmailVerificationRequestCreateNestedManyWithoutUserInput
     services?: ServiceCreateNestedManyWithoutManagedByInput
     uploadedImages?: ImageCreateNestedManyWithoutUploaderInput
     uploadedPortfolioItems?: PortfolioItemCreateNestedManyWithoutUploadedByInput
@@ -38033,6 +39689,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    emailVerificationRequests?: EmailVerificationRequestUncheckedCreateNestedManyWithoutUserInput
     services?: ServiceUncheckedCreateNestedManyWithoutManagedByInput
     uploadedImages?: ImageUncheckedCreateNestedManyWithoutUploaderInput
     uploadedPortfolioItems?: PortfolioItemUncheckedCreateNestedManyWithoutUploadedByInput
@@ -38100,6 +39757,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
+    emailVerificationRequests?: EmailVerificationRequestCreateNestedManyWithoutUserInput
     services?: ServiceCreateNestedManyWithoutManagedByInput
     uploadedImages?: ImageCreateNestedManyWithoutUploaderInput
     uploadedPortfolioItems?: PortfolioItemCreateNestedManyWithoutUploadedByInput
@@ -38128,6 +39786,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    emailVerificationRequests?: EmailVerificationRequestUncheckedCreateNestedManyWithoutUserInput
     services?: ServiceUncheckedCreateNestedManyWithoutManagedByInput
     uploadedImages?: ImageUncheckedCreateNestedManyWithoutUploaderInput
     uploadedPortfolioItems?: PortfolioItemUncheckedCreateNestedManyWithoutUploadedByInput
@@ -38161,6 +39820,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
+    emailVerificationRequests?: EmailVerificationRequestCreateNestedManyWithoutUserInput
     services?: ServiceCreateNestedManyWithoutManagedByInput
     uploadedImages?: ImageCreateNestedManyWithoutUploaderInput
     uploadedPortfolioItems?: PortfolioItemCreateNestedManyWithoutUploadedByInput
@@ -38189,6 +39849,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    emailVerificationRequests?: EmailVerificationRequestUncheckedCreateNestedManyWithoutUserInput
     services?: ServiceUncheckedCreateNestedManyWithoutManagedByInput
     uploadedImages?: ImageUncheckedCreateNestedManyWithoutUploaderInput
     uploadedPortfolioItems?: PortfolioItemUncheckedCreateNestedManyWithoutUploadedByInput
@@ -38304,6 +39965,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    emailVerificationRequests?: EmailVerificationRequestUpdateManyWithoutUserNestedInput
     services?: ServiceUpdateManyWithoutManagedByNestedInput
     uploadedImages?: ImageUpdateManyWithoutUploaderNestedInput
     uploadedPortfolioItems?: PortfolioItemUpdateManyWithoutUploadedByNestedInput
@@ -38332,6 +39994,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    emailVerificationRequests?: EmailVerificationRequestUncheckedUpdateManyWithoutUserNestedInput
     services?: ServiceUncheckedUpdateManyWithoutManagedByNestedInput
     uploadedImages?: ImageUncheckedUpdateManyWithoutUploaderNestedInput
     uploadedPortfolioItems?: PortfolioItemUncheckedUpdateManyWithoutUploadedByNestedInput
@@ -38371,6 +40034,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    emailVerificationRequests?: EmailVerificationRequestUpdateManyWithoutUserNestedInput
     services?: ServiceUpdateManyWithoutManagedByNestedInput
     uploadedImages?: ImageUpdateManyWithoutUploaderNestedInput
     uploadedPortfolioItems?: PortfolioItemUpdateManyWithoutUploadedByNestedInput
@@ -38399,6 +40063,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    emailVerificationRequests?: EmailVerificationRequestUncheckedUpdateManyWithoutUserNestedInput
     services?: ServiceUncheckedUpdateManyWithoutManagedByNestedInput
     uploadedImages?: ImageUncheckedUpdateManyWithoutUploaderNestedInput
     uploadedPortfolioItems?: PortfolioItemUncheckedUpdateManyWithoutUploadedByNestedInput
@@ -38443,6 +40108,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
+    emailVerificationRequests?: EmailVerificationRequestCreateNestedManyWithoutUserInput
     services?: ServiceCreateNestedManyWithoutManagedByInput
     uploadedImages?: ImageCreateNestedManyWithoutUploaderInput
     uploadedPortfolioItems?: PortfolioItemCreateNestedManyWithoutUploadedByInput
@@ -38471,6 +40137,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    emailVerificationRequests?: EmailVerificationRequestUncheckedCreateNestedManyWithoutUserInput
     services?: ServiceUncheckedCreateNestedManyWithoutManagedByInput
     uploadedImages?: ImageUncheckedCreateNestedManyWithoutUploaderInput
     uploadedPortfolioItems?: PortfolioItemUncheckedCreateNestedManyWithoutUploadedByInput
@@ -38548,6 +40215,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    emailVerificationRequests?: EmailVerificationRequestUpdateManyWithoutUserNestedInput
     services?: ServiceUpdateManyWithoutManagedByNestedInput
     uploadedImages?: ImageUpdateManyWithoutUploaderNestedInput
     uploadedPortfolioItems?: PortfolioItemUpdateManyWithoutUploadedByNestedInput
@@ -38576,6 +40244,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    emailVerificationRequests?: EmailVerificationRequestUncheckedUpdateManyWithoutUserNestedInput
     services?: ServiceUncheckedUpdateManyWithoutManagedByNestedInput
     uploadedImages?: ImageUncheckedUpdateManyWithoutUploaderNestedInput
     uploadedPortfolioItems?: PortfolioItemUncheckedUpdateManyWithoutUploadedByNestedInput
@@ -38643,6 +40312,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
+    emailVerificationRequests?: EmailVerificationRequestCreateNestedManyWithoutUserInput
     services?: ServiceCreateNestedManyWithoutManagedByInput
     uploadedImages?: ImageCreateNestedManyWithoutUploaderInput
     uploadedPortfolioItems?: PortfolioItemCreateNestedManyWithoutUploadedByInput
@@ -38671,6 +40341,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    emailVerificationRequests?: EmailVerificationRequestUncheckedCreateNestedManyWithoutUserInput
     services?: ServiceUncheckedCreateNestedManyWithoutManagedByInput
     uploadedImages?: ImageUncheckedCreateNestedManyWithoutUploaderInput
     uploadedPortfolioItems?: PortfolioItemUncheckedCreateNestedManyWithoutUploadedByInput
@@ -38779,6 +40450,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    emailVerificationRequests?: EmailVerificationRequestUpdateManyWithoutUserNestedInput
     services?: ServiceUpdateManyWithoutManagedByNestedInput
     uploadedImages?: ImageUpdateManyWithoutUploaderNestedInput
     uploadedPortfolioItems?: PortfolioItemUpdateManyWithoutUploadedByNestedInput
@@ -38807,6 +40479,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    emailVerificationRequests?: EmailVerificationRequestUncheckedUpdateManyWithoutUserNestedInput
     services?: ServiceUncheckedUpdateManyWithoutManagedByNestedInput
     uploadedImages?: ImageUncheckedUpdateManyWithoutUploaderNestedInput
     uploadedPortfolioItems?: PortfolioItemUncheckedUpdateManyWithoutUploadedByNestedInput
@@ -39057,6 +40730,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
+    emailVerificationRequests?: EmailVerificationRequestCreateNestedManyWithoutUserInput
     services?: ServiceCreateNestedManyWithoutManagedByInput
     uploadedImages?: ImageCreateNestedManyWithoutUploaderInput
     uploadedPortfolioItems?: PortfolioItemCreateNestedManyWithoutUploadedByInput
@@ -39085,6 +40759,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    emailVerificationRequests?: EmailVerificationRequestUncheckedCreateNestedManyWithoutUserInput
     services?: ServiceUncheckedCreateNestedManyWithoutManagedByInput
     uploadedImages?: ImageUncheckedCreateNestedManyWithoutUploaderInput
     uploadedPortfolioItems?: PortfolioItemUncheckedCreateNestedManyWithoutUploadedByInput
@@ -39162,6 +40837,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    emailVerificationRequests?: EmailVerificationRequestUpdateManyWithoutUserNestedInput
     services?: ServiceUpdateManyWithoutManagedByNestedInput
     uploadedImages?: ImageUpdateManyWithoutUploaderNestedInput
     uploadedPortfolioItems?: PortfolioItemUpdateManyWithoutUploadedByNestedInput
@@ -39190,6 +40866,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    emailVerificationRequests?: EmailVerificationRequestUncheckedUpdateManyWithoutUserNestedInput
     services?: ServiceUncheckedUpdateManyWithoutManagedByNestedInput
     uploadedImages?: ImageUncheckedUpdateManyWithoutUploaderNestedInput
     uploadedPortfolioItems?: PortfolioItemUncheckedUpdateManyWithoutUploadedByNestedInput
@@ -39329,6 +41006,14 @@ export namespace Prisma {
     id?: string
     sessionToken: string
     expires: Date | string
+  }
+
+  export type EmailVerificationRequestCreateManyUserInput = {
+    id?: string
+    token: string
+    expires: Date | string
+    createdAt?: Date | string
+    verifiedAt?: Date | string | null
   }
 
   export type ServiceCreateManyManagedByInput = {
@@ -39503,6 +41188,30 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     sessionToken?: StringFieldUpdateOperationsInput | string
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EmailVerificationRequestUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type EmailVerificationRequestUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type EmailVerificationRequestUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ServiceUpdateWithoutManagedByInput = {
@@ -40119,6 +41828,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    emailVerificationRequests?: EmailVerificationRequestUpdateManyWithoutUserNestedInput
     services?: ServiceUpdateManyWithoutManagedByNestedInput
     uploadedImages?: ImageUpdateManyWithoutUploaderNestedInput
     uploadedPortfolioItems?: PortfolioItemUpdateManyWithoutUploadedByNestedInput
@@ -40147,6 +41857,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    emailVerificationRequests?: EmailVerificationRequestUncheckedUpdateManyWithoutUserNestedInput
     services?: ServiceUncheckedUpdateManyWithoutManagedByNestedInput
     uploadedImages?: ImageUncheckedUpdateManyWithoutUploaderNestedInput
     uploadedPortfolioItems?: PortfolioItemUncheckedUpdateManyWithoutUploadedByNestedInput

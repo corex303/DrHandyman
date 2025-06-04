@@ -36,27 +36,27 @@ enum InvoiceStatus {
 }
 
 model User {
-  id                     String              @id @default(cuid())
-  name                   String?
-  email                  String?             @unique
-  password               String? // Uncommented for password-based auth
-  emailVerified          DateTime? // Still useful: NextAuth EmailProvider + Adapter sets this
-  image                  String?
-  hashedPassword         String?
-  role                   UserRole            @default(CUSTOMER)
-  lastSeenAt             DateTime?           @updatedAt
-  accounts               Account[]
-  sessions               Session[]
-  // emailVerificationRequests EmailVerificationRequest[] // Commented out
-  createdAt              DateTime            @default(now())
-  updatedAt              DateTime            @updatedAt
-  services               Service[]
-  uploadedImages         Image[]             @relation("UploadedImages")
-  uploadedPortfolioItems PortfolioItem[]     @relation("UploadedByWorker")
-  customerInquiries      Inquiry[]           @relation("CustomerInquiries")
-  customerPhotoSets      PhotoSet[]          @relation("CustomerPhotoSets") // Customer who owns the PhotoSet
-  maintenanceWorker      MaintenanceWorker?  @relation("UserProfileToWorker") // Link to MaintenanceWorker profile if user is a worker
-  appearanceSetting      AppearanceSettings? @relation("UserAppearanceSetting") // Admin's appearance configuration
+  id                        String                     @id @default(cuid())
+  name                      String?
+  email                     String?                    @unique
+  password                  String? // Uncommented for password-based auth
+  emailVerified             DateTime? // Still useful: NextAuth EmailProvider + Adapter sets this
+  image                     String?
+  hashedPassword            String?
+  role                      UserRole                   @default(CUSTOMER)
+  lastSeenAt                DateTime?                  @updatedAt
+  accounts                  Account[]
+  sessions                  Session[]
+  emailVerificationRequests EmailVerificationRequest[] // Uncommented
+  createdAt                 DateTime                   @default(now())
+  updatedAt                 DateTime                   @updatedAt
+  services                  Service[]
+  uploadedImages            Image[]                    @relation("UploadedImages")
+  uploadedPortfolioItems    PortfolioItem[]            @relation("UploadedByWorker")
+  customerInquiries         Inquiry[]                  @relation("CustomerInquiries")
+  customerPhotoSets         PhotoSet[]                 @relation("CustomerPhotoSets") // Customer who owns the PhotoSet
+  maintenanceWorker         MaintenanceWorker?         @relation("UserProfileToWorker") // Link to MaintenanceWorker profile if user is a worker
+  appearanceSetting         AppearanceSettings?        @relation("UserAppearanceSetting") // Admin's appearance configuration
 
   // NEW CHAT RELATIONS
   createdConversations  ChatConversation[] @relation("ChatParticipants")
@@ -261,17 +261,17 @@ model VerificationToken {
 }
 
 // Commented out as it's not needed for passwordless magic link flow
-// model EmailVerificationRequest {
-//   id        String   @id @default(cuid())
-//   userId    String
-//   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-//   token     String   @unique
-//   expires   DateTime
-//   createdAt DateTime @default(now())
-//   verifiedAt DateTime?
-//
-//   @@index([userId])
-// }
+model EmailVerificationRequest {
+  id         String    @id @default(cuid())
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token      String    @unique
+  expires    DateTime
+  createdAt  DateTime  @default(now())
+  verifiedAt DateTime?
+
+  @@index([userId])
+}
 
 // New Model for Appearance Settings
 model AppearanceSettings {
