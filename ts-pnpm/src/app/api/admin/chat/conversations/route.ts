@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
   const limit = parseInt(searchParams.get('limit') || '20', 10);
   const offset = (page - 1) * limit;
 
-  let whereClause: Prisma.ChatConversationWhereInput = {};
+  const whereClause: Prisma.ChatConversationWhereInput = {};
 
   if (customerId) {
     whereClause.participants = {
@@ -92,7 +92,7 @@ export async function GET(request: NextRequest) {
     const processedConversations = conversations.map(conv => {
       const otherParticipants = conv.participants; // For admin view, all participants might be 'other'
       
-      let displayTitle = conv.participants.map(p => p.name || p.email).join(', ');
+      const displayTitle = conv.participants.map(p => p.name || p.email).join(', ');
       let displayImage: string | null | undefined = null;
       let lastMessagePreview = 'No messages yet';
       const lastMessageAt: string | Date | null = conv.messages[0]?.createdAt || conv.updatedAt;
