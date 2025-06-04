@@ -102,7 +102,7 @@ export async function GET(request: NextRequest) {
         id: conv.id,
         participants: conv.participants,
         updatedAt: conv.updatedAt.toISOString(),
-        displayTitle,
+        title: displayTitle,
         displayImage,
         lastMessagePreview,
         lastMessageAt: lastMessageAt ? new Date(lastMessageAt).toISOString() : new Date(conv.updatedAt).toISOString(),

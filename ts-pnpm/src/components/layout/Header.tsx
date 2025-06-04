@@ -18,7 +18,7 @@ const Header = ({ appearanceSettings: propsAppearanceSettings }: HeaderProps) =>
   // const logoUrl = appearanceSettings.logoUrl || '/images/dr-handyman-logo-transparent.png'; // Logo URL no longer needed here
 
   // Ensure "Services" link is present
-  let finalNavLinks = [...(headerSettings.navLinks || [])];
+  const finalNavLinks = [...(headerSettings.navLinks || [])];
   const servicesLinkExists = finalNavLinks.some(link => link.href === '/services');
   if (!servicesLinkExists) {
     finalNavLinks.push({ id: 'services-link', text: 'Services', href: '/services' });
