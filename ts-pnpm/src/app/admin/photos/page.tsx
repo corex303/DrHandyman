@@ -190,7 +190,9 @@ export default function AdminPhotoManagementPage() {
                 {ps.status?.replace('_', ' ') || 'UNKNOWN'}
               </div>
               <p className="text-xs text-slate-500">Photos: {ps.photos.length}</p>
-              <p className="text-xs text-slate-500">Created: {new Date(ps.createdAt).toLocaleDateString()}</p>
+              <div className="text-sm text-gray-500">
+                {new Date(ps.submittedAt).toLocaleDateString()}
+              </div>
             </div>
             <div className="p-4 bg-slate-50 border-t border-slate-200">
               <button 
@@ -234,7 +236,7 @@ export default function AdminPhotoManagementPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
               <div><span className="font-semibold">Customer:</span> {selectedPhotoSet.customer?.name || selectedPhotoSet.customer?.email || selectedPhotoSet.customerId || 'N/A'}</div>
               <div><span className="font-semibold">Uploaded By:</span> {selectedPhotoSet.maintenanceWorker?.user?.name || selectedPhotoSet.maintenanceWorker?.name || 'N/A'} ({selectedPhotoSet.maintenanceWorker?.user?.email || 'N/A'})</div>
-              <div><span className="font-semibold">Set Upload Date:</span> {new Date(selectedPhotoSet.createdAt).toLocaleString()}</div>
+              <div><span className="font-semibold">Set Upload Date:</span> {new Date(selectedPhotoSet.submittedAt).toLocaleString()}</div>
               <div className={`font-semibold px-2 py-1 rounded-full border text-xs inline-block ${getStatusColor(selectedPhotoSet.status)}`}>
                 Status: {selectedPhotoSet.status?.replace('_',' ') || 'UNKNOWN'}
               </div>

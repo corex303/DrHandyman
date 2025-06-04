@@ -356,7 +356,7 @@ export const defaultAppearanceSettings: AppearanceSettings = {
         type: 'testimonials',
         settings: {
           title: 'What Our Clients Say',
-          subtitle: "Honest feedback from homeowners we\'ve helped.",
+          subtitle: "Honest feedback from homeowners we've helped.",
           textAlignment: 'center',
           layoutStyle: 'grid', // or 'carousel'
           columns: 2, // For grid layout
@@ -392,7 +392,7 @@ export const defaultAppearanceSettings: AppearanceSettings = {
         type: 'cta',
         settings: {
           title: 'Ready to Start Your Next Project?',
-          text: "Contact us today for a free consultation and estimate. We\'re here to help bring your vision to life.",
+          text: "Contact us today for a free consultation and estimate. We're here to help bring your vision to life.",
           textAlignment: 'center',
           buttonText: 'Get a Free Quote',
           buttonLink: '/contact',
@@ -413,7 +413,7 @@ export const defaultAppearanceSettings: AppearanceSettings = {
         type: 'portfolio',
         settings: {
           title: 'Our Recent Work',
-          subtitle: "Take a look at some of the projects we\'ve successfully completed.",
+          subtitle: "Take a look at some of the projects we've successfully completed.",
           textAlignment: 'center',
           columns: 3,
           items: [

@@ -582,8 +582,6 @@ export default function ChatPage() {
     return diffMinutes < 5;
   }
 
-  const inputRef = useRef<HTMLTextAreaElement>(null);
-
   const scrollToBottom = () => {
     // Use chatContainerRef for scrolling, messagesEndRef is just a target div at the end
     if (chatContainerRef.current) {

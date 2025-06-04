@@ -6,18 +6,8 @@ const nextConfig = {
 
   reactStrictMode: true,
 
-  // Uncoment to add domain whitelist
   images: {
-    remotePatterns: [
-      // {
-      //   protocol: 'https',
-      //   hostname: 'res.cloudinary.com',
-      // },
-      {
-        protocol: 'https',
-        hostname: 'images.unsplash.com',
-      },
-    ]
+    domains: ['res.cloudinary.com', 'images.unsplash.com'],
   },
 
   webpack(config) {

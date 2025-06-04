@@ -15,7 +15,7 @@ The project leverages a modern, performance-oriented stack based on Next.js. Fre
 - **Form Submission (Backend):** Next.js API Routes
 - **Image Upload Handling:** Next.js API route with `multer`
 - **Payment Processing:** Stripe Checkout
-- **Authentication:** NextAuth.js
+- **Authentication:** Custom cookie-based authentication via Next.js Middleware (for admin and worker portals). NextAuth.js may be used for other authentication needs if they arise.
 - **Database:** Vercel Postgres or Firebase (evaluate free tiers)
 - **Image Storage (Permanent):** Cloudinary, AWS S3, or Google Cloud Storage (evaluate free tiers)
 - **Admin Panel:** Simple admin panel built as part of the Next.js application (preferred)
@@ -23,5 +23,6 @@ The project leverages a modern, performance-oriented stack based on Next.js. Fre
 - **Analytics:** Google Analytics
 - **Version Control:** Git
 
-For detailed alternatives and considerations, see the [Dr. Handyman PRD.md](mdc:ts-pnpm/scripts/Dr. Handyman PRD.md) (Section g).
+For detailed alternatives and considerations, see the [prd.md](mdc:ts-pnpm/scripts/prd.md)(Section g).
+
 

@@ -39,9 +39,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Inquiry not found' }, { status: 404 });
     }
 
-    let customerId = inquiry.customerId; // This is if the customer is a registered User
-    let customerEmail = inquiry.customerEmail;
-    let customerName = inquiry.customerName;
+    const customerId = inquiry.customerId; // This is if the customer is a registered User
+    const customerEmail = inquiry.customerEmail;
+    const customerName = inquiry.customerName;
 
     // If inquiry.customerId is null, we might need to find or create a guest/placeholder user
     // For simplicity, we'll assume direct inquiries might not always have a registered customerId initially
@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
 
     // Attempt to find an existing conversation with this customer (via email or ID) 
     // involving any staff member, or specifically the requesting staff member.
-    let existingConversation = await prisma.chatConversation.findFirst({
+    const existingConversation = await prisma.chatConversation.findFirst({
       where: {
         AND: [
           {

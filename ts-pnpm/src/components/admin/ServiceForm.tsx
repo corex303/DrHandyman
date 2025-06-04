@@ -78,42 +78,51 @@ const ServiceForm: React.FC<ServiceFormProps> = ({ service, onSuccess, onCancel 
       setImageFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImagePreview(reader.result as string);
+        const result = reader.result as string;
+        console.log('Image preview data URL:', result); // Debugging line
+        setImagePreview(result); // For visual preview
       };
       reader.readAsDataURL(file);
-      setValue('imageUrl', ''); // Clear existing imageUrl if a new file is selected
+      // When a new file is selected for preview, the actual imageUrl in the form
+      // should be considered null until a successful upload provides a real URL.
+      setValue('imageUrl', null, { shouldValidate: true }); 
     }
   };
 
   const removeImage = () => {
     setImageFile(null);
     setImagePreview(null);
-    setValue('imageUrl', null);
+    setValue('imageUrl', null, { shouldValidate: true });
   };
 
   const uploadImage = async (file: File): Promise<string | null> => {
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('upload_preset', process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || 'ml_default');
+    // No longer sending upload_preset directly, backend handles it.
 
-    setUploadProgress(50); 
+    setUploadProgress(50); // Indicate client-side part of upload initiation
     try {
-      const response = await fetch(`https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`, {
+      // Post to our backend API route
+      const response = await fetch('/api/admin/services/upload-image', {
         method: 'POST',
         body: formData,
+        // No 'Content-Type' header needed here; browser sets it for FormData
       });
       
-      setUploadProgress(100);
+      setUploadProgress(100); // Indicate backend processing might be done
+
       if (!response.ok) {
         const errorData = await response.json();
-        console.error('Cloudinary upload error:', errorData);
-        throw new Error(errorData.error?.message || 'Image upload failed');
+        console.error('Backend image upload error:', errorData);
+        throw new Error(errorData.error || errorData.details || 'Image upload via backend failed');
       }
-      const data = await response.json();
+
+      const result = await response.json();
       setUploadProgress(0);
-      return data.secure_url;
+      return result.secure_url; // Our backend route returns { secure_url: ... }
+
     } catch (error) {
-      console.error('Upload error:', error);
+      console.error('Upload error (via backend):', error);
       toast.error(error instanceof Error ? error.message : 'Image upload failed');
       setUploadProgress(0);
       return null;
@@ -122,28 +131,58 @@ const ServiceForm: React.FC<ServiceFormProps> = ({ service, onSuccess, onCancel 
 
   const onSubmit = async (data: ServiceFormData) => {
     setIsSubmitting(true);
-    let finalImageUrl = data.imageUrl; // Use existing URL if no new file
+    // Initialize with null. It will be populated by a new upload or existing URL.
+    let finalImageUrlForPayload: string | null = null; 
 
-    if (imageFile) {
-      const uploadedUrl = await uploadImage(imageFile);
-      if (uploadedUrl) {
-        finalImageUrl = uploadedUrl;
+    if (imageFile) { // A new image file has been selected
+      const uploadedCloudinaryUrl = await uploadImage(imageFile);
+      console.log('Uploaded URL from backend:', uploadedCloudinaryUrl); // Log the result
+      if (uploadedCloudinaryUrl) {
+        finalImageUrlForPayload = uploadedCloudinaryUrl;
       } else {
-        if (!service?.imageUrl) { 
-            toast.error('Image upload failed. Please try again or remove the image.');
+        // Toast error for upload failure is handled in uploadImage function
+        setIsSubmitting(false);
+        return; // Stop submission if new image upload failed
+      }
+    } else {
+      // No new file was selected. 
+      // If editing an existing service, and imagePreview (which might be original URL or null if removed)
+      // indicates the original image should be kept or removed.
+      if (service && imagePreview === service.imageUrl) {
+        finalImageUrlForPayload = service.imageUrl; // Keep existing image
+      } else if (imagePreview === null) {
+        finalImageUrlForPayload = null; // Image was removed or never set
+      }
+      // If imagePreview is a base64 string here (meaning a file was selected then deselected without clearing properly)
+      // AND imageFile is null, this logic correctly defaults to null or existing, not base64.
+    }
+
+    // The `data` from useForm already contains name, description, slug.
+    // We just need to ensure imageUrl is correctly set.
+    const payload = {
+      ...data,
+      name: data.name,
+      description: data.description,
+      slug: data.slug || generatedSlug, 
+      imageUrl: finalImageUrlForPayload, // Use the determined URL
+    };
+
+    // Defensive check for slug (already present, but kept for safety)
+    if (!payload.slug && generatedSlug) {
+      payload.slug = generatedSlug;
+    }
+    
+    // Ensure slug is not undefined if it's required by backend but optional in form due to auto-generation
+    if (!payload.slug) {
+        // This case should ideally be caught by Zod validation if slug is non-optional there
+        // For now, let's use a transformed name if slug is truly empty.
+        payload.slug = data.name.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+        if (!payload.slug) { // If name was also empty or all special chars
+            toast.error('Service name and slug cannot be empty or only special characters.');
             setIsSubmitting(false);
             return;
         }
-        setIsSubmitting(false);
-        return;
-      }
     }
-
-    const payload = {
-      ...data,
-      imageUrl: finalImageUrl,
-      slug: data.slug || generatedSlug, // Ensure slug is included
-    };
 
     try {
       const response = await fetch(
@@ -172,90 +211,146 @@ const ServiceForm: React.FC<ServiceFormProps> = ({ service, onSuccess, onCancel 
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      <Controller
-        name="name"
-        control={control}
-        render={({ field }) => (
-          <Input
-            {...field}
-            label="Service Name"
-            placeholder="e.g., Carpentry, Concrete Repair"
-            isInvalid={!!errors.name}
-            errorMessage={errors.name?.message}
-            isRequired
-          />
-        )}
-      />
+      <div>
+        <label htmlFor="name" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+          Service Name
+        </label>
+        <Controller
+          name="name"
+          control={control}
+          render={({ field }) => (
+            <Input
+              {...field}
+              id="name"
+              placeholder="e.g., Carpentry, Concrete Repair"
+              isInvalid={!!errors.name}
+              errorMessage={errors.name?.message}
+              isRequired
+            />
+          )}
+        />
+      </div>
 
-      <Controller
-        name="description"
-        control={control}
-        render={({ field }) => (
-          <Textarea
-            {...field}
-            label="Description"
-            placeholder="Detailed description of the service..."
-            isInvalid={!!errors.description}
-            errorMessage={errors.description?.message}
-            isRequired
-            minRows={3}
-          />
-        )}
-      />
+      <div>
+        <label htmlFor="description" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+          Description
+        </label>
+        <Controller
+          name="description"
+          control={control}
+          render={({ field }) => (
+            <Textarea
+              {...field}
+              id="description"
+              placeholder="Detailed description of the service..."
+              isInvalid={!!errors.description}
+              errorMessage={errors.description?.message}
+              isRequired
+              rows={4}
+            />
+          )}
+        />
+      </div>
 
-      <Controller
-        name="slug"
-        control={control}
-        render={({ field }) => (
-          <Input
-            {...field}
-            label="URL Slug"
-            placeholder="e.g., carpentry-services (auto-generated or custom)"
-            description={serviceName && !service?.slug && field.value !== generatedSlug ? <span className='text-tiny text-warning-500'>Slug automatically generated. You can customize it.</span> : "Unique identifier for the URL. Lowercase, numbers, and hyphens only."}
-            isInvalid={!!errors.slug}
-            errorMessage={errors.slug?.message}
-            isRequired
-          />
-        )}
-      />
+      <div>
+        <label htmlFor="slug" className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+          Slug
+        </label>
+        <Controller
+          name="slug"
+          control={control}
+          render={({ field }) => (
+            <Input
+              {...field}
+              id="slug"
+              onValueChange={(value) => {
+                const manualSlug = value
+                  .toLowerCase()
+                  .replace(/[^a-z0-9\s-]/g, '')
+                  .replace(/\s+/g, '-')
+                  .replace(/-+/g, '-');
+                setGeneratedSlug(manualSlug);
+                setValue('slug', manualSlug, { shouldValidate: true });
+              }}
+              placeholder="e.g., concrete-repair (auto-generated or manual)"
+              isInvalid={!!errors.slug}
+              errorMessage={errors.slug?.message}
+              isRequired
+            />
+          )}
+        />
+      </div>
       
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Service Image (Optional)</label>
-        <div className="mt-1 flex items-center">
+        <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">
+          Service Image
+        </label>
+        <div className="mt-1 flex flex-col items-center space-y-4">
           {imagePreview ? (
-            <div className="relative mr-4">
-              <Image src={imagePreview} alt="Service preview" width={100} height={100} className="rounded-md object-cover" />
+            <div className="relative group">
+              {/* <Image 
+                src={imagePreview} 
+                alt="Service image preview" 
+                width={200} 
+                height={200} 
+                className="rounded-md object-cover h-48 w-48" 
+              /> */}
+              {imagePreview && (
+                <img 
+                  src={imagePreview} 
+                  alt="Service image preview" 
+                  style={{ width: '12rem', height: '12rem', objectFit: 'cover', borderRadius: '0.375rem' }} // Equivalent to w-48, h-48, object-cover, rounded-md
+                />
+              )}
               <Button 
                 isIconOnly 
                 variant="light" 
                 color="danger" 
                 size="sm"
-                className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 rounded-full p-1 bg-danger-50 hover:bg-danger-100"
+                className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity"
                 onPress={removeImage}
+                aria-label="Remove image"
               >
                 <XIcon className="h-4 w-4" />
               </Button>
             </div>
           ) : (
-            <div className="w-24 h-24 border-2 border-dashed border-gray-300 rounded-md flex items-center justify-center mr-4">
-              <UploadCloudIcon className="h-10 w-10 text-gray-400" />
+            <div className="flex justify-center items-center w-48 h-48 border-2 border-dashed border-neutral-300 dark:border-neutral-600 rounded-md">
+              <UploadCloudIcon className="h-12 w-12 text-neutral-400 dark:text-neutral-500" />
             </div>
           )}
+           {uploadProgress > 0 && <Progress value={uploadProgress} color="primary" className="w-full" />}
           <input
             type="file"
-            id="imageUpload"
+            id="imageUrl"
             accept="image/*"
             onChange={handleImageChange}
-            className="hidden"
+            className="sr-only" // Hide default input, trigger with button/label
           />
-          <Button as="label" htmlFor="imageUpload" variant="flat" disabled={isSubmitting}>
+          <label
+            htmlFor="imageUrl"
+            className="cursor-pointer inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:bg-primary-500 dark:hover:bg-primary-600"
+          >
             {imagePreview ? 'Change Image' : 'Upload Image'}
-          </Button>
+          </label>
         </div>
-        {uploadProgress > 0 && (
-          <Progress value={uploadProgress} color="primary" size="sm" className="mt-2" aria-label="Uploading image..."/>
+        <Controller
+            name="imageUrl"
+            control={control}
+            render={({ field: { onChange, onBlur, name, ref, value: fieldValue } }) => (
+                <input
+                    type="hidden"
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    name={name}
+                    ref={ref}
+                    value={fieldValue ?? ''}
+                />
+            )}
+        />
+        {errors.imageUrl && (
+            <p className="mt-2 text-sm text-danger-600 dark:text-danger-500">{errors.imageUrl.message}</p>
         )}
-        {errors.imageUrl && <p className="mt-2 text-sm text-danger-500">{errors.imageUrl.message}</p>}
       </div>
 
       <div className="flex justify-end gap-2 pt-4">

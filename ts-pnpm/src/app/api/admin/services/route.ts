@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { getToken } from 'next-auth/jwt';
 import { z } from 'zod';
+import { cookies } from 'next/headers';
 
 import prisma from '@/lib/prisma';
+import { Prisma } from '@prisma/client';
 
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+const ADMIN_COOKIE_NAME = 'admin_session';
+const ADMIN_EXPECTED_COOKIE_VALUE = 'admin_session_active_marker';
 
 // Validation schema for creating a service
 const createServiceSchema = z.object({
@@ -15,9 +16,11 @@ const createServiceSchema = z.object({
   imageUrl: z.string().url('Invalid image URL').optional().nullable(),
 });
 
-export async function GET() {
-  const session = await getServerSession(authOptions);
-  if (!session || !session.user || session.user.role !== 'ADMIN') {
+export async function GET(req: NextRequest) {
+  const cookieStore = await cookies();
+  const adminCookie = cookieStore.get(ADMIN_COOKIE_NAME);
+
+  if (!adminCookie || adminCookie.value !== ADMIN_EXPECTED_COOKIE_VALUE) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -35,14 +38,10 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  const token = await getToken({ req });
-  if (!token || token.role !== 'ADMIN') {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
+  const cookieStore = await cookies();
+  const adminCookie = cookieStore.get(ADMIN_COOKIE_NAME);
 
-  const session = await getServerSession(authOptions);
-
-  if (!session || !session.user) {
+  if (!adminCookie || adminCookie.value !== ADMIN_EXPECTED_COOKIE_VALUE) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -88,13 +87,17 @@ export async function POST(req: NextRequest) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Invalid input', details: error.errors }, { status: 400 });
     }
-    // @ts-ignore
-    if (error.code === 'P2002' && error.meta?.target?.includes('slug')) {
-      return NextResponse.json({ error: 'Slug already exists. Please use a unique slug.' }, { status: 409 });
-    }
-    // @ts-ignore
-    if (error.code === 'P2002' && error.meta?.target?.includes('name')) {
-        return NextResponse.json({ error: 'Service name already exists. Please use a unique name.' }, { status: 409 });
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      // Unique constraint violation
+      if (error.code === 'P2002') {
+        const target = error.meta?.target as string[] | undefined;
+        if (target?.includes('slug')) {
+          return NextResponse.json({ error: 'Slug already exists. Please use a unique slug.' }, { status: 409 });
+        }
+        if (target?.includes('name')) {
+            return NextResponse.json({ error: 'Service name already exists. Please use a unique name.' }, { status: 409 });
+        }
+      }
     }
     return NextResponse.json({ error: 'Failed to create service' }, { status: 500 });
   }

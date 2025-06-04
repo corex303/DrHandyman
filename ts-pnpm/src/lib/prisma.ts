@@ -6,6 +6,7 @@ console.log("[lib/prisma.ts] DATABASE_URL from env:", process.env.DATABASE_URL);
 declare global {
   // allow global `var` declarations
   // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line no-var
   var prisma: PrismaClient | undefined;
 }
 

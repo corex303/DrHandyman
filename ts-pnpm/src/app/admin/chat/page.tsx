@@ -21,7 +21,8 @@ interface MessageWithSender extends ChatMessage {
   sender: Pick<User, 'id' | 'name' | 'email' | 'image' | 'role'>;
 }
 
-interface MaintenanceWorkerOption extends Pick<User, 'id' | 'name' | 'email'> {}
+// interface MaintenanceWorkerOption extends Pick<User, 'id' | 'name' | 'email'> {}
+type MaintenanceWorkerOption = Pick<User, 'id' | 'name' | 'email'>;
 
 function debounce<F extends (...args: any[]) => any>(func: F, waitFor: number) {
   let timeout: ReturnType<typeof setTimeout> | null = null;

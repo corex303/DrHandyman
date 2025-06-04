@@ -126,9 +126,9 @@ export default async function ServiceDetailPage(props: ServiceDetailPageProps) {
               <Image
                 src={service.imageUrl}
                 alt={service.name}
-                width={1000} // Adjusted for a larger display
-                height={563} // Maintain 16:9 aspect ratio
-                className="rounded-xl shadow-lg object-cover"
+                width={500}
+                height={281}
+                className="rounded-xl shadow-lg object-cover mx-auto"
                 priority
               />
             </div>
@@ -150,7 +150,7 @@ export default async function ServiceDetailPage(props: ServiceDetailPageProps) {
 
           <div className="mt-12 sm:mt-16 text-center">
             <Link 
-              href="/contact" 
+              href="/service-inquiry" 
               className="bg-blue-600 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold text-base sm:text-lg hover:bg-blue-700 transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 block w-full max-w-xs mx-auto sm:inline-block sm:w-auto"
             >
               Get a Quote for {service.name}

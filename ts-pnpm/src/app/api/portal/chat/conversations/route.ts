@@ -13,7 +13,7 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 interface ProcessedChatConversation extends Omit<ChatConversation, 'lastMessage'> { // Omit the original lastMessage to redefine it safely if needed, or ensure alignment
   participants: Partial<User>[];
   messages: Partial<ChatMessage>[]; // This implies messages array might be empty or contain partial messages
-  title?: string;
+  title: string | null;
   image?: string | null;
   lastMessage?: string | null; // Align with schema: this should be the string content
   // If you need the full last message object for other purposes, add a new field:
@@ -65,8 +65,8 @@ export async function GET(request: NextRequest) {
       let displayTitle = conv.participants.map(p => p.name || p.email).join(', ');
       let displayImage: string | null | undefined = null;
       let lastMessagePreview = 'No messages yet';
-      let lastMessageAt: string | Date | null = conv.messages[0]?.createdAt || conv.updatedAt;
-      let lastMessageSenderId = conv.messages[0]?.senderId || null;
+      const lastMessageAt: string | Date | null = conv.messages[0]?.createdAt || conv.updatedAt;
+      const lastMessageSenderId = conv.messages[0]?.senderId || null;
 
       if (conv.messages[0]) {
         if (conv.messages[0].attachmentFilename) {

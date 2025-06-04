@@ -95,8 +95,8 @@ export async function GET(request: NextRequest) {
       let displayTitle = conv.participants.map(p => p.name || p.email).join(', ');
       let displayImage: string | null | undefined = null;
       let lastMessagePreview = 'No messages yet';
-      let lastMessageAt: string | Date | null = conv.messages[0]?.createdAt || conv.updatedAt;
-      let lastMessageSenderId = conv.messages[0]?.senderId || null;
+      const lastMessageAt: string | Date | null = conv.messages[0]?.createdAt || conv.updatedAt;
+      const lastMessageSenderId = conv.messages[0]?.senderId || null;
 
       if (conv.messages[0]) {
         if (conv.messages[0].attachmentFilename) {

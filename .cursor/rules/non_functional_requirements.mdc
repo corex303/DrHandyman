@@ -19,7 +19,7 @@ Key NFRs ensure a high-quality, secure, and maintainable application.
 - **Responsiveness:** Fully responsive design for all devices.
 - **Security:**
     - HTTPS enforced.
-    - Secure authentication (NextAuth.js).
+    - Secure authentication (Simple password for Admin/Worker; NextAuth.js for Customers).
     - Protection against common web vulnerabilities (XSS, CSRF).
     - PCI DSS compliant payment processing (via Stripe).
 - **Usability:** Intuitive navigation, clear CTAs, WCAG AA accessibility considerations.
@@ -27,5 +27,5 @@ Key NFRs ensure a high-quality, secure, and maintainable application.
 - **Scalability:** Handle growing portfolio images and users (cloud image storage is key).
 - **Browser Compatibility:** Support latest versions of major browsers.
 
-Consult section e.2 "Non-functional requirements" in the [Dr. Handyman PRD.md](mdc:ts-pnpm/scripts/Dr. Handyman PRD.md) for a comprehensive list.
+Consult section e.2 "Non-functional requirements" in the [prd.md](mdc:ts-pnpm/scripts/prd.md) for a comprehensive list.
 

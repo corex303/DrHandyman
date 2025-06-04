@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { getToken } from 'next-auth/jwt';
 import { z } from 'zod';
+import { cookies } from 'next/headers';
 
 import prisma from '@/lib/prisma';
 
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+const ADMIN_COOKIE_NAME = 'admin_session';
+const ADMIN_EXPECTED_COOKIE_VALUE = 'admin_session_active_marker';
 
 // Validation schema for updating a service
 const updateServiceSchema = z.object({
@@ -15,10 +15,10 @@ const updateServiceSchema = z.object({
   imageUrl: z.string().url('Invalid image URL').optional().nullable(),
 });
 
-export async function GET(request: Request, props: { params: Promise<{ serviceId: string }> }) {
+export async function GET(request: NextRequest, props: { params: Promise<{ serviceId: string }> }) {
   const params = await props.params;
-  const session = await getServerSession(authOptions);
-  if (!session || !session.user || session.user.role !== 'ADMIN') {
+  const adminCookie = (await cookies()).get(ADMIN_COOKIE_NAME);
+  if (!adminCookie || adminCookie.value !== ADMIN_EXPECTED_COOKIE_VALUE) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -39,14 +39,8 @@ export async function GET(request: Request, props: { params: Promise<{ serviceId
 
 export async function PUT(req: NextRequest, props: { params: Promise<{ serviceId: string }> }) {
   const params = await props.params;
-  const token = await getToken({ req });
-  if (!token || token.role !== 'ADMIN') {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
-  const session = await getServerSession(authOptions);
-
-  if (!session || !session.user) {
+  const adminCookie = (await cookies()).get(ADMIN_COOKIE_NAME);
+  if (!adminCookie || adminCookie.value !== ADMIN_EXPECTED_COOKIE_VALUE) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -60,7 +54,6 @@ export async function PUT(req: NextRequest, props: { params: Promise<{ serviceId
 
   const { name, description, slug, imageUrl } = validation.data;
 
-  // Check if the service exists
   const existingService = await prisma.service.findUnique({
       where: { id: serviceId },
   });
@@ -69,7 +62,6 @@ export async function PUT(req: NextRequest, props: { params: Promise<{ serviceId
       return NextResponse.json({ error: 'Service not found' }, { status: 404 });
   }
 
-  // If slug is being updated, check for uniqueness
   if (slug && slug !== existingService.slug) {
     const existingServiceBySlug = await prisma.service.findUnique({
       where: { slug },
@@ -79,7 +71,6 @@ export async function PUT(req: NextRequest, props: { params: Promise<{ serviceId
     }
   }
 
-  // If name is being updated, check for uniqueness
   if (name && name !== existingService.name) {
       const existingServiceByName = await prisma.service.findUnique({
           where: { name },
@@ -103,21 +94,14 @@ export async function PUT(req: NextRequest, props: { params: Promise<{ serviceId
 
 export async function DELETE(req: NextRequest, props: { params: Promise<{ serviceId: string }> }) {
   const params = await props.params;
-  const token = await getToken({ req });
-  if (!token || token.role !== 'ADMIN') {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
-  const session = await getServerSession(authOptions);
-
-  if (!session || !session.user) {
+  const adminCookie = (await cookies()).get(ADMIN_COOKIE_NAME);
+  if (!adminCookie || adminCookie.value !== ADMIN_EXPECTED_COOKIE_VALUE) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const { serviceId } = params;
 
   try {
-    // Check if the service exists before attempting to delete
     const existingService = await prisma.service.findUnique({
         where: { id: serviceId },
     });
@@ -126,7 +110,6 @@ export async function DELETE(req: NextRequest, props: { params: Promise<{ servic
         return NextResponse.json({ error: 'Service not found' }, { status: 404 });
     }
 
-    // Add a check for related PortfolioItems. If any exist, prevent deletion or handle accordingly.
     const relatedPortfolioItems = await prisma.portfolioItem.count({
       where: { serviceId: serviceId },
     });
@@ -134,14 +117,14 @@ export async function DELETE(req: NextRequest, props: { params: Promise<{ servic
     if (relatedPortfolioItems > 0) {
       return NextResponse.json(
         { error: 'Cannot delete service as it has related portfolio items. Please remove them first or reassign them.' },
-        { status: 409 } // 409 Conflict is appropriate here
+        { status: 409 }
       );
     }
 
     await prisma.service.delete({
       where: { id: serviceId },
     });
-    return NextResponse.json({ message: 'Service deleted successfully' }, { status: 200 }); // 200 OK or 204 No Content
+    return NextResponse.json({ message: 'Service deleted successfully' }, { status: 200 });
   } catch (error) {
     console.error(`Error deleting service ${serviceId}:`, error);
     return NextResponse.json({ error: 'Failed to delete service' }, { status: 500 });

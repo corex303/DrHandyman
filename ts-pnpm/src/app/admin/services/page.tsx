@@ -163,7 +163,7 @@ const ServicesAdminPage = () => {
               <ModalHeader className="flex flex-col gap-1">
                 {selectedService ? 'Edit Service' : 'Add New Service'}
               </ModalHeader>
-              <ModalBody>
+              <ModalBody className="bg-white dark:bg-neutral-900 p-6 shadow-xl rounded-lg">
                 <ServiceForm 
                   service={selectedService} 
                   onSuccess={handleFormSuccess} 

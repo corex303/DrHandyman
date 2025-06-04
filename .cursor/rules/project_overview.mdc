@@ -5,7 +5,7 @@ alwaysApply: false
 ---
 # Project Overview: Dr. Handyman NC Website Revamp
 
-This project involves a complete redesign and redevelopment of the Dr. Handyman NC website ([Dr. Handyman PRD.md](mdc:ts-pnpm/scripts/Dr. Handyman PRD.md)). The existing WordPress site will be replaced with a custom-built Next.js application.
+This project involves a complete redesign and redevelopment of the Dr. Handyman NC website ([prd.md](mdc:ts-pnpm/scripts/prd.md)).The existing WordPress site will be replaced with a custom-built Next.js application.
 
 ## Primary Goals:
 - Enhance brand image: Modern, professional, and reliable.
@@ -18,5 +18,5 @@ This project involves a complete redesign and redevelopment of the Dr. Handyman 
 
 The new website aims to be an industry-leading small business site, serving as a primary marketing and operational tool.
 
-For full details, refer to the [Dr. Handyman PRD.md](mdc:ts-pnpm/scripts/Dr. Handyman PRD.md).
+For full details, refer to the [prd.md](mdc:ts-pnpm/scripts/prd.md).
 

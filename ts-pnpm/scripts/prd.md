@@ -65,7 +65,7 @@ The website will cater to the following distinct user groups:
 
 | Requirement ID | Requirement | Description | Priority |
 |----------------|-------------|-------------|----------|
-| FR-WP-01 | Worker authentication | - Secure login and logout mechanism for maintenance workers. | High |
+| FR-WP-01 | Worker authentication | - Secure login and logout mechanism for maintenance workers (custom cookie-based via Next.js Middleware). | High |
 | FR-WP-02 | Worker dashboard | - A simple, intuitive interface for workers to manage their photo uploads. <br> - Display status of uploaded photos (e.g., pending approval, approved). | High |
 | FR-WP-03 | Photo upload functionality | - Ability to upload "before" and "after" images for a single job. <br> - A dropdown menu to select the relevant service category for the job. <br> - A text field for adding a brief description or notes about the job. <br> - Uploaded photos are submitted for admin approval before appearing on the public site. | High |
 
@@ -73,7 +73,7 @@ The website will cater to the following distinct user groups:
 
 | Requirement ID | Requirement | Description | Priority |
 |----------------|-------------|-------------|----------|
-| FR-AP-01 | Admin authentication | - Secure login and logout mechanism for site administrators. | High |
+| FR-AP-01 | Admin authentication | - Secure login and logout mechanism for site administrators (custom cookie-based via Next.js Middleware). | High |
 | FR-AP-02 | Admin dashboard | - An overview of recent site activity, such as new inquiries (processed via Next.js API routes), and portfolio items pending approval. | High |
 | FR-AP-03 | Services management | - Add, edit, and delete service categories and their detailed descriptions, including associated images. | High |
 | FR-AP-04 | Portfolio management | - Approve, edit, or reject photos uploaded by workers. <br> - Ability for admin to upload photos directly. <br> - Organize photos into service categories. <br> - Edit image titles/descriptions. | High |
@@ -91,7 +91,7 @@ The website will cater to the following distinct user groups:
 | NFR-01 | Performance | - Fast page load times, aiming for a Google PageSpeed Insights score of 80+ for both mobile and desktop. <br> - Optimized images using tools like Next.js Image component. <br> - Leverage Server-Side Rendering (SSR) / Static Site Generation (SSG) capabilities of Next.js for optimal performance. | High |
 | NFR-02 | SEO | - Semantic HTML markup. <br> - Proper and configurable meta tags, titles, and descriptions for all pages. <br> - Automatic XML sitemap generation. <br> - Clean, human-readable, and crawlable URLs. | High |
 | NFR-03 | Responsiveness | - Fully responsive design that adapts seamlessly to all screen sizes, including desktop, tablet, and mobile devices. | High |
-| NFR-04 | Security | - HTTPS enforced on all pages. <br> - Secure authentication mechanisms for admin and worker portals (e.g., using NextAuth.js). <br> - Protection against common web vulnerabilities (e.g., XSS, CSRF). <br> - Payment processing must be PCI DSS compliant, achieved by integrating with reputable third-party providers like Stripe or PayPal. | High |
+| NFR-04 | Security | - HTTPS enforced on all pages. <br> - Secure authentication mechanisms for admin and worker portals (custom cookie-based via Next.js Middleware). <br> - Protection against common web vulnerabilities (e.g., XSS, CSRF). <br> - Payment processing must be PCI DSS compliant, achieved by integrating with reputable third-party providers like Stripe or PayPal. | High |
 | NFR-05 | Usability | - Intuitive navigation and clear information architecture. <br> - Prominent and unambiguous Calls to Action (CTAs). <br> - Accessible design, considering WCAG AA guidelines. | High |
 | NFR-06 | Maintainability | - Well-structured, clean, and commented code. <br> - Easy to update, extend, and debug. | High |
 | NFR-07 | Scalability | - The system must be able to handle a growing number of portfolio images and potentially more worker accounts without performance degradation. <br> - Cloud-based image storage is crucial for scalability (e.g., AWS S3, Cloudinary). | High |
@@ -321,7 +321,7 @@ A guiding principle for technology selection is to prioritize free and open-sour
           *   Self-hosted PostgreSQL (Robust, relational, open-source, offers maximum control but requires more setup and maintenance).
           *   Supabase (PostgreSQL-based BaaS, offers a free tier, good alternative to Firebase if relational data is strongly preferred).
       *   Evaluate free tier limitations and project data structure needs carefully when choosing.
-*   **Authentication:** NextAuth.js (highly recommended for its seamless integration with Next.js and comprehensive features for handling authentication for both worker and admin portals).
+*   **Authentication:** Custom cookie-based authentication via Next.js Middleware (for admin and worker portals). NextAuth.js may be used for other authentication needs if they arise (e.g., customer-facing features if added later).
 *   **Image Storage (Permanent):**
     *   Primary Recommendation (Original): Utilize the free tiers of cloud-based solutions like Cloudinary (offers image manipulation) or other services providing object storage (e.g., AWS S3, Google Cloud Storage). Evaluate free tier limitations (storage capacity, bandwidth, feature restrictions) carefully. If self-hosting is not feasible, select the most cost-effective cloud solution that meets requirements, starting with its free tier.
 *   **Admin panel/CMS:**

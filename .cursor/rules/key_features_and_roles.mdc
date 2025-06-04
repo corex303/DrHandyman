@@ -18,15 +18,17 @@ The website serves distinct user groups with specific functionalities.
 ### Public-Facing Website:
 - Homepage, Services (overview & individual pages with galleries), About Us, Contact (form handled by React Hook Form, Zod, and Next.js API routes), Testimonials, FAQ, Secure Payment Page (Stripe integration).
 
-### Worker Portal:
-- Secure authentication (NextAuth.js).
-- Dashboard to manage photo uploads.
+### Maintenance Portal:
+- **Core Functionality:**
+  - Secure authentication (simple global password for access, custom cookie-based via Next.js Middleware).
+  - Dashboard for photo upload management.
 - Photo upload functionality (before/after images, service category selection, descriptions). Uploads require admin approval.
 
 ### Admin Panel (CMS):
-- Secure authentication (NextAuth.js).
-- Dashboard for site overview.
+- **Core Functionality:**
+  - Secure authentication (simple password, distinct from maintenance, custom cookie-based via Next.js Middleware).
+  - Dashboard for site overview (inquiries, pending approvals).
 - Management of: Services, Portfolio (approve/edit/reject worker uploads, direct admin uploads), Page Content (About Us, FAQ), Testimonials, Worker Accounts, Inquiries (view data captured from contact form via Next.js API routes), Basic Site Settings & SEO, Site Design & Layout (colors, fonts, themes, section arrangement).
 
-Refer to section e "Features and requirements" and section f "User stories and acceptance criteria" in the [Dr. Handyman PRD.md](mdc:ts-pnpm/scripts/Dr. Handyman PRD.md) for complete details.
+Refer to section e "Features and requirements" and section f "User stories and acceptance criteria" in the [prd.md](mdc:ts-pnpm/scripts/prd.md) for complete details.
 
