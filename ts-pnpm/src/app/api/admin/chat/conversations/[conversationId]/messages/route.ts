@@ -1,5 +1,5 @@
 import { Prisma } from '@prisma/client';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
 
 import { authOptions } from '@/lib/auth/options';
@@ -15,7 +15,7 @@ import prisma from '@/lib/prisma';
 // GET /api/admin/chat/conversations/[conversationId]/messages
 // Get all messages for a specific conversation, ensuring admin access
 export async function GET(
-  request: NextRequest,
+  request: Request,
   { params }: { params: { conversationId: string } }
 ) {
   // const actualParams = await context.params; // Await params // REMOVED
@@ -60,7 +60,7 @@ export async function GET(
 // POST /api/admin/chat/conversations/[conversationId]/messages
 // Admin sends a message to a specific conversation
 export async function POST(
-  request: NextRequest,
+  request: Request,
   { params }: { params: { conversationId: string } }
 ) {
   // const actualParams = await context.params; // Await params // REMOVED
