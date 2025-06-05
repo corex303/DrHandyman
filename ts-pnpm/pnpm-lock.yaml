@@ -75,7 +75,7 @@ importers:
         specifier: ^0.438.0
         version: 0.438.0(react@18.3.1)
       next:
-        specifier: ^14.2.3
+        specifier: ^14.2.5
         version: 14.2.29(@babel/core@7.27.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       next-auth:
         specifier: ^4.24.6
@@ -214,7 +214,7 @@ importers:
         specifier: ^2.5.28
         version: 2.5.28(next@14.2.29(@babel/core@7.27.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
       postcss:
-        specifier: ^8.5.1
+        specifier: ^8.4.39
         version: 8.5.4
       prettier:
         specifier: ^2.8.8
@@ -226,7 +226,7 @@ importers:
         specifier: 6.8.2
         version: 6.8.2(typescript@4.9.5)
       tailwindcss:
-        specifier: ^3.4.17
+        specifier: ^3.4.6
         version: 3.4.17(ts-node@10.9.2(@types/node@22.15.30)(typescript@4.9.5))
       tsx:
         specifier: ^4.19.4
