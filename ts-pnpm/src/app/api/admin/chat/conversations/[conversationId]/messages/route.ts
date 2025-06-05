@@ -16,7 +16,7 @@ import prisma from '@/lib/prisma';
 // Get all messages for a specific conversation, ensuring admin access
 export async function GET(
   request: Request,
-  { params }: { params: { conversationId: string } }
+  { params: paramsPromise }: { params: Promise<{ conversationId: string }> }
 ) {
   // const actualParams = await context.params; // Await params // REMOVED
   const session = await getServerSession(authOptions);
@@ -24,6 +24,7 @@ export async function GET(
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
+  const params = await paramsPromise; // Await the promise
   const { conversationId } = params; // Use awaited params
 
   if (!conversationId) {
@@ -61,7 +62,7 @@ export async function GET(
 // Admin sends a message to a specific conversation
 export async function POST(
   request: Request,
-  { params }: { params: { conversationId: string } }
+  { params: paramsPromise }: { params: Promise<{ conversationId: string }> }
 ) {
   // const actualParams = await context.params; // Await params // REMOVED
   const session = await getServerSession(authOptions);
@@ -69,6 +70,7 @@ export async function POST(
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
+  const params = await paramsPromise; // Await the promise
   const { conversationId } = params; // Use awaited params
   const body = await request.json();
   const { content, senderId, attachmentUrl, attachmentType, attachmentFilename, attachmentSize } = body; // Assuming these fields from prior edit
