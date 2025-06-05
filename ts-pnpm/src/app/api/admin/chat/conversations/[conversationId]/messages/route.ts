@@ -5,6 +5,8 @@ import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/auth/options';
 import prisma from '@/lib/prisma';
 
+export const dynamic = 'force-dynamic'; // Ensure the route is always dynamic
+
 // Define the context interface, typing params as a Promise
 // interface RouteContext { // REMOVED
 // params: Promise<{ // Params is now a Promise // REMOVED
