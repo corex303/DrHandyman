@@ -1,24 +1,17 @@
 import { Metadata, Viewport } from 'next';
 import { Inter, Lora, Poppins } from 'next/font/google';
 import * as React from 'react';
-// import PageLayout from '@/components/layout/PageLayout'; // PageLayout seems unused, commenting out
 import { Toaster } from 'react-hot-toast';
 
 import '@/styles/globals.css';
 
-import { getSiteAppearanceSettings } from '@/lib/settings'; // Import the centralized helper
+import { defaultAppearanceSettings } from '@/types/appearance'; 
 
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
-// import { SessionProvider } from "next-auth/react"; // Removed direct import
-import Providers from '@/components/layout/Providers'; // Added Providers import
+import Providers from '@/components/layout/Providers';
 
-// !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
-// import '@/styles/colors.css'; // Commenting out or removing if colors are now dynamic
-import { siteConfig } from '@/constant/config';
-import { defaultAppearanceSettings } from '@/types/appearance';
-
-// Keep for type, default only as ultimate fallback if needed
+// import { siteConfig } from '@/constant/config'; // Keep commented if generateMetadata is simplified
 
 const inter = Inter({
   variable: '--font-inter',
@@ -40,56 +33,32 @@ const poppins = Poppins({
   display: 'swap',
 });
 
-// !STARTERCONF Change these default meta
-// !STARTERCONF Look at @/constant/config to change them
-export const metadata: Metadata = {
-  metadataBase: new URL(siteConfig.url),
-  title: {
-    default: 'Dr. Handyman | Professional Home Repair & Renovation Services',
-    template: '%s | Dr. Handyman',
-  },
-  description: 'Professional handyman services for all your home repair and renovation needs. Quality workmanship guaranteed.',
-  keywords: ['handyman', 'home repair', 'renovation', 'home maintenance', 'professional services'],
-  authors: [
-    {
-      name: 'Dr. Handyman',
-      url: siteConfig.url,
+// Using the previously simplified generateMetadata to avoid unrelated errors
+export async function generateMetadata(): Promise<Metadata> {
+  const siteTitle = 'Dr. Handyman | Professional Home Repair & Renovation Services';
+  const siteDescription = 'Professional handyman services for all your home repair and renovation needs. Quality workmanship guaranteed.';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://drhandymannc.com';
+
+  return {
+    metadataBase: new URL(siteUrl),
+    title: {
+      default: siteTitle,
+      template: `%s | ${siteTitle}`,
     },
-  ],
-  creator: 'Dr. Handyman',
-  openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: siteConfig.url,
-    title: 'Dr. Handyman | Professional Home Repair & Renovation Services',
-    description: 'Professional handyman services for all your home repair and renovation needs. Quality workmanship guaranteed.',
-    siteName: 'Dr. Handyman',
-    images: [
-      {
-        url: `${siteConfig.url}/images/og.jpg`,
-        width: 1200,
-        height: 630,
-        alt: 'Dr. Handyman',
-      },
-    ],
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+    description: siteDescription,
+    openGraph: {
+      type: 'website',
+      locale: 'en_US',
+      url: siteUrl,
+      title: siteTitle,
+      description: siteDescription,
+      siteName: siteTitle,
     },
-  },
-  icons: {
-    icon: '/images/favicon.png',
-    shortcut: '/images/favicon.png',
-  },
-  manifest: `${siteConfig.url}/site.webmanifest`,
-};
+    robots: { index: true, follow: true },
+    icons: { icon: '/images/favicon.png' }, 
+    manifest: `${siteUrl}/site.webmanifest`,
+  };
+}
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -100,26 +69,35 @@ export const viewport: Viewport = {
     { media: '(prefers-color-scheme: light)', color: defaultAppearanceSettings.colors?.primary || '#FFFFFF' },
     { media: '(prefers-color-scheme: dark)', color: defaultAppearanceSettings.colors?.accent || '#000000' },
   ],
-  colorScheme: 'light dark', // Supports both light and dark modes
+  colorScheme: 'light dark',
 };
 
 export default async function RootLayout({ children }: RootLayoutProps) {
-  console.log('[RootLayout] EXECUTION STARTED'); // New log at the very beginning
+  console.log('[RootLayout - RESTORED COMPONENTS] EXECUTION STARTED (Using defaultAppearanceSettings for theme/fonts)');
 
-  const appearanceSettings = await getSiteAppearanceSettings();
-
-  const themeClass = appearanceSettings.theme === 'dark' ? 'dark' : 'light';
-  console.log('[RootLayout] Effective Theme:', appearanceSettings.theme, '| Applied themeClass:', themeClass);
+  const themeClass = defaultAppearanceSettings.theme === 'dark' ? 'dark' : 'light';
+  console.log('[RootLayout - RESTORED COMPONENTS] Effective Theme (from default):', defaultAppearanceSettings.theme, '| Applied themeClass:', themeClass);
   
-  const globalFontFamily = appearanceSettings.fonts?.global || 'var(--font-inter)';
-  const headingFontFamily = appearanceSettings.fonts?.heading || 'var(--font-lora)';
+  const globalFontFamily = defaultAppearanceSettings.fonts?.global || 'var(--font-inter)';
+  const headingFontFamily = defaultAppearanceSettings.fonts?.heading || 'var(--font-lora)';
 
   const fontOverrideVariables = {
     '--font-global-override': globalFontFamily,
     '--font-heading-override': headingFontFamily,
   } as React.CSSProperties;
 
-  const inlineStyles = `\n    :root {\n      --font-global: ${globalFontFamily};\n      --font-heading: ${headingFontFamily};\n    }\n    body {\n      font-family: var(--font-global-override, var(--font-inter));\n    }\n    h1, h2, h3, h4, h5, h6 {\n      font-family: var(--font-heading-override, var(--font-lora));\n    }\n  `;
+  const inlineStyles = `
+    :root {
+      --font-global: ${globalFontFamily};
+      --font-heading: ${headingFontFamily};
+    }
+    body {
+      font-family: var(--font-global-override, var(--font-inter));
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-heading-override, var(--font-lora));
+    }
+  `;
 
   return (
     <html lang="en" className={`${themeClass} font-sans`} style={fontOverrideVariables}>
@@ -129,9 +107,9 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       <body className={`${inter.variable} ${lora.variable} ${poppins.variable} antialiased`}>
         <Providers>
           <Toaster position="top-center" reverseOrder={false} />
-          <Header appearanceSettings={appearanceSettings} />
+          <Header appearanceSettings={defaultAppearanceSettings} />
           <main className="flex-grow">{children}</main>
-          <Footer appearanceSettings={appearanceSettings} />
+          <Footer appearanceSettings={defaultAppearanceSettings} />
         </Providers>
       </body>
     </html>
