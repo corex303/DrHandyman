@@ -111,7 +111,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       <head>
         <style dangerouslySetInnerHTML={{ __html: inlineStyles }} />
       </head>
-      <body className={`${inter.variable} ${lora.variable} ${poppins.variable} antialiased bg-background-light text-text-dark`}>
+      <body className={`${inter.variable} ${lora.variable} ${poppins.variable} antialiased`}>
         <Providers>
           <Toaster position="top-center" reverseOrder={false} />
           <Header appearanceSettings={appearanceSettings} />

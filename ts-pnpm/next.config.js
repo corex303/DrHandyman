@@ -7,7 +7,28 @@ const nextConfig = {
   reactStrictMode: true,
 
   images: {
-    domains: ['res.cloudinary.com', 'images.unsplash.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        port: '',
+        pathname: '/**',
+      },
+      // If your /uploads/ images are served from a remote host (e.g., your-cdn.com),
+      // add its configuration here. Example:
+      // {
+      //   protocol: 'https',
+      //   hostname: 'your-cdn.com', // Replace with your actual hostname
+      //   port: '',
+      //   pathname: '/uploads/**', // Or a more specific path if needed
+      // },
+    ],
   },
 
   webpack(config) {
