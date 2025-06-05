@@ -6,25 +6,25 @@ import { authOptions } from '@/lib/auth/options';
 import prisma from '@/lib/prisma';
 
 // Define the context interface, typing params as a Promise
-interface RouteContext {
-  params: Promise<{ // Params is now a Promise
-    conversationId: string;
-  }>;
-}
+// interface RouteContext { // REMOVED
+// params: Promise<{ // Params is now a Promise // REMOVED
+// conversationId: string; // REMOVED
+//   }>; // REMOVED
+// } // REMOVED
 
 // GET /api/admin/chat/conversations/[conversationId]/messages
 // Get all messages for a specific conversation, ensuring admin access
 export async function GET(
   request: NextRequest,
-  context: RouteContext,
+  { params }: { params: { conversationId: string } }
 ) {
-  const actualParams = await context.params; // Await params
+  // const actualParams = await context.params; // Await params // REMOVED
   const session = await getServerSession(authOptions);
   if (!session?.user || session.user.role !== 'ADMIN') {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const { conversationId } = actualParams; // Use awaited params
+  const { conversationId } = params; // Use awaited params
 
   if (!conversationId) {
     return NextResponse.json({ error: 'Conversation ID is required' }, { status: 400 });
@@ -61,15 +61,15 @@ export async function GET(
 // Admin sends a message to a specific conversation
 export async function POST(
   request: NextRequest,
-  context: RouteContext,
+  { params }: { params: { conversationId: string } }
 ) {
-  const actualParams = await context.params; // Await params
+  // const actualParams = await context.params; // Await params // REMOVED
   const session = await getServerSession(authOptions);
   if (!session?.user || session.user.role !== 'ADMIN') {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const { conversationId } = actualParams; // Use awaited params
+  const { conversationId } = params; // Use awaited params
   const body = await request.json();
   const { content, senderId, attachmentUrl, attachmentType, attachmentFilename, attachmentSize } = body; // Assuming these fields from prior edit
 
