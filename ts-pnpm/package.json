@@ -110,18 +110,5 @@
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@prisma/client",
-      "prisma"
-    ],
-    "ignoredBuiltDependencies": [
-      "@prisma/engines",
-      "bcrypt",
-      "esbuild",
-      "sharp",
-      "unrs-resolver"
-    ]
   }
 }
