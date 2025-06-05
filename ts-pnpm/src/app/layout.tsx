@@ -100,11 +100,11 @@ export default async function RootLayout({ children }: RootLayoutProps) {
   `;
 
   return (
-    <html lang="en" className={`${themeClass} font-sans`} style={fontOverrideVariables}>
+    <html lang="en" className={themeClass}>
       <head>
         <style dangerouslySetInnerHTML={{ __html: inlineStyles }} />
       </head>
-      <body className={`${inter.variable} ${lora.variable} ${poppins.variable} antialiased`}>
+      <body className={`${inter.variable} ${lora.variable} ${poppins.variable} font-sans antialiased`} style={fontOverrideVariables}>
         <Providers>
           <Toaster position="top-center" reverseOrder={false} />
           <Header appearanceSettings={defaultAppearanceSettings} />
