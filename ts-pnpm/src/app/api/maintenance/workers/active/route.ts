@@ -1,7 +1,7 @@
-import { NextResponse } from 'next/server';
 // import { getServerSession } from 'next-auth/next'; // REMOVED
 // import { UserRole, Prisma } from '@prisma/client'; // UserRole might not be needed, Prisma might be if more complex queries arise
-import { PrismaClient } from '@prisma/client'; // Ensure PrismaClient is imported
+// Ensure PrismaClient is imported
+import { NextResponse } from 'next/server';
 
 import prisma from '@/lib/prisma'; // Assuming this is your pre-configured Prisma client instance
 // import { authOptions } from '@/app/api/auth/[...nextauth]/route'; // REMOVED

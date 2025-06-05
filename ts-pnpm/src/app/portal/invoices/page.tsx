@@ -1,12 +1,12 @@
 'use client';
 
-import { ArrowLeftIcon, BanknotesIcon, CreditCardIcon,DocumentTextIcon } from '@heroicons/react/24/outline';
-import Link from 'next/link';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { CreditCardIcon } from '@heroicons/react/24/outline';
 import { DollarSignIcon, EyeIcon } from 'lucide-react';
-import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 // Placeholder Invoice type - replace with actual Prisma model when ready
 interface PlaceholderInvoice {

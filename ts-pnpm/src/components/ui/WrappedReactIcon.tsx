@@ -5,7 +5,7 @@ import { type IconType } from 'react-icons';
 interface WrappedReactIconProps {
   icon: IconType;
   className?: string; // Ensure className can be passed through
-  size?: number; // Adding size prop
+  size?: number | string; // Adding size prop, allowing string or number
   // Allow any other SVG props
   [key: string]: any; 
 }

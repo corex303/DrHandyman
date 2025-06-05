@@ -1,5 +1,5 @@
+import { PrismaClient } from '@prisma/client';
 import { NextResponse } from 'next/server';
-import { PrismaClient, UserRole } from '@prisma/client';
 // import { getServerSession } from 'next-auth/next';
 // import { authOptions } from '@/app/api/auth/[...nextauth]/route'; // Adjust path as needed
 

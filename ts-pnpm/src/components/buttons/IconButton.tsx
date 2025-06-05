@@ -3,8 +3,9 @@ import * as React from 'react';
 import { IconType } from 'react-icons';
 import { ImSpinner2 } from 'react-icons/im';
 
-import WrappedReactIcon from '@/components/ui/WrappedReactIcon';
 import { cn } from '@/lib/utils';
+
+import WrappedReactIcon from '@/components/ui/WrappedReactIcon';
 
 const IconButtonVariant = [
   'primary',

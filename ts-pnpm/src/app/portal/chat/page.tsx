@@ -1,16 +1,16 @@
 'use client';
 
-import { ArrowPathIcon, ChatBubbleLeftEllipsisIcon, PaperAirplaneIcon, PlusCircleIcon, UserCircleIcon, UserGroupIcon, UsersIcon, PaperClipIcon, XCircleIcon, PhotoIcon, ChevronRightIcon, ChevronLeftIcon, ChatBubbleLeftRightIcon } from '@heroicons/react/24/outline';
+import { ArrowPathIcon, ChatBubbleLeftRightIcon, ChevronRightIcon, PaperAirplaneIcon, PaperClipIcon, PhotoIcon, UsersIcon, XCircleIcon } from '@heroicons/react/24/outline';
 import type { RealtimeChannel } from '@supabase/supabase-js'; // Import Supabase types
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
-import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
-
-import { supabase } from '@/lib/supabaseClient'; // Import public Supabase client
-
+import { useCallback, useEffect, useRef, useState } from 'react';
 // Lightbox imports
 import Lightbox from "yet-another-react-lightbox";
+
 import "yet-another-react-lightbox/styles.css";
+
+import { supabase } from '@/lib/supabaseClient'; // Import public Supabase client
 // Optional: Import plugins if you want to use them (e.g., Zoom, Thumbnails)
 // import Zoom from "yet-another-react-lightbox/plugins/zoom";
 // import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";

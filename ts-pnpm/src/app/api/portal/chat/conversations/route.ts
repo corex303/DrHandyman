@@ -1,13 +1,11 @@
-import { UserRole, Prisma } from '../../../../../../generated/prisma-client'; // Direct relative import, bring in Prisma namespace
-import type { ChatConversation, ChatMessage, User } from '../../../../../../generated/prisma-client'; // Corrected direct relative import for types
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth/next';
-import { getToken } from 'next-auth/jwt';
 import { NextRequest } from 'next/server';
+import { getToken } from 'next-auth/jwt';
 
 import prisma from '@/lib/prisma';
 
-import { authOptions } from '@/lib/auth/options';
+import type { ChatConversation, ChatMessage, User } from '../../../../../../generated/prisma-client'; // Corrected direct relative import for types
+import {UserRole } from '../../../../../../generated/prisma-client'; // Direct relative import, bring in Prisma namespace
 
 // Helper type for processing conversations
 interface ProcessedChatConversation extends Omit<ChatConversation, 'lastMessage'> { // Omit the original lastMessage to redefine it safely if needed, or ensure alignment

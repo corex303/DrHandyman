@@ -1,6 +1,8 @@
 import React from 'react';
 import { FaQuoteLeft } from 'react-icons/fa';
 
+import WrappedReactIcon from '@/components/ui/WrappedReactIcon';
+
 interface TestimonialCardProps {
   quote: string;
   author: string;
@@ -11,7 +13,7 @@ interface TestimonialCardProps {
 const TestimonialCard: React.FC<TestimonialCardProps> = ({ quote, author, title, company }) => {
   return (
     <div className='bg-primary-navy text-text-light p-8 rounded-lg shadow-lg flex flex-col'>
-      <FaQuoteLeft className='text-accent-gold text-3xl mb-6' />
+      <WrappedReactIcon icon={FaQuoteLeft} className='text-accent-gold text-3xl mb-6' />
       <p className='text-lg italic text-secondary-gray-light mb-6 flex-grow'>
         {quote}
       </p>

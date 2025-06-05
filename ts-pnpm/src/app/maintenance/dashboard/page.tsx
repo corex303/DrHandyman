@@ -1,10 +1,11 @@
 "use client";
 
+import { ApprovalStatus,Photo, PhotoSet } from '@prisma/client';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+
 import Button from '@/components/buttons/Button';
-import { Photo, PhotoSet, ApprovalStatus } from '@prisma/client';
 import PhotoSetGallery from '@/components/maintenance/PhotoSetGallery';
 
 // Interface for the PhotoSet with included photos (for dashboard preview)

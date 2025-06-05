@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
-import type { ChatConversation, ChatMessage, User, UserRole } from '@prisma/client'; 
-import { supabase } from '@/lib/supabaseClient';
+import type { ChatMessage, User } from '@prisma/client'; 
 import type { RealtimeChannel } from '@supabase/supabase-js';
+import { useRouter } from 'next/navigation';
+import { useCallback,useEffect, useRef, useState } from 'react';
+
+import { supabase } from '@/lib/supabaseClient';
 
 interface ProcessedConversation {
   id: string;

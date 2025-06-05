@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect,useState } from "react";
+import React, { Suspense, useEffect,useState } from "react";
 
 import Button from "@/components/buttons/Button";
 import Input from "@/components/forms/Input";
 import Label from "@/components/forms/Label";
 
-export default function MaintenanceLoginPage() {
+// New component to handle logic depending on useSearchParams
+function MaintenanceLoginContent() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -57,13 +58,8 @@ export default function MaintenanceLoginPage() {
     }
   };
 
-  // This page doesn't need to check auth status via hooks anymore,
-  // as middleware handles unauthorized access by redirecting here.
-  // If a user lands here, they need to log in.
-
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-xl shadow-lg">
+    <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-xl shadow-lg">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Maintenance Portal Access
@@ -122,6 +118,15 @@ export default function MaintenanceLoginPage() {
           </Link>
         </p>
       </div>
+  );
+}
+
+export default function MaintenanceLoginPage() {
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <Suspense fallback={<div className="text-center"><p>Loading login form...</p></div>}>
+        <MaintenanceLoginContent />
+      </Suspense>
     </div>
   );
 } 

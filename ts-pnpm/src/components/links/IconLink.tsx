@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import UnstyledLink, {
   UnstyledLinkProps,
 } from '@/components/links/UnstyledLink';
+import WrappedReactIcon from '@/components/ui/WrappedReactIcon';
 
 const IconLinkVariant = [
   'primary',
@@ -88,7 +89,7 @@ const IconLink = React.forwardRef<HTMLAnchorElement, IconLinkProps>(
         )}
         {...rest}
       >
-        {Icon && <Icon size='1em' className={cn(classNames?.icon)} />}
+        {Icon && <WrappedReactIcon icon={Icon} size='1em' className={cn(classNames?.icon)} />}
       </UnstyledLink>
     );
   }

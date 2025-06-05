@@ -1,0 +1,119 @@
+---
+description: Next.JS Build Errors (Type errors for react-icons)
+globs: 
+alwaysApply: false
+---
+# Next.js Build Error Resolutions
+
+This document outlines common build errors encountered during the development of the Dr. Handyman Next.js application and their established solutions.
+
+## 1. `react-icons` Type Error: `ReactNode` is not a valid JSX element
+
+**Problem:**
+When using icons directly from the `react-icons` library (which are often typed as `IconType`), TypeScript can throw an error similar to: `'{IconName}' cannot be used as a JSX component. Its return type 'ReactNode' is not a valid JSX element. Type 'undefined' is not assignable to type 'Element | null'.` This happens because `ReactNode` can include `undefined`, which is not a valid direct return for a JSX component expecting an `Element` or `null`.
+
+**Solution: Use `WrappedReactIcon` Component**
+A shared wrapper component, `[WrappedReactIcon.tsx](mdc:ts-pnpm/src/components/ui/WrappedReactIcon.tsx)`, has been created to address this. This component:
+1.  Accepts an `icon` prop of type `IconType`.
+2.  Accepts `className`, `size`, and other standard SVG/HTML attributes.
+3.  Internally casts the `icon` to `React.ElementType` before rendering it, satisfying TypeScript's stricter JSX type checking.
+
+**Implementation:**
+```typescript
+// ts-pnpm/src/components/ui/WrappedReactIcon.tsx
+import React from 'react';
+import { type IconType } from 'react-icons';
+
+interface WrappedReactIconProps {
+  icon: IconType;
+  className?: string;
+  size?: number;
+  [key: string]: any; // Allow other SVG props
+}
+
+const WrappedReactIcon = ({ icon, className, size, ...rest }: WrappedReactIconProps): JSX.Element => {
+  const IconComponent = icon as React.ElementType;
+  return <IconComponent className={className} size={size} {...rest} />;
+};
+
+export default WrappedReactIcon;
+```
+
+**Usage:**
+Instead of rendering a `react-icon` directly like `<RiAlarmWarningFill size={60} />`, use the wrapper:
+```tsx
+import WrappedReactIcon from '@/components/ui/WrappedReactIcon';
+import { RiAlarmWarningFill } from 'react-icons/ri';
+
+// ...
+<WrappedReactIcon icon={RiAlarmWarningFill} size={60} className="text-red-500" />
+// ...
+```
+This pattern has been applied in files like `[error.tsx](mdc:ts-pnpm/src/app/error.tsx)` and `[not-found.tsx](mdc:ts-pnpm/src/app/not-found.tsx)`.
+
+## 2. Stripe `PaymentIntent.metadata` Type Error
+
+**Problem:**
+When retrieving a `PaymentIntent` object from Stripe.js using `stripe.retrievePaymentIntent()`, accessing custom metadata (e.g., `paymentIntent.metadata.invoiceNumber`) can cause a TypeScript error: `Property 'metadata' does not exist on type 'PaymentIntent'`. This is because the base `PaymentIntent` type from `@stripe/stripe-js` does not inherently know the structure of your custom `metadata`.
+
+**Solution: Extend `PaymentIntent` Type and Cast**
+1.  **Define a Custom Interface:** Create an interface that extends Stripe's `PaymentIntent` type and explicitly defines the structure of your `metadata` object.
+2.  **Cast the Object:** When you retrieve the `paymentIntent`, cast it to your custom interface.
+
+**Implementation Example (from `[payment/confirmation/page.tsx](mdc:ts-pnpm/src/app/payment/confirmation/page.tsx)`):**
+```typescript
+import { loadStripe, Stripe, PaymentIntent } from '@stripe/stripe-js'; // Ensure PaymentIntent is imported
+
+// ...
+
+interface CustomPaymentIntent extends PaymentIntent {
+  metadata: {
+    invoiceNumber?: string;
+    // Add other expected metadata properties here if any
+  };
+}
+
+// ...
+
+stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
+  if (!paymentIntent) {
+    // ... handle error
+    return;
+  }
+
+  // Cast to our custom type
+  const customPaymentIntent = paymentIntent as CustomPaymentIntent;
+
+  // Now you can safely access your custom metadata
+  const invoiceNum = customPaymentIntent.metadata.invoiceNumber;
+  // ...
+});
+```
+
+## 3. Prisma Client and Schema Mismatches
+
+**Problem:**
+Type errors such as:
+- `Property '{modelName}' does not exist on type 'PrismaClient<...>'`
+- `Property '{relationName}' does not exist in type '{ModelName}Include<DefaultArgs>'`
+- Or similar errors indicating a model, field, or relation is not recognized by the Prisma client.
+
+These often occur due to:
+-   A mismatch between the model/field/relation name used in the code and its definition in `[schema.prisma](mdc:ts-pnpm/prisma/schema.prisma)`.
+-   The model or relation being commented out in `schema.prisma`.
+-   Changes made to `schema.prisma` without regenerating the Prisma client.
+
+**Solutions & Best Practices:**
+1.  **Verify Naming:** Ensure that all model, field, and relation names used in your application code (e.g., `await prisma.user.findUnique(...)`, `include: { posts: true }`) exactly match the definitions in your `[schema.prisma](mdc:ts-pnpm/prisma/schema.prisma)` file, case-sensitively.
+2.  **Check for Comments:** If a property is reported as missing, carefully review `schema.prisma` to ensure the relevant model or relation is not commented out. This was observed with the `Inquiry.photoSets` relation, which was intentionally commented out, requiring its removal from query `include` clauses (see `[inquiries/route.ts](mdc:ts-pnpm/src/app/api/maintenance/inquiries/route.ts)`).
+3.  **Regenerate Prisma Client:** **Crucially, after *any* modification to the `[schema.prisma](mdc:ts-pnpm/prisma/schema.prisma)` file (adding, removing, or changing models, fields, or relations), you MUST regenerate the Prisma client.**
+    ```bash
+    pnpm prisma generate
+    ```
+    (Or `npx prisma generate` if `pnpm` is not globally configured for Prisma commands in the project context).
+    Failure to do so will result in the Prisma client not reflecting the latest schema changes, leading to type errors.
+4.  **Check `include` Clauses:** When using `include` in Prisma queries, ensure that the relations you are trying to include are correctly defined and not commented out in the schema for the respective model.
+
+By following these guidelines, you can proactively avoid and quickly resolve many common Prisma-related build errors.
+
+

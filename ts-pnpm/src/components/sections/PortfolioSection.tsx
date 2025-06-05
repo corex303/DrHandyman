@@ -68,13 +68,13 @@ const PortfolioItemCard: React.FC<{ item: PortfolioItem, settings: PortfolioSect
 
   if (item.link) {
     return (
-      <Link href={item.link} className="group block rounded-lg shadow-md transition-shadow duration-300 hover:shadow-xl overflow-hidden h-full flex flex-col" style={{ backgroundColor: settings.itemBackgroundColor }}>
+      <Link href={item.link} className="group block rounded-lg shadow-md transition-shadow duration-300 hover:shadow-xl overflow-hidden h-full flex flex-col" style={{ backgroundColor: settings.backgroundColor }}>
         {content}
       </Link>
     );
   }
   return (
-    <div className="group rounded-lg shadow-md overflow-hidden h-full flex flex-col" style={{ backgroundColor: settings.itemBackgroundColor }}>
+    <div className="group rounded-lg shadow-md overflow-hidden h-full flex flex-col" style={{ backgroundColor: settings.backgroundColor }}>
       {content}
     </div>
   );

@@ -151,7 +151,9 @@ export const authOptions: NextAuthOptions = {
           session.user.role = token.role as UserRole; 
         }
         if (token.emailVerified) {
-          session.user.emailVerified = token.emailVerified as Date | null; 
+          session.user.emailVerified = new Date(token.emailVerified);
+        } else {
+          session.user.emailVerified = null;
         }
       }
       return session;

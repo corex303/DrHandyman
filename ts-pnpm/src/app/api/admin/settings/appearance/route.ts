@@ -1,10 +1,8 @@
 import { type NextRequest,NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
-import { z } from 'zod';
-
-import prisma from '@/lib/prisma'; // Corrected: Default import for prisma
 
 import { authOptions } from '@/lib/auth/options';
+import prisma from '@/lib/prisma'; // Corrected: Default import for prisma
 
 // Helper to get or create the single SiteSettings record
 async function getSiteSettings() {

@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowPathIcon, ChatBubbleLeftEllipsisIcon, PaperAirplaneIcon, UserCircleIcon, UserGroupIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
+import { ArrowPathIcon, ChatBubbleLeftEllipsisIcon,PaperAirplaneIcon, UserCircleIcon, UserGroupIcon } from '@heroicons/react/24/outline';
 import type { RealtimeChannel } from '@supabase/supabase-js';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';

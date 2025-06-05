@@ -1,15 +1,16 @@
 'use client';
 
-import Link from 'next/link';
 import Image from 'next/image'; // Added Image
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 // import { AppearanceSettings } from '@/types/appearance'; // AppearanceSettings not directly used
 import { useSession } from 'next-auth/react'; // Import useSession
 import { createRef,useEffect, useRef, useState } from 'react';
 import { FaChevronDown } from 'react-icons/fa';
 
-import WrappedReactIcon from '@/components/ui/WrappedReactIcon'; // Added import
 import { accessibleKeyboardEventHandler,trapFocus } from '@/lib/accessibility';
+
+import WrappedReactIcon from '@/components/ui/WrappedReactIcon'; // Added import
 
 // Removed hardcoded serviceCategories as navLinks will be dynamic
 // export const serviceCategories = [...];

@@ -1,9 +1,11 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { Photo, PhotoSet,PhotoType } from '@prisma/client';
+import React, { useEffect,useState } from 'react';
 import Lightbox, { SlideImage } from "yet-another-react-lightbox";
+
 import "yet-another-react-lightbox/styles.css";
-import { Photo, PhotoType, PhotoSet } from '@prisma/client';
+
 import Button from '@/components/buttons/Button';
 
 // Optional: Import plugins if you use them, e.g., Thumbnails, Zoom
@@ -109,23 +111,33 @@ const PhotoSetGallery: React.FC<PhotoSetGalleryProps> = ({ photoSetId, photoSetD
         close={onClose}
         slides={slides}
         // plugins={[Thumbnails, Zoom]} // Optional plugins
+        toolbar={{
+          buttons: [
+            <Button
+              key="toggle-view-button"
+              onClick={toggleView}
+              variant="primary"
+              size="sm"
+              className="mr-2 bg-sky-600 hover:bg-sky-700"
+            >
+              Show {currentView === PhotoType.BEFORE ? 'After' : 'Before'} Images
+            </Button>,
+            <Button 
+              key="close-gallery-button"
+              onClick={onClose} 
+              variant="outline" 
+              size="sm" 
+              className="text-white border-white hover:bg-white hover:text-black"
+            >
+              Close
+            </Button>
+            // Add rotation buttons here if implementing client-side rotation - not part of this fix
+          ]
+        }}
         render={{ 
           buttonPrev: slides.length <= 1 ? () => null : undefined,
           buttonNext: slides.length <= 1 ? () => null : undefined,
-          toolbar: (
-            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, padding: '8px', textAlign: 'right', zIndex: 10 }}>
-              <Button 
-                onClick={toggleView} 
-                variant="primary"
-                size="sm"
-                className="mr-2 bg-sky-600 hover:bg-sky-700"
-              >
-                Show {currentView === PhotoType.BEFORE ? 'After' : 'Before'} Images
-              </Button>
-              {/* Add rotation buttons here if implementing client-side rotation */}
-              <Button onClick={onClose} variant="outline" size="sm" className="text-white border-white hover:bg-white hover:text-black">Close</Button>
-            </div>
-          ),
+          // Removed toolbar from here
         }}
       />
     </>

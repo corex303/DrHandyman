@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import Image from 'next/image';
 import { ReactCompareSlider, ReactCompareSliderImage } from 'react-compare-slider';
 
 // Import necessary types from the CORRECT prisma client path

@@ -1,9 +1,10 @@
 "use client";
 
 import React from 'react';
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
+
 import ContactForm from '@/components/forms/ContactForm';
 import PageHeader from '@/components/layout/PageHeader';
-import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
 export default function ServiceInquiryPage() {
   const recaptchaV3SiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_V3_SITE_KEY; 

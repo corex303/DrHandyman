@@ -1,9 +1,9 @@
 'use client';
 
-import { loadStripe, Stripe, PaymentIntent } from '@stripe/stripe-js';
+import { loadStripe, PaymentIntent,Stripe } from '@stripe/stripe-js';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 
 // Load Stripe.js with your publishable key
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
@@ -16,7 +16,8 @@ interface CustomPaymentIntent extends PaymentIntent {
   };
 }
 
-export default function PaymentConfirmationPage() {
+// New component to handle logic depending on useSearchParams
+function PaymentConfirmationContent() {
   const searchParams = useSearchParams();
   const [stripe, setStripe] = useState<Stripe | null>(null);
   const [message, setMessage] = useState<string | null>(null);
@@ -84,42 +85,45 @@ export default function PaymentConfirmationPage() {
     });
   }, [stripe, searchParams]);
 
-  const renderContent = () => {
-    if (isLoading) {
-      return <p className="text-center text-lg">Loading payment status...</p>;
-    }
-
-    return (
-      <div className="text-center p-6 bg-white shadow-md rounded-lg">
-        <h1 className="text-2xl font-semibold mb-4">
-          {paymentStatus === 'succeeded' ? 'Payment Successful!' : 
-           paymentStatus === 'processing' ? 'Payment Processing' : 'Payment Status'}
-        </h1>
-        {message && (
-          <p 
-            className={`text-md mb-6 ${paymentStatus === 'succeeded' ? 'text-green-600' : paymentStatus === 'processing' ? 'text-blue-600' : 'text-red-600'}`}
-          >
-            {message}
-          </p>
-        )}
-        {paymentStatus === 'succeeded' && (
-            <p className="text-sm text-gray-600 mb-4">A confirmation receipt will be sent to your email if provided.</p>
-        )}
-        <Link href="/" className="text-indigo-600 hover:text-indigo-800 font-medium">
-          Go to Homepage
-        </Link>
-        {paymentStatus !== 'succeeded' && paymentStatus !== 'processing' && (
-            <Link href="/payment" className="ml-4 text-indigo-600 hover:text-indigo-800 font-medium">
-                Try Payment Again
-            </Link>
-        )}
-      </div>
-    );
+  // This rendering logic was part of the original PaymentConfirmationPage
+  if (isLoading) {
+    return <p className="text-center text-lg">Loading payment status...</p>;
   }
 
   return (
+    <div className="text-center p-6 bg-white shadow-md rounded-lg">
+      <h1 className="text-2xl font-semibold mb-4">
+        {paymentStatus === 'succeeded' ? 'Payment Successful!' : 
+         paymentStatus === 'processing' ? 'Payment Processing' : 'Payment Status'}
+      </h1>
+      {message && (
+        <p 
+          className={`text-md mb-6 ${paymentStatus === 'succeeded' ? 'text-green-600' : paymentStatus === 'processing' ? 'text-blue-600' : 'text-red-600'}`}
+        >
+          {message}
+        </p>
+      )}
+      {paymentStatus === 'succeeded' && (
+          <p className="text-sm text-gray-600 mb-4">A confirmation receipt will be sent to your email if provided.</p>
+      )}
+      <Link href="/" className="text-indigo-600 hover:text-indigo-800 font-medium">
+        Go to Homepage
+      </Link>
+      {paymentStatus !== 'succeeded' && paymentStatus !== 'processing' && (
+          <Link href="/payment" className="ml-4 text-indigo-600 hover:text-indigo-800 font-medium">
+              Try Payment Again
+          </Link>
+      )}
+    </div>
+  );
+}
+
+export default function PaymentConfirmationPage() {
+  return (
     <div className="container mx-auto mt-10 p-4 flex justify-center items-center min-h-[60vh]">
-      {renderContent()}
+      <Suspense fallback={<p className="text-center text-lg">Loading payment details...</p>}>
+        <PaymentConfirmationContent />
+      </Suspense>
     </div>
   );
 } 

@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import * as React from 'react';
 import { RiAlarmWarningFill } from 'react-icons/ri';
+
 import WrappedReactIcon from '@/components/ui/WrappedReactIcon';
 
 export const metadata: Metadata = {

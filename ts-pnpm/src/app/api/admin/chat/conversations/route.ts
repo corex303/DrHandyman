@@ -1,12 +1,10 @@
-import { UserRole, Prisma } from '@prisma/client';
-import type { ChatConversation, ChatMessage, User } from '@prisma/client';
+import { Prisma,UserRole } from '@prisma/client';
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth/next'; // Assuming NextAuth for admin session management as well
-import { getToken } from 'next-auth/jwt';
 import { NextRequest } from 'next/server';
+import { getServerSession } from 'next-auth/next'; // Assuming NextAuth for admin session management as well
 
-import prisma from '@/lib/prisma';
 import { authOptions } from '@/lib/auth/options';
+import prisma from '@/lib/prisma';
 // import { pusherServer } from '@/lib/pusher/server'; // Commented out as the path/module doesn't exist
 
 // GET /api/admin/chat/conversations

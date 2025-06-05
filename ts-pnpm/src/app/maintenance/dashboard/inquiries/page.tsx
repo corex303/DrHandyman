@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { ArrowPathIcon, ChatBubbleLeftRightIcon, ChevronDownIcon, ChevronUpIcon, PhotoIcon } from '@heroicons/react/24/solid';
+import { Inquiry, InquiryAttachment,User } from '@prisma/client'; // Assuming Prisma types are available
 import Link from 'next/link';
-import { User, Inquiry, InquiryAttachment, Prisma } from '@prisma/client'; // Assuming Prisma types are available
-import Button from '@/components/buttons/Button';
-import { ChevronDownIcon, ChevronUpIcon, PaperClipIcon, ChatBubbleLeftRightIcon, ArrowPathIcon, PhotoIcon } from '@heroicons/react/24/solid';
 import { useRouter } from 'next/navigation'; // Import useRouter
+import { useEffect, useState } from 'react';
+
+import Button from '@/components/buttons/Button';
 import PhotoSetGallery from '@/components/maintenance/PhotoSetGallery'; // Import the gallery
 
 // Define a more specific type for Inquiry with included relations

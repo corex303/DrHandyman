@@ -1,16 +1,17 @@
 'use client';
 
-import Link from 'next/link';
 import Image from 'next/image'; // Added Image
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 // import { AppearanceSettings } from '@/types/appearance'; // Not directly used
 import { useSession } from 'next-auth/react'; // Import useSession
 import { useEffect,useRef, useState } from 'react';
 import { FaChevronDown } from 'react-icons/fa';
 
-import WrappedReactIcon from '@/components/ui/WrappedReactIcon'; // Added import
 // import { serviceCategories } from './DesktopNavigation'; // Removed hardcoded import
 import { accessibleKeyboardEventHandler,trapFocus } from '@/lib/accessibility';
+
+import WrappedReactIcon from '@/components/ui/WrappedReactIcon'; // Added import
 
 interface NavLink {
   id: string;

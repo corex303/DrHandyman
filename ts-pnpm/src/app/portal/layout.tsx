@@ -1,10 +1,10 @@
 'use client';
 
-import { ArrowLeftOnRectangleIcon,CalendarIcon, ChatBubbleLeftEllipsisIcon, DocumentTextIcon, HomeIcon, UserCircleIcon } from '@heroicons/react/24/outline'; // Using outline icons
+import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/outline'; // Using outline icons
+import { CalendarDaysIcon, CreditCardIcon, LayoutDashboardIcon, MessageSquareTextIcon, UserCircle2Icon } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
-import { BarChart2Icon, CalendarDaysIcon, CreditCardIcon, LayoutDashboardIcon, LogOutIcon, MessageSquareTextIcon, SettingsIcon, UserCircle2Icon, UsersIcon } from 'lucide-react';
 
 interface NavItem {
   name: string;

@@ -8,14 +8,14 @@ declare module 'next-auth' {
     user?: {
       id: string;
       role: UserRole;
-      emailVerified?: string | null;
+      emailVerified: Date | null;
     } & NextAuthUser; // Keep existing User fields like name, email, image
   }
 
   interface User extends NextAuthUser {
     id: string;
     role: UserRole;
-    emailVerified?: Date | null;
+    emailVerified: Date | null;
   }
 }
 
@@ -23,7 +23,7 @@ declare module 'next-auth/jwt' {
   interface JWT extends NextAuthJWT {
     id: string;
     role: UserRole;
-    emailVerified?: string | null;
+    emailVerified: string | null;
     // name, email, picture will be standard if populated from provider
   }
 } 

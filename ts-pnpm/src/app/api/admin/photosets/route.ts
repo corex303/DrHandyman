@@ -1,7 +1,7 @@
 // import { PrismaClient, ApprovalStatus, PhotoSet } from "../../../../../generated/prisma-client"; // REMOVE
+import { Prisma } from "@prisma/client";
 import { del } from "@vercel/blob"; // Import del
 import { NextRequest, NextResponse } from "next/server";
-import { Prisma } from "@prisma/client";
 
 import prisma from '@/lib/prisma';
 

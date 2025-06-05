@@ -1,16 +1,19 @@
 import React from 'react';
-import { FiCheckSquare,FiHome, FiTool } from 'react-icons/fi'; // Changed icons
+import { FiCheckSquare, FiHome, FiTool } from 'react-icons/fi';
+import { IconType } from 'react-icons';
+
+import WrappedReactIcon from '@/components/ui/WrappedReactIcon';
 
 interface ServiceCardProps {
-  icon: React.ElementType;
+  icon: IconType;
   title: string;
   description: string;
 }
 
-const ServiceCard: React.FC<ServiceCardProps> = ({ icon: Icon, title, description }) => {
+const ServiceCard: React.FC<ServiceCardProps> = ({ icon, title, description }) => {
   return (
     <div className='bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col items-center text-center'>
-      <Icon className='text-accent-gold text-4xl mb-6' />
+      <WrappedReactIcon icon={icon} className='text-accent-gold text-4xl mb-6' />
       <h3 className='font-serif text-2xl font-semibold text-primary-navy mb-3'>{title}</h3>
       <p className='text-secondary-gray text-base leading-relaxed'>{description}</p>
     </div>
@@ -20,19 +23,19 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ icon: Icon, title, descriptio
 const ServicesSection: React.FC = () => {
   const services = [
     {
-      icon: FiTool, // Changed icon
-      title: 'General Home Repairs', // Changed title
-      description: 'From leaky faucets to drywall patches, no job is too small. We handle all your everyday home repair needs efficiently.', // Changed description
+      icon: FiTool,
+      title: 'General Home Repairs',
+      description: 'From leaky faucets to drywall patches, no job is too small. We handle all your everyday home repair needs efficiently.',
     },
     {
-      icon: FiHome, // Changed icon
-      title: 'Renovations & Remodeling', // Changed title
-      description: 'Kitchens, bathrooms, basements, and more. Let us help you transform your space with quality and precision.', // Changed description
+      icon: FiHome,
+      title: 'Renovations & Remodeling',
+      description: 'Kitchens, bathrooms, basements, and more. Let us help you transform your space with quality and precision.',
     },
     {
-      icon: FiCheckSquare, // Changed icon
-      title: 'Installation Services', // Changed title
-      description: 'Appliance installation, light fixtures, shelving, and more. We ensure everything is set up correctly and safely.', // Changed description
+      icon: FiCheckSquare,
+      title: 'Installation Services',
+      description: 'Appliance installation, light fixtures, shelving, and more. We ensure everything is set up correctly and safely.',
     },
   ];
 

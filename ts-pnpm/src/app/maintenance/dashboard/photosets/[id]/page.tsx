@@ -1,9 +1,10 @@
 'use client';
 
-import { useParams } from 'next/navigation';
+import { ApprovalStatus, Photo, PhotoSet, PhotoType } from '@prisma/client'; // Added PhotoType
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Photo, PhotoSet, ApprovalStatus, PhotoType } from '@prisma/client'; // Added PhotoType
+
 import Button from '@/components/buttons/Button';
 import PhotoSetGallery from '@/components/maintenance/PhotoSetGallery'; // Import the gallery
 

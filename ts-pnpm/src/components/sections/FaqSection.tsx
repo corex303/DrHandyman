@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { FaMinus,FaPlus } from 'react-icons/fa'; // Example icons
 
+import WrappedReactIcon from '@/components/ui/WrappedReactIcon'; // Added import
 import { FaqItem,FaqSectionSettings } from '@/types/appearance';
 
 interface FaqSectionProps {
@@ -52,7 +53,7 @@ const AccordionItem: React.FC<{
           style={{ color: settings.questionTextColor }}
         >
           <span>{item.question}</span>
-          <Icon className={`h-5 w-5 transform transition-transform duration-200 ${isOpen ? 'rotate-0' : ''}`} />
+          <WrappedReactIcon icon={Icon} className={`h-5 w-5 transform transition-transform duration-200 ${isOpen ? 'rotate-0' : ''}`} />
         </button>
       </h2>
       <div

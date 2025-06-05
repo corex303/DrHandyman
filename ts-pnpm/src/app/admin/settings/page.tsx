@@ -1,3 +1,5 @@
+'use client';
+
 export default function SiteSettingsPage() {
   // TODO: Replace with actual form handling (e.g., React Hook Form, Zod) and state management
 

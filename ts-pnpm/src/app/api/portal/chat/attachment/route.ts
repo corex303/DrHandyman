@@ -1,9 +1,10 @@
+import { randomUUID } from 'crypto';
 import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
 import { getToken } from 'next-auth/jwt';
+
 // import { supabase } from '@/lib/supabaseClient'; // No longer using the anon client for upload
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin'; // Import the admin client getter
-import { randomUUID } from 'crypto';
 
 export async function POST(request: NextRequest) {
   const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });

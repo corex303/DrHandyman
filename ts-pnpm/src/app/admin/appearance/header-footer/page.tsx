@@ -80,7 +80,7 @@ export default function HeaderFooterAppearancePage() {
       setCurrentFooter(prev => ({ ...defaultFooterSettings, ...(data.footer || {}) }));
     } catch (error: any) {
       toast.error(error.message || 'Could not load settings.');
-      console.error(error);
+      
     } finally {
       setIsLoading(false);
     }
@@ -160,7 +160,7 @@ export default function HeaderFooterAppearancePage() {
     } catch (error: any) {
       toast.dismiss();
       toast.error(error.message || 'Could not save settings.');
-      console.error(error);
+      
     } finally {
       setIsSaving(false);
     }

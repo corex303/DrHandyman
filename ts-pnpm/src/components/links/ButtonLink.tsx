@@ -2,12 +2,12 @@ import { LucideIcon } from 'lucide-react';
 import * as React from 'react';
 import { IconType } from 'react-icons';
 
-import WrappedReactIcon from '@/components/ui/WrappedReactIcon';
 import { cn } from '@/lib/utils';
 
 import UnstyledLink, {
   UnstyledLinkProps,
 } from '@/components/links/UnstyledLink';
+import WrappedReactIcon from '@/components/ui/WrappedReactIcon';
 
 const ButtonLinkVariant = [
   'primary',

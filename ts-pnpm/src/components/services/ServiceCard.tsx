@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+
 import { type Service } from '../../../generated/prisma-client'; // Adjusted path
 
 interface ServiceCardProps {

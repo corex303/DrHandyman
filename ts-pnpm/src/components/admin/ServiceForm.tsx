@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Image, Input, Progress,Textarea } from '@heroui/react';
+import { Button, Input, Progress,Textarea } from '@heroui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UploadCloudIcon, XIcon } from 'lucide-react'; // Assuming lucide-react for icons
 import React, {useEffect, useState } from 'react';

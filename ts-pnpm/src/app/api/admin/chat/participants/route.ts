@@ -1,8 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
+
 import { authOptions } from '@/lib/auth/options';
-import { Prisma, UserRole } from '../../../../../../generated/prisma-client'; // Adjusted path
 import prisma from '@/lib/prisma';
+
+import { Prisma, UserRole } from '../../../../../../generated/prisma-client'; // Adjusted path
 
 export async function GET(request: Request) {
   const session = await getServerSession(authOptions);

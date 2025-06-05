@@ -224,13 +224,16 @@ export interface ServicesSectionSettings {
   subtitle?: string;
   textAlignment?: 'left' | 'center' | 'right';
   items?: ServiceItem[];
-  layoutStyle?: 'grid' | 'list' | 'feature-list'; 
-  columns?: 2 | 3 | 4; 
+  layoutStyle?: 'grid' | 'list' | 'feature-list';
+  columns?: 2 | 3 | 4;
   backgroundColor?: string;
-  textColor?: string; 
+  textColor?: string;
   itemTitleColor?: string;
   itemTextColor?: string;
+  itemBackgroundColor?: string;
   iconColor?: string;
+  viewAllServicesText?: string;
+  viewAllServicesLink?: string;
   paddingTop?: string;
   paddingBottom?: string;
 }

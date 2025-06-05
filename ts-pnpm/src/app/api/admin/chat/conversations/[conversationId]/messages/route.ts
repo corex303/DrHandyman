@@ -1,10 +1,9 @@
+import { Prisma } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
-import { UserRole, Prisma } from '@prisma/client';
-import type { ChatMessage } from '@prisma/client';
 
-import prisma from '@/lib/prisma';
 import { authOptions } from '@/lib/auth/options';
+import prisma from '@/lib/prisma';
 
 // Define the context interface, typing params as a Promise
 interface RouteContext {

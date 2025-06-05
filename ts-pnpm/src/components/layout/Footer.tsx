@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { FaChevronDown,FaEnvelope, FaFacebook, FaInstagram, FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
 
 import WrappedReactIcon from '@/components/ui/WrappedReactIcon';
+
 import { AppearanceSettings, defaultAppearanceSettings } from '@/types/appearance';
 
 interface FooterProps {

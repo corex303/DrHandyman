@@ -39,7 +39,6 @@ export interface CloudinaryUploadResult {
   folder: string;
   access_mode: string;
   original_filename: string;
-  api_key: string;
 }
 
 /**
@@ -58,7 +57,7 @@ export const uploadImageToCloudinary = async (
       // You can add more default options here, like transformations
       ...options,
     });
-    return result as CloudinaryUploadResult;
+    return result as unknown as CloudinaryUploadResult;
   } catch (error) {
     console.error('Error uploading to Cloudinary:', error);
     throw error;

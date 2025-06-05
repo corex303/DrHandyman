@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { ApprovalStatus, MaintenanceWorker,Photo, PhotoSet, User } from '@prisma/client';
 import Link from 'next/link';
-import { PhotoSet, Photo, User, ApprovalStatus, PhotoType, MaintenanceWorker } from '@prisma/client';
+import { useRouter } from 'next/navigation';
+import { useEffect,useState } from 'react';
 
 interface PhotoSetWithDetailsAndWorkerUser extends PhotoSet {
   photos: Photo[];

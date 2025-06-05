@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+
 import prisma from '@/lib/prisma';
 
 // Define the context interface, typing params as a Promise

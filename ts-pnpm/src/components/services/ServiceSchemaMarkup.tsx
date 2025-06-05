@@ -1,6 +1,7 @@
 'use client'; // If it needs to access browser APIs or hooks, otherwise remove
 
 import { Service } from '@prisma/client'; // Add this import
+
 import { SITE_NAME, SITE_URL } from '@/config/site'; // Import site config
 
 // Assuming manual Service type is defined elsewhere or passed in

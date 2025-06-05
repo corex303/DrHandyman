@@ -1,8 +1,9 @@
+import { Prisma,UserRole } from '@prisma/client'; // Import UserRole and Prisma namespace
 import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
-import { UserRole, Prisma } from '@prisma/client'; // Import UserRole and Prisma namespace
-import { getToken } from 'next-auth/jwt';
 import { NextRequest } from 'next/server';
+import { getToken } from 'next-auth/jwt';
+
+import prisma from '@/lib/prisma';
 
 // POST /api/maintenance/chat/from-inquiry
 // Finds or creates a chat conversation based on an inquiryId

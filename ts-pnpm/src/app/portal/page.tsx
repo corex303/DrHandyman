@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowPathIcon, CalendarIcon,ChatBubbleLeftEllipsisIcon, DocumentTextIcon, EyeIcon, InformationCircleIcon, UserCircleIcon, CreditCardIcon } from '@heroicons/react/24/outline';
+import { ArrowPathIcon, CalendarIcon,ChatBubbleLeftEllipsisIcon, CreditCardIcon, EyeIcon, InformationCircleIcon, UserCircleIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';

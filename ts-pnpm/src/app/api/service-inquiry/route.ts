@@ -1,8 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { z } from 'zod';
-import prisma from '@/lib/prisma';
 import fs from 'fs/promises'; // For file system operations
+import { NextRequest, NextResponse } from 'next/server';
 import path from 'path'; // For path manipulation
+import { z } from 'zod';
+
+import prisma from '@/lib/prisma';
 
 // Ensure uploads directory exists
 const UPLOADS_DIR = path.join(process.cwd(), 'public', 'uploads', 'inquiries');

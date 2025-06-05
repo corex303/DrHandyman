@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
+
 import prisma from '@/lib/prisma';
-import { UserRole } from '@prisma/client';
 
 const FIVE_MINUTES_IN_MS = 5 * 60 * 1000;
 

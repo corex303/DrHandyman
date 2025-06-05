@@ -2,9 +2,9 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation'; // For redirection after logout
-import { useEffect, useState, ReactNode, SVGProps } from 'react';
-import { FiBriefcase, FiCheckCircle, FiDollarSign, FiImage, FiLayers, FiTool, FiUsers } from 'react-icons/fi'; // FiEdit, FiSettings removed as they became unused with placeholders
+import { ReactNode, SVGProps,useEffect, useState } from 'react';
 import React from 'react';
+import { FiBriefcase, FiCheckCircle, FiDollarSign, FiImage, FiLayers, FiTool, FiUsers } from 'react-icons/fi'; // FiEdit, FiSettings removed as they became unused with placeholders
 
 import Button from '@/components/buttons/Button';
 import WrappedReactIcon from '@/components/ui/WrappedReactIcon';
@@ -114,6 +114,8 @@ export default function AdminDashboardPage() {
   const pendingPortfolioReviewIcon = <WrappedReactIcon icon={FiImage} className="text-3xl text-yellow-500" />;
   const servicesManagementIcon = <WrappedReactIcon icon={FiLayers} className="text-2xl text-green-600" />;
   const usersManagementIcon = <WrappedReactIcon icon={FiUsers} className="text-2xl text-indigo-600" />;
+  const dollarSignIcon = <WrappedReactIcon icon={FiDollarSign} className="text-2xl text-pink-600" />; // Added for stats
+  const imageIconForStats = <WrappedReactIcon icon={FiImage} className="text-2xl text-yellow-600" />; // Added for stats, potentially different style
   // Placeholder for FiEdit
   const contentManagementIcon = (
     <svg viewBox="0 0 24 24" className="text-2xl text-purple-600" fill="currentColor">
@@ -182,10 +184,10 @@ export default function AdminDashboardPage() {
 
   // Dummy data for now - replace with actual data fetching
   const stats = [
-    { name: 'Total Users', stat: '1,200', icon: FiUsers, href: '/admin/users' },
-    { name: 'Active Services', stat: '15', icon: FiLayers, href: '/admin/services' },
-    { name: 'Total Revenue', stat: '$25,650', icon: FiDollarSign, href: '/admin/billing' },
-    { name: 'Pending Portfolio Items', stat: '3', icon: FiImage, href: '/admin/portfolio?status=PENDING' }, // Example
+    { name: 'Total Users', stat: '1,200', icon: usersManagementIcon, href: '/admin/users' },
+    { name: 'Active Services', stat: '15', icon: servicesManagementIcon, href: '/admin/services' },
+    { name: 'Total Revenue', stat: '$25,650', icon: dollarSignIcon, href: '/admin/billing' },
+    { name: 'Pending Portfolio Items', stat: '3', icon: imageIconForStats, href: '/admin/portfolio?status=PENDING' }, // Example
   ];
 
   return (
@@ -347,7 +349,7 @@ export default function AdminDashboardPage() {
                 <div>
                   <div className="flex items-center justify-between mb-3">
                     <h3 className="text-lg font-semibold text-gray-700">{item.name}</h3>
-                    <WrappedReactIcon icon={item.icon} className="text-2xl text-indigo-600" />
+                    {item.icon}
                   </div>
                   <p className="text-3xl font-bold text-gray-900">{item.stat}</p>
                 </div>

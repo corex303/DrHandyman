@@ -2,11 +2,11 @@
 
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { signIn } from 'next-auth/react';
-import { useSession } from 'next-auth/react';
-import { FormEvent, useEffect,useState } from 'react';
+import { signIn, useSession } from 'next-auth/react';
+import React, { Suspense, FormEvent, useEffect, useState } from 'react';
 
-export default function SignInPage() {
+// New component to handle logic depending on useSearchParams
+function SignInContent() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [magicLinkEmail, setMagicLinkEmail] = useState('');
@@ -159,53 +159,95 @@ export default function SignInPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-lg shadow-lg">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Sign in to your account
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Or
-            <Link href="/auth/signup" className="font-medium text-primary-600 hover:text-primary-500 ml-1">
-              create a new account
-            </Link>
-          </p>
-        </div>
-        
-        {error && <p className="text-sm text-red-600 bg-red-100 p-3 rounded-md text-center">{error}</p>}
-        {message && <p className="text-sm text-green-600 bg-green-100 p-3 rounded-md text-center">{message}</p>}
+    <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-lg shadow-lg">
+      <div>
+        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+          Sign in to your account
+        </h2>
+        <p className="mt-2 text-center text-sm text-gray-600">
+          Or
+          <Link href="/auth/signup" className="font-medium text-primary-600 hover:text-primary-500 ml-1">
+            create a new account
+          </Link>
+        </p>
+      </div>
+      
+      {error && <p className="text-sm text-red-600 bg-red-100 p-3 rounded-md text-center">{error}</p>}
+      {message && <p className="text-sm text-green-600 bg-green-100 p-3 rounded-md text-center">{message}</p>}
 
-        <form onSubmit={handleCredentialsSignIn} className="mt-8 space-y-6">
-          <h3 className="text-lg font-medium leading-6 text-gray-900 text-center">Sign in with password</h3>
-          <div className="rounded-md shadow-sm space-y-3">
+      <form onSubmit={handleCredentialsSignIn} className="mt-8 space-y-6">
+        <h3 className="text-lg font-medium leading-6 text-gray-900 text-center">Sign in with password</h3>
+        <div className="rounded-md shadow-sm space-y-3">
+          <div>
+            <label htmlFor="credentials-email" className="sr-only">Email address</label>
+            <input
+              id="credentials-email"
+              name="email"
+              type="email"
+              autoComplete="email"
+              required
+              className="appearance-none rounded-md relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
+              placeholder="Email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              disabled={isLoadingCredentials || isLoadingMagicLink}
+            />
+          </div>
+          <div>
+            <label htmlFor="password" className="sr-only">Password</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              autoComplete="current-password"
+              required
+              className="appearance-none rounded-md relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              disabled={isLoadingCredentials || isLoadingMagicLink}
+            />
+          </div>
+        </div>
+        <div>
+          <button 
+            type="submit" 
+            disabled={isLoadingCredentials || isLoadingMagicLink}
+            className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:bg-gray-400"
+          >
+            {isLoadingCredentials ? 'Signing in...' : 'Sign In with Password'}
+          </button>
+        </div>
+      </form>
+
+      {/* Divider for OR */}
+      <div className="mt-6 relative">
+          <div className="absolute inset-0 flex items-center" aria-hidden="true">
+              <div className="w-full border-t border-gray-300" />
+          </div>
+          <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-white text-gray-500">Or</span>
+          </div>
+      </div>
+
+      {/* Magic Link Form - Corrected Placement */}
+      <div className="mt-8 space-y-6">
+        <h3 className="text-lg font-medium leading-6 text-gray-900 text-center">Sign in with a magic link</h3>
+        <p className="text-center text-sm text-gray-600">We'll email you a link to sign in instantly.</p>
+        <form onSubmit={handleMagicLinkSignIn} className="mt-2">
+          <div className="rounded-md shadow-sm">
             <div>
-              <label htmlFor="credentials-email" className="sr-only">Email address</label>
+              <label htmlFor="magiclink-email" className="sr-only">Email address</label>
               <input
-                id="credentials-email"
-                name="email"
+                id="magiclink-email"
+                name="magiclink-email"
                 type="email"
                 autoComplete="email"
                 required
                 className="appearance-none rounded-md relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
-                placeholder="Email address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={isLoadingCredentials || isLoadingMagicLink}
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="sr-only">Password</label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                className="appearance-none rounded-md relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Email address for magic link"
+                value={magicLinkEmail}
+                onChange={(e) => setMagicLinkEmail(e.target.value)}
                 disabled={isLoadingCredentials || isLoadingMagicLink}
               />
             </div>
@@ -213,83 +255,32 @@ export default function SignInPage() {
           <div>
             <button 
               type="submit" 
-              disabled={isLoadingCredentials || isLoadingMagicLink}
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:bg-gray-400"
+              disabled={isLoadingMagicLink || isLoadingCredentials}
+              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-secondary-500 hover:bg-secondary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary-400 disabled:bg-gray-400 mt-3"
             >
-              {isLoadingCredentials ? 'Signing in...' : 'Sign In with Password'}
+              {isLoadingMagicLink ? 'Sending Link...' : 'Send Magic Link'}
             </button>
           </div>
         </form>
-
-        {/* Divider for OR */}
-        <div className="mt-6 relative">
-            <div className="absolute inset-0 flex items-center" aria-hidden="true">
-                <div className="w-full border-t border-gray-300" />
-            </div>
-            <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">Or</span>
-            </div>
-        </div>
-
-        {/* Magic Link Form - Corrected Placement */}
-        <div className="mt-8 space-y-6">
-          <h3 className="text-lg font-medium leading-6 text-gray-900 text-center">Sign in with a magic link</h3>
-          <p className="text-center text-sm text-gray-600">We'll email you a link to sign in instantly.</p>
-          <form onSubmit={handleMagicLinkSignIn} className="mt-2">
-            <div className="rounded-md shadow-sm">
-              <div>
-                <label htmlFor="magiclink-email" className="sr-only">Email address</label>
-                <input
-                  id="magiclink-email"
-                  name="magiclink-email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  className="appearance-none rounded-md relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
-                  placeholder="Email address for magic link"
-                  value={magicLinkEmail}
-                  onChange={(e) => setMagicLinkEmail(e.target.value)}
-                  disabled={isLoadingMagicLink || isLoadingCredentials}
-                />
-              </div>
-            </div>
-            <button
-              type="submit"
-              disabled={isLoadingMagicLink || !magicLinkEmail}
-              className="flex w-full justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white shadow-sm bg-secondary-gray hover:bg-secondary-gray-light focus:outline-none focus:ring-2 focus:ring-secondary-gray focus:ring-offset-2 disabled:opacity-50"
-            >
-              Send Magic Link
-            </button>
-          </form>
-        </div>
-
-        <div className="mt-6">
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300"></div>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">
-                Or sign in with
-              </span>
-            </div>
-          </div>
-
-          <div className="mt-6 grid grid-cols-1 gap-3">
-            <div>
-              <button 
-                onClick={() => signIn('google', { callbackUrl: '/portal' })} 
-                disabled={isLoadingMagicLink || isLoadingCredentials} 
-                type="button"
-                className="w-full inline-flex justify-center py-3 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:bg-gray-200 disabled:cursor-not-allowed"
-              >
-                 <svg className="w-5 h-5 mr-2" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="google" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512"><path fill="currentColor" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path></svg>
-                Sign In with Google
-              </button>
-            </div>
-          </div>
-        </div>
       </div>
+
+      <div className="mt-8 text-center">
+        <p className="text-sm">
+          <Link href="/" className="font-medium text-primary-600 hover:text-primary-500">
+            ← Back to Home
+          </Link>
+        </p>
+      </div>
+    </div>
+  );
+}
+
+export default function SignInPage() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+      <Suspense fallback={<div className="text-center"><p>Loading page...</p></div>}>
+        <SignInContent />
+      </Suspense>
     </div>
   );
 } 

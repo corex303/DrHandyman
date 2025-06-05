@@ -1,14 +1,13 @@
 // Import type
+import { Prisma } from '@prisma/client';
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth/next';
-import { getToken } from 'next-auth/jwt';
 import { NextRequest } from 'next/server';
-import { Prisma, UserRole } from '@prisma/client';
-import { z } from 'zod';
+import { getToken } from 'next-auth/jwt';
+import { getServerSession } from 'next-auth/next';
 
-import { getSupabaseAdmin } from '@/lib/supabaseAdmin'; // Corrected: Only import getSupabaseAdmin
-import prisma from '@/lib/prisma'; // Corrected: Import the singleton instance
 import { authOptions } from '@/lib/auth/options';
+import prisma from '@/lib/prisma'; // Corrected: Import the singleton instance
+import { getSupabaseAdmin } from '@/lib/supabaseAdmin'; // Corrected: Only import getSupabaseAdmin
 // Note: Supabase client for real-time events would be initialized elsewhere (e.g., in a lib file)
 // import { supabase } from '@/lib/supabaseClient'; 
 // import { pusherServer } from '@/lib/pusher/server'; // Commented out as the path/module doesn't exist

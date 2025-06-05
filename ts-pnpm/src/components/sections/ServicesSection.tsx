@@ -2,18 +2,20 @@
 
 import Link from 'next/link';
 import React from 'react';
-import { FaArrowRight,FaPaintRoller, FaTools, FaWrench } from 'react-icons/fa'; // Example icons
+import { FaArrowRight, FaPaintRoller, FaTools, FaWrench } from 'react-icons/fa';
+import { IconType } from 'react-icons';
 
 import ButtonLink from '@/components/links/ButtonLink';
+import WrappedReactIcon from '@/components/ui/WrappedReactIcon';
 
-import {ServicesSectionSettings } from '@/types/appearance';
+import { ServiceItem, ServicesSectionSettings } from '@/types/appearance';
 
 interface ServicesSectionProps {
   settings?: ServicesSectionSettings;
 }
 
 // Icon map helper
-const iconMap: Record<string, React.ElementType> = {
+const iconMap: Record<string, IconType> = {
   FaTools: FaTools,
   FaPaintRoller: FaPaintRoller,
   FaWrench: FaWrench,
@@ -25,24 +27,26 @@ const defaultSectionSettings: ServicesSectionSettings = {
   subtitle: 'Explore the range of services we offer.',
   textAlignment: 'center',
   columns: 3,
-  services: [
-    { id: 's1', icon: 'FaTools', name: 'Service One', description: 'Description for service one.', link: '#' },
-    { id: 's2', icon: 'FaPaintRoller', name: 'Service Two', description: 'Description for service two.', link: '#' },
-    { id: 's3', icon: 'FaWrench', name: 'Service Three', description: 'Description for service three.', link: '#' },
+  items: [
+    { id: 's1', icon: 'FaTools', title: 'Service One', description: 'Description for service one.', link: '#' },
+    { id: 's2', icon: 'FaPaintRoller', title: 'Service Two', description: 'Description for service two.', link: '#' },
+    { id: 's3', icon: 'FaWrench', title: 'Service Three', description: 'Description for service three.', link: '#' },
   ],
   viewAllServicesText: 'View All Services',
   viewAllServicesLink: '/services',
   backgroundColor: '#F3F4F6', // gray-100
   textColor: '#1F2937', // gray-800
   itemBackgroundColor: '#FFFFFF', // white
+  itemTitleColor: '#111827',
   itemTextColor: '#4B5563', // gray-600
+  iconColor: '#3B82F6',
   paddingTop: 'py-12',
   paddingBottom: 'pb-12',
 };
 
 export const ServicesSection: React.FC<ServicesSectionProps> = ({ settings: propsSettings }) => {
   const settings = { ...defaultSectionSettings, ...propsSettings };
-  const services = settings.services || [];
+  const itemsToRender = settings.items || [];
 
   const textAlignClasses = {
     left: 'text-left',
@@ -84,10 +88,10 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ settings: prop
           </div>
         )}
 
-        {services.length > 0 && (
+        {itemsToRender.length > 0 && (
           <div className={`grid gap-8 ${columnClasses[settings.columns || 3]}`}>
-            {services.map((service) => {
-              const IconComponent = service.icon ? iconMap[service.icon] : null;
+            {itemsToRender.map((service: ServiceItem) => {
+              const IconComponent = service.icon && iconMap[service.icon] ? iconMap[service.icon] : null;
               return (
                 <SectionWrapper key={service.id} link={service.link || ''}>
                   <div 
@@ -95,22 +99,22 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ settings: prop
                     style={{
                       backgroundColor: settings.itemBackgroundColor,
                       color: settings.itemTextColor,
-                      transform: service.link ? 'translateY(0)' : undefined, // Base state for potential hover if not a link wrapper
+                      transform: service.link ? 'translateY(0)' : undefined,
                     }}
                     onMouseEnter={(e) => { if (service.link) e.currentTarget.style.transform = 'translateY(-4px)'; }}
                     onMouseLeave={(e) => { if (service.link) e.currentTarget.style.transform = 'translateY(0px)'; }}
                   >
                     {IconComponent && (
-                      <div className="mb-4 rounded-full p-3 inline-block" style={{ backgroundColor: settings.textColor ? 'rgba(0,0,0,0.05)' : 'rgba(0,0,0,0.05)' }}>
-                        <IconComponent className="h-8 w-8" style={{ color: settings.textColor }} />
+                      <div className="mb-4 rounded-full p-3 inline-block" style={{ backgroundColor: settings.iconColor ? 'rgba(0,0,0,0.05)' : 'rgba(0,0,0,0.05)' }}>
+                        <WrappedReactIcon icon={IconComponent} className="h-8 w-8" style={{ color: settings.iconColor || settings.textColor }} />
                       </div>
                     )}
-                    <h3 className="mb-3 text-xl font-semibold" style={{ color: settings.itemTextColor ? settings.textColor : undefined }}>{service.name}</h3>
+                    <h3 className="mb-3 text-xl font-semibold" style={{ color: settings.itemTitleColor || settings.textColor }}>{service.title}</h3>
                     <p className="mb-4 flex-grow" style={{ color: settings.itemTextColor }}>{service.description}</p>
                     {service.link && (
                       <div className="mt-auto">
                         <span className="inline-flex items-center font-medium" style={{ color: settings.textColor }}>
-                          Learn more <FaArrowRight className="ml-1" />
+                          Learn more <WrappedReactIcon icon={FaArrowRight} className="ml-1" />
                         </span>
                       </div>
                     )}
