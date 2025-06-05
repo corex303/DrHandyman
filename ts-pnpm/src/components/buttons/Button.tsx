@@ -3,6 +3,7 @@ import * as React from 'react';
 import { IconType } from 'react-icons';
 import { ImSpinner2 } from 'react-icons/im';
 
+import WrappedReactIcon from '@/components/ui/WrappedReactIcon';
 import { cn } from '@/lib/utils';
 
 const ButtonVariant = ['primary', 'outline', 'ghost', 'light', 'dark'] as const;
@@ -110,23 +111,18 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               }
             )}
           >
-            <ImSpinner2 className='animate-spin' />
+            <WrappedReactIcon icon={ImSpinner2} className='animate-spin' />
           </div>
         )}
         {LeftIcon && (
           <div
-            className={cn([
-              size === 'base' && 'mr-1',
-              size === 'sm' && 'mr-1.5',
-            ])}
+            className={cn([size === 'base' && 'mr-1', size === 'sm' && 'mr-1.5'])}
           >
-            <LeftIcon
-              size='1em'
+            <WrappedReactIcon
+              icon={LeftIcon}
               className={cn(
-                [
-                  size === 'base' && 'md:text-md text-md',
-                  size === 'sm' && 'md:text-md text-sm',
-                ],
+                'text-[1em]',
+                [size === 'base' && 'md:text-md text-md', size === 'sm' && 'md:text-md text-sm'],
                 classNames?.leftIcon
               )}
             />
@@ -135,18 +131,13 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {children}
         {RightIcon && (
           <div
-            className={cn([
-              size === 'base' && 'ml-1',
-              size === 'sm' && 'ml-1.5',
-            ])}
+            className={cn([size === 'base' && 'ml-1', size === 'sm' && 'ml-1.5'])}
           >
-            <RightIcon
-              size='1em'
+            <WrappedReactIcon
+              icon={RightIcon}
               className={cn(
-                [
-                  size === 'base' && 'text-md md:text-md',
-                  size === 'sm' && 'md:text-md text-sm',
-                ],
+                'text-[1em]',
+                [size === 'base' && 'text-md md:text-md', size === 'sm' && 'md:text-md text-sm'],
                 classNames?.rightIcon
               )}
             />

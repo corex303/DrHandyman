@@ -8,6 +8,7 @@ import { useSession } from 'next-auth/react'; // Import useSession
 import { useEffect,useRef, useState } from 'react';
 import { FaChevronDown } from 'react-icons/fa';
 
+import WrappedReactIcon from '@/components/ui/WrappedReactIcon'; // Added import
 // import { serviceCategories } from './DesktopNavigation'; // Removed hardcoded import
 import { accessibleKeyboardEventHandler,trapFocus } from '@/lib/accessibility';
 
@@ -148,7 +149,7 @@ const MobileNavigation = ({
                     aria-controls={`${link.id}-mobile-submenu`}
                   >
                     {link.text}
-                    <FaChevronDown className={`h-4 w-4 transform transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                    <WrappedReactIcon icon={FaChevronDown} className={`h-4 w-4 transform transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
                   </button>
                   {isDropdownOpen && (
                     <div 

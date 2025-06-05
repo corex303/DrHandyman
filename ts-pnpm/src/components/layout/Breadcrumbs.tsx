@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FaChevronRight, FaHome } from 'react-icons/fa';
 
+import WrappedReactIcon from '@/components/ui/WrappedReactIcon';
+
 // Custom mapping for breadcrumb labels
 const breadcrumbNameMap: Record<string, string> = {
   services: 'Services',
@@ -58,7 +60,7 @@ export default function Breadcrumbs() {
             href="/" 
             className="flex items-center text-gray-600 hover:text-primary-500 transition-colors"
           >
-            <FaHome className="h-4 w-4" />
+            <WrappedReactIcon icon={FaHome} className="h-4 w-4" />
             <span className="sr-only">Home</span>
           </Link>
         </li>
@@ -68,7 +70,11 @@ export default function Breadcrumbs() {
           
           return (
             <li key={breadcrumb.path} className="flex items-center">
-              <FaChevronRight className="mx-2 h-3 w-3 text-gray-400" aria-hidden="true" />
+              <WrappedReactIcon
+                icon={FaChevronRight}
+                className="mx-2 h-3 w-3 text-gray-400"
+                aria-hidden="true"
+              />
               {isLast ? (
                 <span className="font-medium text-primary-600" aria-current="page">
                   {breadcrumb.name}

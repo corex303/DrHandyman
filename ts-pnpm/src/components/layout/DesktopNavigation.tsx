@@ -8,6 +8,7 @@ import { useSession } from 'next-auth/react'; // Import useSession
 import { createRef,useEffect, useRef, useState } from 'react';
 import { FaChevronDown } from 'react-icons/fa';
 
+import WrappedReactIcon from '@/components/ui/WrappedReactIcon'; // Added import
 import { accessibleKeyboardEventHandler,trapFocus } from '@/lib/accessibility';
 
 // Removed hardcoded serviceCategories as navLinks will be dynamic
@@ -164,7 +165,11 @@ const DesktopNavigation = ({
                   aria-controls={`${link.id}-desktop-dropdown`}
                   aria-haspopup="true"
                 >
-                  {link.text} <FaChevronDown className={`ml-1 h-3 w-3 transform transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                  {link.text}
+                  <WrappedReactIcon
+                    icon={FaChevronDown}
+                    className={`ml-1 h-3 w-3 transform transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}
+                  />
                 </button>
                 {isDropdownOpen && (
                   <div 

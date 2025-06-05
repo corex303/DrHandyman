@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { FaChevronDown,FaEnvelope, FaFacebook, FaInstagram, FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
 
+import WrappedReactIcon from '@/components/ui/WrappedReactIcon';
 import { AppearanceSettings, defaultAppearanceSettings } from '@/types/appearance';
 
 interface FooterProps {
@@ -61,10 +62,10 @@ const Footer = ({ appearanceSettings: propsAppearanceSettings }: FooterProps) =>
             {footerSettings.showSocialIcons && (
               <div className="flex space-x-4">
                 <Link href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                  <FaFacebook className="h-6 w-6 hover:text-primary-500 transition-colors" style={{ color: footerSettings.textColor || defaultAppearanceSettings.footer?.textColor }} />
+                  <WrappedReactIcon icon={FaFacebook} className="h-6 w-6 hover:text-primary-500 transition-colors" style={{ color: footerSettings.textColor || defaultAppearanceSettings.footer?.textColor }} />
                 </Link>
                 <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                  <FaInstagram className="h-6 w-6 hover:text-primary-500 transition-colors" style={{ color: footerSettings.textColor || defaultAppearanceSettings.footer?.textColor }}/>
+                  <WrappedReactIcon icon={FaInstagram} className="h-6 w-6 hover:text-primary-500 transition-colors" style={{ color: footerSettings.textColor || defaultAppearanceSettings.footer?.textColor }}/>
                 </Link>
               </div>
             )}
@@ -81,7 +82,8 @@ const Footer = ({ appearanceSettings: propsAppearanceSettings }: FooterProps) =>
                     aria-expanded={expandedSections[column.id]}
                     aria-controls={`${column.id}-list`}
                   >
-                    <FaChevronDown 
+                    <WrappedReactIcon 
+                      icon={FaChevronDown} 
                       className={`h-4 w-4 transform transition-transform ${expandedSections[column.id] ? 'rotate-180' : ''}`} 
                       style={{ color: footerSettings.textColor || defaultAppearanceSettings.footer?.textColor }}
                     />
@@ -116,7 +118,8 @@ const Footer = ({ appearanceSettings: propsAppearanceSettings }: FooterProps) =>
                   aria-expanded={expandedSections.contact}
                   aria-controls="contact-info-list"
                 >
-                  <FaChevronDown 
+                  <WrappedReactIcon 
+                    icon={FaChevronDown} 
                     className={`h-4 w-4 transform transition-transform ${expandedSections.contact ? 'rotate-180' : ''}`} 
                     style={{ color: footerSettings.textColor || defaultAppearanceSettings.footer?.textColor }}
                   />
@@ -128,15 +131,15 @@ const Footer = ({ appearanceSettings: propsAppearanceSettings }: FooterProps) =>
                 style={{ color: footerSettings.textColor || defaultAppearanceSettings.footer?.textColor }}
               >
                 <li className="flex items-start">
-                  <FaMapMarkerAlt className="mr-2 mt-1 h-5 w-5 text-primary-500 flex-shrink-0" />
+                  <WrappedReactIcon icon={FaMapMarkerAlt} className="mr-2 mt-1 h-5 w-5 text-primary-500 flex-shrink-0" />
                   <span>{contactInfo.address}</span>
                 </li>
                 <li className="flex items-center">
-                  <FaPhone className="mr-2 h-5 w-5 text-primary-500 flex-shrink-0" />
+                  <WrappedReactIcon icon={FaPhone} className="mr-2 h-5 w-5 text-primary-500 flex-shrink-0" />
                   <a href={contactInfo.phoneHref} className="hover:text-primary-500 transition-colors">{contactInfo.phone}</a>
                 </li>
                 <li className="flex items-center">
-                  <FaEnvelope className="mr-2 h-5 w-5 text-primary-500 flex-shrink-0" />
+                  <WrappedReactIcon icon={FaEnvelope} className="mr-2 h-5 w-5 text-primary-500 flex-shrink-0" />
                   <a href={contactInfo.emailHref} className="hover:text-primary-500 transition-colors break-all">{contactInfo.email}</a>
                 </li>
               </ul>

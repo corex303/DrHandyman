@@ -3,6 +3,7 @@
 import { useRef,useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
 
+import WrappedReactIcon from '@/components/ui/WrappedReactIcon';
 import DesktopNavigation from './DesktopNavigation';
 import MobileNavigation from './MobileNavigation';
 
@@ -67,9 +68,9 @@ const Header = ({ appearanceSettings: propsAppearanceSettings }: HeaderProps) =>
           aria-controls="mobile-navigation"
         >
           {isOpen ? (
-            <FaTimes className="h-6 w-6 text-text-light" />
+            <WrappedReactIcon icon={FaTimes} className="h-6 w-6 text-text-light" />
           ) : (
-            <FaBars className="h-6 w-6 text-text-light" />
+            <WrappedReactIcon icon={FaBars} className="h-6 w-6 text-text-light" />
           )}
         </button>
 

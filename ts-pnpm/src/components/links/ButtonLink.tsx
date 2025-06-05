@@ -2,6 +2,7 @@ import { LucideIcon } from 'lucide-react';
 import * as React from 'react';
 import { IconType } from 'react-icons';
 
+import WrappedReactIcon from '@/components/ui/WrappedReactIcon';
 import { cn } from '@/lib/utils';
 
 import UnstyledLink, {
@@ -114,9 +115,10 @@ const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
               size === 'sm' && 'mr-1.5',
             ])}
           >
-            <LeftIcon
-              size='1em'
+            <WrappedReactIcon
+              icon={LeftIcon}
               className={cn(
+                'text-[1em]',
                 [
                   size === 'base' && 'md:text-md text-md',
                   size === 'sm' && 'md:text-md text-sm',
@@ -134,9 +136,10 @@ const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
               size === 'sm' && 'ml-1.5',
             ])}
           >
-            <RightIcon
-              size='1em'
+            <WrappedReactIcon
+              icon={RightIcon}
               className={cn(
+                'text-[1em]',
                 [
                   size === 'base' && 'text-md md:text-md',
                   size === 'sm' && 'md:text-md text-sm',

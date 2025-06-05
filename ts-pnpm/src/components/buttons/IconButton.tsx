@@ -3,6 +3,7 @@ import * as React from 'react';
 import { IconType } from 'react-icons';
 import { ImSpinner2 } from 'react-icons/im';
 
+import WrappedReactIcon from '@/components/ui/WrappedReactIcon';
 import { cn } from '@/lib/utils';
 
 const IconButtonVariant = [
@@ -104,10 +105,15 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
               }
             )}
           >
-            <ImSpinner2 className='animate-spin' />
+            <WrappedReactIcon icon={ImSpinner2} className='animate-spin' />
           </div>
         )}
-        {Icon && <Icon size='1em' className={cn(classNames?.icon)} />}
+        {Icon && (
+          <WrappedReactIcon
+            icon={Icon}
+            className={cn('text-[1em]', classNames?.icon)}
+          />
+        )}
       </button>
     );
   }
