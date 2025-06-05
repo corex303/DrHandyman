@@ -5,7 +5,7 @@ import { Toaster } from 'react-hot-toast';
 
 import '@/styles/globals.css';
 
-import { defaultAppearanceSettings } from '@/types/appearance'; 
+import { defaultAppearanceSettings } from '@/types/appearance';
 
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
@@ -66,45 +66,25 @@ interface RootLayoutProps {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: defaultAppearanceSettings.colors?.primary || '#FFFFFF' },
-    { media: '(prefers-color-scheme: dark)', color: defaultAppearanceSettings.colors?.accent || '#000000' },
+    {
+      media: '(prefers-color-scheme: light)',
+      color: defaultAppearanceSettings.colors?.primary || '#FFFFFF',
+    },
+    {
+      media: '(prefers-color-scheme: dark)',
+      color: defaultAppearanceSettings.colors?.accent || '#000000',
+    },
   ],
   colorScheme: 'light dark',
 };
 
 export default async function RootLayout({ children }: RootLayoutProps) {
-  console.log('[RootLayout - RESTORED COMPONENTS] EXECUTION STARTED (Using defaultAppearanceSettings for theme/fonts)');
-
-  const themeClass = defaultAppearanceSettings.theme === 'dark' ? 'dark' : 'light';
-  console.log('[RootLayout - RESTORED COMPONENTS] Effective Theme (from default):', defaultAppearanceSettings.theme, '| Applied themeClass:', themeClass);
-  
-  const globalFontFamily = defaultAppearanceSettings.fonts?.global || 'var(--font-inter)';
-  const headingFontFamily = defaultAppearanceSettings.fonts?.heading || 'var(--font-lora)';
-
-  const fontOverrideVariables = {
-    '--font-global-override': globalFontFamily,
-    '--font-heading-override': headingFontFamily,
-  } as React.CSSProperties;
-
-  const inlineStyles = `
-    :root {
-      --font-global: ${globalFontFamily};
-      --font-heading: ${headingFontFamily};
-    }
-    body {
-      font-family: var(--font-global-override, var(--font-inter));
-    }
-    h1, h2, h3, h4, h5, h6 {
-      font-family: var(--font-heading-override, var(--font-lora));
-    }
-  `;
-
   return (
-    <html lang="en" className={themeClass}>
-      <head>
-        <style dangerouslySetInnerHTML={{ __html: inlineStyles }} />
-      </head>
-      <body className={`${inter.variable} ${lora.variable} ${poppins.variable} font-sans antialiased`} style={fontOverrideVariables}>
+    <html lang="en" className="dark">
+      <head />
+      <body
+        className={`${inter.variable} ${lora.variable} ${poppins.variable} font-sans antialiased`}
+      >
         <Providers>
           <Toaster position="top-center" reverseOrder={false} />
           <Header appearanceSettings={defaultAppearanceSettings} />
