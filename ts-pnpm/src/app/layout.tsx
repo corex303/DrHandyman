@@ -1,5 +1,5 @@
-import { Metadata } from 'next';
-import { Inter, Lora,Poppins } from 'next/font/google';
+import { Metadata, Viewport } from 'next';
+import { Inter, Lora, Poppins } from 'next/font/google';
 import * as React from 'react';
 // import PageLayout from '@/components/layout/PageLayout'; // PageLayout seems unused, commenting out
 import { Toaster } from 'react-hot-toast';
@@ -16,24 +16,28 @@ import Providers from '@/components/layout/Providers'; // Added Providers import
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
 // import '@/styles/colors.css'; // Commenting out or removing if colors are now dynamic
 import { siteConfig } from '@/constant/config';
+import { defaultAppearanceSettings } from '@/types/appearance';
 
 // Keep for type, default only as ultimate fallback if needed
 
 const inter = Inter({
   variable: '--font-inter',
   subsets: ['latin'],
+  display: 'swap',
 });
 
 const lora = Lora({
   variable: '--font-lora',
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
+  display: 'swap',
 });
 
 const poppins = Poppins({
   variable: '--font-poppins',
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
+  display: 'swap',
 });
 
 // !STARTERCONF Change these default meta
@@ -91,10 +95,21 @@ interface RootLayoutProps {
   children: React.ReactNode;
 }
 
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: defaultAppearanceSettings.colors?.primary || '#FFFFFF' },
+    { media: '(prefers-color-scheme: dark)', color: defaultAppearanceSettings.colors?.accent || '#000000' },
+  ],
+  colorScheme: 'light dark', // Supports both light and dark modes
+};
+
 export default async function RootLayout({ children }: RootLayoutProps) {
+  console.log('[RootLayout] EXECUTION STARTED'); // New log at the very beginning
+
   const appearanceSettings = await getSiteAppearanceSettings();
 
   const themeClass = appearanceSettings.theme === 'dark' ? 'dark' : 'light';
+  console.log('[RootLayout] Effective Theme:', appearanceSettings.theme, '| Applied themeClass:', themeClass);
   
   const globalFontFamily = appearanceSettings.fonts?.global || 'var(--font-inter)';
   const headingFontFamily = appearanceSettings.fonts?.heading || 'var(--font-lora)';
