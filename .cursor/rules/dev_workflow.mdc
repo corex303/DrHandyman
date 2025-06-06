@@ -40,7 +40,7 @@ Task Master offers two primary ways to interact:
 -   Clear existing subtasks if needed using `clear_subtasks` / `task-master clear-subtasks --id=<id>` (see [`taskmaster.mdc`](mdc:.cursor/rules/taskmaster.mdc)) before regenerating
 -   Implement code following task details, dependencies, and project standards
 -   Verify tasks according to test strategies before marking as complete (See [`tests.mdc`](mdc:.cursor/rules/tests.mdc))
--   Mark completed tasks with `set_task_status` / `task-master set-status --id=<id> --status=done` (see [`taskmaster.mdc`](mdc:.cursor/rules/taskmaster.mdc))
+-   Mark completed tasks with `set_task_status` / `task-master set-status --id=<id> --status=done` (see [`taskmaster.mdc`](mdc:.cursor/rules/taskmaster.mdc)). **A task or subtask should only be marked 'done' when it is absolutely complete, meaning there is no further work to be done, no code to refactor, and no need for a human developer to further refine the code, appearance, or functionality. The implementation must be production-ready.**
 -   Update dependent tasks when implementation differs from original plan using `update` / `task-master update --from=<id> --prompt="..."` or `update_task` / `task-master update-task --id=<id> --prompt="..."` (see [`taskmaster.mdc`](mdc:.cursor/rules/taskmaster.mdc))
 -   Add new tasks discovered during implementation using `add_task` / `task-master add-task --prompt="..." --research` (see [`taskmaster.mdc`](mdc:.cursor/rules/taskmaster.mdc)).
 -   Add new subtasks as needed using `add_subtask` / `task-master add-subtask --parent=<id> --title="..."` (see [`taskmaster.mdc`](mdc:.cursor/rules/taskmaster.mdc)).
@@ -80,7 +80,7 @@ Task Master offers two primary ways to interact:
 ## Task Status Management
 
 -   Use 'pending' for tasks ready to be worked on
--   Use 'done' for completed and verified tasks
+-   Use 'done' for completed and verified tasks. **A task or subtask is 'done' if and only if it requires no further coding, refactoring, or refinement by any developer (AI or human). The implementation must be fully production-ready according to all requirements and test strategies.**
 -   Use 'deferred' for postponed tasks
 -   Add custom status values as needed for project-specific workflows
 
@@ -191,12 +191,12 @@ Once a task has been broken down into subtasks using `expand_task` or similar me
     *   The objective is to continuously enrich the subtask's details, creating a log of the implementation journey that helps the AI (and human developers) learn, adapt, and avoid repeating errors.
 
 7.  **Review & Update Rules (Post-Implementation):**
-    *   Once the implementation for the subtask is functionally complete, review all code changes and the relevant chat history.
+    *   Once the implementation for the subtask is functionally complete, **and confirmed to be production-ready (no further human intervention needed for code, appearance, or functionality)**, review all code changes and the relevant chat history.
     *   Identify any new or modified code patterns, conventions, or best practices established during the implementation.
     *   Create new or update existing rules following internal guidelines (previously linked to `cursor_rules.mdc` and `self_improve.mdc`).
 
 8.  **Mark Task Complete:**
-    *   After verifying the implementation and updating any necessary rules, mark the subtask as completed: `set_task_status` / `task-master set-status --id=<subtaskId> --status=done`.
+    *   After verifying the implementation, ensuring it is **fully production-ready according to the stricter definition of 'done'**, and updating any necessary rules, mark the subtask as completed: `set_task_status` / `task-master set-status --id=<subtaskId> --status=done`.
 
 9.  **Commit Changes (If using Git):**
     *   Stage the relevant code changes and any updated/new rule files (`git add .`).
@@ -214,6 +214,13 @@ Once a task has been broken down into subtasks using `expand_task` or similar me
     - Use grep/ripgrep to find exported functions/constants:
       `rg "export (async function|function|const) \w+"` or similar patterns.
     - Can help compare functions between files during migrations or identify potential naming conflicts.
+
+## Deployment to Production (Vercel)
+
+-   **Run from the Root:** Always execute `vercel --prod` from the Git repository root, not from a subdirectory. If your Vercel project settings specify a "Root Directory" (e.g., `ts-pnpm`), running the deploy command from within that subdirectory will cause errors.
+-   **Troubleshooting Production-Only Build Failures:** If a build fails on Vercel but works locally, the first step is to replicate the production build with `pnpm build` (or `npm run build` / `yarn build`). This often reveals type errors or dependency issues that are not caught during development.
+-   **Clean Dependencies:** If a build fails silently or with strange errors, it may be due to a corrupted `node_modules` directory or `pnpm-lock.yaml` file. Delete both and run `pnpm install` for a clean installation.
+-   **Check `husky` Scripts:** If `pnpm install` fails with a `.git can't be found` error, it is likely because a `prepare` script for `husky` is running in a directory that is not the Git root. This script can be safely removed from `package.json` if it is not needed.
 
 ---
 *This workflow provides a general guideline. Adapt it based on your specific project needs and team practices.*

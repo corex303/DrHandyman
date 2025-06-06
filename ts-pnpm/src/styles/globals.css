@@ -101,23 +101,23 @@
     cursor: url('/images/new-tab.png') 10 10, pointer;
   }
   .h0 {
-    @apply font-serif text-3xl font-bold md:text-5xl;
+    @apply font-heading text-3xl font-bold md:text-5xl;
   }
   h1,
   .h1 {
-    @apply font-serif text-2xl font-bold md:text-4xl;
+    @apply font-heading text-2xl font-bold md:text-4xl;
   }
   h2,
   .h2 {
-    @apply font-serif text-xl font-bold md:text-3xl;
+    @apply font-heading text-xl font-bold md:text-3xl;
   }
   h3,
   .h3 {
-    @apply font-serif text-lg font-bold md:text-2xl;
+    @apply font-heading text-lg font-bold md:text-2xl;
   }
   h4,
   .h4 {
-    @apply font-serif text-base font-bold md:text-lg;
+    @apply font-heading text-base font-bold md:text-lg;
   }
   body,
   .p {

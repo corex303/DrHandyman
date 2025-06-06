@@ -348,6 +348,8 @@ A guiding principle for technology selection is to prioritize free and open-sour
         3.  **Regenerate Client:** **Crucially, after any modification to `schema.prisma`, always regenerate the Prisma client by running `pnpm prisma generate`** (or `npx prisma generate`). This updates the client to reflect the latest schema.
         4.  **Review `include` Clauses:** If errors relate to `ModelInclude<DefaultArgs>`, double-check that the relations specified in `include` clauses are correctly defined and active in the schema.
 
+*   **Vercel Deployment Root Directory:** When deploying to Vercel, it is crucial to run deployment commands (`vercel --prod`) from the Git repository's root directory (e.g., `Dr. Handyman/`), not from the subdirectory specified as the `root` in the Vercel project settings (e.g., `ts-pnpm/`). Running the command from the subdirectory can lead to incorrect project linking, pathing errors during the build, or deployment of the wrong directory. If the project is incorrectly linked, use `vercel unlink` and then `vercel link` from the repository root to re-link to the correct project.
+
 ## h. Design and user interface
 
 *   **Branding:**

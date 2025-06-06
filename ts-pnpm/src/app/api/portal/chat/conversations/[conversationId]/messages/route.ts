@@ -12,12 +12,6 @@ import { getSupabaseAdmin } from '@/lib/supabaseAdmin'; // Corrected: Only impor
 // import { supabase } from '@/lib/supabaseClient'; 
 // import { pusherServer } from '@/lib/pusher/server'; // Commented out as the path/module doesn't exist
 
-interface MessagesContext {
-  params: Promise<{
-    conversationId: string;
-  }>;
-}
-
 // Define the expected request body structure including optional attachment fields
 interface PostMessageRequestBody {
   content?: string; // Content is now optional if there's an attachment
@@ -29,8 +23,7 @@ interface PostMessageRequestBody {
 
 // GET /api/portal/chat/conversations/:conversationId/messages
 // Get message history for a specific conversation
-export async function GET(request: Request, props: MessagesContext) {
-  const params = await props.params;
+export async function GET(request: Request, { params }: { params: { conversationId: string } }) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
     return NextResponse.json({ error: 'Unauthenticated' }, { status: 401 });
@@ -93,7 +86,7 @@ export async function GET(request: Request, props: MessagesContext) {
 // Send a new message to a specific conversation
 export async function POST(
   request: NextRequest,
-  context: MessagesContext,
+  { params }: { params: { conversationId: string } },
 ) {
   const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
   if (!token?.sub) {
@@ -101,8 +94,7 @@ export async function POST(
   }
   const userId = token.sub;
 
-  const actualParams = await context.params;
-  const { conversationId } = actualParams;
+  const { conversationId } = params;
 
   if (!conversationId) {
     console.error('POST message: Conversation ID is required but was not provided in params.');

@@ -41,7 +41,7 @@ export default function MaintenanceDashboardPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
-  const [galleryPhotoSetId, setGalleryPhotoSetId] = useState<string | null>(null);
+  const [galleryPhotoSetId, setGalleryPhotoSetId] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     const fetchPhotoSets = async () => {
@@ -65,17 +65,17 @@ export default function MaintenanceDashboardPage() {
     fetchPhotoSets();
   }, []);
 
-  const handleLogout = async () => {
-    try {
-      await fetch('/api/maintenance/logout', {
-        method: 'POST',
-      });
-    } catch (error) {
-      console.error("Failed to logout from maintenance session", error);
-    } finally {
-      router.push('/maintenance/login');
-    }
-  };
+  // const handleLogout = async () => {
+  //   try {
+  //     await fetch('/api/maintenance/logout', {
+  //       method: 'POST',
+  //     });
+  //   } catch (error) {
+  //     console.error("Failed to logout from maintenance session", error);
+  //   } finally {
+  //     router.push('/maintenance/login');
+  //   }
+  // };
 
   // Middleware now handles the auth check. 
   // If the user reaches this page, they are considered authenticated for maintenance.
@@ -117,15 +117,10 @@ export default function MaintenanceDashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-700 flex flex-col items-center justify-start p-4 sm:p-6 md:p-8 text-white">
-      <div className="bg-slate-800 shadow-2xl rounded-xl p-6 sm:p-8 max-w-6xl w-full">
-        <div className="flex flex-col sm:flex-row justify-between items-center mb-8 sm:mb-10 pb-4 border-b border-slate-700">
-          <h1 className="text-3xl sm:text-4xl font-bold text-sky-400 mb-4 sm:mb-0 text-center sm:text-left">Maintenance Dashboard</h1>
-          <Button onClick={handleLogout} variant="outline" className="border-red-500 text-red-500 hover:bg-red-500 hover:text-white w-full sm:w-auto">
-            Logout
-          </Button>
-        </div>
-
+    <>
+      <div className="bg-slate-800 shadow-2xl rounded-xl p-6 sm:p-8 w-full">
+        <h1 className="text-3xl sm:text-4xl font-bold text-sky-400 mb-8 sm:mb-10 pb-4 border-b border-slate-700">Maintenance Dashboard</h1>
+        
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           {/* Card 1: Upload Work Photos */}
           <div className="bg-slate-700 p-6 rounded-lg shadow-lg hover:shadow-sky-500/50 transition-shadow duration-300 flex flex-col">
@@ -227,9 +222,9 @@ export default function MaintenanceDashboardPage() {
         <PhotoSetGallery 
           photoSetId={galleryPhotoSetId} 
           open={!!galleryPhotoSetId}
-          onClose={() => setGalleryPhotoSetId(null)}
+          onClose={() => setGalleryPhotoSetId(undefined)}
         />
       )}
-    </div>
+    </>
   );
 } 

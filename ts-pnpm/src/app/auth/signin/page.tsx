@@ -159,12 +159,12 @@ function SignInContent() {
   };
 
   return (
-    <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-lg shadow-lg">
+    <div className="max-w-md w-full space-y-8 bg-white dark:bg-slate-800 p-10 rounded-lg shadow-lg">
       <div>
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-gray-100">
           Sign in to your account
         </h2>
-        <p className="mt-2 text-center text-sm text-gray-600">
+        <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
           Or
           <Link href="/auth/signup" className="font-medium text-primary-600 hover:text-primary-500 ml-1">
             create a new account
@@ -176,7 +176,7 @@ function SignInContent() {
       {message && <p className="text-sm text-green-600 bg-green-100 p-3 rounded-md text-center">{message}</p>}
 
       <form onSubmit={handleCredentialsSignIn} className="mt-8 space-y-6">
-        <h3 className="text-lg font-medium leading-6 text-gray-900 text-center">Sign in with password</h3>
+        <h3 className="text-lg font-medium leading-6 text-gray-900 dark:text-gray-100 text-center">Sign in with password</h3>
         <div className="rounded-md shadow-sm space-y-3">
           <div>
             <label htmlFor="credentials-email" className="sr-only">Email address</label>
@@ -186,7 +186,7 @@ function SignInContent() {
               type="email"
               autoComplete="email"
               required
-              className="appearance-none rounded-md relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
+              className="appearance-none rounded-md relative block w-full px-3 py-3 border border-gray-300 dark:border-slate-600 placeholder-gray-500 dark:placeholder-slate-400 text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-700 focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
               placeholder="Email address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -201,7 +201,7 @@ function SignInContent() {
               type="password"
               autoComplete="current-password"
               required
-              className="appearance-none rounded-md relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
+              className="appearance-none rounded-md relative block w-full px-3 py-3 border border-gray-300 dark:border-slate-600 placeholder-gray-500 dark:placeholder-slate-400 text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-700 focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -223,17 +223,17 @@ function SignInContent() {
       {/* Divider for OR */}
       <div className="mt-6 relative">
           <div className="absolute inset-0 flex items-center" aria-hidden="true">
-              <div className="w-full border-t border-gray-300" />
+              <div className="w-full border-t border-gray-300 dark:border-slate-600" />
           </div>
           <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">Or</span>
+              <span className="px-2 bg-white dark:bg-slate-800 text-gray-500 dark:text-gray-400">Or</span>
           </div>
       </div>
 
       {/* Magic Link Form - Corrected Placement */}
       <div className="mt-8 space-y-6">
-        <h3 className="text-lg font-medium leading-6 text-gray-900 text-center">Sign in with a magic link</h3>
-        <p className="text-center text-sm text-gray-600">We'll email you a link to sign in instantly.</p>
+        <h3 className="text-lg font-medium leading-6 text-gray-900 dark:text-gray-100 text-center">Sign in with a magic link</h3>
+        <p className="text-center text-sm text-gray-600 dark:text-gray-400">We'll email you a link to sign in instantly.</p>
         <form onSubmit={handleMagicLinkSignIn} className="mt-2">
           <div className="rounded-md shadow-sm">
             <div>
@@ -244,7 +244,7 @@ function SignInContent() {
                 type="email"
                 autoComplete="email"
                 required
-                className="appearance-none rounded-md relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-md relative block w-full px-3 py-3 border border-gray-300 dark:border-slate-600 placeholder-gray-500 dark:placeholder-slate-400 text-gray-900 dark:text-gray-100 bg-white dark:bg-slate-700 focus:outline-none focus:ring-primary-500 focus:border-primary-500 focus:z-10 sm:text-sm"
                 placeholder="Email address for magic link"
                 value={magicLinkEmail}
                 onChange={(e) => setMagicLinkEmail(e.target.value)}
@@ -275,12 +275,11 @@ function SignInContent() {
   );
 }
 
+// The main page component that wraps SignInContent in Suspense
 export default function SignInPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-      <Suspense fallback={<div className="text-center"><p>Loading page...</p></div>}>
-        <SignInContent />
-      </Suspense>
-    </div>
+    <Suspense fallback={<div>Loading...</div>}>
+      <SignInContent />
+    </Suspense>
   );
 } 

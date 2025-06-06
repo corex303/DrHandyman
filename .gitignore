@@ -31,3 +31,4 @@ tasks/
 
 # Cursor MCP configuration
 .cursor/mcp.json 
+.vercel

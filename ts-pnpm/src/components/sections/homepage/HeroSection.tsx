@@ -23,8 +23,8 @@ const HeroSection: React.FC = () => {
         <p className='text-lg md:text-xl text-secondary-gray-light mb-10 max-w-2xl'>
           Dr. Handyman provides top-quality craftsmanship for all your home maintenance and renovation needs. Your satisfaction is our priority.
         </p>
-        <ButtonLink href='/contact' variant='primary' className='bg-accent-gold hover:bg-yellow-600 text-primary-navy px-10 py-3 text-lg font-semibold rounded-lg'>
-          Get a Free Quote
+        <ButtonLink href='/service-inquiry' variant='primary' className='bg-accent-gold hover:bg-yellow-600 text-primary-navy px-10 py-3 text-lg font-semibold rounded-lg'>
+          Get Started
         </ButtonLink>
       </div>
     </section>

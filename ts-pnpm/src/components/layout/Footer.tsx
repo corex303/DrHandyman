@@ -148,13 +148,13 @@ const Footer = ({ appearanceSettings: propsAppearanceSettings }: FooterProps) =>
           )}
         </div>
 
-        {footerSettings.customHtml && (
+        {/* {footerSettings.customHtml && (
           <div 
             className="mt-8 border-t border-gray-700 pt-8 text-center" 
             style={{ color: footerSettings.textColor ? blendColors(footerSettings.textColor, defaultAppearanceSettings.footer?.textColor || '#9CA3AF', 0.9) : (defaultAppearanceSettings.footer?.textColor || '#9CA3AF') }}
             dangerouslySetInnerHTML={{ __html: footerSettings.customHtml }}
           />
-        )}
+        )} */}
 
         <div 
           className="mt-8 border-t border-gray-700 pt-8 text-center" 

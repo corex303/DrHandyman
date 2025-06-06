@@ -3,7 +3,8 @@ import { Inter, Lora, Poppins } from 'next/font/google';
 import * as React from 'react';
 import { Toaster } from 'react-hot-toast';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { Analytics } from '@vercel/analytics/next';
+import { Analytics } from '@vercel/analytics/react';
+import { SessionProvider } from 'next-auth/react';
 
 import '@/styles/globals.css';
 
@@ -83,38 +84,30 @@ export const viewport: Viewport = {
 };
 
 export default async function RootLayout({ children }: RootLayoutProps) {
-  console.log('[RootLayout - RESTORED COMPONENTS] EXECUTION STARTED (Using defaultAppearanceSettings for theme/fonts)');
-
   const themeClass = defaultAppearanceSettings.theme === 'dark' ? 'dark' : 'light';
-  console.log('[RootLayout - RESTORED COMPONENTS] Effective Theme (from default):', defaultAppearanceSettings.theme, '| Applied themeClass:', themeClass);
   
-  const globalFontFamily = defaultAppearanceSettings.fonts?.global || 'var(--font-inter)';
+  const globalFontFamily = defaultAppearanceSettings.fonts?.body || 'var(--font-inter)';
   const headingFontFamily = defaultAppearanceSettings.fonts?.heading || 'var(--font-lora)';
 
-  const fontOverrideVariables = {
-    '--font-global-override': globalFontFamily,
-    '--font-heading-override': headingFontFamily,
-  } as React.CSSProperties;
-
-  const inlineStyles = `
-    :root {
-      --font-global: ${globalFontFamily};
-      --font-heading: ${headingFontFamily};
-    }
-    body {
-      font-family: var(--font-global-override, var(--font-inter));
-    }
-    h1, h2, h3, h4, h5, h6 {
-      font-family: var(--font-heading-override, var(--font-lora));
-    }
-  `;
-
   return (
-    <html lang="en" className={themeClass}>
-      <head>
-        <style dangerouslySetInnerHTML={{ __html: inlineStyles }} />
-      </head>
-      <body>
+    <html
+      lang="en"
+      className={cn(
+        'antialiased',
+        themeClass,
+        inter.variable,
+        lora.variable,
+        poppins.variable
+      )}
+      style={
+        {
+          '--font-global': globalFontFamily,
+          '--font-heading': headingFontFamily,
+        } as React.CSSProperties
+      }
+    >
+      <head />
+      <body className="flex flex-col min-h-screen font-sans">
         <Providers>
           <Toaster position="top-center" reverseOrder={false} />
           <Header appearanceSettings={defaultAppearanceSettings} />

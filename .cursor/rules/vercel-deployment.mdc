@@ -1,0 +1,6 @@
+---
+description: When deploying fixes/changes to Vercel production
+globs: 
+alwaysApply: false
+---
+cd ts-pnpm && cd .. && vercel --prod

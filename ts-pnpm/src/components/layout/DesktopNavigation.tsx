@@ -40,7 +40,7 @@ const DesktopNavigation = ({
   ctaBackgroundColor,
   ctaTextColor,
 }: DesktopNavigationProps) => {
-  const { data: session, status } = useSession(); // Get session data
+  const { data: session } = useSession();
   const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
   
   // Correctly initialize refs for dynamic elements
@@ -49,36 +49,22 @@ const DesktopNavigation = ({
 
   const pathname = usePathname();
 
-  const serviceCategoriesWithIcons = [
-    { id: 'roofing', text: 'Roofing', href: '/services/roofing', iconSrc: '/images/icons/roofing.png' },
-    { id: 'plumbing', text: 'Plumbing', href: '/services/plumbing', iconSrc: '/images/icons/plumb.png' },
-    { id: 'painting', text: 'Painting', href: '/services/painting', iconSrc: '/images/icons/paint.png' },
-    { id: 'hvac', text: 'HVAC', href: '/services/hvac', iconSrc: '/images/icons/hvac.png' },
-    { id: 'flooring', text: 'Flooring', href: '/services/flooring', iconSrc: '/images/icons/flooring.png' },
-    { id: 'exterior-work', text: 'Exterior Work', href: '/services/exterior-work', iconSrc: '/images/icons/exterior.png' },
-    { id: 'electrical', text: 'Electrical', href: '/services/electrical', iconSrc: '/images/icons/electric.png' },
-    { id: 'general-repair', text: 'General Repair', href: '/services/general-repair', iconSrc: '/images/icons/repair.png' },
-  ];
+  const portalLink = { id: 'portal-dashboard', text: 'Customer Portal', href: '/portal/dashboard' };
+  const shouldShowPortalLink = session && session.user?.role === 'CUSTOMER';
 
-  const baseNavLinks = propNavLinks || [
-    { id: 'home', text: 'Home', href: '/' },
-    { 
-      id: 'services', 
-      text: 'Services', 
-      href: '/services', // Main services overview page
-      subLinks: serviceCategoriesWithIcons 
-    },
-    { id: 'about', text: 'About Us', href: '/about' },
-  ];
+  let finalNavLinks = propNavLinks ? [...propNavLinks] : [];
 
-  const actualNavLinks = [...baseNavLinks];
-
-  if (status === 'authenticated' && session?.user?.role === 'CUSTOMER') {
-    actualNavLinks.push({ id: 'portal', text: 'Customer Portal', href: '/portal' });
+  if (shouldShowPortalLink) {
+    // If showing portal link, filter out the login link
+    finalNavLinks = finalNavLinks.filter(link => link.id !== 'customer-login');
+    finalNavLinks.push(portalLink);
+  } else if (session) {
+    // If any other user is logged in, hide the login link, but don't add portal link
+    finalNavLinks = finalNavLinks.filter(link => link.id !== 'customer-login');
   }
 
   // Ensure refs are created for each dropdown link based on actualNavLinks
-  actualNavLinks.forEach(link => {
+  finalNavLinks.forEach(link => {
     if (link.subLinks && link.subLinks.length > 0) {
       if (!dropdownContainerRefs.current[link.id]) {
         dropdownContainerRefs.current[link.id] = createRef<HTMLLIElement>();
@@ -133,7 +119,7 @@ const DesktopNavigation = ({
     if (href === '/') {
       return pathname === '/';
     }
-    const parentLink = actualNavLinks.find(link => link.href === href && link.subLinks);
+    const parentLink = finalNavLinks.find(link => link.href === href && link.subLinks);
     if (parentLink && parentLink.subLinks?.some(sub => pathname?.startsWith(sub.href))) {
         return true;
     }
@@ -143,7 +129,7 @@ const DesktopNavigation = ({
   return (
     <nav className="hidden lg:block">
       <ul className="flex items-center space-x-8">
-        {actualNavLinks.map((link) => {
+        {finalNavLinks.map((link) => {
           if (link.subLinks && link.subLinks.length > 0) {
             const isDropdownOpen = openDropdownId === link.id;
             return (

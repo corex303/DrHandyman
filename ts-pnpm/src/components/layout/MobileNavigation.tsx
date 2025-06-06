@@ -38,37 +38,23 @@ const MobileNavigation = ({
   ctaText,
   ctaLink,
 }: MobileNavigationProps) => {
-  const { data: session, status } = useSession(); // Get session data
+  const { data: session } = useSession();
   const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
-  const serviceCategoriesWithIcons = [
-    { id: 'roofing', text: 'Roofing', href: '/services/roofing', iconSrc: '/images/icons/roofing.png' },
-    { id: 'plumbing', text: 'Plumbing', href: '/services/plumbing', iconSrc: '/images/icons/plumb.png' },
-    { id: 'painting', text: 'Painting', href: '/services/painting', iconSrc: '/images/icons/paint.png' },
-    { id: 'hvac', text: 'HVAC', href: '/services/hvac', iconSrc: '/images/icons/hvac.png' },
-    { id: 'flooring', text: 'Flooring', href: '/services/flooring', iconSrc: '/images/icons/flooring.png' },
-    { id: 'exterior-work', text: 'Exterior Work', href: '/services/exterior-work', iconSrc: '/images/icons/exterior.png' },
-    { id: 'electrical', text: 'Electrical', href: '/services/electrical', iconSrc: '/images/icons/electric.png' },
-    { id: 'general-repair', text: 'General Repair', href: '/services/general-repair', iconSrc: '/images/icons/repair.png' },
-  ];
+  const portalLink = { id: 'portal-dashboard', text: 'Customer Portal', href: '/portal/dashboard' };
+  const shouldShowPortalLink = session && session.user?.role === 'CUSTOMER';
 
-  const baseNavLinks = propNavLinks || [
-    { id: 'home', text: 'Home', href: '/' },
-    { 
-      id: 'services', 
-      text: 'Services', 
-      href: '/services',
-      subLinks: serviceCategoriesWithIcons
-    },
-    { id: 'about', text: 'About Us', href: '/about' },
-  ];
+  let finalNavLinks = propNavLinks ? [...propNavLinks] : [];
 
-  const actualNavLinks = [...baseNavLinks];
-
-  if (status === 'authenticated' && session?.user?.role === 'CUSTOMER') {
-    actualNavLinks.push({ id: 'portal', text: 'Customer Portal', href: '/portal' });
+  if (shouldShowPortalLink) {
+    // If showing portal link, filter out the login link
+    finalNavLinks = finalNavLinks.filter(link => link.id !== 'customer-login');
+    finalNavLinks.push(portalLink);
+  } else if (session) {
+    // If any other user is logged in, hide the login link, but don't add portal link
+    finalNavLinks = finalNavLinks.filter(link => link.id !== 'customer-login');
   }
 
   const ctaDetails = {
@@ -133,7 +119,7 @@ const MobileNavigation = ({
     >
       <nav className="overflow-y-auto max-h-[calc(100vh-10rem)]">
         <ul className="flex flex-col space-y-1">
-          {actualNavLinks.map((link) => {
+          {finalNavLinks.map((link) => {
             if (link.subLinks && link.subLinks.length > 0) {
               const isDropdownOpen = openDropdownId === link.id;
               return (

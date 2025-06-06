@@ -18,16 +18,14 @@ export const dynamic = 'force-dynamic'; // Ensure the route is always dynamic
 // Get all messages for a specific conversation, ensuring admin access
 export async function GET(
   request: Request,
-  { params: paramsPromise }: { params: Promise<{ conversationId: string }> }
+  { params }: { params: { conversationId: string } }
 ) {
-  // const actualParams = await context.params; // Await params // REMOVED
   const session = await getServerSession(authOptions);
   if (!session?.user || session.user.role !== 'ADMIN') {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const params = await paramsPromise; // Await the promise
-  const { conversationId } = params; // Use awaited params
+  const { conversationId } = params;
 
   if (!conversationId) {
     return NextResponse.json({ error: 'Conversation ID is required' }, { status: 400 });
@@ -36,13 +34,13 @@ export async function GET(
   try {
     const messages = await prisma.chatMessage.findMany({
       where: {
-        conversationId: conversationId, // Removed parseInt
+        conversationId: conversationId,
       },
       include: {
         sender: {
           select: { id: true, name: true, email: true, image: true, role: true },
         },
-        // attachments: true, // Removed due to linter error
+        // attachments: true, // Leaving this commented out as the relation is unclear
       },
       orderBy: {
         createdAt: 'asc',
@@ -54,7 +52,7 @@ export async function GET(
   } catch (error) {
     console.error(`Error fetching messages for conversation ${conversationId}:`, error);
     if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2023') {
-        return NextResponse.json({ error: 'Invalid Conversation ID format (if it were not a string)' }, { status: 400 });
+        return NextResponse.json({ error: 'Invalid Conversation ID format' }, { status: 400 });
     }
     return NextResponse.json({ error: 'Failed to fetch messages' }, { status: 500 });
   }
@@ -64,20 +62,18 @@ export async function GET(
 // Admin sends a message to a specific conversation
 export async function POST(
   request: Request,
-  { params: paramsPromise }: { params: Promise<{ conversationId: string }> }
+  { params }: { params: { conversationId: string } }
 ) {
-  // const actualParams = await context.params; // Await params // REMOVED
   const session = await getServerSession(authOptions);
   if (!session?.user || session.user.role !== 'ADMIN') {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const params = await paramsPromise; // Await the promise
-  const { conversationId } = params; // Use awaited params
+  const { conversationId } = params;
   const body = await request.json();
-  const { content, senderId, attachmentUrl, attachmentType, attachmentFilename, attachmentSize } = body; // Assuming these fields from prior edit
+  const { content, senderId, attachmentUrl, attachmentType, attachmentFilename, attachmentSize } = body;
 
-  if (!content && !attachmentFilename) { // Adjusted check based on single attachment fields
+  if (!content && !attachmentFilename) {
     return NextResponse.json({ error: 'Message content or attachment is required' }, { status: 400 });
   }
   if (content && typeof content !== 'string') {
@@ -85,7 +81,7 @@ export async function POST(
   }
 
   const conversationExists = await prisma.chatConversation.findUnique({
-      where: { id: conversationId }, // Removed parseInt
+      where: { id: conversationId },
   });
 
   if (!conversationExists) {
@@ -96,8 +92,7 @@ export async function POST(
     const newMessageData: Prisma.ChatMessageCreateInput = {
       content: content?.trim(),
       sender: { connect: { id: session.user.id } },
-      conversation: { connect: { id: conversationId } }, // Removed parseInt
-      // Assuming single attachment fields are correct for Prisma schema
+      conversation: { connect: { id: conversationId } },
       attachmentUrl: attachmentUrl,
       attachmentType: attachmentType,
       attachmentFilename: attachmentFilename,
@@ -110,12 +105,11 @@ export async function POST(
         sender: {
           select: { id: true, name: true, email: true, image: true, role: true },
         },
-        // attachments: true, // Removed due to linter error
       },
     });
 
     await prisma.chatConversation.update({
-      where: { id: conversationId }, // Removed parseInt
+      where: { id: conversationId },
       data: { updatedAt: new Date(), lastMessage: content || attachmentFilename, lastMessageAt: newMessage.createdAt },
     });
 

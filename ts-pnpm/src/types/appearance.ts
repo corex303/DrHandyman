@@ -6,15 +6,12 @@ export interface AppearanceSettings {
     primary?: string;
     secondary?: string;
     accent?: string;
-    neutral?: string;
-    base?: string;
+    background?: string;
     text?: string;
-    textSecondary?: string;
-    heading?: string;
   };
   fonts?: {
-    global?: string;
     heading?: string;
+    body?: string;
   };
   header?: {
     layout?: 'standard' | 'centered' | 'minimal';
@@ -42,14 +39,23 @@ export interface AppearanceSettings {
     layout?: 'standard' | 'compact' | 'minimal';
     backgroundColor?: string;
     textColor?: string;
+    copyrightText?: string;
     showSocialIcons?: boolean;
     showContactInfo?: boolean;
     customHtml?: string;
-    copyrightText?: string;
+    socialLinks?: Array<{
+      id: string;
+      platform: 'Facebook' | 'Twitter' | 'Instagram' | 'LinkedIn';
+      url: string;
+    }>;
     linkColumns?: Array<{
       id: string;
       title: string;
-      links: Array<{ id: string; text: string; href: string }>;
+      links: Array<{
+        id: string;
+        text: string;
+        href: string;
+      }>;
     }>;
   };
   homepage?: {
@@ -78,6 +84,7 @@ export interface HeroSectionSettings {
   minHeight?: string; // e.g., '500px', '75vh'
   paddingTop?: string; // e.g., 'py-12', 'pt-20'
   paddingBottom?: string; // e.g., 'pb-20'
+  contentWidth?: string; // e.g., 'max-w-3xl'
 }
 
 export interface TestimonialItem {
@@ -87,6 +94,23 @@ export interface TestimonialItem {
   authorRole?: string;
   authorCompany?: string;
   avatarUrl?: string;
+  title?: string;
+  subtitle?: string;
+  textAlignment?: 'left' | 'center' | 'right';
+  items?: ServiceItem[];
+  layoutStyle?: 'grid' | 'list' | 'feature-list';
+  columns?: 2 | 3 | 4;
+  backgroundColor?: string;
+  textColor?: string;
+  itemTitleColor?: string;
+  itemTextColor?: string;
+  itemBackgroundColor?: string;
+  iconColor?: string;
+  viewAllServicesText?: string;
+  viewAllServicesLink?: string;
+  viewAllServicesButtonVariant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'light' | 'dark';
+  paddingTop?: string;
+  paddingBottom?: string;
 }
 
 export interface TestimonialsSectionSettings {
@@ -242,24 +266,17 @@ export interface ServicesSectionSettings {
 export const defaultAppearanceSettings: AppearanceSettings = {
   theme: 'dark',
   colors: {
-    primary: '#3B82F6', // blue-500
-    secondary: '#10B981', // green-500
-    accent: '#F59E0B', // amber-500
-    neutral: '#4B5563', // gray-600
-    base: '#F3F4F6', // gray-100
-    text: '#1F2937', // gray-800
-    textSecondary: '#6B7280', // gray-500
-    heading: '#111827', // gray-900
+    primary: '#1A2A44', // Dark Navy
+    secondary: '#F0F4F8', // Light Gray
+    accent: '#FBBF24', // Amber/Gold
+    text: '#E0E7FF', // Light Lavender
+    background: '#0F172A', // Slate Blue
   },
   fonts: {
-    global: 'Inter, sans-serif',
-    heading: 'Poppins, sans-serif',
+    heading: 'Lora, serif',
+    body: 'Inter, sans-serif',
   },
   header: {
-    layout: 'standard',
-    showCta: true,
-    ctaText: 'Get a Quote',
-    ctaLink: '/service-inquiry',
     navLinks: [
       { id: 'home', text: 'Home', href: '/' },
       { 
@@ -267,55 +284,35 @@ export const defaultAppearanceSettings: AppearanceSettings = {
         text: 'Services', 
         href: '/services', 
         subLinks: [
-          { id: 'roofing', text: 'Roofing', href: '/services/roofing', iconSrc: '/images/icons/roofing.png' },
-          { id: 'plumbing', text: 'Plumbing', href: '/services/plumbing', iconSrc: '/images/icons/plumb.png' },
-          { id: 'painting', text: 'Painting', href: '/services/painting', iconSrc: '/images/icons/paint.png' },
-          { id: 'hvac', text: 'HVAC', href: '/services/hvac', iconSrc: '/images/icons/hvac.png' },
-          { id: 'flooring', text: 'Flooring', href: '/services/flooring', iconSrc: '/images/icons/flooring.png' },
-          { id: 'exterior-work', text: 'Exterior Work', href: '/services/exterior-work', iconSrc: '/images/icons/exterior.png' },
-          { id: 'electrical', text: 'Electrical', href: '/services/electrical', iconSrc: '/images/icons/electric.png' },
-          { id: 'general-repair', text: 'General Repairs', href: '/services/general-repairs', iconSrc: '/images/icons/repair.png' }, // Matched slug from seed
-        ]
+          { id: 'roofing', text: 'Roofing', href: '/services/roofing' },
+          { id: 'plumbing', text: 'Plumbing', href: '/services/plumbing' },
+          { id: 'painting', text: 'Painting', href: '/services/painting' },
+          { id: 'hvac', text: 'HVAC', href: '/services/hvac' },
+          { id: 'flooring', text: 'Flooring', href: '/services/flooring' },
+          { id: 'exterior-work', text: 'Exterior Work', href: '/services/exterior-work' },
+          { id: 'electrical', text: 'Electrical', href: '/services/electrical' },
+          { id: 'general-repair', text: 'General Repair', href: '/services/general-repair' },
+        ],
       },
-      { id: 'about', text: 'About', href: '/about' },
+      // { id: 'about', text: 'About Us', href: '/about' },
       { id: 'service-inquiry', text: 'Service Inquiry', href: '/service-inquiry' },
+      { id: 'customer-login', text: 'Customer Login', href: '/auth/signin' },
     ],
+    showCta: true,
+    ctaText: 'Get a Quote',
+    ctaLink: '/service-inquiry',
+    ctaBackgroundColor: '#FBBF24', // accent
+    ctaTextColor: '#1A2A44', // primary
   },
   footer: {
-    layout: 'standard',
+    copyrightText: '© 2024 Dr. Handyman. All rights reserved.',
     showSocialIcons: true,
     showContactInfo: true,
-    copyrightText: `© ${new Date().getFullYear()} Dr. Handyman. All rights reserved.`,
-    linkColumns: [
-      {
-        id: 'col-services',
-        title: 'Our Services',
-        links: [
-          { id: 'serv-floor', text: 'Flooring', href: '/services/flooring' },
-          { id: 'serv-plumb', text: 'Plumbing', href: '/services/plumbing' },
-          { id: 'serv-elec', text: 'Electrical Work', href: '/services/electrical' },
-          { id: 'serv-paint', text: 'Painting', href: '/services/painting' },
-        ],
-      },
-      {
-        id: 'col-company',
-        title: 'Company',
-        links: [
-          { id: 'comp-about', text: 'About Us', href: '/about' },
-          { id: 'comp-portfolio', text: 'Portfolio', href: '/portfolio' },
-          { id: 'comp-blog', text: 'Blog', href: '/blog' },
-          { id: 'comp-contact', text: 'Contact', href: '/contact' },
-        ],
-      },
-      {
-        id: 'col-legal',
-        title: 'Legal',
-        links: [
-          { id: 'legal-privacy', text: 'Privacy Policy', href: '/privacy-policy' },
-          { id: 'legal-terms', text: 'Terms of Service', href: '/terms-of-service' },
-          { id: 'legal-cookies', text: 'Cookie Policy', href: '/cookie-policy' },
-        ],
-      },
+    customHtml: '<p>Some default custom HTML</p>',
+    socialLinks: [
+      { id: 'facebook', platform: 'Facebook', url: 'https://facebook.com' },
+      { id: 'twitter', platform: 'Twitter', url: 'https://twitter.com' },
+      { id: 'instagram', platform: 'Instagram', url: 'https://instagram.com' },
     ],
   },
   homepage: {
@@ -332,7 +329,7 @@ export const defaultAppearanceSettings: AppearanceSettings = {
           button1Text: 'Our Services',
           button1Link: '/services',
           button1Variant: 'light',
-          button2Text: 'Get a Free Quote',
+          button2Text: 'Get Started',
           button2Link: '/contact',
           button2Variant: 'outline', // Assuming outline is good on dark backgrounds
           backgroundImageUrl: '/images/hero-background-5.jpg', // Default placeholder

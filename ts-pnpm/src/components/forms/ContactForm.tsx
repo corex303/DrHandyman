@@ -1,38 +1,37 @@
 "use client";
-import { zodResolver } from "@hookform/resolvers/zod";
+
 import { useCallback, useRef, useState } from 'react';
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-
-const formSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
-  email: z.string().email({ message: "Invalid email address." }),
-  phone: z.string().min(10, { message: "Phone number must be at least 10 digits." }).optional().or(z.literal('')),
-  service: z.string().optional(),
-  message: z.string().min(10, { message: "Message must be at least 10 characters." }),
-});
-
-type FormDataFields = z.infer<typeof formSchema>;
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function ContactForm() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    service: '',
+    message: '',
+  });
+
   const [apiResponseMessage, setApiResponseMessage] = useState<string | null>(null);
   const [isApiError, setIsApiError] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const { executeRecaptcha } = useGoogleReCaptcha();
 
-  const form = useForm<FormDataFields>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      phone: "",
-      service: "",
-      message: "",
-    },
-  });
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
 
+  const handleServiceChange = (value: string) => {
+    setFormData(prev => ({ ...prev, service: value }));
+  };
+  
   const handleRecaptchaVerify = useCallback(async () => {
     if (!executeRecaptcha) {
       console.log("Execute recaptcha not yet available");
@@ -51,7 +50,8 @@ export default function ContactForm() {
     }
   }, [executeRecaptcha]);
 
-  const onSubmit = async (data: FormDataFields) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setApiResponseMessage(null);
     setIsApiError(false);
 
@@ -60,43 +60,34 @@ export default function ContactForm() {
       return;
     }
 
-    const formData = new FormData();
-    Object.entries(data).forEach(([key, value]) => {
-      if (value !== undefined && value !== null) {
-        formData.append(key, String(value));
-      }
+    const formPayload = new FormData();
+    Object.entries(formData).forEach(([key, value]) => {
+      formPayload.append(key, value);
     });
-    formData.append("g-recaptcha-response", token);
+    formPayload.append("g-recaptcha-response", token);
 
     if (fileInputRef.current?.files) {
       Array.from(fileInputRef.current.files).forEach((file) => {
-        formData.append("attachments", file);
+        formPayload.append("attachments", file);
       });
     }
 
     try {
       const response = await fetch('/api/service-inquiry', {
         method: 'POST',
-        body: formData,
+        body: formPayload,
       });
 
       const result = await response.json();
 
       if (!response.ok) {
         setIsApiError(true);
-        if (result.errors) {
-          let errorMessages = "Please correct the following errors:";
-          for (const field in result.errors) {
-            const errorsArray = Array.isArray(result.errors[field]) ? result.errors[field] : [result.errors[field]];
-            errorMessages += `\n- ${field}: ${errorsArray.join(', ')}`;
-          }
-          setApiResponseMessage(errorMessages);
-        } else {
-          setApiResponseMessage(result.message || "An error occurred.");
-        }
+        // Assuming result.message contains the error details
+        setApiResponseMessage(result.message || "An error occurred.");
       } else {
         setApiResponseMessage(result.message || "Form submitted successfully!");
-        form.reset();
+        // Reset form state
+        setFormData({ name: '', email: '', phone: '', service: '', message: '' });
         if (fileInputRef.current) {
           fileInputRef.current.value = "";
         }
@@ -109,126 +100,96 @@ export default function ContactForm() {
   };
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-      <div>
-        <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-          Full Name
-        </label>
-        <input
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="space-y-2">
+        <Label htmlFor="name">Full Name</Label>
+        <Input
           id="name"
+          name="name"
           type="text"
-          {...form.register("name")}
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          value={formData.name}
+          onChange={handleInputChange}
+          placeholder="John Doe"
+          required
         />
-        {form.formState.errors.name && (
-          <p className="mt-1 text-sm text-red-600">{form.formState.errors.name.message}</p>
-        )}
       </div>
-
-      <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-          Email Address
-        </label>
-        <input
+      <div className="space-y-2">
+        <Label htmlFor="email">Email Address</Label>
+        <Input
           id="email"
+          name="email"
           type="email"
-          {...form.register("email")}
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          value={formData.email}
+          onChange={handleInputChange}
+          placeholder="john.doe@example.com"
+          required
         />
-        {form.formState.errors.email && (
-          <p className="mt-1 text-sm text-red-600">{form.formState.errors.email.message}</p>
-        )}
       </div>
-
-      <div>
-        <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
-          Phone Number (Optional)
-        </label>
-        <input
+      <div className="space-y-2">
+        <Label htmlFor="phone">Phone Number (Optional)</Label>
+        <Input
           id="phone"
+          name="phone"
           type="tel"
-          {...form.register("phone")}
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          value={formData.phone}
+          onChange={handleInputChange}
+          placeholder="(123) 456-7890"
         />
-        {form.formState.errors.phone && (
-          <p className="mt-1 text-sm text-red-600">{form.formState.errors.phone.message}</p>
-        )}
       </div>
-
-      <div>
-        <label htmlFor="service" className="block text-sm font-medium text-gray-700">
-          Service Needed (Optional)
-        </label>
-        <select
-          id="service"
-          {...form.register("service")}
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-        >
-          <option value="">Select a service</option>
-          <option value="roofing">Roofing</option>
-          <option value="plumbing">Plumbing</option>
-          <option value="painting">Painting</option>
-          <option value="hvac">HVAC</option>
-          <option value="flooring">Flooring</option>
-          <option value="exterior-work">Exterior Work</option>
-          <option value="electrical">Electrical</option>
-          <option value="general-repairs">General Repairs</option>
-          <option value="carpentry">Carpentry</option>
-          <option value="concrete-repair">Concrete Repair</option>
-          <option value="deck-building-repair">Deck Building / Repair</option>
-          <option value="other">Other</option>
-        </select>
-        {form.formState.errors.service && (
-          <p className="mt-1 text-sm text-red-600">{form.formState.errors.service.message}</p>
-        )}
+      <div className="space-y-2">
+        <Label htmlFor="service">Service Needed (Optional)</Label>
+        <Select name="service" onValueChange={handleServiceChange} value={formData.service}>
+          <SelectTrigger id="service">
+            <SelectValue placeholder="Select a service" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="roofing">Roofing</SelectItem>
+            <SelectItem value="plumbing">Plumbing</SelectItem>
+            <SelectItem value="painting">Painting</SelectItem>
+            <SelectItem value="hvac">HVAC</SelectItem>
+            <SelectItem value="flooring">Flooring</SelectItem>
+            <SelectItem value="exterior-work">Exterior Work</SelectItem>
+            <SelectItem value="electrical">Electrical</SelectItem>
+            <SelectItem value="general-repairs">General Repairs</SelectItem>
+            <SelectItem value="carpentry">Carpentry</SelectItem>
+            <SelectItem value="concrete-repair">Concrete Repair</SelectItem>
+            <SelectItem value="deck-building-repair">Deck Building / Repair</SelectItem>
+            <SelectItem value="other">Other</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
-
-      <div>
-        <label htmlFor="message" className="block text-sm font-medium text-gray-700">
-          Message / Description of Work
-        </label>
-        <textarea
+      <div className="space-y-2">
+        <Label htmlFor="message">Message / Description of Work</Label>
+        <Textarea
           id="message"
-          rows={4}
-          {...form.register("message")}
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          name="message"
+          value={formData.message}
+          onChange={handleInputChange}
           placeholder="Please describe the issue or service you need in detail."
+          className="resize-none"
+          required
         />
-        {form.formState.errors.message && (
-          <p className="mt-1 text-sm text-red-600">{form.formState.errors.message.message}</p>
-        )}
       </div>
-
-      <div>
-        <label htmlFor="attachments" className="block text-sm font-medium text-gray-700">
-          Upload Photos (Optional)
-        </label>
-        <input
+      <div className="space-y-2">
+        <Label htmlFor="attachments">Attachments (Optional)</Label>
+        <Input
           id="attachments"
+          name="attachments"
           type="file"
-          multiple
           ref={fileInputRef}
-          className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          accept="image/png, image/jpeg, image/gif, image/webp"
+          multiple
         />
-        <p className="mt-1 text-xs text-gray-500">You can upload multiple images (PNG, JPG, GIF, WEBP).</p>
       </div>
 
       {apiResponseMessage && (
-        <div className={`p-4 rounded-md ${isApiError ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`}>
-          <p style={{ whiteSpace: 'pre-line' }}>{apiResponseMessage}</p>
+        <div className={`mt-4 text-sm ${isApiError ? 'text-red-500' : 'text-green-500'}`}>
+          {apiResponseMessage}
         </div>
       )}
 
-      <div>
-        <button
-          type="submit"
-          disabled={form.formState.isSubmitting}
-          className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
-        >
-          {form.formState.isSubmitting ? "Submitting Inquiry..." : "Send Inquiry"}
-        </button>
-      </div>
+      <Button type="submit" className="w-full">
+        Submit Inquiry
+      </Button>
     </form>
   );
 } 

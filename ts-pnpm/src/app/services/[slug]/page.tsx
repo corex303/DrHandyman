@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 
 import prisma from '@/lib/prisma';
 
+import { Button } from '@/components/ui/button';
 import BeforeAfterGallery from '@/components/services/BeforeAfterGallery';
 import ServiceSchemaMarkup from '@/components/services/ServiceSchemaMarkup';
 
@@ -119,7 +120,7 @@ export default async function ServiceDetailPage(props: ServiceDetailPageProps) {
       <ServiceSchemaMarkup service={service} />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <article>
-          <h1 className="mb-6 text-3xl sm:text-4xl font-bold text-gray-800 text-center">{service.name}</h1>
+          <h1 className="mb-6 text-3xl sm:text-4xl font-bold text-foreground text-center text-balance">{service.name}</h1>
 
           {service.imageUrl && (
             <div className="mb-8 w-full max-w-3xl mx-auto">
@@ -135,7 +136,7 @@ export default async function ServiceDetailPage(props: ServiceDetailPageProps) {
           )}
 
           <div
-            className="prose prose-lg lg:prose-xl max-w-3xl mx-auto text-gray-700 mb-10 sm:mb-12 text-center"
+            className="prose prose-lg dark:prose-invert lg:prose-xl max-w-3xl mx-auto text-foreground/90 mb-10 sm:mb-12 text-center"
             dangerouslySetInnerHTML={{ __html: service.description }}
           />
 
@@ -143,18 +144,17 @@ export default async function ServiceDetailPage(props: ServiceDetailPageProps) {
           {approvedPhotoSets && approvedPhotoSets.length > 0 ? (
             <BeforeAfterGallery items={approvedPhotoSets} serviceName={service.name} />
           ) : (
-            <p className="mt-12 text-center text-gray-500">
+            <p className="mt-12 text-center text-foreground/80">
               No portfolio items available for this service yet.
             </p>
           )}
 
           <div className="mt-12 sm:mt-16 text-center">
-            <Link 
-              href="/service-inquiry" 
-              className="bg-blue-600 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold text-base sm:text-lg hover:bg-blue-700 transition duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 block w-full max-w-xs mx-auto sm:inline-block sm:w-auto"
-            >
-              Get a Quote for {service.name}
-            </Link>
+            <Button asChild size="lg">
+              <Link href="/service-inquiry">
+                Get a Quote for {service.name}
+              </Link>
+            </Button>
           </div>
 
         </article>

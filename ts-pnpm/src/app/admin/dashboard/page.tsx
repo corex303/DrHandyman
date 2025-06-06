@@ -182,28 +182,9 @@ export default function AdminDashboardPage() {
     fetchPendingCount();
   }, []);
 
-  // Dummy data for now - replace with actual data fetching
-  const stats = [
-    { name: 'Total Users', stat: '1,200', icon: usersManagementIcon, href: '/admin/users' },
-    { name: 'Active Services', stat: '15', icon: servicesManagementIcon, href: '/admin/services' },
-    { name: 'Total Revenue', stat: '$25,650', icon: dollarSignIcon, href: '/admin/billing' },
-    { name: 'Pending Portfolio Items', stat: '3', icon: imageIconForStats, href: '/admin/portfolio?status=PENDING' }, // Example
-  ];
-
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center p-4 sm:p-6 lg:p-8">
-      <div className="bg-white shadow-2xl rounded-xl p-6 sm:p-8 max-w-6xl w-full">
-        <div className="flex flex-col sm:flex-row justify-between items-center mb-8 pb-4 border-b border-gray-200">
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-4 sm:mb-0">Admin Dashboard</h1>
-          <Button 
-            onClick={handleLogout} 
-            variant="outline" 
-            className="border-red-500 text-red-500 hover:bg-red-50 flex items-center space-x-2"
-          >
-            <FiLogOut className="h-5 w-5" /> 
-            <span>Logout</span>
-          </Button>
-        </div>
+    <div className="bg-white shadow-2xl rounded-xl p-6 sm:p-8 w-full">
+        <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-8 pb-4 border-b border-gray-200">Admin Dashboard</h1>
 
         {/* Activity Summary Widgets */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
@@ -341,49 +322,11 @@ export default function AdminDashboardPage() {
           />
         </div>
 
-        {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-          {stats.map((item) => (
-            <Link key={item.name} href={item.href}>
-              <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer h-full flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-lg font-semibold text-gray-700">{item.name}</h3>
-                    {item.icon}
-                  </div>
-                  <p className="text-3xl font-bold text-gray-900">{item.stat}</p>
-                </div>
-                <p className="text-sm text-indigo-600 hover:underline mt-4">View Details</p>
-              </div>
-            </Link>
-          ))}
-        </div>
-
-        {/* Quick Links */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          <Link href="/admin/portfolio/upload" className="block p-6 bg-indigo-600 text-white rounded-lg shadow-md hover:bg-indigo-700 transition-colors duration-300 text-center">
-              <WrappedReactIcon icon={FiBriefcase} className="text-3xl mx-auto mb-2"/>
-              <h3 className="font-semibold text-lg">Manage Portfolio</h3>
-              <p className="text-sm opacity-90">Approve, edit, or directly upload items.</p>
-          </Link>
-          <Link href="/admin/services" className="block p-6 bg-teal-600 text-white rounded-lg shadow-md hover:bg-teal-700 transition-colors duration-300 text-center">
-              <WrappedReactIcon icon={FiLayers} className="text-3xl mx-auto mb-2"/>
-              <h3 className="font-semibold text-lg">Manage Services</h3>
-              <p className="text-sm opacity-90">Add, edit, or remove service offerings.</p>
-          </Link>
-          <Link href="/admin/settings" className="block p-6 bg-orange-500 text-white rounded-lg shadow-md hover:bg-orange-600 transition-colors duration-300 text-center">
-              <WrappedReactIcon icon={FiUsers} className="text-3xl mx-auto mb-2"/> {/* Using FiUsers as a placeholder for settings */}
-              <h3 className="font-semibold text-lg">Site Settings</h3>
-              <p className="text-sm opacity-90">Configure appearance, content, etc.</p>
-          </Link>
-        </div>
-
         <div className="mt-12 pt-6 border-t border-gray-200 text-center">
           <p className="text-gray-500 text-sm">
             &copy; {new Date().getFullYear()} Dr. Handyman Admin Panel
           </p>
         </div>
-      </div>
     </div>
   );
 } 
