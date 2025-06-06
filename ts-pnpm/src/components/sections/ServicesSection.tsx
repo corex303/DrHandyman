@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import React from 'react';
-import { FaArrowRight, FaPaintRoller, FaTools, FaWrench } from 'react-icons/fa';
 import { IconType } from 'react-icons';
+import { FaArrowRight, FaPaintRoller, FaTools, FaWrench } from 'react-icons/fa';
 
 import ButtonLink from '@/components/links/ButtonLink';
 import WrappedReactIcon from '@/components/ui/WrappedReactIcon';

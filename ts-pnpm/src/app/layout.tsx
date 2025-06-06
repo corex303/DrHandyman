@@ -5,11 +5,11 @@ import { Toaster } from 'react-hot-toast';
 
 import '@/styles/globals.css';
 
-import { defaultAppearanceSettings } from '@/types/appearance';
-
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 import Providers from '@/components/layout/Providers';
+
+import { defaultAppearanceSettings } from '@/types/appearance';
 
 // import { siteConfig } from '@/constant/config'; // Keep commented if generateMetadata is simplified
 

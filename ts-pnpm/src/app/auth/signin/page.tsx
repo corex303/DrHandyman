@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
-import React, { Suspense, FormEvent, useEffect, useState } from 'react';
+import React, { FormEvent, Suspense, useEffect, useState } from 'react';
 
 // New component to handle logic depending on useSearchParams
 function SignInContent() {

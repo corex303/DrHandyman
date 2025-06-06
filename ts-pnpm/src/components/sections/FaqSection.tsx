@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { FaMinus,FaPlus } from 'react-icons/fa'; // Example icons
 
 import WrappedReactIcon from '@/components/ui/WrappedReactIcon'; // Added import
+
 import { FaqItem,FaqSectionSettings } from '@/types/appearance';
 
 interface FaqSectionProps {

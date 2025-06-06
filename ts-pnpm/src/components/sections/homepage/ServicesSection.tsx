@@ -1,6 +1,6 @@
 import React from 'react';
-import { FiCheckSquare, FiHome, FiTool } from 'react-icons/fi';
 import { IconType } from 'react-icons';
+import { FiCheckSquare, FiHome, FiTool } from 'react-icons/fi';
 
 import WrappedReactIcon from '@/components/ui/WrappedReactIcon';
 
