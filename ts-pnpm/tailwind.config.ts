@@ -1,3 +1,4 @@
+import { nextui } from '@nextui-org/react';
 import type { Config } from 'tailwindcss';
 import defaultTheme from 'tailwindcss/defaultTheme';
 
@@ -10,6 +11,7 @@ export default {
     './src/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/layout/Header.tsx',
     './src/components/layout/Footer.tsx',
+    './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
   	extend: {
@@ -140,7 +142,5 @@ export default {
   		}
   	}
   },
-  plugins: [
-      require("tailwindcss-animate")
-],
+  plugins: [nextui(), require("tailwindcss-animate")],
 } satisfies Config;
