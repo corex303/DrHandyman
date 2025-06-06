@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .layout {
+    /* 1100px */
+    max-width: 68.75rem;
+    @apply mx-auto w-11/12;
+  }
+}
+
 :root {
   /* #region  /**=========== Primary Color =========== */
   /* !STARTERCONF Customize these variable, copy and paste from /styles/colors.css for list of colors */
@@ -75,12 +83,6 @@
     @apply font-sans text-sm md:text-base;
   }
   /* #endregion  /**======== Typography =========== */
-
-  .layout {
-    /* 1100px */
-    max-width: 68.75rem;
-    @apply mx-auto w-11/12;
-  }
 
   .bg-dark a.custom-link {
     @apply border-gray-200 hover:border-gray-200/0;
@@ -175,6 +177,6 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground flex min-h-screen flex-col;
   }
 }
