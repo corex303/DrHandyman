@@ -2,6 +2,8 @@ import { Metadata, Viewport } from 'next';
 import { Inter, Lora, Poppins } from 'next/font/google';
 import * as React from 'react';
 import { Toaster } from 'react-hot-toast';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Analytics } from '@vercel/analytics/next';
 
 import '@/styles/globals.css';
 
@@ -12,6 +14,8 @@ import Providers from '@/components/layout/Providers';
 import { defaultAppearanceSettings } from '@/types/appearance';
 
 // import { siteConfig } from '@/constant/config'; // Keep commented if generateMetadata is simplified
+
+import { cn } from '@/lib/utils';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -110,12 +114,14 @@ export default async function RootLayout({ children }: RootLayoutProps) {
       <head>
         <style dangerouslySetInnerHTML={{ __html: inlineStyles }} />
       </head>
-      <body className={`${inter.variable} ${lora.variable} ${poppins.variable} font-sans antialiased`} style={fontOverrideVariables}>
+      <body>
         <Providers>
           <Toaster position="top-center" reverseOrder={false} />
           <Header appearanceSettings={defaultAppearanceSettings} />
           <main className="flex-grow">{children}</main>
           <Footer appearanceSettings={defaultAppearanceSettings} />
+          <SpeedInsights />
+          <Analytics />
         </Providers>
       </body>
     </html>
