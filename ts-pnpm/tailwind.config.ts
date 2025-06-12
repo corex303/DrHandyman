@@ -18,15 +18,6 @@ export default {
   		fontFamily: {
   			sans: ['var(--font-global)', ...defaultTheme.fontFamily.sans],
   			heading: ['var(--font-heading)', ...defaultTheme.fontFamily.serif],
-  			serif: [
-  				'Lora',
-  				'ui-serif',
-  				'Georgia',
-  				'Cambria',
-  				'Times New Roman',
-  				'Times',
-  				'serif'
-  			]
   		},
   		colors: {
   			primary: {

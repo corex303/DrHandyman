@@ -86,8 +86,8 @@ export const viewport: Viewport = {
 export default async function RootLayout({ children }: RootLayoutProps) {
   const themeClass = defaultAppearanceSettings.theme === 'dark' ? 'dark' : 'light';
   
-  const globalFontFamily = defaultAppearanceSettings.fonts?.body || 'var(--font-inter)';
-  const headingFontFamily = defaultAppearanceSettings.fonts?.heading || 'var(--font-lora)';
+  const globalFontFamily = 'var(--font-inter)';
+  const headingFontFamily = 'var(--font-lora)';
 
   return (
     <html
