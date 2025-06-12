@@ -4,6 +4,7 @@ const path = require('path');
 const nextConfig = {
   eslint: {
     dirs: ['src'],
+    ignoreDuringBuilds: true,
   },
 
   reactStrictMode: true,

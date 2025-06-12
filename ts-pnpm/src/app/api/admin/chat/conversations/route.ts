@@ -1,18 +1,19 @@
 import { Prisma,UserRole } from '@prisma/client';
+import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
-import { getServerSession } from 'next-auth/next'; // Assuming NextAuth for admin session management as well
 
-import { authOptions } from '@/lib/auth/options';
 import prisma from '@/lib/prisma';
-// import { pusherServer } from '@/lib/pusher/server'; // Commented out as the path/module doesn't exist
+
+const ADMIN_COOKIE_NAME = 'admin_session';
+const ADMIN_EXPECTED_COOKIE_VALUE = 'admin_session_active_marker';
 
 // GET /api/admin/chat/conversations
 // List all conversations for admins, with potential filtering
 export async function GET(request: NextRequest) {
-  const session = await getServerSession(authOptions); // Use existing authOptions
-
-  if (!session || !session.user || session.user.role !== UserRole.ADMIN) {
+  const cookieStore = cookies();
+  const adminCookie = cookieStore.get(ADMIN_COOKIE_NAME);
+  if (adminCookie?.value !== ADMIN_EXPECTED_COOKIE_VALUE) {
     return NextResponse.json({ error: 'Unauthorized: Admin access required' }, { status: 401 });
   }
 
@@ -142,11 +143,29 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST /api/admin/chat/conversations - REMOVED as admins are observers only
-// Admin initiating a new conversation (similar to portal POST, but ensured admin role)
-// export async function POST(request: NextRequest) { ... } 
-
+// POST /api/admin/chat/conversations
+// Admin initiating a new conversation
 export async function POST(request: NextRequest) {
+  const cookieStore = cookies();
+  const adminCookie = cookieStore.get(ADMIN_COOKIE_NAME);
+  if (adminCookie?.value !== ADMIN_EXPECTED_COOKIE_VALUE) {
+    return NextResponse.json({ error: 'Unauthorized: Admin access required' }, { status: 401 });
+  }
+
+  // This route now needs a way to identify the admin user without a session.
+  // For now, we cannot create messages as the sender is unknown.
+  // This functionality will need to be re-evaluated.
+  // We will return an error indicating this is not supported for now.
+  
+  // The original logic relied on session.user.id. Without that, we can't proceed.
+  // To prevent crashes, we will temporarily disable this.
+  // A more robust solution would be to create a "system" user for admins
+  // or associate the cookie with a specific admin user record.
+
+  return NextResponse.json({ error: 'Creating new conversations as admin is temporarily disabled pending architecture review.' }, { status: 501 });
+  
+  /*
+  // The following logic is disabled because it relies on a NextAuth session.
   const session = await getServerSession(authOptions);
 
   if (!session || !session.user || session.user.role !== UserRole.ADMIN) {
@@ -175,18 +194,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Maintenance worker not found or user is not a maintenance worker' }, { status: 404 });
     }
 
-    // Check if a conversation already exists between the admin and this maintenance worker
-    // For simplicity, we'll assume one admin user for now, or a generic admin participant.
-    // A more complex system might involve specific admin-to-worker chats.
-    // This example creates a new conversation or finds one with the specific admin and worker.
-
     const existingConversation = await prisma.chatConversation.findFirst({
       where: {
         AND: [
           { participants: { some: { id: adminUserId } } },
           { participants: { some: { id: maintenanceWorkerId } } },
         ],
-        // Add more conditions if conversations are scoped differently, e.g., by work order
       },
       include: {
         participants: true,
@@ -195,7 +208,6 @@ export async function POST(request: NextRequest) {
     });
 
     if (existingConversation) {
-      // If a conversation exists, add the new message to it
       const newMessage = await prisma.chatMessage.create({
         data: {
           content: initialMessageContent,
@@ -206,7 +218,6 @@ export async function POST(request: NextRequest) {
           sender: { select: { id: true, name: true, email: true, image: true, role: true } },
         },
       });
-      // Update the conversation's updatedAt timestamp
       await prisma.chatConversation.update({
         where: { id: existingConversation.id },
         data: { updatedAt: new Date() },
@@ -214,15 +225,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(newMessage, { status: 200 });
     }
 
-    // Create a new conversation
     const newConversation = await prisma.chatConversation.create({
       data: {
         participants: {
           connect: [{ id: adminUserId }, { id: maintenanceWorkerId }],
         },
-        // Optional: link to customer, staffMember if there's a related customer context
-        // customerId: customerIdIfApplicable,
-        // staffMemberId: maintenanceWorkerId, // Can also be used to quickly identify the staff member
         messages: {
           create: [
             {
@@ -248,10 +255,7 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Error creating/updating admin conversation:', error);
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      // Handle specific Prisma errors if needed
-      return NextResponse.json({ error: 'Database error creating conversation' }, { status: 500 });
-    }
-    return NextResponse.json({ error: 'Failed to create or update conversation' }, { status: 500 });
+    return NextResponse.json({ error: 'An unexpected error occurred.' }, { status: 500 });
   }
+  */
 } 

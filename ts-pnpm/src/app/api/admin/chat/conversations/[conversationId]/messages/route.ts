@@ -1,11 +1,12 @@
 import { Prisma } from '@prisma/client';
+import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth/next';
+import { z } from 'zod';
 
-import { authOptions } from '@/lib/auth/options';
 import prisma from '@/lib/prisma';
 
-export const dynamic = 'force-dynamic'; // Ensure the route is always dynamic
+const ADMIN_COOKIE_NAME = 'admin_session';
+const ADMIN_EXPECTED_COOKIE_VALUE = 'admin_session_active_marker';
 
 // Define the context interface, typing params as a Promise
 // interface RouteContext { // REMOVED
@@ -20,8 +21,9 @@ export async function GET(
   request: Request,
   { params }: { params: { conversationId: string } }
 ) {
-  const session = await getServerSession(authOptions);
-  if (!session?.user || session.user.role !== 'ADMIN') {
+  const cookieStore = cookies();
+  const adminCookie = cookieStore.get(ADMIN_COOKIE_NAME);
+  if (adminCookie?.value !== ADMIN_EXPECTED_COOKIE_VALUE) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -47,7 +49,12 @@ export async function GET(
       },
     });
 
-    return NextResponse.json(messages);
+    // Sort messages by creation time
+    const sortedMessages = messages.sort(
+      (a: { createdAt: string | number | Date }, b: { createdAt: string | number | Date }) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+    );
+
+    return NextResponse.json(sortedMessages);
 
   } catch (error) {
     console.error(`Error fetching messages for conversation ${conversationId}:`, error);
@@ -59,64 +66,87 @@ export async function GET(
 }
 
 // POST /api/admin/chat/conversations/[conversationId]/messages
-// Admin sends a message to a specific conversation
+// Send a new message to a specific conversation, as an admin
 export async function POST(
   request: Request,
   { params }: { params: { conversationId: string } }
 ) {
-  const session = await getServerSession(authOptions);
-  if (!session?.user || session.user.role !== 'ADMIN') {
+  const cookieStore = cookies();
+  const adminCookie = cookieStore.get(ADMIN_COOKIE_NAME);
+  if (adminCookie?.value !== ADMIN_EXPECTED_COOKIE_VALUE) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
-
-  const { conversationId } = params;
-  const body = await request.json();
-  const { content, senderId, attachmentUrl, attachmentType, attachmentFilename, attachmentSize } = body;
-
-  if (!content && !attachmentFilename) {
-    return NextResponse.json({ error: 'Message content or attachment is required' }, { status: 400 });
-  }
-  if (content && typeof content !== 'string') {
-      return NextResponse.json({ error: 'Invalid message content type' }, { status: 400 });
-  }
-
-  const conversationExists = await prisma.chatConversation.findUnique({
-      where: { id: conversationId },
-  });
-
-  if (!conversationExists) {
-      return NextResponse.json({ error: 'Conversation not found' }, { status: 404 });
-  }
   
-  try {
-    const newMessageData: Prisma.ChatMessageCreateInput = {
-      content: content?.trim(),
-      sender: { connect: { id: session.user.id } },
-      conversation: { connect: { id: conversationId } },
-      attachmentUrl: attachmentUrl,
-      attachmentType: attachmentType,
-      attachmentFilename: attachmentFilename,
-      attachmentSize: attachmentSize,
-    };
+  const { conversationId } = params;
 
+  // For admin, we don't need a session token to get user ID. We can assume a generic admin sender,
+  // or you could have a dedicated admin user ID in your database.
+  // For this example, let's find the first admin user and use their ID.
+  const adminUser = await prisma.user.findFirst({ where: { role: 'ADMIN' } });
+
+  if (!adminUser) {
+    return NextResponse.json({ error: 'Admin user not found' }, { status: 500 });
+  }
+
+  try {
+    const body = await request.json();
+    const { content, attachments } = body;
+
+    if (!content && (!attachments || attachments.length === 0)) {
+      return NextResponse.json({ error: 'Message content or attachments are required' }, { status: 400 });
+    }
+
+    const conversationExists = await prisma.chatConversation.findUnique({
+      where: { id: conversationId },
+    });
+
+    if (!conversationExists) {
+      return NextResponse.json({ error: 'Conversation not found' }, { status: 404 });
+    }
+    
     const newMessage = await prisma.chatMessage.create({
-      data: newMessageData,
+      data: {
+        content: content || '',
+        sender: { connect: { id: adminUser.id } },
+        conversation: { connect: { id: conversationId } },
+        ...(attachments && attachments.length > 0
+          ? {
+              attachmentUrl: attachments[0].url,
+              attachmentType: attachments[0].type,
+              attachmentFilename: attachments[0].filename,
+              attachmentSize: attachments[0].size,
+            }
+          : {}),
+      },
       include: {
-        sender: {
-          select: { id: true, name: true, email: true, image: true, role: true },
-        },
+        sender: true,
       },
     });
 
+    // Broadcast the new message to the chat channel
+    // if (pusher) {
+    //   try {
+    //     await pusher.trigger(`chat-${conversationId}`, 'new_message', newMessage);
+    //   } catch (error) {
+    //     console.error('Pusher trigger failed:', error);
+    //   }
+    // }
+
     await prisma.chatConversation.update({
       where: { id: conversationId },
-      data: { updatedAt: new Date(), lastMessage: content || attachmentFilename, lastMessageAt: newMessage.createdAt },
+      data: { updatedAt: new Date(), lastMessage: content || attachments?.map((a: {filename: string}) => a.filename).join(', '), lastMessageAt: newMessage.createdAt },
     });
 
     return NextResponse.json(newMessage, { status: 201 });
 
   } catch (error) {
-    console.error('Error creating message:', error);
-    return NextResponse.json({ error: 'Failed to create message' }, { status: 500 });
+    console.error('Failed to post message:', error);
+    if (error instanceof z.ZodError) {
+      return NextResponse.json({ error: error.errors }, { status: 400 });
+    }
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    );
   }
 } 
