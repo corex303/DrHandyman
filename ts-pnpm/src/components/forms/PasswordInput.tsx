@@ -18,7 +18,7 @@ const PasswordInput = React.forwardRef<HTMLInputElement, PasswordInputProps>(
     const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
     return (
-      <div className="relative">
+      <div className="relative bg-white">
         <input
           type={showPassword ? 'text' : 'password'}
           className={cn(
