@@ -38,7 +38,7 @@ const Footer = ({ appearanceSettings: propsAppearanceSettings }: FooterProps) =>
 
   // Static contact info for now, visibility controlled by footerSettings.showContactInfo
   const contactInfo = {
-    address: '5108 NC Highway 55, Durham, NC 27713',
+    address: '3041 Carpenter Upchurch Rd, Cary, NC 27519',
     phone: '(984) 244-0717',
     email: 'customerservice@drhandymannc.com',
     phoneHref: 'tel:9842440717',

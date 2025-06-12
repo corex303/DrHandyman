@@ -4,8 +4,9 @@ export const workItems = [
     afterImageUrl: '/images/recent_work/mayodan_power_washing_after.jpg',
     category: 'Exterior Cleaning',
     title: 'Power Washing Transformation',
-    description: 'A description of the power washing project.',
-    linkUrl: '/portfolio/power-washing-transformation',
+    description:
+      "Removed years of webs and grime from this home's siding, revealing its original beauty and boosting curb appeal.",
+    linkUrl: '/portfolio',
     interactionType: 'slider',
   },
   {
@@ -13,16 +14,18 @@ export const workItems = [
     afterImageUrl: '/images/recent_work/mayodan_door_after.JPG',
     category: 'Door Installation',
     title: 'Modern Entryway Upgrade',
-    description: 'A description of the door installation project.',
-    linkUrl: '/portfolio/modern-entryway-upgrade',
+    description:
+      "Replaced an old, worn-out door with a stylish and secure modern entryway, completely changing the home's first impression.",
+    linkUrl: '/portfolio',
     interactionType: 'slider',
   },
   {
     beforeImageUrl: '/images/recent_work/orchard_bathroom_remodel.jpg',
     afterImageUrl: '/images/recent_work/orchard_bathroom_remodel_2.jpg',
     category: 'Bathroom Remodel',
-    title: 'Luxury Spa Bathroom',
-    description: 'A description of the bathroom remodel project.',
+    title: 'Luxury Bathroom Upgrade',
+    description:
+      'Transformed a dated bathroom into a spa-like retreat with a walk-in shower, freestanding tub, and premium fixtures.',
     linkUrl: '/portfolio/luxury-spa-bathroom',
     interactionType: 'hover',
   },
