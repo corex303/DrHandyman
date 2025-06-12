@@ -4,8 +4,8 @@ import { getToken } from 'next-auth/jwt';
 
 import prisma from '@/lib/prisma';
 
-import type { ChatConversation, ChatMessage, User } from '../../../../../../generated/prisma-client'; // Corrected direct relative import for types
-import {UserRole } from '../../../../../../generated/prisma-client'; // Direct relative import, bring in Prisma namespace
+import type { ChatConversation, ChatMessage, User } from '@prisma/client';
+import { UserRole } from '@prisma/client';
 
 // Helper type for processing conversations
 interface ProcessedChatConversation extends Omit<ChatConversation, 'lastMessage'> { // Omit the original lastMessage to redefine it safely if needed, or ensure alignment
@@ -36,6 +36,11 @@ export async function GET(request: NextRequest) {
       },
       include: {
         participants: {
+          where: {
+            role: {
+              not: UserRole.ADMIN,
+            },
+          },
           select: { id: true, name: true, email: true, image: true, role: true },
         },
         messages: {
