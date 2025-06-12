@@ -2,7 +2,7 @@
 
 import React, { useCallback,useEffect, useState } from 'react';
 
-import { ApprovalStatus, MaintenanceWorker,Photo, PhotoSet } from '../../../../generated/prisma-client';
+import { ApprovalStatus, MaintenanceWorker,Photo, PhotoSet } from '@prisma/client';
 
 // Define a more specific type for PhotoSet with included relations
 interface PhotoSetWithRelations extends PhotoSet {
