@@ -26,4 +26,4 @@ export const workItems = [
     linkUrl: '/portfolio/luxury-spa-bathroom',
     interactionType: 'hover',
   },
-]; 
+] as const; 

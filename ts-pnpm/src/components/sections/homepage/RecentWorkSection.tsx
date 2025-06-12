@@ -4,9 +4,10 @@ import {
   ReactCompareSlider,
   ReactCompareSliderImage,
 } from 'react-compare-slider';
-import React from 'react';
+import React, { useState } from 'react';
 
 import ButtonLink from '@/components/links/ButtonLink';
+import { workItems as portfolioItems } from '@/lib/portfolio-items';
 
 interface WorkItemProps {
   beforeImageUrl: string;
@@ -15,6 +16,7 @@ interface WorkItemProps {
   title: string;
   description: string;
   linkUrl: string;
+  interactionType: 'slider' | 'hover';
 }
 
 const WorkItem: React.FC<WorkItemProps> = ({
@@ -24,9 +26,33 @@ const WorkItem: React.FC<WorkItemProps> = ({
   title,
   description,
   linkUrl,
+  interactionType,
 }) => {
-  return (
-    <div className='bg-white rounded-lg shadow-lg overflow-hidden group transition-all duration-300 hover:shadow-2xl'>
+  const [isHovering, setIsHovering] = useState(false);
+
+  const renderImage = () => {
+    if (interactionType === 'hover') {
+      return (
+        <div
+          className='relative h-64 w-full overflow-hidden'
+          onMouseEnter={() => setIsHovering(true)}
+          onMouseLeave={() => setIsHovering(false)}
+        >
+          <img
+            src={isHovering ? afterImageUrl : beforeImageUrl}
+            alt={title}
+            className='w-full h-full object-cover transition-opacity duration-300'
+          />
+          <div className='absolute inset-0 bg-black bg-opacity-25 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
+            <span className='text-white text-lg font-semibold'>
+              {isHovering ? 'After' : 'Before'}
+            </span>
+          </div>
+        </div>
+      );
+    }
+
+    return (
       <ReactCompareSlider
         itemOne={
           <ReactCompareSliderImage
@@ -40,6 +66,12 @@ const WorkItem: React.FC<WorkItemProps> = ({
         }
         className='h-64 w-full'
       />
+    );
+  };
+
+  return (
+    <div className='bg-white rounded-lg shadow-lg overflow-hidden group transition-all duration-300 hover:shadow-2xl'>
+      {renderImage()}
       <div className='p-6'>
         <p className='text-accent-gold text-sm font-semibold mb-1 tracking-wider uppercase'>
           {category}
@@ -63,36 +95,6 @@ const WorkItem: React.FC<WorkItemProps> = ({
 };
 
 const RecentWorkSection: React.FC = () => {
-  const workItems = [
-    {
-      beforeImageUrl: '/uploads/portfolio/kitchen-remodel-modern-farmhouse.jpg',
-      afterImageUrl: '/uploads/portfolio/kitchen-remodel-modern-farmhouse.jpg',
-      category: 'Kitchen Renovation',
-      title: 'Modern Farmhouse Kitchen',
-      description:
-        'Complete kitchen remodel featuring custom cabinetry, quartz countertops, and energy-efficient appliances for a bright and functional family space.',
-      linkUrl: '/portfolio/modern-farmhouse-kitchen',
-    },
-    {
-      beforeImageUrl: '/uploads/portfolio/bathroom-remodel-luxury-spa.jpg',
-      afterImageUrl: '/uploads/portfolio/bathroom-remodel-luxury-spa.jpg',
-      category: 'Bathroom Remodel',
-      title: 'Luxury Spa Bathroom',
-      description:
-        'Transformed a dated bathroom into a spa-like retreat with a walk-in shower, freestanding tub, and premium fixtures.',
-      linkUrl: '/portfolio/luxury-spa-bathroom',
-    },
-    {
-      beforeImageUrl: '/uploads/portfolio/outdoor-living-deck-pergola.jpg',
-      afterImageUrl: '/uploads/portfolio/outdoor-living-deck-pergola.jpg',
-      category: 'Outdoor Living',
-      title: 'Spacious Deck & Pergola',
-      description:
-        'Designed and built a multi-level deck with a custom pergola, creating an inviting outdoor entertainment area.',
-      linkUrl: '/portfolio/deck-and-pergola',
-    },
-  ];
-
   return (
     <section className='bg-secondary-gray-lighter py-20 md:py-28'>
       <div className='layout container mx-auto'>
@@ -106,7 +108,7 @@ const RecentWorkSection: React.FC = () => {
           </p>
         </div>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10'>
-          {workItems.map((item, index) => (
+          {portfolioItems.map((item, index) => (
             <WorkItem key={index} {...item} />
           ))}
         </div>
@@ -124,4 +126,4 @@ const RecentWorkSection: React.FC = () => {
   );
 };
 
-export default RecentWorkSection; 
+export default RecentWorkSection;
