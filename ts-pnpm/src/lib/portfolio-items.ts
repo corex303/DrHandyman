@@ -18,8 +18,8 @@ export const workItems = [
     interactionType: 'slider',
   },
   {
-    beforeImageUrl: '/uploads/portfolio/bathroom-remodel-luxury-spa.jpg', // Placeholder
-    afterImageUrl: '/uploads/portfolio/outdoor-living-deck-pergola.jpg', // Placeholder
+    beforeImageUrl: '/images/recent_work/orchard_bathroom_remodel.jpg',
+    afterImageUrl: '/images/recent_work/orchard_bathroom_remodel_2.jpg',
     category: 'Bathroom Remodel',
     title: 'Luxury Spa Bathroom',
     description: 'A description of the bathroom remodel project.',

@@ -58,7 +58,6 @@ const WorkItem: React.FC<WorkItemProps> = ({
           <ReactCompareSliderImage
             src={beforeImageUrl}
             alt='Before image'
-            style={{ filter: 'grayscale(1)' }}
           />
         }
         itemTwo={
