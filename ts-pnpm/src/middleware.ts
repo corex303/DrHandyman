@@ -41,31 +41,31 @@ export async function middleware(req: NextRequest) {
   if (pathname.startsWith('/maintenance')) {
     const maintenanceCookie = req.cookies.get(MAINTENANCE_COOKIE_NAME);
     const isAuthenticated = maintenanceCookie?.value === MAINTENANCE_EXPECTED_COOKIE_VALUE;
+    const isLoginPage = pathname === '/maintenance/login';
+    const isDashboardOrSubpath = pathname.startsWith('/maintenance/dashboard');
 
-    if (pathname === '/maintenance/login') {
-      if (isAuthenticated) {
+    // If the user is authenticated
+    if (isAuthenticated) {
+      // If they are trying to access the login page, redirect to the dashboard
+      if (isLoginPage) {
         return NextResponse.redirect(new URL('/maintenance/dashboard', req.url));
       }
+      // Otherwise, allow access
       return NextResponse.next();
     }
-    
-    if (pathname === '/maintenance') {
-      if (isAuthenticated) {
-        return NextResponse.redirect(new URL('/maintenance/dashboard', req.url));
-      }
-    }
 
+    // If the user is NOT authenticated
     if (!isAuthenticated) {
-      const loginUrl = new URL('/maintenance/login', req.url);
-      loginUrl.searchParams.set('from', pathname);
-      if (!maintenanceCookie) {
-        loginUrl.searchParams.set('error', 'SessionExpired');
-      } else {
-        loginUrl.searchParams.set('error', 'InvalidSession');
+      // If they are trying to access a protected route (dashboard or its children), redirect to login
+      if (isDashboardOrSubpath) {
+        const loginUrl = new URL('/maintenance/login', req.url);
+        loginUrl.searchParams.set('from', pathname);
+        loginUrl.searchParams.set('error', 'SessionRequired');
+        return NextResponse.redirect(loginUrl);
       }
-      return NextResponse.redirect(loginUrl);
+      // If they are on the login page or other public maintenance page, allow access
+      return NextResponse.next();
     }
-    return NextResponse.next();
   }
 
   // Admin portal protection

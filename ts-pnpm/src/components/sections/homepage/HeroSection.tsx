@@ -15,6 +15,7 @@ const HeroSection: React.FC = () => {
             width={675}
             height={225}
             alt='Dr. Handyman Logo'
+            priority
           />
         </div>
         <h1 className='font-serif text-4xl md:text-5xl lg:text-6xl font-bold mb-6'>

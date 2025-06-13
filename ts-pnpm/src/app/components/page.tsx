@@ -44,7 +44,7 @@ export default function ComponentPage() {
             mode === 'dark' ? 'text-white' : 'text-black'
           )}
         >
-          <h1>Built-in Components</h1>
+          <h1 className='text-4xl'>Built-in Components</h1>
           <ArrowLink direction='left' className='mt-2' href='/'>
             Back to Home
           </ArrowLink>

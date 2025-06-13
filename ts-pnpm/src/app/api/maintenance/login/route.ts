@@ -1,11 +1,7 @@
 import { NextResponse } from 'next/server';
-// We'll use a simple marker value instead of JWT for now
-// import { sign } from 'jsonwebtoken'; 
-// import { cookies } from 'next/headers';
 
-// const JWT_SECRET = process.env.NEXTAUTH_SECRET || 'default-secret-for-maintenance-jwt';
 const COOKIE_NAME = 'maintenance_session';
-const SIMPLIFIED_TOKEN_VALUE = 'maintenance_session_active_marker'; // A simple marker
+const SIMPLIFIED_TOKEN_VALUE = 'maintenance_session_active_marker'; 
 
 export async function POST(request: Request) {
   try {
@@ -17,9 +13,6 @@ export async function POST(request: Request) {
     }
 
     if (password === process.env.MAINTENANCE_GLOBAL_PASSWORD) {
-      // Using a simplified marker value instead of a JWT for now
-      // const payload = { isAuthenticated: true, timestamp: Date.now() };
-      // const token = sign(payload, JWT_SECRET, { expiresIn: '8h' });
       const token = SIMPLIFIED_TOKEN_VALUE;
 
       const response = NextResponse.json({ success: true }, { status: 200 });

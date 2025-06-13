@@ -125,18 +125,18 @@ async function main() {
 
   // Seed Maintenance Workers
   const workersToSeed = [
-    { name: "Derek", isActive: true },
-    { name: "Juan", isActive: true },
-    { name: "Rigo", isActive: true },
-    { name: "Marcos", isActive: true },
-    { name: "Demetrius", isActive: true },
-    { name: "Matthew", isActive: true },
+    { name: "Derek", email: "derek@example.com", isActive: true },
+    { name: "Juan", email: "juan@example.com", isActive: true },
+    { name: "Rigo", email: "rigo@example.com", isActive: true },
+    { name: "Marcos", email: "marcos@example.com", isActive: true },
+    { name: "Demetrius", email: "demetrius@example.com", isActive: true },
+    { name: "Matthew", email: "matthew@example.com", isActive: true },
   ];
 
   for (const workerData of workersToSeed) {
     const worker = await prisma.maintenanceWorker.upsert({
       where: { name: workerData.name },
-      update: { isActive: workerData.isActive },
+      update: { isActive: workerData.isActive, email: workerData.email },
       create: workerData,
     });
     console.log(`Created/updated maintenance worker: ${worker.name} (ID: ${worker.id}, Active: ${worker.isActive})`);

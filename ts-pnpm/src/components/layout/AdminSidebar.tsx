@@ -3,9 +3,9 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { signOut } from 'next-auth/react';
-import * as React from 'react';
+import React, { useState } from 'react';
 import { IconType } from 'react-icons';
-import { FiDollarSign, FiEdit, FiEye, FiFileText, FiGrid, FiImage, FiLayers, FiLogOut, FiMessageSquare, FiSettings, FiUsers } from 'react-icons/fi';
+import { FiChevronDown, FiChevronUp, FiCloud, FiDollarSign, FiEdit, FiFileText, FiGrid, FiImage, FiLayers, FiLogOut, FiMessageSquare, FiSettings, FiUsers, FiEye } from 'react-icons/fi';
 import Button from '@/components/buttons/Button';
 
 import WrappedReactIcon from '@/components/ui/WrappedReactIcon';
@@ -15,6 +15,7 @@ interface AdminNavLink {
     href: string;
     icon: IconType;
     label: string;
+    subLinks?: AdminNavLink[];
 }
 
 const adminNavLinks: AdminNavLink[] = [
@@ -24,6 +25,20 @@ const adminNavLinks: AdminNavLink[] = [
     { href: '/admin/services', icon: FiLayers, label: 'Services' },
     { href: '/admin/users', icon: FiUsers, label: 'Users' },
     { href: '/admin/billing', icon: FiDollarSign, label: 'Billing' },
+    {
+        href: '/admin/service-fusion',
+        icon: FiCloud,
+        label: 'Service Fusion',
+        subLinks: [
+            { href: '/admin/service-fusion', icon: FiGrid, label: 'SF Dashboard' },
+            { href: '/admin/service-fusion/customers', icon: FiUsers, label: 'Customers' },
+            { href: '/admin/service-fusion/jobs', icon: FiLayers, label: 'Jobs' },
+            { href: '/admin/service-fusion/estimates', icon: FiFileText, label: 'Estimates' },
+            { href: '/admin/service-fusion/invoices', icon: FiDollarSign, label: 'Invoices' },
+            { href: '/admin/service-fusion/calendar-tasks', icon: FiEdit, label: 'Calendar' },
+            { href: '/admin/service-fusion/read-only', icon: FiEye, label: 'Read-Only Data' },
+        ]
+    },
     { href: '/admin/content', icon: FiEdit, label: 'Content' },
     { href: '/admin/appearance', icon: FiEye, label: 'Appearance' },
     { href: '/admin/settings', icon: FiSettings, label: 'Settings' },
@@ -32,9 +47,16 @@ const adminNavLinks: AdminNavLink[] = [
 
 export function AdminSidebar() {
     const pathname = usePathname();
+    const [openSections, setOpenSections] = useState<Record<string, boolean>>({
+        '/admin/service-fusion': pathname.startsWith('/admin/service-fusion'),
+    });
 
     const handleLogout = async () => {
         await signOut({ redirect: true, callbackUrl: '/' });
+    };
+
+    const toggleSection = (href: string) => {
+        setOpenSections(prev => ({ ...prev, [href]: !prev[href] }));
     };
 
     return (
@@ -43,6 +65,49 @@ export function AdminSidebar() {
             <nav className="flex-grow">
                 <ul>
                     {adminNavLinks.map(link => {
+                        const hasSubLinks = !!link.subLinks?.length;
+                        const isSectionOpen = openSections[link.href];
+                        const isParentActive = pathname.startsWith(link.href);
+
+                        if (hasSubLinks) {
+                            return (
+                                <li key={link.href}>
+                                    <button
+                                        onClick={() => toggleSection(link.href)}
+                                        className={cn(
+                                            'w-full flex items-center justify-between p-3 rounded-md transition-colors',
+                                            isParentActive
+                                                ? 'bg-slate-700 text-white'
+                                                : 'hover:bg-slate-700/50 hover:text-white'
+                                        )}
+                                    >
+                                        <div className="flex items-center space-x-3">
+                                            <WrappedReactIcon icon={link.icon} className="h-5 w-5" />
+                                            <span>{link.label}</span>
+                                        </div>
+                                        <WrappedReactIcon icon={isSectionOpen ? FiChevronUp : FiChevronDown} className="h-4 w-4" />
+                                    </button>
+                                    {isSectionOpen && (
+                                        <ul className="pl-4 pt-2">
+                                            {link.subLinks?.map(subLink => (
+                                                <li key={subLink.href}>
+                                                    <Link href={subLink.href} className={cn(
+                                                        'flex items-center space-x-3 p-2 rounded-md transition-colors text-sm',
+                                                        pathname === subLink.href
+                                                            ? 'bg-slate-600 text-white'
+                                                            : 'text-slate-300 hover:bg-slate-700/50 hover:text-white'
+                                                    )}>
+                                                        <WrappedReactIcon icon={subLink.icon} className="h-4 w-4" />
+                                                        <span>{subLink.label}</span>
+                                                    </Link>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    )}
+                                </li>
+                            );
+                        }
+
                         return (
                             <li key={link.href}>
                                 <Link href={link.href} className={cn(

@@ -2,9 +2,10 @@
 
 import {
   ReactCompareSlider,
-  ReactCompareSliderImage,
+  ReactCompareSliderImageProps,
 } from 'react-compare-slider';
 import React, { useState } from 'react';
+import Image from 'next/image';
 
 import ButtonLink from '@/components/links/ButtonLink';
 import { workItems as portfolioItems } from '@/lib/portfolio-items';
@@ -18,6 +19,18 @@ interface WorkItemProps {
   linkUrl: string;
   interactionType: 'slider' | 'hover';
 }
+
+const CompareImage = (props: ReactCompareSliderImageProps) => {
+  return (
+    <Image
+      src={props.src || ''}
+      alt={props.alt || ''}
+      layout='fill'
+      objectFit='cover'
+      className='w-full h-full'
+    />
+  );
+};
 
 const WorkItem: React.FC<WorkItemProps> = ({
   beforeImageUrl,
@@ -38,10 +51,12 @@ const WorkItem: React.FC<WorkItemProps> = ({
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
         >
-          <img
+          <Image
             src={isHovering ? afterImageUrl : beforeImageUrl}
             alt={title}
-            className='w-full h-full object-cover transition-opacity duration-300'
+            layout='fill'
+            objectFit='cover'
+            className='transition-opacity duration-300'
           />
           <div className='absolute inset-0 bg-black bg-opacity-25 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
             <span className='text-white text-lg font-semibold'>
@@ -54,15 +69,8 @@ const WorkItem: React.FC<WorkItemProps> = ({
 
     return (
       <ReactCompareSlider
-        itemOne={
-          <ReactCompareSliderImage
-            src={beforeImageUrl}
-            alt='Before image'
-          />
-        }
-        itemTwo={
-          <ReactCompareSliderImage src={afterImageUrl} alt='After image' />
-        }
+        itemOne={<CompareImage src={beforeImageUrl} alt='Before image' />}
+        itemTwo={<CompareImage src={afterImageUrl} alt='After image' />}
         className='h-64 w-full'
       />
     );

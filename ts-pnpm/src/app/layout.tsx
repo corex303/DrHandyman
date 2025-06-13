@@ -61,7 +61,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     robots: { index: true, follow: true },
     icons: { icon: '/images/favicon.png' }, 
-    manifest: `${siteUrl}/site.webmanifest`,
+    manifest: '/site.webmanifest',
   };
 }
 

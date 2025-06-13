@@ -4,6 +4,8 @@ import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 import { getServerSession } from 'next-auth/next';
+import { cookies } from 'next/headers';
+import { UserRole } from '@prisma/client';
 
 import { authOptions } from '@/lib/auth/options';
 import prisma from '@/lib/prisma'; // Corrected: Import the singleton instance
@@ -19,34 +21,61 @@ interface PostMessageRequestBody {
   attachmentType?: string;
   attachmentFilename?: string;
   attachmentSize?: number;
+  maintenanceSenderId?: string; // For maintenance users to specify sender
+}
+
+// Auth Helper - Copied from conversations route
+async function getAuth(req: NextRequest) {
+  // Check for NextAuth token first
+  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  if (token && token.sub) {
+    return { type: 'next-auth', userId: token.sub, role: token.role as UserRole };
+  }
+
+  // If no token, check for maintenance cookie
+  const cookieStore = cookies();
+  const maintenanceCookie = cookieStore.get('maintenance_session');
+  if (maintenanceCookie?.value === 'maintenance_session_active_marker') {
+    return { type: 'maintenance', userId: null, role: 'MAINTENANCE' as UserRole };
+  }
+
+  return null;
 }
 
 // GET /api/portal/chat/conversations/:conversationId/messages
 // Get message history for a specific conversation
-export async function GET(request: Request, { params }: { params: { conversationId: string } }) {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.id) {
+export async function GET(request: NextRequest, { params }: { params: { conversationId: string } }) {
+  const auth = await getAuth(request);
+  if (!auth) {
     return NextResponse.json({ error: 'Unauthenticated' }, { status: 401 });
   }
 
-  console.log('GET /messages: Received params:', JSON.stringify(params, null, 2));
   const { conversationId } = params;
   if (!conversationId) {
     return NextResponse.json({ error: 'Conversation ID is required' }, { status: 400 });
   }
 
   try {
-    // First, check if the user is a participant of this conversation
-    const conversation = await prisma.chatConversation.findFirst({
-      where: {
-        id: conversationId,
-        participants: {
-          some: {
-            id: session.user.id,
-          },
+    // First, check if the user is a participant of this conversation or if they are a maintenance worker
+    const whereClause: Prisma.ChatConversationWhereInput = {
+      id: conversationId,
+      deletedAt: null,
+    };
+
+    if (auth.type === 'next-auth' && auth.userId) {
+      whereClause.participants = {
+        some: {
+          id: auth.userId,
         },
-        deletedAt: null,
-      },
+      };
+    } else if (auth.type !== 'maintenance') {
+      // If not maintenance and no userId, deny access
+      return NextResponse.json({ error: 'Access denied' }, { status: 403 });
+    }
+    // Maintenance users are allowed to see any conversation
+
+    const conversation = await prisma.chatConversation.findFirst({
+      where: whereClause,
     });
 
     if (!conversation) {
@@ -88,11 +117,10 @@ export async function POST(
   request: NextRequest,
   { params }: { params: { conversationId: string } },
 ) {
-  const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
-  if (!token?.sub) {
+  const auth = await getAuth(request);
+  if (!auth) {
     return NextResponse.json({ error: 'Unauthorized: No user session found' }, { status: 401 });
   }
-  const userId = token.sub;
 
   const { conversationId } = params;
 
@@ -100,7 +128,7 @@ export async function POST(
     console.error('POST message: Conversation ID is required but was not provided in params.');
     return NextResponse.json({ error: 'Conversation ID is required' }, { status: 400 });
   }
-  console.log(`POST message: Received request for conversationId: ${conversationId}, userId: ${userId}`);
+  console.log(`POST message: Received request for conversationId: ${conversationId}, userId: ${auth.userId}`);
 
   let body;
   try {
@@ -111,7 +139,21 @@ export async function POST(
     return NextResponse.json({ error: 'Invalid request body: Could not parse JSON.' }, { status: 400 });
   }
 
-  const { content, attachmentUrl, attachmentType, attachmentFilename, attachmentSize } = body;
+  const { content, attachmentUrl, attachmentType, attachmentFilename, attachmentSize, maintenanceSenderId } = body;
+
+  let senderId: string | null = null;
+  if (auth.type === 'next-auth' && auth.userId) {
+    senderId = auth.userId;
+  } else if (auth.type === 'maintenance') {
+    if (!maintenanceSenderId) {
+        return NextResponse.json({ error: 'maintenanceSenderId is required for maintenance users' }, { status: 400 });
+    }
+    senderId = maintenanceSenderId;
+  }
+
+  if (!senderId) {
+    return NextResponse.json({ error: 'Could not determine the sender of the message.' }, { status: 400 });
+  }
 
   if (!content?.trim() && !attachmentUrl) {
     console.log(`POST message: Attempt to send empty message (no content and no attachment) for conversation ${conversationId}.`);
@@ -119,15 +161,18 @@ export async function POST(
   }
 
   try {
-    console.log(`POST message: Verifying user ${userId} is part of conversation ${conversationId}.`);
+    console.log(`POST message: Verifying user ${senderId} is part of conversation ${conversationId}.`);
+    // Allow maintenance users to post to any conversation
     const conversation = await prisma.chatConversation.findFirst({
       where: {
         id: conversationId,
-        participants: {
-          some: {
-            id: userId,
+        ...(auth.type !== 'maintenance' && {
+          participants: {
+            some: {
+              id: senderId,
+            },
           },
-        },
+        }),
       },
       include: {
         participants: {
@@ -137,13 +182,13 @@ export async function POST(
     });
 
     if (!conversation) {
-      console.warn(`POST message: User ${userId} is not part of conversation ${conversationId} or conversation does not exist.`);
+      console.warn(`POST message: User ${senderId} is not part of conversation ${conversationId} or conversation does not exist.`);
       return NextResponse.json({ error: 'Forbidden: You are not a participant of this conversation or it does not exist.' }, { status: 403 });
     }
-    console.log(`POST message: User ${userId} confirmed as participant in conversation ${conversationId}.`);
+    console.log(`POST message: User ${senderId} confirmed as participant in conversation ${conversationId}.`);
 
     const messageData: Prisma.ChatMessageCreateInput = {
-      sender: { connect: { id: userId } },
+      sender: { connect: { id: senderId } },
       conversation: { connect: { id: conversationId } },
     };
 
@@ -212,7 +257,7 @@ export async function POST(
         select: {
           participants: {
             select: { id: true, email: true, name: true },
-            where: { NOT: { id: userId } }, // Exclude the sender
+            where: { NOT: { id: senderId } }, // Exclude the sender
           },
         },
       });
@@ -234,7 +279,7 @@ export async function POST(
           if (!activityInfo || activityInfo.lastAccessedAt < fiveMinutesAgo) {
             console.log(`User ${participant.email} is inactive in conversation ${conversationId}. TODO: Send email notification.`);
             // TODO: Implement actual email sending logic here
-            // e.g., await sendChatNotificationEmail(participant.email, conversation.participants.find(p => p.id === userId)?.name, newMessage.content, conversationId);
+            // e.g., await sendChatNotificationEmail(participant.email, conversation.participants.find(p => p.id === senderId)?.name, newMessage.content, conversationId);
           }
         }
       }

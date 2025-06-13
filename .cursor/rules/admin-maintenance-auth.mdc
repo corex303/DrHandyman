@@ -1,0 +1,83 @@
+---
+description: Working with Admin and Maintenance portals, best practices for Authentication API Routes
+globs: 
+alwaysApply: false
+---
+# Admin & Maintenance Authentication
+
+This rule outlines the required authentication mechanism for all API routes within the **Admin** and **Maintenance** portals.
+
+## Key Principles
+
+-   **Use Custom Cookie Auth:** All admin and maintenance-related API routes **MUST** be protected using our custom cookie-based session verification functions.
+-   **No `next-auth` for Admin/Maintenance:** Do **NOT** use `getServerSession` from `next-auth` for these roles. `next-auth` is designated for customer-facing authentication only.
+-   **Centralized Verification:** Use the provided helper functions to ensure consistent and secure session validation.
+
+## Implementation Details
+
+### Admin Authentication
+
+-   **Cookie Name:** `admin_session`
+-   **Verification Function:** `verifyAdminSession()`
+-   **Location:** [`ts-pnpm/src/lib/auth/admin.ts`](mdc:ts-pnpm/src/lib/auth/admin.ts)
+
+#### ✅ Correct Usage (Admin API Route)
+
+```typescript
+// ts-pnpm/src/app/api/admin/some-route/route.ts
+import { NextResponse } from 'next/server';
+import { verifyAdminSession } from '@/lib/auth/admin';
+
+export async function GET(req: Request) {
+  const { isAuthenticated } = verifyAdminSession();
+  if (!isAuthenticated) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  // ... rest of the route logic
+}
+```
+
+### Maintenance Authentication
+
+-   **Cookie Name:** `maintenance_session`
+-   **Verification Function:** `verifyMaintenanceSession()`
+-   **Location:** [`ts-pnpm/src/lib/auth/maintenance.ts`](mdc:ts-pnpm/src/lib/auth/maintenance.ts)
+
+#### ✅ Correct Usage (Maintenance API Route)
+
+```typescript
+// ts-pnpm/src/app/api/maintenance-photos/upload/route.ts
+import { NextResponse } from 'next/server';
+import { verifyMaintenanceSession } from '@/lib/auth/maintenance';
+
+export async function POST(request: Request) {
+  const { isAuthenticated } = verifyMaintenanceSession();
+  if (!isAuthenticated) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  // ... rest of the route logic
+}
+```
+
+---
+
+### ❌ Incorrect Usage (Anti-Pattern)
+
+Do not use `next-auth` for admin or maintenance API routes.
+
+```typescript
+// ❌ DON'T: Use getServerSession in an admin route
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '@/lib/auth'; // This is for customer auth
+
+export async function GET(req: Request) {
+  const session = await getServerSession(authOptions); // INCORRECT
+  if (!session || session.user.role !== 'ADMIN') {
+    // ...
+  }
+  // ...
+}
+```
+

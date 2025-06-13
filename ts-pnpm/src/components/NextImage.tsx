@@ -12,6 +12,7 @@ type NextImageProps = {
     blur?: string;
   };
   alt: string;
+  priority?: boolean;
 } & Omit<ImageProps, 'alt'>;
 
 /**
@@ -30,6 +31,7 @@ export default function NextImage({
   fill,
   onLoad: propOnLoad,
   onError: propOnError,
+  priority,
   ...rest
 }: NextImageProps) {
   const [status, setStatus] = React.useState(
@@ -75,6 +77,7 @@ export default function NextImage({
         )}
         onLoad={handleLoad}
         onError={handleError}
+        priority={priority}
         {...rest}
       />
     </figure>

@@ -35,6 +35,13 @@ enum InvoiceStatus {
   OVERDUE   // Invoice past its due date and unpaid
 }
 
+enum InquiryStatus {
+  NEW
+  IN_PROGRESS
+  COMPLETED
+  ARCHIVED
+}
+
 model User {
   id                     String              @id @default(cuid())
   name                   String?
@@ -55,7 +62,7 @@ model User {
   uploadedPortfolioItems PortfolioItem[]     @relation("UploadedByWorker")
   customerInquiries      Inquiry[]           @relation("CustomerInquiries")
   customerPhotoSets      PhotoSet[]          @relation("CustomerPhotoSets") // Customer who owns the PhotoSet
-  maintenanceWorker      MaintenanceWorker?  @relation("UserProfileToWorker") // Link to MaintenanceWorker profile if user is a worker
+  worker                 MaintenanceWorker?  @relation("UserProfileToWorker") // Link to MaintenanceWorker profile if user is a worker
   appearanceSetting      AppearanceSettings? @relation("UserAppearanceSetting") // Admin's appearance configuration
 
   // NEW CHAT RELATIONS
@@ -70,6 +77,9 @@ model User {
 
   // CHAT ACTIVITY RELATION
   activityInConversations ChatParticipantInfo[]
+
+  // Added for direct relation to MaintenanceWorker if user is a worker
+  maintenanceWorkerId String? @unique
 
   @@index([email])
 }
@@ -122,13 +132,13 @@ model Inquiry {
   customerPhone String?
   serviceNeeded String? // Could link to Service model if a predefined list, or free text
   message       String   @db.Text
-  isArchived    Boolean  @default(false)
+  status        InquiryStatus @default(NEW)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   customerId    String? // Added for relation
   customer      User?    @relation("CustomerInquiries", fields: [customerId], references: [id]) // Added for relation
   attachments   InquiryAttachment[] // Relation to attachments
-  // photoSets     PhotoSet[] @relation("InquiryPhotoSets") // Reverted: This relation is not needed here
+  photoSets     PhotoSet[] @relation("InquiryPhotoSets") // Reverted: This relation is not needed here
 }
 
 model SiteSettings {
@@ -187,8 +197,8 @@ model PhotoSet {
   photos              Photo[] // Relation to multiple photos
   customerId          String? // Added for relation
   customer            User?             @relation("CustomerPhotoSets", fields: [customerId], references: [id]) // Added for relation
-  // inquiryId           String?           // Reverted: This field is not needed here
-  // inquiry             Inquiry?          @relation("InquiryPhotoSets", fields: [inquiryId], references: [id]) // Reverted: This relation is not needed here
+  inquiryId           String?           // Reverted: This field is not needed here
+  inquiry             Inquiry?          @relation("InquiryPhotoSets", fields: [inquiryId], references: [id]) // Reverted: This relation is not needed here
 }
 
 // Enum for Photo Type
@@ -213,12 +223,14 @@ model Photo {
 }
 
 model MaintenanceWorker {
-  id        String     @id @default(cuid())
-  name      String     @unique
-  isActive  Boolean    @default(true)
-  photoSets PhotoSet[]
-  userId    String?    @unique // Added for one-to-one relation to User
-  user      User?      @relation("UserProfileToWorker", fields: [userId], references: [id]) // Added for one-to-one relation
+  id              String     @id @default(cuid())
+  name            String     @unique
+  email           String?    @unique
+  isActive        Boolean    @default(true)
+  photoSets       PhotoSet[]
+  userId          String?    @unique // Added for one-to-one relation to User
+  user            User?      @relation("UserProfileToWorker", fields: [userId], references: [id])
+  serviceFusionId String?    @unique
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -354,26 +366,15 @@ model ChatMessage {
 // Invoice and Payment Models
 
 model Invoice {
-  id                String            @id @default(cuid())
-  invoiceNumber     String            @unique // e.g., INV-2024-001
-  customerId        String
-  customer          User              @relation(fields: [customerId], references: [id])
-  issueDate         DateTime          @default(now())
-  dueDate           DateTime
-  totalAmount       Float             // Calculated from line items
-  amountPaid        Float             @default(0)
-  status            InvoiceStatus     @default(DRAFT)
-  notes             String?           @db.Text // Internal notes or notes for the customer
-  createdAt         DateTime          @default(now())
-  updatedAt         DateTime          @updatedAt
-
-  lineItems         InvoiceLineItem[]
-  payments          Payment[]
-  relatedServiceRequestId String?      // Optional: Link to a service request if applicable
-  // relatedQuoteId String?           // Optional: Link to a quote if applicable
-
-  @@index([customerId])
-  @@index([status])
+  id          String        @id @default(cuid())
+  status      InvoiceStatus @default(DRAFT)
+  dueDate     DateTime
+  customerId  String
+  customer    User          @relation(fields: [customerId], references: [id])
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  payments    Payment[]
+  lineItems   InvoiceLineItem[]
 }
 
 model InvoiceLineItem {

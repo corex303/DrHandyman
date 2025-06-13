@@ -1,6 +1,6 @@
 "use client";
 
-import { ApprovalStatus,Photo, PhotoSet } from '@prisma/client';
+import { ApprovalStatus, Photo, PhotoSet } from '@prisma/client';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -58,8 +58,9 @@ export default function MaintenanceDashboardPage() {
       } catch (err: any) {
         console.error("Error fetching photo sets:", err);
         setError(err.message || "An unknown error occurred while fetching photo sets.");
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     };
 
     fetchPhotoSets();
@@ -199,9 +200,9 @@ export default function MaintenanceDashboardPage() {
                       <Button 
                         variant="outline" 
                         size="sm" 
-                        className="text-purple-400 border-purple-400 hover:bg-purple-500 hover:text-white w-full"
+                        className="text-amber-400 border-amber-400 hover:bg-amber-500 hover:text-white w-full"
                       >
-                        View Details
+                        Details & Status
                       </Button>
                     </Link>
                   </div>
@@ -221,8 +222,7 @@ export default function MaintenanceDashboardPage() {
       {galleryPhotoSetId && (
         <PhotoSetGallery 
           photoSetId={galleryPhotoSetId} 
-          open={!!galleryPhotoSetId}
-          onClose={() => setGalleryPhotoSetId(undefined)}
+          onClose={() => setGalleryPhotoSetId(undefined)} 
         />
       )}
     </>

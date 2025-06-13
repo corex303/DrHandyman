@@ -1,11 +1,62 @@
 import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
 import { getToken } from 'next-auth/jwt';
+import { cookies } from 'next/headers';
 
 import prisma from '@/lib/prisma';
-
+import { Prisma, UserRole } from '@prisma/client';
 import type { ChatConversation, ChatMessage, User } from '@prisma/client';
-import { UserRole } from '@prisma/client';
+
+// Auth Helper
+async function getAuth(req: NextRequest) {
+  // Check for NextAuth token first
+  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  if (token && token.sub) {
+    return { type: 'next-auth', userId: token.sub, role: token.role as UserRole };
+  }
+
+  // If no token, check for maintenance cookie
+  const cookieStore = cookies();
+  const maintenanceCookie = cookieStore.get('maintenance_session');
+  if (maintenanceCookie?.value === 'maintenance_session_active_marker') {
+    return { type: 'maintenance', userId: null, role: 'MAINTENANCE' as UserRole };
+  }
+
+  return null;
+}
+
+const conversationInclude = {
+  participants: {
+    select: { id: true, name: true, email: true, image: true, role: true },
+  },
+  messages: {
+    orderBy: { createdAt: 'desc' },
+    take: 1,
+    select: { content: true, createdAt: true, senderId: true, attachmentFilename: true, attachmentType: true },
+  },
+  participantActivity: {
+    select: {
+      userId: true,
+      lastAccessedAt: true,
+    },
+  },
+} satisfies Prisma.ChatConversationInclude;
+
+const userConversationInclude = {
+  ...conversationInclude,
+  participants: {
+    ...conversationInclude.participants,
+    where: {
+      role: {
+        not: UserRole.ADMIN,
+      },
+    },
+  },
+};
+
+type ConversationWithDetails = Prisma.ChatConversationGetPayload<{
+  include: typeof conversationInclude;
+}>;
 
 // Helper type for processing conversations
 interface ProcessedChatConversation extends Omit<ChatConversation, 'lastMessage'> { // Omit the original lastMessage to redefine it safely if needed, or ensure alignment
@@ -21,49 +72,49 @@ interface ProcessedChatConversation extends Omit<ChatConversation, 'lastMessage'
 // GET /api/portal/chat/conversations
 // List all conversations for the authenticated user
 export async function GET(request: NextRequest) {
-  const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
-  if (!token?.sub) {
+  const auth = await getAuth(request);
+
+  if (!auth) {
     return NextResponse.json({ error: 'Unauthorized: No user session found' }, { status: 401 });
   }
-  const userId = token.sub;
 
   try {
-    const conversations = await prisma.chatConversation.findMany({
-      where: {
-        participants: {
-          some: { id: userId },
+    let conversations: ConversationWithDetails[];
+
+    if (auth.type === 'maintenance') {
+      // Maintenance role sees all conversations involving customers
+      conversations = await prisma.chatConversation.findMany({
+        where: {
+          participants: {
+            some: { role: UserRole.CUSTOMER }
+          }
         },
-      },
-      include: {
-        participants: {
-          where: {
-            role: {
-              not: UserRole.ADMIN,
-            },
-          },
-          select: { id: true, name: true, email: true, image: true, role: true },
+        include: conversationInclude,
+        orderBy: {
+          updatedAt: 'desc',
         },
-        messages: {
-          orderBy: { createdAt: 'desc' },
-          take: 1,
-          select: { content: true, createdAt: true, senderId: true, attachmentFilename: true, attachmentType: true },
-        },
-        // Include participant activity info to determine last active status of others
-        participantActivity: {
-          select: {
-            userId: true,
-            lastAccessedAt: true,
+      });
+    } else if (auth.type === 'next-auth' && auth.userId) {
+      // Existing logic for logged-in NextAuth users
+      const userId = auth.userId;
+      conversations = await prisma.chatConversation.findMany({
+        where: {
+          participants: {
+            some: { id: userId },
           },
         },
-      },
-      orderBy: {
-        updatedAt: 'desc',
-      },
-    });
+        include: userConversationInclude,
+        orderBy: {
+          updatedAt: 'desc',
+        },
+      });
+    } else {
+      conversations = [];
+    }
 
     const processedConversations = conversations.map(conv => {
-      const currentUserParticipant = conv.participants.find(p => p.id === userId);
-      const otherParticipants = conv.participants.filter(p => p.id !== userId);
+      const currentUserId = auth.type === 'next-auth' ? auth.userId : null;
+      const otherParticipants = conv.participants.filter(p => p.id !== currentUserId);
       
       let displayTitle = conv.participants.map(p => p.name || p.email).join(', ');
       let displayImage: string | null | undefined = null;
@@ -83,6 +134,7 @@ export async function GET(request: NextRequest) {
         displayTitle = otherParticipants[0].name || otherParticipants[0].email || 'Chat User';
         displayImage = otherParticipants[0].image;
       } else if (otherParticipants.length === 0 && conv.participants.length === 1) { // Chat with self / notes
+        const currentUserParticipant = currentUserId ? conv.participants.find(p => p.id === currentUserId) : null;
         displayTitle = currentUserParticipant?.name || currentUserParticipant?.email || 'My Notes';
         displayImage = currentUserParticipant?.image;
       } else if (otherParticipants.length > 1) {
@@ -124,29 +176,42 @@ export async function GET(request: NextRequest) {
 // POST /api/portal/chat/conversations
 // Initiate a new conversation
 export async function POST(request: NextRequest) {
-  const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
-  if (!token?.sub || !token?.role) { // Ensure role is present
+  const auth = await getAuth(request);
+
+  if (!auth) {
     return NextResponse.json({ error: 'Unauthorized: No user session found or role missing' }, { status: 401 });
   }
-  const initiatorId = token.sub;
-  const initiatorRole = token.role as UserRole; // Assuming UserRole is imported from '@/generated/prisma-client' or similar
+
+  const initiatorId = auth.userId; // This can be null for maintenance user
+  const initiatorRole = auth.role;
 
   try {
     const body = await request.json();
-    const { participantIds, initialMessage } = body;
+    const { participantIds, initialMessage, maintenanceSenderId } = body;
 
-    // Only allow staff/admins to initiate chats directly via this endpoint for now
-    // Corrected roles based on prisma schema
-    if (initiatorRole !== UserRole.ADMIN && initiatorRole !== UserRole.MAINTENANCE) {
-        return NextResponse.json({ error: 'Forbidden: You do not have permission to initiate conversations directly.' }, { status: 403 });
+    // Allow CUSTOMER, ADMIN, or MAINTENANCE to initiate.
+    if (![UserRole.ADMIN, UserRole.MAINTENANCE, UserRole.CUSTOMER].includes(initiatorRole)) {
+        return NextResponse.json({ error: 'Forbidden: You do not have permission to initiate conversations.' }, { status: 403 });
     }
 
     if (!participantIds || !Array.isArray(participantIds) || participantIds.length === 0) {
       return NextResponse.json({ error: 'Participant IDs are required to initiate a conversation' }, { status: 400 });
     }
+    
+    let finalInitiatorId: string | null = initiatorId;
+    if (auth.type === 'maintenance') {
+        if (!maintenanceSenderId) {
+            return NextResponse.json({ error: 'maintenanceSenderId is required for maintenance users' }, { status: 400 });
+        }
+        finalInitiatorId = maintenanceSenderId;
+    }
+
+    if (!finalInitiatorId) {
+        return NextResponse.json({ error: 'Could not determine the initiator of the conversation.' }, { status: 400 });
+    }
 
     // Ensure the initiator is part of the participant list, or add them
-    const allParticipantIds = Array.from(new Set([...participantIds, initiatorId]));
+    const allParticipantIds = Array.from(new Set([...participantIds, finalInitiatorId]));
 
     if (allParticipantIds.length < 2) {
         return NextResponse.json({ error: 'A conversation requires at least two distinct participants.' }, { status: 400 });
@@ -169,7 +234,7 @@ export async function POST(request: NextRequest) {
           connect: allParticipantIds.map(id => ({ id })),
         },
         // Add createdBy if your schema supports it
-        // createdById: initiatorId,
+        // createdById: finalInitiatorId,
       },
       include: {
         participants: {
@@ -189,7 +254,7 @@ export async function POST(request: NextRequest) {
       await prisma.chatMessage.create({
         data: {
           content: initialMessage.trim(),
-          senderId: initiatorId,
+          senderId: finalInitiatorId, // Use the determined initiator ID
           conversationId: newConversation.id,
         },
       });

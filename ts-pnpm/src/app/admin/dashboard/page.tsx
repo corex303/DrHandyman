@@ -8,6 +8,7 @@ import { FiBriefcase, FiCheckCircle, FiDollarSign, FiImage, FiLayers, FiTool, Fi
 
 import Button from '@/components/buttons/Button';
 import WrappedReactIcon from '@/components/ui/WrappedReactIcon';
+import RecentInquiries from '@/components/admin/RecentInquiries';
 
 const FiLogOut = (props: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
@@ -184,149 +185,96 @@ export default function AdminDashboardPage() {
 
   return (
     <div className="bg-white shadow-2xl rounded-xl p-6 sm:p-8 w-full">
-        <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-8 pb-4 border-b border-gray-200">Admin Dashboard</h1>
+      <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-8 pb-4 border-b border-gray-200">Admin Dashboard</h1>
 
-        {/* Activity Summary Widgets */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <ActivityWidget
-            title="Recent Inquiries"
-            count={recentInquiriesCount}
-            linkHref="/admin/inquiries" // Task 20
-            linkText="View All Inquiries"
-            icon={recentInquiriesIcon}
-            bgColor="bg-cyan-50"
-            borderColor="border-cyan-500"
-          />
-          <ActivityWidget
-            title="Portfolio Approvals"
-            count={pendingApprovalsCount.count}
-            linkHref="/admin/portfolio/approvals" // Task 16
-            linkText="Manage Approvals"
-            icon={approvalIcon}
-            bgColor="bg-amber-50"
-            borderColor="border-amber-500"
-          />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2 space-y-8">
+          <RecentInquiries />
         </div>
-
-        {/* Pending Portfolio Items Notice */}
-        {pendingPortfolioCount.isLoading && (
-          <div className="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-6 rounded-md shadow" role="alert">
-            <p className="font-bold">Loading Pending Portfolio Items...</p>
-          </div>
-        )}
-        {!pendingPortfolioCount.isLoading && pendingPortfolioCount.error && (
-          <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded-md shadow" role="alert">
-            <p className="font-bold">Error Loading Pending Items</p>
-            <p>{pendingPortfolioCount.error}</p>
-          </div>
-        )}
-        {!pendingPortfolioCount.isLoading && !pendingPortfolioCount.error && pendingPortfolioCount.count > 0 && (
-          <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6 rounded-md shadow hover:shadow-lg transition-shadow duration-300" role="alert">
-            <div className="flex items-center">
-              <WrappedReactIcon icon={FiImage} className="text-2xl mr-3" />
-              <div>
-                <p className="font-bold">Portfolio Items Awaiting Review</p>
-                <p>
-                  There are currently <span className="font-semibold">{pendingPortfolioCount.count}</span> photo set(s) pending your approval.
-                  <Link href="/admin/portfolio?status=PENDING" className="ml-2 underline hover:text-yellow-800 font-medium">
-                    Review Them Now
-                  </Link>
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
-        {!pendingPortfolioCount.isLoading && !pendingPortfolioCount.error && pendingPortfolioCount.count === 0 && (
-           <div className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded-md shadow" role="alert">
-            <div className="flex items-center">
-              <WrappedReactIcon icon={FiCheckCircle} className="text-2xl mr-3" />
-              <div>
-                <p className="font-bold">Portfolio Queue Clear!</p>
-                <p>There are no photo sets currently awaiting review.</p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        <h2 className="text-2xl font-semibold text-gray-700 mb-6">Management Sections</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <DashboardCard
-            title="Site Appearance"
-            description="Manage themes, colors, fonts, and general site look and feel."
-            linkHref="/admin/appearance/general"
-            linkText="Manage Appearance"
-            icon={generalSettingsIcon}
-            bgColor="bg-purple-50"
-            titleColor="text-purple-700"
-            borderColor="border-purple-500"
-          />
-          <DashboardCard
-            title="Content Management"
-            description="Edit content for pages like About Us, FAQ, and services."
-            linkHref="/admin/content" // Task 17 / 32
-            linkText="Manage Content"
-            icon={contentManagementIcon}
-            bgColor="bg-teal-50"
-            titleColor="text-teal-700"
-            borderColor="border-teal-500"
-          />
-          <DashboardCard
-            title="Chat & Messages"
-            description="View and manage conversations with customers and staff."
-            linkHref="/admin/chat"
-            linkText="Open Chat"
-            icon={chatManagementIcon}
-            bgColor="bg-blue-50"
-            titleColor="text-blue-700"
-            borderColor="border-blue-500"
-          />
-          <DashboardCard
-            title="Payments & Billing"
-            description="Manage invoices, view transaction history, and configure payment settings."
-            linkHref="/admin/billing" // New link for Payments/Billing
-            linkText="Manage Billing"
-            icon={billingIcon}
-            bgColor="bg-green-50"
-            titleColor="text-green-700"
-            borderColor="border-green-500"
-          />
-          <DashboardCard
-            title="Photo Portfolio"
-            description="Review and manage all worker-uploaded photos for the public portfolio."
-            linkHref="/admin/portfolio" // Task 16
-            linkText="Manage Portfolio"
-            icon={<WrappedReactIcon icon={FiImage} className="text-2xl text-orange-600" />}
-            bgColor="bg-orange-50"
-            titleColor="text-orange-700"
-            borderColor="border-orange-500"
-          />
-          <DashboardCard
-            title="Services Offered"
-            description="Define and manage the handyman services listed on the site."
-            linkHref="/admin/services" // Task 15
-            linkText="Manage Services"
-            icon={servicesManagementIcon}
-            bgColor="bg-pink-50"
-            titleColor="text-pink-700"
-            borderColor="border-pink-500"
-          />
-           <DashboardCard
-            title="Global Settings"
-            description="Configure global site parameters, integrations, and API keys."
-            linkHref="/admin/settings" // Task 21 / 28 
-            linkText="Manage Settings"
-            icon={generalSettingsIcon}
-            bgColor="bg-indigo-50"
-            titleColor="text-indigo-700"
-            borderColor="border-indigo-500"
-          />
+        <div className="space-y-8">
+          {/* Placeholder for other widgets */}
         </div>
+      </div>
+      
+      <h2 className="text-2xl font-semibold text-gray-700 mt-12 mb-6">Management Sections</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <DashboardCard
+          title="Site Appearance"
+          description="Manage themes, colors, fonts, and general site look and feel."
+          linkHref="/admin/appearance/general"
+          linkText="Manage Appearance"
+          icon={generalSettingsIcon}
+          bgColor="bg-purple-50"
+          titleColor="text-purple-700"
+          borderColor="border-purple-500"
+        />
+        <DashboardCard
+          title="Content Management"
+          description="Edit content for pages like About Us, FAQ, and services."
+          linkHref="/admin/content" // Task 17 / 32
+          linkText="Manage Content"
+          icon={contentManagementIcon}
+          bgColor="bg-teal-50"
+          titleColor="text-teal-700"
+          borderColor="border-teal-500"
+        />
+        <DashboardCard
+          title="Chat & Messages"
+          description="View and manage conversations with customers and staff."
+          linkHref="/admin/chat"
+          linkText="Open Chat"
+          icon={chatManagementIcon}
+          bgColor="bg-blue-50"
+          titleColor="text-blue-700"
+          borderColor="border-blue-500"
+        />
+        <DashboardCard
+          title="Payments & Billing"
+          description="Manage invoices, view transaction history, and configure payment settings."
+          linkHref="/admin/billing" // New link for Payments/Billing
+          linkText="Manage Billing"
+          icon={billingIcon}
+          bgColor="bg-green-50"
+          titleColor="text-green-700"
+          borderColor="border-green-500"
+        />
+        <DashboardCard
+          title="Photo Portfolio"
+          description="Review and manage all worker-uploaded photos for the public portfolio."
+          linkHref="/admin/portfolio" // Task 16
+          linkText="Manage Portfolio"
+          icon={<WrappedReactIcon icon={FiImage} className="text-2xl text-orange-600" />}
+          bgColor="bg-orange-50"
+          titleColor="text-orange-700"
+          borderColor="border-orange-500"
+        />
+        <DashboardCard
+          title="Services Offered"
+          description="Define and manage the handyman services listed on the site."
+          linkHref="/admin/services" // Task 15
+          linkText="Manage Services"
+          icon={servicesManagementIcon}
+          bgColor="bg-pink-50"
+          titleColor="text-pink-700"
+          borderColor="border-pink-500"
+        />
+        <DashboardCard
+          title="Global Settings"
+          description="Configure global site parameters, integrations, and API keys."
+          linkHref="/admin/settings" // Task 21 / 28 
+          linkText="Manage Settings"
+          icon={generalSettingsIcon}
+          bgColor="bg-indigo-50"
+          titleColor="text-indigo-700"
+          borderColor="border-indigo-500"
+        />
+      </div>
 
-        <div className="mt-12 pt-6 border-t border-gray-200 text-center">
-          <p className="text-gray-500 text-sm">
-            &copy; {new Date().getFullYear()} Dr. Handyman Admin Panel
-          </p>
-        </div>
+      <div className="mt-12 pt-6 border-t border-gray-200 text-center">
+        <p className="text-gray-500 text-sm">
+          &copy; {new Date().getFullYear()} Dr. Handyman Admin Panel
+        </p>
+      </div>
     </div>
   );
 } 

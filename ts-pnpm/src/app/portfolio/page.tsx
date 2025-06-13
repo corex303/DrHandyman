@@ -36,7 +36,7 @@ const PortfolioPage = () => {
       setFilteredPhotoSets(data);
 
       const uniqueCategories = Array.from(
-        new Set(data.map((ps) => ps.serviceCategory))
+        new Set(data.map((ps: PhotoSetWithRelations) => ps.serviceCategory))
       );
       setCategories(uniqueCategories);
     };
@@ -49,14 +49,14 @@ const PortfolioPage = () => {
 
     if (searchTerm) {
       result = result.filter(
-        (ps) =>
+        (ps: PhotoSetWithRelations) =>
           ps.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
           ps.description?.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
     if (selectedCategory !== 'all') {
-      result = result.filter((ps) => ps.serviceCategory === selectedCategory);
+      result = result.filter((ps: PhotoSetWithRelations) => ps.serviceCategory === selectedCategory);
     }
 
     setFilteredPhotoSets(result);
@@ -82,7 +82,7 @@ const PortfolioPage = () => {
         <Input
           placeholder='Search by title or description...'
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
           className='max-w-sm'
         />
         <Select value={selectedCategory} onValueChange={setSelectedCategory}>
@@ -91,7 +91,7 @@ const PortfolioPage = () => {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value='all'>All Categories</SelectItem>
-            {categories.map((category) => (
+            {categories.map((category: string) => (
               <SelectItem key={category} value={category}>
                 {category}
               </SelectItem>
@@ -101,7 +101,7 @@ const PortfolioPage = () => {
       </div>
 
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
-        {filteredPhotoSets.map((ps) => (
+        {filteredPhotoSets.map((ps: PhotoSetWithRelations) => (
           <div
             key={ps.id}
             className='bg-white rounded-lg shadow-lg overflow-hidden'

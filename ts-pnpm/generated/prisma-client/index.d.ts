@@ -163,6 +163,16 @@ export const InvoiceStatus: {
 export type InvoiceStatus = (typeof InvoiceStatus)[keyof typeof InvoiceStatus]
 
 
+export const InquiryStatus: {
+  NEW: 'NEW',
+  IN_PROGRESS: 'IN_PROGRESS',
+  COMPLETED: 'COMPLETED',
+  ARCHIVED: 'ARCHIVED'
+};
+
+export type InquiryStatus = (typeof InquiryStatus)[keyof typeof InquiryStatus]
+
+
 export const PhotoType: {
   BEFORE: 'BEFORE',
   AFTER: 'AFTER'
@@ -183,6 +193,10 @@ export const ApprovalStatus: typeof $Enums.ApprovalStatus
 export type InvoiceStatus = $Enums.InvoiceStatus
 
 export const InvoiceStatus: typeof $Enums.InvoiceStatus
+
+export type InquiryStatus = $Enums.InquiryStatus
+
+export const InquiryStatus: typeof $Enums.InquiryStatus
 
 export type PhotoType = $Enums.PhotoType
 
@@ -3110,10 +3124,12 @@ export namespace Prisma {
 
   export type InquiryCountOutputType = {
     attachments: number
+    photoSets: number
   }
 
   export type InquiryCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     attachments?: boolean | InquiryCountOutputTypeCountAttachmentsArgs
+    photoSets?: boolean | InquiryCountOutputTypeCountPhotoSetsArgs
   }
 
   // Custom InputTypes
@@ -3132,6 +3148,13 @@ export namespace Prisma {
    */
   export type InquiryCountOutputTypeCountAttachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: InquiryAttachmentWhereInput
+  }
+
+  /**
+   * InquiryCountOutputType without action
+   */
+  export type InquiryCountOutputTypeCountPhotoSetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PhotoSetWhereInput
   }
 
 
@@ -3251,13 +3274,13 @@ export namespace Prisma {
    */
 
   export type InvoiceCountOutputType = {
-    lineItems: number
     payments: number
+    lineItems: number
   }
 
   export type InvoiceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    lineItems?: boolean | InvoiceCountOutputTypeCountLineItemsArgs
     payments?: boolean | InvoiceCountOutputTypeCountPaymentsArgs
+    lineItems?: boolean | InvoiceCountOutputTypeCountLineItemsArgs
   }
 
   // Custom InputTypes
@@ -3274,15 +3297,15 @@ export namespace Prisma {
   /**
    * InvoiceCountOutputType without action
    */
-  export type InvoiceCountOutputTypeCountLineItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: InvoiceLineItemWhereInput
+  export type InvoiceCountOutputTypeCountPaymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentWhereInput
   }
 
   /**
    * InvoiceCountOutputType without action
    */
-  export type InvoiceCountOutputTypeCountPaymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PaymentWhereInput
+  export type InvoiceCountOutputTypeCountLineItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InvoiceLineItemWhereInput
   }
 
 
@@ -3312,6 +3335,7 @@ export namespace Prisma {
     lastSeenAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
+    maintenanceWorkerId: string | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -3326,6 +3350,7 @@ export namespace Prisma {
     lastSeenAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
+    maintenanceWorkerId: string | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -3340,6 +3365,7 @@ export namespace Prisma {
     lastSeenAt: number
     createdAt: number
     updatedAt: number
+    maintenanceWorkerId: number
     _all: number
   }
 
@@ -3356,6 +3382,7 @@ export namespace Prisma {
     lastSeenAt?: true
     createdAt?: true
     updatedAt?: true
+    maintenanceWorkerId?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -3370,6 +3397,7 @@ export namespace Prisma {
     lastSeenAt?: true
     createdAt?: true
     updatedAt?: true
+    maintenanceWorkerId?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -3384,6 +3412,7 @@ export namespace Prisma {
     lastSeenAt?: true
     createdAt?: true
     updatedAt?: true
+    maintenanceWorkerId?: true
     _all?: true
   }
 
@@ -3471,6 +3500,7 @@ export namespace Prisma {
     lastSeenAt: Date | null
     createdAt: Date
     updatedAt: Date
+    maintenanceWorkerId: string | null
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -3502,6 +3532,7 @@ export namespace Prisma {
     lastSeenAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    maintenanceWorkerId?: boolean
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     emailVerificationRequests?: boolean | User$emailVerificationRequestsArgs<ExtArgs>
@@ -3510,7 +3541,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: boolean | User$uploadedPortfolioItemsArgs<ExtArgs>
     customerInquiries?: boolean | User$customerInquiriesArgs<ExtArgs>
     customerPhotoSets?: boolean | User$customerPhotoSetsArgs<ExtArgs>
-    maintenanceWorker?: boolean | User$maintenanceWorkerArgs<ExtArgs>
+    worker?: boolean | User$workerArgs<ExtArgs>
     appearanceSetting?: boolean | User$appearanceSettingArgs<ExtArgs>
     createdConversations?: boolean | User$createdConversationsArgs<ExtArgs>
     sentMessages?: boolean | User$sentMessagesArgs<ExtArgs>
@@ -3533,6 +3564,7 @@ export namespace Prisma {
     lastSeenAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    maintenanceWorkerId?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -3547,6 +3579,7 @@ export namespace Prisma {
     lastSeenAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    maintenanceWorkerId?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -3561,9 +3594,10 @@ export namespace Prisma {
     lastSeenAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    maintenanceWorkerId?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "emailVerified" | "image" | "hashedPassword" | "role" | "lastSeenAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "emailVerified" | "image" | "hashedPassword" | "role" | "lastSeenAt" | "createdAt" | "updatedAt" | "maintenanceWorkerId", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
@@ -3573,7 +3607,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: boolean | User$uploadedPortfolioItemsArgs<ExtArgs>
     customerInquiries?: boolean | User$customerInquiriesArgs<ExtArgs>
     customerPhotoSets?: boolean | User$customerPhotoSetsArgs<ExtArgs>
-    maintenanceWorker?: boolean | User$maintenanceWorkerArgs<ExtArgs>
+    worker?: boolean | User$workerArgs<ExtArgs>
     appearanceSetting?: boolean | User$appearanceSettingArgs<ExtArgs>
     createdConversations?: boolean | User$createdConversationsArgs<ExtArgs>
     sentMessages?: boolean | User$sentMessagesArgs<ExtArgs>
@@ -3597,7 +3631,7 @@ export namespace Prisma {
       uploadedPortfolioItems: Prisma.$PortfolioItemPayload<ExtArgs>[]
       customerInquiries: Prisma.$InquiryPayload<ExtArgs>[]
       customerPhotoSets: Prisma.$PhotoSetPayload<ExtArgs>[]
-      maintenanceWorker: Prisma.$MaintenanceWorkerPayload<ExtArgs> | null
+      worker: Prisma.$MaintenanceWorkerPayload<ExtArgs> | null
       appearanceSetting: Prisma.$AppearanceSettingsPayload<ExtArgs> | null
       createdConversations: Prisma.$ChatConversationPayload<ExtArgs>[]
       sentMessages: Prisma.$ChatMessagePayload<ExtArgs>[]
@@ -3618,6 +3652,7 @@ export namespace Prisma {
       lastSeenAt: Date | null
       createdAt: Date
       updatedAt: Date
+      maintenanceWorkerId: string | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -4020,7 +4055,7 @@ export namespace Prisma {
     uploadedPortfolioItems<T extends User$uploadedPortfolioItemsArgs<ExtArgs> = {}>(args?: Subset<T, User$uploadedPortfolioItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PortfolioItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     customerInquiries<T extends User$customerInquiriesArgs<ExtArgs> = {}>(args?: Subset<T, User$customerInquiriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InquiryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     customerPhotoSets<T extends User$customerPhotoSetsArgs<ExtArgs> = {}>(args?: Subset<T, User$customerPhotoSetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PhotoSetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    maintenanceWorker<T extends User$maintenanceWorkerArgs<ExtArgs> = {}>(args?: Subset<T, User$maintenanceWorkerArgs<ExtArgs>>): Prisma__MaintenanceWorkerClient<$Result.GetResult<Prisma.$MaintenanceWorkerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    worker<T extends User$workerArgs<ExtArgs> = {}>(args?: Subset<T, User$workerArgs<ExtArgs>>): Prisma__MaintenanceWorkerClient<$Result.GetResult<Prisma.$MaintenanceWorkerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     appearanceSetting<T extends User$appearanceSettingArgs<ExtArgs> = {}>(args?: Subset<T, User$appearanceSettingArgs<ExtArgs>>): Prisma__AppearanceSettingsClient<$Result.GetResult<Prisma.$AppearanceSettingsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     createdConversations<T extends User$createdConversationsArgs<ExtArgs> = {}>(args?: Subset<T, User$createdConversationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sentMessages<T extends User$sentMessagesArgs<ExtArgs> = {}>(args?: Subset<T, User$sentMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -4068,6 +4103,7 @@ export namespace Prisma {
     readonly lastSeenAt: FieldRef<"User", 'DateTime'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
+    readonly maintenanceWorkerId: FieldRef<"User", 'String'>
   }
     
 
@@ -4648,9 +4684,9 @@ export namespace Prisma {
   }
 
   /**
-   * User.maintenanceWorker
+   * User.worker
    */
-  export type User$maintenanceWorkerArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$workerArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the MaintenanceWorker
      */
@@ -8208,7 +8244,7 @@ export namespace Prisma {
     customerPhone: string | null
     serviceNeeded: string | null
     message: string | null
-    isArchived: boolean | null
+    status: $Enums.InquiryStatus | null
     createdAt: Date | null
     updatedAt: Date | null
     customerId: string | null
@@ -8221,7 +8257,7 @@ export namespace Prisma {
     customerPhone: string | null
     serviceNeeded: string | null
     message: string | null
-    isArchived: boolean | null
+    status: $Enums.InquiryStatus | null
     createdAt: Date | null
     updatedAt: Date | null
     customerId: string | null
@@ -8234,7 +8270,7 @@ export namespace Prisma {
     customerPhone: number
     serviceNeeded: number
     message: number
-    isArchived: number
+    status: number
     createdAt: number
     updatedAt: number
     customerId: number
@@ -8249,7 +8285,7 @@ export namespace Prisma {
     customerPhone?: true
     serviceNeeded?: true
     message?: true
-    isArchived?: true
+    status?: true
     createdAt?: true
     updatedAt?: true
     customerId?: true
@@ -8262,7 +8298,7 @@ export namespace Prisma {
     customerPhone?: true
     serviceNeeded?: true
     message?: true
-    isArchived?: true
+    status?: true
     createdAt?: true
     updatedAt?: true
     customerId?: true
@@ -8275,7 +8311,7 @@ export namespace Prisma {
     customerPhone?: true
     serviceNeeded?: true
     message?: true
-    isArchived?: true
+    status?: true
     createdAt?: true
     updatedAt?: true
     customerId?: true
@@ -8361,7 +8397,7 @@ export namespace Prisma {
     customerPhone: string | null
     serviceNeeded: string | null
     message: string
-    isArchived: boolean
+    status: $Enums.InquiryStatus
     createdAt: Date
     updatedAt: Date
     customerId: string | null
@@ -8391,12 +8427,13 @@ export namespace Prisma {
     customerPhone?: boolean
     serviceNeeded?: boolean
     message?: boolean
-    isArchived?: boolean
+    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     customerId?: boolean
     customer?: boolean | Inquiry$customerArgs<ExtArgs>
     attachments?: boolean | Inquiry$attachmentsArgs<ExtArgs>
+    photoSets?: boolean | Inquiry$photoSetsArgs<ExtArgs>
     _count?: boolean | InquiryCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["inquiry"]>
 
@@ -8407,7 +8444,7 @@ export namespace Prisma {
     customerPhone?: boolean
     serviceNeeded?: boolean
     message?: boolean
-    isArchived?: boolean
+    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     customerId?: boolean
@@ -8421,7 +8458,7 @@ export namespace Prisma {
     customerPhone?: boolean
     serviceNeeded?: boolean
     message?: boolean
-    isArchived?: boolean
+    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     customerId?: boolean
@@ -8435,16 +8472,17 @@ export namespace Prisma {
     customerPhone?: boolean
     serviceNeeded?: boolean
     message?: boolean
-    isArchived?: boolean
+    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     customerId?: boolean
   }
 
-  export type InquiryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customerName" | "customerEmail" | "customerPhone" | "serviceNeeded" | "message" | "isArchived" | "createdAt" | "updatedAt" | "customerId", ExtArgs["result"]["inquiry"]>
+  export type InquiryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customerName" | "customerEmail" | "customerPhone" | "serviceNeeded" | "message" | "status" | "createdAt" | "updatedAt" | "customerId", ExtArgs["result"]["inquiry"]>
   export type InquiryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | Inquiry$customerArgs<ExtArgs>
     attachments?: boolean | Inquiry$attachmentsArgs<ExtArgs>
+    photoSets?: boolean | Inquiry$photoSetsArgs<ExtArgs>
     _count?: boolean | InquiryCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type InquiryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8459,6 +8497,7 @@ export namespace Prisma {
     objects: {
       customer: Prisma.$UserPayload<ExtArgs> | null
       attachments: Prisma.$InquiryAttachmentPayload<ExtArgs>[]
+      photoSets: Prisma.$PhotoSetPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -8467,7 +8506,7 @@ export namespace Prisma {
       customerPhone: string | null
       serviceNeeded: string | null
       message: string
-      isArchived: boolean
+      status: $Enums.InquiryStatus
       createdAt: Date
       updatedAt: Date
       customerId: string | null
@@ -8867,6 +8906,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     customer<T extends Inquiry$customerArgs<ExtArgs> = {}>(args?: Subset<T, Inquiry$customerArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     attachments<T extends Inquiry$attachmentsArgs<ExtArgs> = {}>(args?: Subset<T, Inquiry$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InquiryAttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    photoSets<T extends Inquiry$photoSetsArgs<ExtArgs> = {}>(args?: Subset<T, Inquiry$photoSetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PhotoSetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8902,7 +8942,7 @@ export namespace Prisma {
     readonly customerPhone: FieldRef<"Inquiry", 'String'>
     readonly serviceNeeded: FieldRef<"Inquiry", 'String'>
     readonly message: FieldRef<"Inquiry", 'String'>
-    readonly isArchived: FieldRef<"Inquiry", 'Boolean'>
+    readonly status: FieldRef<"Inquiry", 'InquiryStatus'>
     readonly createdAt: FieldRef<"Inquiry", 'DateTime'>
     readonly updatedAt: FieldRef<"Inquiry", 'DateTime'>
     readonly customerId: FieldRef<"Inquiry", 'String'>
@@ -9342,6 +9382,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: InquiryAttachmentScalarFieldEnum | InquiryAttachmentScalarFieldEnum[]
+  }
+
+  /**
+   * Inquiry.photoSets
+   */
+  export type Inquiry$photoSetsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PhotoSet
+     */
+    select?: PhotoSetSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PhotoSet
+     */
+    omit?: PhotoSetOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PhotoSetInclude<ExtArgs> | null
+    where?: PhotoSetWhereInput
+    orderBy?: PhotoSetOrderByWithRelationInput | PhotoSetOrderByWithRelationInput[]
+    cursor?: PhotoSetWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PhotoSetScalarFieldEnum | PhotoSetScalarFieldEnum[]
   }
 
   /**
@@ -11603,6 +11667,7 @@ export namespace Prisma {
     submittedAt: Date | null
     updatedAt: Date | null
     customerId: string | null
+    inquiryId: string | null
   }
 
   export type PhotoSetMaxAggregateOutputType = {
@@ -11615,6 +11680,7 @@ export namespace Prisma {
     submittedAt: Date | null
     updatedAt: Date | null
     customerId: string | null
+    inquiryId: string | null
   }
 
   export type PhotoSetCountAggregateOutputType = {
@@ -11627,6 +11693,7 @@ export namespace Prisma {
     submittedAt: number
     updatedAt: number
     customerId: number
+    inquiryId: number
     _all: number
   }
 
@@ -11641,6 +11708,7 @@ export namespace Prisma {
     submittedAt?: true
     updatedAt?: true
     customerId?: true
+    inquiryId?: true
   }
 
   export type PhotoSetMaxAggregateInputType = {
@@ -11653,6 +11721,7 @@ export namespace Prisma {
     submittedAt?: true
     updatedAt?: true
     customerId?: true
+    inquiryId?: true
   }
 
   export type PhotoSetCountAggregateInputType = {
@@ -11665,6 +11734,7 @@ export namespace Prisma {
     submittedAt?: true
     updatedAt?: true
     customerId?: true
+    inquiryId?: true
     _all?: true
   }
 
@@ -11750,6 +11820,7 @@ export namespace Prisma {
     submittedAt: Date
     updatedAt: Date
     customerId: string | null
+    inquiryId: string | null
     _count: PhotoSetCountAggregateOutputType | null
     _min: PhotoSetMinAggregateOutputType | null
     _max: PhotoSetMaxAggregateOutputType | null
@@ -11779,9 +11850,11 @@ export namespace Prisma {
     submittedAt?: boolean
     updatedAt?: boolean
     customerId?: boolean
+    inquiryId?: boolean
     maintenanceWorker?: boolean | MaintenanceWorkerDefaultArgs<ExtArgs>
     photos?: boolean | PhotoSet$photosArgs<ExtArgs>
     customer?: boolean | PhotoSet$customerArgs<ExtArgs>
+    inquiry?: boolean | PhotoSet$inquiryArgs<ExtArgs>
     _count?: boolean | PhotoSetCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["photoSet"]>
 
@@ -11795,8 +11868,10 @@ export namespace Prisma {
     submittedAt?: boolean
     updatedAt?: boolean
     customerId?: boolean
+    inquiryId?: boolean
     maintenanceWorker?: boolean | MaintenanceWorkerDefaultArgs<ExtArgs>
     customer?: boolean | PhotoSet$customerArgs<ExtArgs>
+    inquiry?: boolean | PhotoSet$inquiryArgs<ExtArgs>
   }, ExtArgs["result"]["photoSet"]>
 
   export type PhotoSetSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -11809,8 +11884,10 @@ export namespace Prisma {
     submittedAt?: boolean
     updatedAt?: boolean
     customerId?: boolean
+    inquiryId?: boolean
     maintenanceWorker?: boolean | MaintenanceWorkerDefaultArgs<ExtArgs>
     customer?: boolean | PhotoSet$customerArgs<ExtArgs>
+    inquiry?: boolean | PhotoSet$inquiryArgs<ExtArgs>
   }, ExtArgs["result"]["photoSet"]>
 
   export type PhotoSetSelectScalar = {
@@ -11823,22 +11900,26 @@ export namespace Prisma {
     submittedAt?: boolean
     updatedAt?: boolean
     customerId?: boolean
+    inquiryId?: boolean
   }
 
-  export type PhotoSetOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "maintenanceWorkerId" | "serviceCategory" | "description" | "status" | "submittedAt" | "updatedAt" | "customerId", ExtArgs["result"]["photoSet"]>
+  export type PhotoSetOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "maintenanceWorkerId" | "serviceCategory" | "description" | "status" | "submittedAt" | "updatedAt" | "customerId" | "inquiryId", ExtArgs["result"]["photoSet"]>
   export type PhotoSetInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     maintenanceWorker?: boolean | MaintenanceWorkerDefaultArgs<ExtArgs>
     photos?: boolean | PhotoSet$photosArgs<ExtArgs>
     customer?: boolean | PhotoSet$customerArgs<ExtArgs>
+    inquiry?: boolean | PhotoSet$inquiryArgs<ExtArgs>
     _count?: boolean | PhotoSetCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PhotoSetIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     maintenanceWorker?: boolean | MaintenanceWorkerDefaultArgs<ExtArgs>
     customer?: boolean | PhotoSet$customerArgs<ExtArgs>
+    inquiry?: boolean | PhotoSet$inquiryArgs<ExtArgs>
   }
   export type PhotoSetIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     maintenanceWorker?: boolean | MaintenanceWorkerDefaultArgs<ExtArgs>
     customer?: boolean | PhotoSet$customerArgs<ExtArgs>
+    inquiry?: boolean | PhotoSet$inquiryArgs<ExtArgs>
   }
 
   export type $PhotoSetPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11847,6 +11928,7 @@ export namespace Prisma {
       maintenanceWorker: Prisma.$MaintenanceWorkerPayload<ExtArgs>
       photos: Prisma.$PhotoPayload<ExtArgs>[]
       customer: Prisma.$UserPayload<ExtArgs> | null
+      inquiry: Prisma.$InquiryPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -11858,6 +11940,7 @@ export namespace Prisma {
       submittedAt: Date
       updatedAt: Date
       customerId: string | null
+      inquiryId: string | null
     }, ExtArgs["result"]["photoSet"]>
     composites: {}
   }
@@ -12255,6 +12338,7 @@ export namespace Prisma {
     maintenanceWorker<T extends MaintenanceWorkerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MaintenanceWorkerDefaultArgs<ExtArgs>>): Prisma__MaintenanceWorkerClient<$Result.GetResult<Prisma.$MaintenanceWorkerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     photos<T extends PhotoSet$photosArgs<ExtArgs> = {}>(args?: Subset<T, PhotoSet$photosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PhotoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     customer<T extends PhotoSet$customerArgs<ExtArgs> = {}>(args?: Subset<T, PhotoSet$customerArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    inquiry<T extends PhotoSet$inquiryArgs<ExtArgs> = {}>(args?: Subset<T, PhotoSet$inquiryArgs<ExtArgs>>): Prisma__InquiryClient<$Result.GetResult<Prisma.$InquiryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -12293,6 +12377,7 @@ export namespace Prisma {
     readonly submittedAt: FieldRef<"PhotoSet", 'DateTime'>
     readonly updatedAt: FieldRef<"PhotoSet", 'DateTime'>
     readonly customerId: FieldRef<"PhotoSet", 'String'>
+    readonly inquiryId: FieldRef<"PhotoSet", 'String'>
   }
     
 
@@ -12729,6 +12814,25 @@ export namespace Prisma {
      */
     include?: UserInclude<ExtArgs> | null
     where?: UserWhereInput
+  }
+
+  /**
+   * PhotoSet.inquiry
+   */
+  export type PhotoSet$inquiryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Inquiry
+     */
+    select?: InquirySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Inquiry
+     */
+    omit?: InquiryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InquiryInclude<ExtArgs> | null
+    where?: InquiryWhereInput
   }
 
   /**
@@ -13894,8 +13998,10 @@ export namespace Prisma {
   export type MaintenanceWorkerMinAggregateOutputType = {
     id: string | null
     name: string | null
+    email: string | null
     isActive: boolean | null
     userId: string | null
+    serviceFusionId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -13903,8 +14009,10 @@ export namespace Prisma {
   export type MaintenanceWorkerMaxAggregateOutputType = {
     id: string | null
     name: string | null
+    email: string | null
     isActive: boolean | null
     userId: string | null
+    serviceFusionId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -13912,8 +14020,10 @@ export namespace Prisma {
   export type MaintenanceWorkerCountAggregateOutputType = {
     id: number
     name: number
+    email: number
     isActive: number
     userId: number
+    serviceFusionId: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -13923,8 +14033,10 @@ export namespace Prisma {
   export type MaintenanceWorkerMinAggregateInputType = {
     id?: true
     name?: true
+    email?: true
     isActive?: true
     userId?: true
+    serviceFusionId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -13932,8 +14044,10 @@ export namespace Prisma {
   export type MaintenanceWorkerMaxAggregateInputType = {
     id?: true
     name?: true
+    email?: true
     isActive?: true
     userId?: true
+    serviceFusionId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -13941,8 +14055,10 @@ export namespace Prisma {
   export type MaintenanceWorkerCountAggregateInputType = {
     id?: true
     name?: true
+    email?: true
     isActive?: true
     userId?: true
+    serviceFusionId?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -14023,8 +14139,10 @@ export namespace Prisma {
   export type MaintenanceWorkerGroupByOutputType = {
     id: string
     name: string
+    email: string | null
     isActive: boolean
     userId: string | null
+    serviceFusionId: string | null
     createdAt: Date
     updatedAt: Date
     _count: MaintenanceWorkerCountAggregateOutputType | null
@@ -14049,8 +14167,10 @@ export namespace Prisma {
   export type MaintenanceWorkerSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    email?: boolean
     isActive?: boolean
     userId?: boolean
+    serviceFusionId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     photoSets?: boolean | MaintenanceWorker$photoSetsArgs<ExtArgs>
@@ -14061,8 +14181,10 @@ export namespace Prisma {
   export type MaintenanceWorkerSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    email?: boolean
     isActive?: boolean
     userId?: boolean
+    serviceFusionId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | MaintenanceWorker$userArgs<ExtArgs>
@@ -14071,8 +14193,10 @@ export namespace Prisma {
   export type MaintenanceWorkerSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    email?: boolean
     isActive?: boolean
     userId?: boolean
+    serviceFusionId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | MaintenanceWorker$userArgs<ExtArgs>
@@ -14081,13 +14205,15 @@ export namespace Prisma {
   export type MaintenanceWorkerSelectScalar = {
     id?: boolean
     name?: boolean
+    email?: boolean
     isActive?: boolean
     userId?: boolean
+    serviceFusionId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type MaintenanceWorkerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "isActive" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["maintenanceWorker"]>
+  export type MaintenanceWorkerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "isActive" | "userId" | "serviceFusionId" | "createdAt" | "updatedAt", ExtArgs["result"]["maintenanceWorker"]>
   export type MaintenanceWorkerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     photoSets?: boolean | MaintenanceWorker$photoSetsArgs<ExtArgs>
     user?: boolean | MaintenanceWorker$userArgs<ExtArgs>
@@ -14109,8 +14235,10 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
+      email: string | null
       isActive: boolean
       userId: string | null
+      serviceFusionId: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["maintenanceWorker"]>
@@ -14540,8 +14668,10 @@ export namespace Prisma {
   interface MaintenanceWorkerFieldRefs {
     readonly id: FieldRef<"MaintenanceWorker", 'String'>
     readonly name: FieldRef<"MaintenanceWorker", 'String'>
+    readonly email: FieldRef<"MaintenanceWorker", 'String'>
     readonly isActive: FieldRef<"MaintenanceWorker", 'Boolean'>
     readonly userId: FieldRef<"MaintenanceWorker", 'String'>
+    readonly serviceFusionId: FieldRef<"MaintenanceWorker", 'String'>
     readonly createdAt: FieldRef<"MaintenanceWorker", 'DateTime'>
     readonly updatedAt: FieldRef<"MaintenanceWorker", 'DateTime'>
   }
@@ -22883,122 +23013,64 @@ export namespace Prisma {
 
   export type AggregateInvoice = {
     _count: InvoiceCountAggregateOutputType | null
-    _avg: InvoiceAvgAggregateOutputType | null
-    _sum: InvoiceSumAggregateOutputType | null
     _min: InvoiceMinAggregateOutputType | null
     _max: InvoiceMaxAggregateOutputType | null
   }
 
-  export type InvoiceAvgAggregateOutputType = {
-    totalAmount: number | null
-    amountPaid: number | null
-  }
-
-  export type InvoiceSumAggregateOutputType = {
-    totalAmount: number | null
-    amountPaid: number | null
-  }
-
   export type InvoiceMinAggregateOutputType = {
     id: string | null
-    invoiceNumber: string | null
-    customerId: string | null
-    issueDate: Date | null
-    dueDate: Date | null
-    totalAmount: number | null
-    amountPaid: number | null
     status: $Enums.InvoiceStatus | null
-    notes: string | null
+    dueDate: Date | null
+    customerId: string | null
     createdAt: Date | null
     updatedAt: Date | null
-    relatedServiceRequestId: string | null
   }
 
   export type InvoiceMaxAggregateOutputType = {
     id: string | null
-    invoiceNumber: string | null
-    customerId: string | null
-    issueDate: Date | null
-    dueDate: Date | null
-    totalAmount: number | null
-    amountPaid: number | null
     status: $Enums.InvoiceStatus | null
-    notes: string | null
+    dueDate: Date | null
+    customerId: string | null
     createdAt: Date | null
     updatedAt: Date | null
-    relatedServiceRequestId: string | null
   }
 
   export type InvoiceCountAggregateOutputType = {
     id: number
-    invoiceNumber: number
-    customerId: number
-    issueDate: number
-    dueDate: number
-    totalAmount: number
-    amountPaid: number
     status: number
-    notes: number
+    dueDate: number
+    customerId: number
     createdAt: number
     updatedAt: number
-    relatedServiceRequestId: number
     _all: number
   }
 
 
-  export type InvoiceAvgAggregateInputType = {
-    totalAmount?: true
-    amountPaid?: true
-  }
-
-  export type InvoiceSumAggregateInputType = {
-    totalAmount?: true
-    amountPaid?: true
-  }
-
   export type InvoiceMinAggregateInputType = {
     id?: true
-    invoiceNumber?: true
-    customerId?: true
-    issueDate?: true
-    dueDate?: true
-    totalAmount?: true
-    amountPaid?: true
     status?: true
-    notes?: true
+    dueDate?: true
+    customerId?: true
     createdAt?: true
     updatedAt?: true
-    relatedServiceRequestId?: true
   }
 
   export type InvoiceMaxAggregateInputType = {
     id?: true
-    invoiceNumber?: true
-    customerId?: true
-    issueDate?: true
-    dueDate?: true
-    totalAmount?: true
-    amountPaid?: true
     status?: true
-    notes?: true
+    dueDate?: true
+    customerId?: true
     createdAt?: true
     updatedAt?: true
-    relatedServiceRequestId?: true
   }
 
   export type InvoiceCountAggregateInputType = {
     id?: true
-    invoiceNumber?: true
-    customerId?: true
-    issueDate?: true
-    dueDate?: true
-    totalAmount?: true
-    amountPaid?: true
     status?: true
-    notes?: true
+    dueDate?: true
+    customerId?: true
     createdAt?: true
     updatedAt?: true
-    relatedServiceRequestId?: true
     _all?: true
   }
 
@@ -23040,18 +23112,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: InvoiceAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: InvoiceSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: InvoiceMinAggregateInputType
@@ -23082,28 +23142,18 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: InvoiceCountAggregateInputType | true
-    _avg?: InvoiceAvgAggregateInputType
-    _sum?: InvoiceSumAggregateInputType
     _min?: InvoiceMinAggregateInputType
     _max?: InvoiceMaxAggregateInputType
   }
 
   export type InvoiceGroupByOutputType = {
     id: string
-    invoiceNumber: string
-    customerId: string
-    issueDate: Date
-    dueDate: Date
-    totalAmount: number
-    amountPaid: number
     status: $Enums.InvoiceStatus
-    notes: string | null
+    dueDate: Date
+    customerId: string
     createdAt: Date
     updatedAt: Date
-    relatedServiceRequestId: string | null
     _count: InvoiceCountAggregateOutputType | null
-    _avg: InvoiceAvgAggregateOutputType | null
-    _sum: InvoiceSumAggregateOutputType | null
     _min: InvoiceMinAggregateOutputType | null
     _max: InvoiceMaxAggregateOutputType | null
   }
@@ -23124,75 +23174,51 @@ export namespace Prisma {
 
   export type InvoiceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    invoiceNumber?: boolean
-    customerId?: boolean
-    issueDate?: boolean
-    dueDate?: boolean
-    totalAmount?: boolean
-    amountPaid?: boolean
     status?: boolean
-    notes?: boolean
+    dueDate?: boolean
+    customerId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    relatedServiceRequestId?: boolean
     customer?: boolean | UserDefaultArgs<ExtArgs>
-    lineItems?: boolean | Invoice$lineItemsArgs<ExtArgs>
     payments?: boolean | Invoice$paymentsArgs<ExtArgs>
+    lineItems?: boolean | Invoice$lineItemsArgs<ExtArgs>
     _count?: boolean | InvoiceCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["invoice"]>
 
   export type InvoiceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    invoiceNumber?: boolean
-    customerId?: boolean
-    issueDate?: boolean
-    dueDate?: boolean
-    totalAmount?: boolean
-    amountPaid?: boolean
     status?: boolean
-    notes?: boolean
+    dueDate?: boolean
+    customerId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    relatedServiceRequestId?: boolean
     customer?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["invoice"]>
 
   export type InvoiceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    invoiceNumber?: boolean
-    customerId?: boolean
-    issueDate?: boolean
-    dueDate?: boolean
-    totalAmount?: boolean
-    amountPaid?: boolean
     status?: boolean
-    notes?: boolean
+    dueDate?: boolean
+    customerId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    relatedServiceRequestId?: boolean
     customer?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["invoice"]>
 
   export type InvoiceSelectScalar = {
     id?: boolean
-    invoiceNumber?: boolean
-    customerId?: boolean
-    issueDate?: boolean
-    dueDate?: boolean
-    totalAmount?: boolean
-    amountPaid?: boolean
     status?: boolean
-    notes?: boolean
+    dueDate?: boolean
+    customerId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    relatedServiceRequestId?: boolean
   }
 
-  export type InvoiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "invoiceNumber" | "customerId" | "issueDate" | "dueDate" | "totalAmount" | "amountPaid" | "status" | "notes" | "createdAt" | "updatedAt" | "relatedServiceRequestId", ExtArgs["result"]["invoice"]>
+  export type InvoiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "status" | "dueDate" | "customerId" | "createdAt" | "updatedAt", ExtArgs["result"]["invoice"]>
   export type InvoiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     customer?: boolean | UserDefaultArgs<ExtArgs>
-    lineItems?: boolean | Invoice$lineItemsArgs<ExtArgs>
     payments?: boolean | Invoice$paymentsArgs<ExtArgs>
+    lineItems?: boolean | Invoice$lineItemsArgs<ExtArgs>
     _count?: boolean | InvoiceCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type InvoiceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -23206,22 +23232,16 @@ export namespace Prisma {
     name: "Invoice"
     objects: {
       customer: Prisma.$UserPayload<ExtArgs>
-      lineItems: Prisma.$InvoiceLineItemPayload<ExtArgs>[]
       payments: Prisma.$PaymentPayload<ExtArgs>[]
+      lineItems: Prisma.$InvoiceLineItemPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      invoiceNumber: string
-      customerId: string
-      issueDate: Date
-      dueDate: Date
-      totalAmount: number
-      amountPaid: number
       status: $Enums.InvoiceStatus
-      notes: string | null
+      dueDate: Date
+      customerId: string
       createdAt: Date
       updatedAt: Date
-      relatedServiceRequestId: string | null
     }, ExtArgs["result"]["invoice"]>
     composites: {}
   }
@@ -23617,8 +23637,8 @@ export namespace Prisma {
   export interface Prisma__InvoiceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     customer<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    lineItems<T extends Invoice$lineItemsArgs<ExtArgs> = {}>(args?: Subset<T, Invoice$lineItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoiceLineItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     payments<T extends Invoice$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Invoice$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    lineItems<T extends Invoice$lineItemsArgs<ExtArgs> = {}>(args?: Subset<T, Invoice$lineItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoiceLineItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -23649,17 +23669,11 @@ export namespace Prisma {
    */
   interface InvoiceFieldRefs {
     readonly id: FieldRef<"Invoice", 'String'>
-    readonly invoiceNumber: FieldRef<"Invoice", 'String'>
-    readonly customerId: FieldRef<"Invoice", 'String'>
-    readonly issueDate: FieldRef<"Invoice", 'DateTime'>
-    readonly dueDate: FieldRef<"Invoice", 'DateTime'>
-    readonly totalAmount: FieldRef<"Invoice", 'Float'>
-    readonly amountPaid: FieldRef<"Invoice", 'Float'>
     readonly status: FieldRef<"Invoice", 'InvoiceStatus'>
-    readonly notes: FieldRef<"Invoice", 'String'>
+    readonly dueDate: FieldRef<"Invoice", 'DateTime'>
+    readonly customerId: FieldRef<"Invoice", 'String'>
     readonly createdAt: FieldRef<"Invoice", 'DateTime'>
     readonly updatedAt: FieldRef<"Invoice", 'DateTime'>
-    readonly relatedServiceRequestId: FieldRef<"Invoice", 'String'>
   }
     
 
@@ -24056,30 +24070,6 @@ export namespace Prisma {
   }
 
   /**
-   * Invoice.lineItems
-   */
-  export type Invoice$lineItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the InvoiceLineItem
-     */
-    select?: InvoiceLineItemSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the InvoiceLineItem
-     */
-    omit?: InvoiceLineItemOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: InvoiceLineItemInclude<ExtArgs> | null
-    where?: InvoiceLineItemWhereInput
-    orderBy?: InvoiceLineItemOrderByWithRelationInput | InvoiceLineItemOrderByWithRelationInput[]
-    cursor?: InvoiceLineItemWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: InvoiceLineItemScalarFieldEnum | InvoiceLineItemScalarFieldEnum[]
-  }
-
-  /**
    * Invoice.payments
    */
   export type Invoice$paymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -24101,6 +24091,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[]
+  }
+
+  /**
+   * Invoice.lineItems
+   */
+  export type Invoice$lineItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceLineItem
+     */
+    select?: InvoiceLineItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InvoiceLineItem
+     */
+    omit?: InvoiceLineItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceLineItemInclude<ExtArgs> | null
+    where?: InvoiceLineItemWhereInput
+    orderBy?: InvoiceLineItemOrderByWithRelationInput | InvoiceLineItemOrderByWithRelationInput[]
+    cursor?: InvoiceLineItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InvoiceLineItemScalarFieldEnum | InvoiceLineItemScalarFieldEnum[]
   }
 
   /**
@@ -29570,7 +29584,8 @@ export namespace Prisma {
     role: 'role',
     lastSeenAt: 'lastSeenAt',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    maintenanceWorkerId: 'maintenanceWorkerId'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -29628,7 +29643,7 @@ export namespace Prisma {
     customerPhone: 'customerPhone',
     serviceNeeded: 'serviceNeeded',
     message: 'message',
-    isArchived: 'isArchived',
+    status: 'status',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     customerId: 'customerId'
@@ -29680,7 +29695,8 @@ export namespace Prisma {
     status: 'status',
     submittedAt: 'submittedAt',
     updatedAt: 'updatedAt',
-    customerId: 'customerId'
+    customerId: 'customerId',
+    inquiryId: 'inquiryId'
   };
 
   export type PhotoSetScalarFieldEnum = (typeof PhotoSetScalarFieldEnum)[keyof typeof PhotoSetScalarFieldEnum]
@@ -29703,8 +29719,10 @@ export namespace Prisma {
   export const MaintenanceWorkerScalarFieldEnum: {
     id: 'id',
     name: 'name',
+    email: 'email',
     isActive: 'isActive',
     userId: 'userId',
+    serviceFusionId: 'serviceFusionId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -29816,17 +29834,11 @@ export namespace Prisma {
 
   export const InvoiceScalarFieldEnum: {
     id: 'id',
-    invoiceNumber: 'invoiceNumber',
-    customerId: 'customerId',
-    issueDate: 'issueDate',
-    dueDate: 'dueDate',
-    totalAmount: 'totalAmount',
-    amountPaid: 'amountPaid',
     status: 'status',
-    notes: 'notes',
+    dueDate: 'dueDate',
+    customerId: 'customerId',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    relatedServiceRequestId: 'relatedServiceRequestId'
+    updatedAt: 'updatedAt'
   };
 
   export type InvoiceScalarFieldEnum = (typeof InvoiceScalarFieldEnum)[keyof typeof InvoiceScalarFieldEnum]
@@ -29989,6 +30001,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'InquiryStatus'
+   */
+  export type EnumInquiryStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InquiryStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'InquiryStatus[]'
+   */
+  export type ListEnumInquiryStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InquiryStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Json'
    */
   export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
@@ -30045,20 +30071,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Float'
-   */
-  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
-
-
-  /**
-   * Reference to a field of type 'Float[]'
-   */
-  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
-    
-
-
-  /**
    * Reference to a field of type 'InvoiceStatus'
    */
   export type EnumInvoiceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InvoiceStatus'>
@@ -30069,6 +30081,20 @@ export namespace Prisma {
    * Reference to a field of type 'InvoiceStatus[]'
    */
   export type ListEnumInvoiceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InvoiceStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
   /**
    * Deep Input Types
@@ -30090,6 +30116,7 @@ export namespace Prisma {
     lastSeenAt?: DateTimeNullableFilter<"User"> | Date | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    maintenanceWorkerId?: StringNullableFilter<"User"> | string | null
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
     emailVerificationRequests?: EmailVerificationRequestListRelationFilter
@@ -30098,7 +30125,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemListRelationFilter
     customerInquiries?: InquiryListRelationFilter
     customerPhotoSets?: PhotoSetListRelationFilter
-    maintenanceWorker?: XOR<MaintenanceWorkerNullableScalarRelationFilter, MaintenanceWorkerWhereInput> | null
+    worker?: XOR<MaintenanceWorkerNullableScalarRelationFilter, MaintenanceWorkerWhereInput> | null
     appearanceSetting?: XOR<AppearanceSettingsNullableScalarRelationFilter, AppearanceSettingsWhereInput> | null
     createdConversations?: ChatConversationListRelationFilter
     sentMessages?: ChatMessageListRelationFilter
@@ -30120,6 +30147,7 @@ export namespace Prisma {
     lastSeenAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    maintenanceWorkerId?: SortOrderInput | SortOrder
     accounts?: AccountOrderByRelationAggregateInput
     sessions?: SessionOrderByRelationAggregateInput
     emailVerificationRequests?: EmailVerificationRequestOrderByRelationAggregateInput
@@ -30128,7 +30156,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemOrderByRelationAggregateInput
     customerInquiries?: InquiryOrderByRelationAggregateInput
     customerPhotoSets?: PhotoSetOrderByRelationAggregateInput
-    maintenanceWorker?: MaintenanceWorkerOrderByWithRelationInput
+    worker?: MaintenanceWorkerOrderByWithRelationInput
     appearanceSetting?: AppearanceSettingsOrderByWithRelationInput
     createdConversations?: ChatConversationOrderByRelationAggregateInput
     sentMessages?: ChatMessageOrderByRelationAggregateInput
@@ -30141,6 +30169,7 @@ export namespace Prisma {
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     email?: string
+    maintenanceWorkerId?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
@@ -30161,7 +30190,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemListRelationFilter
     customerInquiries?: InquiryListRelationFilter
     customerPhotoSets?: PhotoSetListRelationFilter
-    maintenanceWorker?: XOR<MaintenanceWorkerNullableScalarRelationFilter, MaintenanceWorkerWhereInput> | null
+    worker?: XOR<MaintenanceWorkerNullableScalarRelationFilter, MaintenanceWorkerWhereInput> | null
     appearanceSetting?: XOR<AppearanceSettingsNullableScalarRelationFilter, AppearanceSettingsWhereInput> | null
     createdConversations?: ChatConversationListRelationFilter
     sentMessages?: ChatMessageListRelationFilter
@@ -30169,7 +30198,7 @@ export namespace Prisma {
     staffConversations?: ChatConversationListRelationFilter
     invoices?: InvoiceListRelationFilter
     activityInConversations?: ChatParticipantInfoListRelationFilter
-  }, "id" | "email">
+  }, "id" | "email" | "maintenanceWorkerId">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
@@ -30183,6 +30212,7 @@ export namespace Prisma {
     lastSeenAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    maintenanceWorkerId?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -30203,6 +30233,7 @@ export namespace Prisma {
     lastSeenAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    maintenanceWorkerId?: StringNullableWithAggregatesFilter<"User"> | string | null
   }
 
   export type ServiceWhereInput = {
@@ -30443,12 +30474,13 @@ export namespace Prisma {
     customerPhone?: StringNullableFilter<"Inquiry"> | string | null
     serviceNeeded?: StringNullableFilter<"Inquiry"> | string | null
     message?: StringFilter<"Inquiry"> | string
-    isArchived?: BoolFilter<"Inquiry"> | boolean
+    status?: EnumInquiryStatusFilter<"Inquiry"> | $Enums.InquiryStatus
     createdAt?: DateTimeFilter<"Inquiry"> | Date | string
     updatedAt?: DateTimeFilter<"Inquiry"> | Date | string
     customerId?: StringNullableFilter<"Inquiry"> | string | null
     customer?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     attachments?: InquiryAttachmentListRelationFilter
+    photoSets?: PhotoSetListRelationFilter
   }
 
   export type InquiryOrderByWithRelationInput = {
@@ -30458,12 +30490,13 @@ export namespace Prisma {
     customerPhone?: SortOrderInput | SortOrder
     serviceNeeded?: SortOrderInput | SortOrder
     message?: SortOrder
-    isArchived?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     customerId?: SortOrderInput | SortOrder
     customer?: UserOrderByWithRelationInput
     attachments?: InquiryAttachmentOrderByRelationAggregateInput
+    photoSets?: PhotoSetOrderByRelationAggregateInput
   }
 
   export type InquiryWhereUniqueInput = Prisma.AtLeast<{
@@ -30476,12 +30509,13 @@ export namespace Prisma {
     customerPhone?: StringNullableFilter<"Inquiry"> | string | null
     serviceNeeded?: StringNullableFilter<"Inquiry"> | string | null
     message?: StringFilter<"Inquiry"> | string
-    isArchived?: BoolFilter<"Inquiry"> | boolean
+    status?: EnumInquiryStatusFilter<"Inquiry"> | $Enums.InquiryStatus
     createdAt?: DateTimeFilter<"Inquiry"> | Date | string
     updatedAt?: DateTimeFilter<"Inquiry"> | Date | string
     customerId?: StringNullableFilter<"Inquiry"> | string | null
     customer?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     attachments?: InquiryAttachmentListRelationFilter
+    photoSets?: PhotoSetListRelationFilter
   }, "id">
 
   export type InquiryOrderByWithAggregationInput = {
@@ -30491,7 +30525,7 @@ export namespace Prisma {
     customerPhone?: SortOrderInput | SortOrder
     serviceNeeded?: SortOrderInput | SortOrder
     message?: SortOrder
-    isArchived?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     customerId?: SortOrderInput | SortOrder
@@ -30510,7 +30544,7 @@ export namespace Prisma {
     customerPhone?: StringNullableWithAggregatesFilter<"Inquiry"> | string | null
     serviceNeeded?: StringNullableWithAggregatesFilter<"Inquiry"> | string | null
     message?: StringWithAggregatesFilter<"Inquiry"> | string
-    isArchived?: BoolWithAggregatesFilter<"Inquiry"> | boolean
+    status?: EnumInquiryStatusWithAggregatesFilter<"Inquiry"> | $Enums.InquiryStatus
     createdAt?: DateTimeWithAggregatesFilter<"Inquiry"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Inquiry"> | Date | string
     customerId?: StringNullableWithAggregatesFilter<"Inquiry"> | string | null
@@ -30696,9 +30730,11 @@ export namespace Prisma {
     submittedAt?: DateTimeFilter<"PhotoSet"> | Date | string
     updatedAt?: DateTimeFilter<"PhotoSet"> | Date | string
     customerId?: StringNullableFilter<"PhotoSet"> | string | null
+    inquiryId?: StringNullableFilter<"PhotoSet"> | string | null
     maintenanceWorker?: XOR<MaintenanceWorkerScalarRelationFilter, MaintenanceWorkerWhereInput>
     photos?: PhotoListRelationFilter
     customer?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    inquiry?: XOR<InquiryNullableScalarRelationFilter, InquiryWhereInput> | null
   }
 
   export type PhotoSetOrderByWithRelationInput = {
@@ -30711,9 +30747,11 @@ export namespace Prisma {
     submittedAt?: SortOrder
     updatedAt?: SortOrder
     customerId?: SortOrderInput | SortOrder
+    inquiryId?: SortOrderInput | SortOrder
     maintenanceWorker?: MaintenanceWorkerOrderByWithRelationInput
     photos?: PhotoOrderByRelationAggregateInput
     customer?: UserOrderByWithRelationInput
+    inquiry?: InquiryOrderByWithRelationInput
   }
 
   export type PhotoSetWhereUniqueInput = Prisma.AtLeast<{
@@ -30729,9 +30767,11 @@ export namespace Prisma {
     submittedAt?: DateTimeFilter<"PhotoSet"> | Date | string
     updatedAt?: DateTimeFilter<"PhotoSet"> | Date | string
     customerId?: StringNullableFilter<"PhotoSet"> | string | null
+    inquiryId?: StringNullableFilter<"PhotoSet"> | string | null
     maintenanceWorker?: XOR<MaintenanceWorkerScalarRelationFilter, MaintenanceWorkerWhereInput>
     photos?: PhotoListRelationFilter
     customer?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    inquiry?: XOR<InquiryNullableScalarRelationFilter, InquiryWhereInput> | null
   }, "id">
 
   export type PhotoSetOrderByWithAggregationInput = {
@@ -30744,6 +30784,7 @@ export namespace Prisma {
     submittedAt?: SortOrder
     updatedAt?: SortOrder
     customerId?: SortOrderInput | SortOrder
+    inquiryId?: SortOrderInput | SortOrder
     _count?: PhotoSetCountOrderByAggregateInput
     _max?: PhotoSetMaxOrderByAggregateInput
     _min?: PhotoSetMinOrderByAggregateInput
@@ -30762,6 +30803,7 @@ export namespace Prisma {
     submittedAt?: DateTimeWithAggregatesFilter<"PhotoSet"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"PhotoSet"> | Date | string
     customerId?: StringNullableWithAggregatesFilter<"PhotoSet"> | string | null
+    inquiryId?: StringNullableWithAggregatesFilter<"PhotoSet"> | string | null
   }
 
   export type PhotoWhereInput = {
@@ -30842,8 +30884,10 @@ export namespace Prisma {
     NOT?: MaintenanceWorkerWhereInput | MaintenanceWorkerWhereInput[]
     id?: StringFilter<"MaintenanceWorker"> | string
     name?: StringFilter<"MaintenanceWorker"> | string
+    email?: StringNullableFilter<"MaintenanceWorker"> | string | null
     isActive?: BoolFilter<"MaintenanceWorker"> | boolean
     userId?: StringNullableFilter<"MaintenanceWorker"> | string | null
+    serviceFusionId?: StringNullableFilter<"MaintenanceWorker"> | string | null
     createdAt?: DateTimeFilter<"MaintenanceWorker"> | Date | string
     updatedAt?: DateTimeFilter<"MaintenanceWorker"> | Date | string
     photoSets?: PhotoSetListRelationFilter
@@ -30853,8 +30897,10 @@ export namespace Prisma {
   export type MaintenanceWorkerOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
+    email?: SortOrderInput | SortOrder
     isActive?: SortOrder
     userId?: SortOrderInput | SortOrder
+    serviceFusionId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     photoSets?: PhotoSetOrderByRelationAggregateInput
@@ -30864,7 +30910,9 @@ export namespace Prisma {
   export type MaintenanceWorkerWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     name?: string
+    email?: string
     userId?: string
+    serviceFusionId?: string
     AND?: MaintenanceWorkerWhereInput | MaintenanceWorkerWhereInput[]
     OR?: MaintenanceWorkerWhereInput[]
     NOT?: MaintenanceWorkerWhereInput | MaintenanceWorkerWhereInput[]
@@ -30873,13 +30921,15 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"MaintenanceWorker"> | Date | string
     photoSets?: PhotoSetListRelationFilter
     user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
-  }, "id" | "name" | "userId">
+  }, "id" | "name" | "email" | "userId" | "serviceFusionId">
 
   export type MaintenanceWorkerOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
+    email?: SortOrderInput | SortOrder
     isActive?: SortOrder
     userId?: SortOrderInput | SortOrder
+    serviceFusionId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: MaintenanceWorkerCountOrderByAggregateInput
@@ -30893,8 +30943,10 @@ export namespace Prisma {
     NOT?: MaintenanceWorkerScalarWhereWithAggregatesInput | MaintenanceWorkerScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"MaintenanceWorker"> | string
     name?: StringWithAggregatesFilter<"MaintenanceWorker"> | string
+    email?: StringNullableWithAggregatesFilter<"MaintenanceWorker"> | string | null
     isActive?: BoolWithAggregatesFilter<"MaintenanceWorker"> | boolean
     userId?: StringNullableWithAggregatesFilter<"MaintenanceWorker"> | string | null
+    serviceFusionId?: StringNullableWithAggregatesFilter<"MaintenanceWorker"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"MaintenanceWorker"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"MaintenanceWorker"> | Date | string
   }
@@ -31432,79 +31484,53 @@ export namespace Prisma {
     OR?: InvoiceWhereInput[]
     NOT?: InvoiceWhereInput | InvoiceWhereInput[]
     id?: StringFilter<"Invoice"> | string
-    invoiceNumber?: StringFilter<"Invoice"> | string
-    customerId?: StringFilter<"Invoice"> | string
-    issueDate?: DateTimeFilter<"Invoice"> | Date | string
-    dueDate?: DateTimeFilter<"Invoice"> | Date | string
-    totalAmount?: FloatFilter<"Invoice"> | number
-    amountPaid?: FloatFilter<"Invoice"> | number
     status?: EnumInvoiceStatusFilter<"Invoice"> | $Enums.InvoiceStatus
-    notes?: StringNullableFilter<"Invoice"> | string | null
+    dueDate?: DateTimeFilter<"Invoice"> | Date | string
+    customerId?: StringFilter<"Invoice"> | string
     createdAt?: DateTimeFilter<"Invoice"> | Date | string
     updatedAt?: DateTimeFilter<"Invoice"> | Date | string
-    relatedServiceRequestId?: StringNullableFilter<"Invoice"> | string | null
     customer?: XOR<UserScalarRelationFilter, UserWhereInput>
-    lineItems?: InvoiceLineItemListRelationFilter
     payments?: PaymentListRelationFilter
+    lineItems?: InvoiceLineItemListRelationFilter
   }
 
   export type InvoiceOrderByWithRelationInput = {
     id?: SortOrder
-    invoiceNumber?: SortOrder
-    customerId?: SortOrder
-    issueDate?: SortOrder
-    dueDate?: SortOrder
-    totalAmount?: SortOrder
-    amountPaid?: SortOrder
     status?: SortOrder
-    notes?: SortOrderInput | SortOrder
+    dueDate?: SortOrder
+    customerId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    relatedServiceRequestId?: SortOrderInput | SortOrder
     customer?: UserOrderByWithRelationInput
-    lineItems?: InvoiceLineItemOrderByRelationAggregateInput
     payments?: PaymentOrderByRelationAggregateInput
+    lineItems?: InvoiceLineItemOrderByRelationAggregateInput
   }
 
   export type InvoiceWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    invoiceNumber?: string
     AND?: InvoiceWhereInput | InvoiceWhereInput[]
     OR?: InvoiceWhereInput[]
     NOT?: InvoiceWhereInput | InvoiceWhereInput[]
-    customerId?: StringFilter<"Invoice"> | string
-    issueDate?: DateTimeFilter<"Invoice"> | Date | string
-    dueDate?: DateTimeFilter<"Invoice"> | Date | string
-    totalAmount?: FloatFilter<"Invoice"> | number
-    amountPaid?: FloatFilter<"Invoice"> | number
     status?: EnumInvoiceStatusFilter<"Invoice"> | $Enums.InvoiceStatus
-    notes?: StringNullableFilter<"Invoice"> | string | null
+    dueDate?: DateTimeFilter<"Invoice"> | Date | string
+    customerId?: StringFilter<"Invoice"> | string
     createdAt?: DateTimeFilter<"Invoice"> | Date | string
     updatedAt?: DateTimeFilter<"Invoice"> | Date | string
-    relatedServiceRequestId?: StringNullableFilter<"Invoice"> | string | null
     customer?: XOR<UserScalarRelationFilter, UserWhereInput>
-    lineItems?: InvoiceLineItemListRelationFilter
     payments?: PaymentListRelationFilter
-  }, "id" | "invoiceNumber">
+    lineItems?: InvoiceLineItemListRelationFilter
+  }, "id">
 
   export type InvoiceOrderByWithAggregationInput = {
     id?: SortOrder
-    invoiceNumber?: SortOrder
-    customerId?: SortOrder
-    issueDate?: SortOrder
-    dueDate?: SortOrder
-    totalAmount?: SortOrder
-    amountPaid?: SortOrder
     status?: SortOrder
-    notes?: SortOrderInput | SortOrder
+    dueDate?: SortOrder
+    customerId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    relatedServiceRequestId?: SortOrderInput | SortOrder
     _count?: InvoiceCountOrderByAggregateInput
-    _avg?: InvoiceAvgOrderByAggregateInput
     _max?: InvoiceMaxOrderByAggregateInput
     _min?: InvoiceMinOrderByAggregateInput
-    _sum?: InvoiceSumOrderByAggregateInput
   }
 
   export type InvoiceScalarWhereWithAggregatesInput = {
@@ -31512,17 +31538,11 @@ export namespace Prisma {
     OR?: InvoiceScalarWhereWithAggregatesInput[]
     NOT?: InvoiceScalarWhereWithAggregatesInput | InvoiceScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Invoice"> | string
-    invoiceNumber?: StringWithAggregatesFilter<"Invoice"> | string
-    customerId?: StringWithAggregatesFilter<"Invoice"> | string
-    issueDate?: DateTimeWithAggregatesFilter<"Invoice"> | Date | string
-    dueDate?: DateTimeWithAggregatesFilter<"Invoice"> | Date | string
-    totalAmount?: FloatWithAggregatesFilter<"Invoice"> | number
-    amountPaid?: FloatWithAggregatesFilter<"Invoice"> | number
     status?: EnumInvoiceStatusWithAggregatesFilter<"Invoice"> | $Enums.InvoiceStatus
-    notes?: StringNullableWithAggregatesFilter<"Invoice"> | string | null
+    dueDate?: DateTimeWithAggregatesFilter<"Invoice"> | Date | string
+    customerId?: StringWithAggregatesFilter<"Invoice"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Invoice"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Invoice"> | Date | string
-    relatedServiceRequestId?: StringNullableWithAggregatesFilter<"Invoice"> | string | null
   }
 
   export type InvoiceLineItemWhereInput = {
@@ -31849,6 +31869,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     emailVerificationRequests?: EmailVerificationRequestCreateNestedManyWithoutUserInput
@@ -31857,7 +31878,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemCreateNestedManyWithoutUploadedByInput
     customerInquiries?: InquiryCreateNestedManyWithoutCustomerInput
     customerPhotoSets?: PhotoSetCreateNestedManyWithoutCustomerInput
-    maintenanceWorker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
+    worker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
     appearanceSetting?: AppearanceSettingsCreateNestedOneWithoutAdminInput
     createdConversations?: ChatConversationCreateNestedManyWithoutParticipantsInput
     sentMessages?: ChatMessageCreateNestedManyWithoutSenderInput
@@ -31879,6 +31900,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     emailVerificationRequests?: EmailVerificationRequestUncheckedCreateNestedManyWithoutUserInput
@@ -31887,7 +31909,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUncheckedCreateNestedManyWithoutUploadedByInput
     customerInquiries?: InquiryUncheckedCreateNestedManyWithoutCustomerInput
     customerPhotoSets?: PhotoSetUncheckedCreateNestedManyWithoutCustomerInput
-    maintenanceWorker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
+    worker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
     appearanceSetting?: AppearanceSettingsUncheckedCreateNestedOneWithoutAdminInput
     createdConversations?: ChatConversationUncheckedCreateNestedManyWithoutParticipantsInput
     sentMessages?: ChatMessageUncheckedCreateNestedManyWithoutSenderInput
@@ -31909,6 +31931,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     emailVerificationRequests?: EmailVerificationRequestUpdateManyWithoutUserNestedInput
@@ -31917,7 +31940,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUpdateManyWithoutUploadedByNestedInput
     customerInquiries?: InquiryUpdateManyWithoutCustomerNestedInput
     customerPhotoSets?: PhotoSetUpdateManyWithoutCustomerNestedInput
-    maintenanceWorker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
+    worker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
     appearanceSetting?: AppearanceSettingsUpdateOneWithoutAdminNestedInput
     createdConversations?: ChatConversationUpdateManyWithoutParticipantsNestedInput
     sentMessages?: ChatMessageUpdateManyWithoutSenderNestedInput
@@ -31939,6 +31962,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationRequests?: EmailVerificationRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -31947,7 +31971,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUncheckedUpdateManyWithoutUploadedByNestedInput
     customerInquiries?: InquiryUncheckedUpdateManyWithoutCustomerNestedInput
     customerPhotoSets?: PhotoSetUncheckedUpdateManyWithoutCustomerNestedInput
-    maintenanceWorker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
+    worker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
     appearanceSetting?: AppearanceSettingsUncheckedUpdateOneWithoutAdminNestedInput
     createdConversations?: ChatConversationUncheckedUpdateManyWithoutParticipantsNestedInput
     sentMessages?: ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
@@ -31969,6 +31993,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -31983,6 +32008,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -31997,6 +32023,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ServiceCreateInput = {
@@ -32259,11 +32286,12 @@ export namespace Prisma {
     customerPhone?: string | null
     serviceNeeded?: string | null
     message: string
-    isArchived?: boolean
+    status?: $Enums.InquiryStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     customer?: UserCreateNestedOneWithoutCustomerInquiriesInput
     attachments?: InquiryAttachmentCreateNestedManyWithoutInquiryInput
+    photoSets?: PhotoSetCreateNestedManyWithoutInquiryInput
   }
 
   export type InquiryUncheckedCreateInput = {
@@ -32273,11 +32301,12 @@ export namespace Prisma {
     customerPhone?: string | null
     serviceNeeded?: string | null
     message: string
-    isArchived?: boolean
+    status?: $Enums.InquiryStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     customerId?: string | null
     attachments?: InquiryAttachmentUncheckedCreateNestedManyWithoutInquiryInput
+    photoSets?: PhotoSetUncheckedCreateNestedManyWithoutInquiryInput
   }
 
   export type InquiryUpdateInput = {
@@ -32287,11 +32316,12 @@ export namespace Prisma {
     customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
     serviceNeeded?: NullableStringFieldUpdateOperationsInput | string | null
     message?: StringFieldUpdateOperationsInput | string
-    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumInquiryStatusFieldUpdateOperationsInput | $Enums.InquiryStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customer?: UserUpdateOneWithoutCustomerInquiriesNestedInput
     attachments?: InquiryAttachmentUpdateManyWithoutInquiryNestedInput
+    photoSets?: PhotoSetUpdateManyWithoutInquiryNestedInput
   }
 
   export type InquiryUncheckedUpdateInput = {
@@ -32301,11 +32331,12 @@ export namespace Prisma {
     customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
     serviceNeeded?: NullableStringFieldUpdateOperationsInput | string | null
     message?: StringFieldUpdateOperationsInput | string
-    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumInquiryStatusFieldUpdateOperationsInput | $Enums.InquiryStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customerId?: NullableStringFieldUpdateOperationsInput | string | null
     attachments?: InquiryAttachmentUncheckedUpdateManyWithoutInquiryNestedInput
+    photoSets?: PhotoSetUncheckedUpdateManyWithoutInquiryNestedInput
   }
 
   export type InquiryCreateManyInput = {
@@ -32315,7 +32346,7 @@ export namespace Prisma {
     customerPhone?: string | null
     serviceNeeded?: string | null
     message: string
-    isArchived?: boolean
+    status?: $Enums.InquiryStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     customerId?: string | null
@@ -32328,7 +32359,7 @@ export namespace Prisma {
     customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
     serviceNeeded?: NullableStringFieldUpdateOperationsInput | string | null
     message?: StringFieldUpdateOperationsInput | string
-    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumInquiryStatusFieldUpdateOperationsInput | $Enums.InquiryStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -32340,7 +32371,7 @@ export namespace Prisma {
     customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
     serviceNeeded?: NullableStringFieldUpdateOperationsInput | string | null
     message?: StringFieldUpdateOperationsInput | string
-    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumInquiryStatusFieldUpdateOperationsInput | $Enums.InquiryStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customerId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -32552,6 +32583,7 @@ export namespace Prisma {
     maintenanceWorker: MaintenanceWorkerCreateNestedOneWithoutPhotoSetsInput
     photos?: PhotoCreateNestedManyWithoutPhotoSetInput
     customer?: UserCreateNestedOneWithoutCustomerPhotoSetsInput
+    inquiry?: InquiryCreateNestedOneWithoutPhotoSetsInput
   }
 
   export type PhotoSetUncheckedCreateInput = {
@@ -32564,6 +32596,7 @@ export namespace Prisma {
     submittedAt?: Date | string
     updatedAt?: Date | string
     customerId?: string | null
+    inquiryId?: string | null
     photos?: PhotoUncheckedCreateNestedManyWithoutPhotoSetInput
   }
 
@@ -32578,6 +32611,7 @@ export namespace Prisma {
     maintenanceWorker?: MaintenanceWorkerUpdateOneRequiredWithoutPhotoSetsNestedInput
     photos?: PhotoUpdateManyWithoutPhotoSetNestedInput
     customer?: UserUpdateOneWithoutCustomerPhotoSetsNestedInput
+    inquiry?: InquiryUpdateOneWithoutPhotoSetsNestedInput
   }
 
   export type PhotoSetUncheckedUpdateInput = {
@@ -32590,6 +32624,7 @@ export namespace Prisma {
     submittedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customerId?: NullableStringFieldUpdateOperationsInput | string | null
+    inquiryId?: NullableStringFieldUpdateOperationsInput | string | null
     photos?: PhotoUncheckedUpdateManyWithoutPhotoSetNestedInput
   }
 
@@ -32603,6 +32638,7 @@ export namespace Prisma {
     submittedAt?: Date | string
     updatedAt?: Date | string
     customerId?: string | null
+    inquiryId?: string | null
   }
 
   export type PhotoSetUpdateManyMutationInput = {
@@ -32625,6 +32661,7 @@ export namespace Prisma {
     submittedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customerId?: NullableStringFieldUpdateOperationsInput | string | null
+    inquiryId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PhotoCreateInput = {
@@ -32706,18 +32743,22 @@ export namespace Prisma {
   export type MaintenanceWorkerCreateInput = {
     id?: string
     name: string
+    email?: string | null
     isActive?: boolean
+    serviceFusionId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     photoSets?: PhotoSetCreateNestedManyWithoutMaintenanceWorkerInput
-    user?: UserCreateNestedOneWithoutMaintenanceWorkerInput
+    user?: UserCreateNestedOneWithoutWorkerInput
   }
 
   export type MaintenanceWorkerUncheckedCreateInput = {
     id?: string
     name: string
+    email?: string | null
     isActive?: boolean
     userId?: string | null
+    serviceFusionId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     photoSets?: PhotoSetUncheckedCreateNestedManyWithoutMaintenanceWorkerInput
@@ -32726,18 +32767,22 @@ export namespace Prisma {
   export type MaintenanceWorkerUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    serviceFusionId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     photoSets?: PhotoSetUpdateManyWithoutMaintenanceWorkerNestedInput
-    user?: UserUpdateOneWithoutMaintenanceWorkerNestedInput
+    user?: UserUpdateOneWithoutWorkerNestedInput
   }
 
   export type MaintenanceWorkerUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     userId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceFusionId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     photoSets?: PhotoSetUncheckedUpdateManyWithoutMaintenanceWorkerNestedInput
@@ -32746,8 +32791,10 @@ export namespace Prisma {
   export type MaintenanceWorkerCreateManyInput = {
     id?: string
     name: string
+    email?: string | null
     isActive?: boolean
     userId?: string | null
+    serviceFusionId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -32755,7 +32802,9 @@ export namespace Prisma {
   export type MaintenanceWorkerUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    serviceFusionId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -32763,8 +32812,10 @@ export namespace Prisma {
   export type MaintenanceWorkerUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     userId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceFusionId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -33342,114 +33393,72 @@ export namespace Prisma {
 
   export type InvoiceCreateInput = {
     id?: string
-    invoiceNumber: string
-    issueDate?: Date | string
-    dueDate: Date | string
-    totalAmount: number
-    amountPaid?: number
     status?: $Enums.InvoiceStatus
-    notes?: string | null
+    dueDate: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
-    relatedServiceRequestId?: string | null
     customer: UserCreateNestedOneWithoutInvoicesInput
-    lineItems?: InvoiceLineItemCreateNestedManyWithoutInvoiceInput
     payments?: PaymentCreateNestedManyWithoutInvoiceInput
+    lineItems?: InvoiceLineItemCreateNestedManyWithoutInvoiceInput
   }
 
   export type InvoiceUncheckedCreateInput = {
     id?: string
-    invoiceNumber: string
-    customerId: string
-    issueDate?: Date | string
-    dueDate: Date | string
-    totalAmount: number
-    amountPaid?: number
     status?: $Enums.InvoiceStatus
-    notes?: string | null
+    dueDate: Date | string
+    customerId: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    relatedServiceRequestId?: string | null
-    lineItems?: InvoiceLineItemUncheckedCreateNestedManyWithoutInvoiceInput
     payments?: PaymentUncheckedCreateNestedManyWithoutInvoiceInput
+    lineItems?: InvoiceLineItemUncheckedCreateNestedManyWithoutInvoiceInput
   }
 
   export type InvoiceUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    invoiceNumber?: StringFieldUpdateOperationsInput | string
-    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    totalAmount?: FloatFieldUpdateOperationsInput | number
-    amountPaid?: FloatFieldUpdateOperationsInput | number
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    relatedServiceRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     customer?: UserUpdateOneRequiredWithoutInvoicesNestedInput
-    lineItems?: InvoiceLineItemUpdateManyWithoutInvoiceNestedInput
     payments?: PaymentUpdateManyWithoutInvoiceNestedInput
+    lineItems?: InvoiceLineItemUpdateManyWithoutInvoiceNestedInput
   }
 
   export type InvoiceUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    invoiceNumber?: StringFieldUpdateOperationsInput | string
-    customerId?: StringFieldUpdateOperationsInput | string
-    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    totalAmount?: FloatFieldUpdateOperationsInput | number
-    amountPaid?: FloatFieldUpdateOperationsInput | number
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    customerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    relatedServiceRequestId?: NullableStringFieldUpdateOperationsInput | string | null
-    lineItems?: InvoiceLineItemUncheckedUpdateManyWithoutInvoiceNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
+    lineItems?: InvoiceLineItemUncheckedUpdateManyWithoutInvoiceNestedInput
   }
 
   export type InvoiceCreateManyInput = {
     id?: string
-    invoiceNumber: string
-    customerId: string
-    issueDate?: Date | string
-    dueDate: Date | string
-    totalAmount: number
-    amountPaid?: number
     status?: $Enums.InvoiceStatus
-    notes?: string | null
+    dueDate: Date | string
+    customerId: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    relatedServiceRequestId?: string | null
   }
 
   export type InvoiceUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    invoiceNumber?: StringFieldUpdateOperationsInput | string
-    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    totalAmount?: FloatFieldUpdateOperationsInput | number
-    amountPaid?: FloatFieldUpdateOperationsInput | number
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    relatedServiceRequestId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type InvoiceUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    invoiceNumber?: StringFieldUpdateOperationsInput | string
-    customerId?: StringFieldUpdateOperationsInput | string
-    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    totalAmount?: FloatFieldUpdateOperationsInput | number
-    amountPaid?: FloatFieldUpdateOperationsInput | number
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    customerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    relatedServiceRequestId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type InvoiceLineItemCreateInput = {
@@ -33975,6 +33984,7 @@ export namespace Prisma {
     lastSeenAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    maintenanceWorkerId?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -33989,6 +33999,7 @@ export namespace Prisma {
     lastSeenAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    maintenanceWorkerId?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -34003,6 +34014,7 @@ export namespace Prisma {
     lastSeenAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    maintenanceWorkerId?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -34210,6 +34222,13 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type EnumInquiryStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.InquiryStatus | EnumInquiryStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InquiryStatus[] | ListEnumInquiryStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InquiryStatus[] | ListEnumInquiryStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumInquiryStatusFilter<$PrismaModel> | $Enums.InquiryStatus
+  }
+
   export type InquiryAttachmentListRelationFilter = {
     every?: InquiryAttachmentWhereInput
     some?: InquiryAttachmentWhereInput
@@ -34227,7 +34246,7 @@ export namespace Prisma {
     customerPhone?: SortOrder
     serviceNeeded?: SortOrder
     message?: SortOrder
-    isArchived?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     customerId?: SortOrder
@@ -34240,7 +34259,7 @@ export namespace Prisma {
     customerPhone?: SortOrder
     serviceNeeded?: SortOrder
     message?: SortOrder
-    isArchived?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     customerId?: SortOrder
@@ -34253,10 +34272,20 @@ export namespace Prisma {
     customerPhone?: SortOrder
     serviceNeeded?: SortOrder
     message?: SortOrder
-    isArchived?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     customerId?: SortOrder
+  }
+
+  export type EnumInquiryStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InquiryStatus | EnumInquiryStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InquiryStatus[] | ListEnumInquiryStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InquiryStatus[] | ListEnumInquiryStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumInquiryStatusWithAggregatesFilter<$PrismaModel> | $Enums.InquiryStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumInquiryStatusFilter<$PrismaModel>
+    _max?: NestedEnumInquiryStatusFilter<$PrismaModel>
   }
   export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -34406,6 +34435,11 @@ export namespace Prisma {
     none?: PhotoWhereInput
   }
 
+  export type InquiryNullableScalarRelationFilter = {
+    is?: InquiryWhereInput | null
+    isNot?: InquiryWhereInput | null
+  }
+
   export type PhotoOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -34420,6 +34454,7 @@ export namespace Prisma {
     submittedAt?: SortOrder
     updatedAt?: SortOrder
     customerId?: SortOrder
+    inquiryId?: SortOrder
   }
 
   export type PhotoSetMaxOrderByAggregateInput = {
@@ -34432,6 +34467,7 @@ export namespace Prisma {
     submittedAt?: SortOrder
     updatedAt?: SortOrder
     customerId?: SortOrder
+    inquiryId?: SortOrder
   }
 
   export type PhotoSetMinOrderByAggregateInput = {
@@ -34444,6 +34480,7 @@ export namespace Prisma {
     submittedAt?: SortOrder
     updatedAt?: SortOrder
     customerId?: SortOrder
+    inquiryId?: SortOrder
   }
 
   export type EnumApprovalStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -34549,8 +34586,10 @@ export namespace Prisma {
   export type MaintenanceWorkerCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    email?: SortOrder
     isActive?: SortOrder
     userId?: SortOrder
+    serviceFusionId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -34558,8 +34597,10 @@ export namespace Prisma {
   export type MaintenanceWorkerMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    email?: SortOrder
     isActive?: SortOrder
     userId?: SortOrder
+    serviceFusionId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -34567,8 +34608,10 @@ export namespace Prisma {
   export type MaintenanceWorkerMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    email?: SortOrder
     isActive?: SortOrder
     userId?: SortOrder
+    serviceFusionId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -34862,28 +34905,11 @@ export namespace Prisma {
     attachmentSize?: SortOrder
   }
 
-  export type FloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
-  }
-
   export type EnumInvoiceStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.InvoiceStatus | EnumInvoiceStatusFieldRefInput<$PrismaModel>
     in?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumInvoiceStatusFilter<$PrismaModel> | $Enums.InvoiceStatus
-  }
-
-  export type InvoiceLineItemListRelationFilter = {
-    every?: InvoiceLineItemWhereInput
-    some?: InvoiceLineItemWhereInput
-    none?: InvoiceLineItemWhereInput
   }
 
   export type PaymentListRelationFilter = {
@@ -34892,83 +34918,45 @@ export namespace Prisma {
     none?: PaymentWhereInput
   }
 
-  export type InvoiceLineItemOrderByRelationAggregateInput = {
-    _count?: SortOrder
+  export type InvoiceLineItemListRelationFilter = {
+    every?: InvoiceLineItemWhereInput
+    some?: InvoiceLineItemWhereInput
+    none?: InvoiceLineItemWhereInput
   }
 
   export type PaymentOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type InvoiceCountOrderByAggregateInput = {
-    id?: SortOrder
-    invoiceNumber?: SortOrder
-    customerId?: SortOrder
-    issueDate?: SortOrder
-    dueDate?: SortOrder
-    totalAmount?: SortOrder
-    amountPaid?: SortOrder
-    status?: SortOrder
-    notes?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    relatedServiceRequestId?: SortOrder
+  export type InvoiceLineItemOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
-  export type InvoiceAvgOrderByAggregateInput = {
-    totalAmount?: SortOrder
-    amountPaid?: SortOrder
+  export type InvoiceCountOrderByAggregateInput = {
+    id?: SortOrder
+    status?: SortOrder
+    dueDate?: SortOrder
+    customerId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type InvoiceMaxOrderByAggregateInput = {
     id?: SortOrder
-    invoiceNumber?: SortOrder
-    customerId?: SortOrder
-    issueDate?: SortOrder
-    dueDate?: SortOrder
-    totalAmount?: SortOrder
-    amountPaid?: SortOrder
     status?: SortOrder
-    notes?: SortOrder
+    dueDate?: SortOrder
+    customerId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    relatedServiceRequestId?: SortOrder
   }
 
   export type InvoiceMinOrderByAggregateInput = {
     id?: SortOrder
-    invoiceNumber?: SortOrder
-    customerId?: SortOrder
-    issueDate?: SortOrder
-    dueDate?: SortOrder
-    totalAmount?: SortOrder
-    amountPaid?: SortOrder
     status?: SortOrder
-    notes?: SortOrder
+    dueDate?: SortOrder
+    customerId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    relatedServiceRequestId?: SortOrder
-  }
-
-  export type InvoiceSumOrderByAggregateInput = {
-    totalAmount?: SortOrder
-    amountPaid?: SortOrder
-  }
-
-  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type EnumInvoiceStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -34979,6 +34967,17 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumInvoiceStatusFilter<$PrismaModel>
     _max?: NestedEnumInvoiceStatusFilter<$PrismaModel>
+  }
+
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
   }
 
   export type InvoiceScalarRelationFilter = {
@@ -35029,6 +35028,22 @@ export namespace Prisma {
     quantity?: SortOrder
     unitPrice?: SortOrder
     totalPrice?: SortOrder
+  }
+
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type PaymentCountOrderByAggregateInput = {
@@ -35962,11 +35977,29 @@ export namespace Prisma {
     connect?: InquiryAttachmentWhereUniqueInput | InquiryAttachmentWhereUniqueInput[]
   }
 
+  export type PhotoSetCreateNestedManyWithoutInquiryInput = {
+    create?: XOR<PhotoSetCreateWithoutInquiryInput, PhotoSetUncheckedCreateWithoutInquiryInput> | PhotoSetCreateWithoutInquiryInput[] | PhotoSetUncheckedCreateWithoutInquiryInput[]
+    connectOrCreate?: PhotoSetCreateOrConnectWithoutInquiryInput | PhotoSetCreateOrConnectWithoutInquiryInput[]
+    createMany?: PhotoSetCreateManyInquiryInputEnvelope
+    connect?: PhotoSetWhereUniqueInput | PhotoSetWhereUniqueInput[]
+  }
+
   export type InquiryAttachmentUncheckedCreateNestedManyWithoutInquiryInput = {
     create?: XOR<InquiryAttachmentCreateWithoutInquiryInput, InquiryAttachmentUncheckedCreateWithoutInquiryInput> | InquiryAttachmentCreateWithoutInquiryInput[] | InquiryAttachmentUncheckedCreateWithoutInquiryInput[]
     connectOrCreate?: InquiryAttachmentCreateOrConnectWithoutInquiryInput | InquiryAttachmentCreateOrConnectWithoutInquiryInput[]
     createMany?: InquiryAttachmentCreateManyInquiryInputEnvelope
     connect?: InquiryAttachmentWhereUniqueInput | InquiryAttachmentWhereUniqueInput[]
+  }
+
+  export type PhotoSetUncheckedCreateNestedManyWithoutInquiryInput = {
+    create?: XOR<PhotoSetCreateWithoutInquiryInput, PhotoSetUncheckedCreateWithoutInquiryInput> | PhotoSetCreateWithoutInquiryInput[] | PhotoSetUncheckedCreateWithoutInquiryInput[]
+    connectOrCreate?: PhotoSetCreateOrConnectWithoutInquiryInput | PhotoSetCreateOrConnectWithoutInquiryInput[]
+    createMany?: PhotoSetCreateManyInquiryInputEnvelope
+    connect?: PhotoSetWhereUniqueInput | PhotoSetWhereUniqueInput[]
+  }
+
+  export type EnumInquiryStatusFieldUpdateOperationsInput = {
+    set?: $Enums.InquiryStatus
   }
 
   export type UserUpdateOneWithoutCustomerInquiriesNestedInput = {
@@ -35993,6 +36026,20 @@ export namespace Prisma {
     deleteMany?: InquiryAttachmentScalarWhereInput | InquiryAttachmentScalarWhereInput[]
   }
 
+  export type PhotoSetUpdateManyWithoutInquiryNestedInput = {
+    create?: XOR<PhotoSetCreateWithoutInquiryInput, PhotoSetUncheckedCreateWithoutInquiryInput> | PhotoSetCreateWithoutInquiryInput[] | PhotoSetUncheckedCreateWithoutInquiryInput[]
+    connectOrCreate?: PhotoSetCreateOrConnectWithoutInquiryInput | PhotoSetCreateOrConnectWithoutInquiryInput[]
+    upsert?: PhotoSetUpsertWithWhereUniqueWithoutInquiryInput | PhotoSetUpsertWithWhereUniqueWithoutInquiryInput[]
+    createMany?: PhotoSetCreateManyInquiryInputEnvelope
+    set?: PhotoSetWhereUniqueInput | PhotoSetWhereUniqueInput[]
+    disconnect?: PhotoSetWhereUniqueInput | PhotoSetWhereUniqueInput[]
+    delete?: PhotoSetWhereUniqueInput | PhotoSetWhereUniqueInput[]
+    connect?: PhotoSetWhereUniqueInput | PhotoSetWhereUniqueInput[]
+    update?: PhotoSetUpdateWithWhereUniqueWithoutInquiryInput | PhotoSetUpdateWithWhereUniqueWithoutInquiryInput[]
+    updateMany?: PhotoSetUpdateManyWithWhereWithoutInquiryInput | PhotoSetUpdateManyWithWhereWithoutInquiryInput[]
+    deleteMany?: PhotoSetScalarWhereInput | PhotoSetScalarWhereInput[]
+  }
+
   export type InquiryAttachmentUncheckedUpdateManyWithoutInquiryNestedInput = {
     create?: XOR<InquiryAttachmentCreateWithoutInquiryInput, InquiryAttachmentUncheckedCreateWithoutInquiryInput> | InquiryAttachmentCreateWithoutInquiryInput[] | InquiryAttachmentUncheckedCreateWithoutInquiryInput[]
     connectOrCreate?: InquiryAttachmentCreateOrConnectWithoutInquiryInput | InquiryAttachmentCreateOrConnectWithoutInquiryInput[]
@@ -36005,6 +36052,20 @@ export namespace Prisma {
     update?: InquiryAttachmentUpdateWithWhereUniqueWithoutInquiryInput | InquiryAttachmentUpdateWithWhereUniqueWithoutInquiryInput[]
     updateMany?: InquiryAttachmentUpdateManyWithWhereWithoutInquiryInput | InquiryAttachmentUpdateManyWithWhereWithoutInquiryInput[]
     deleteMany?: InquiryAttachmentScalarWhereInput | InquiryAttachmentScalarWhereInput[]
+  }
+
+  export type PhotoSetUncheckedUpdateManyWithoutInquiryNestedInput = {
+    create?: XOR<PhotoSetCreateWithoutInquiryInput, PhotoSetUncheckedCreateWithoutInquiryInput> | PhotoSetCreateWithoutInquiryInput[] | PhotoSetUncheckedCreateWithoutInquiryInput[]
+    connectOrCreate?: PhotoSetCreateOrConnectWithoutInquiryInput | PhotoSetCreateOrConnectWithoutInquiryInput[]
+    upsert?: PhotoSetUpsertWithWhereUniqueWithoutInquiryInput | PhotoSetUpsertWithWhereUniqueWithoutInquiryInput[]
+    createMany?: PhotoSetCreateManyInquiryInputEnvelope
+    set?: PhotoSetWhereUniqueInput | PhotoSetWhereUniqueInput[]
+    disconnect?: PhotoSetWhereUniqueInput | PhotoSetWhereUniqueInput[]
+    delete?: PhotoSetWhereUniqueInput | PhotoSetWhereUniqueInput[]
+    connect?: PhotoSetWhereUniqueInput | PhotoSetWhereUniqueInput[]
+    update?: PhotoSetUpdateWithWhereUniqueWithoutInquiryInput | PhotoSetUpdateWithWhereUniqueWithoutInquiryInput[]
+    updateMany?: PhotoSetUpdateManyWithWhereWithoutInquiryInput | PhotoSetUpdateManyWithWhereWithoutInquiryInput[]
+    deleteMany?: PhotoSetScalarWhereInput | PhotoSetScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutUploadedImagesInput = {
@@ -36040,6 +36101,12 @@ export namespace Prisma {
     create?: XOR<UserCreateWithoutCustomerPhotoSetsInput, UserUncheckedCreateWithoutCustomerPhotoSetsInput>
     connectOrCreate?: UserCreateOrConnectWithoutCustomerPhotoSetsInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type InquiryCreateNestedOneWithoutPhotoSetsInput = {
+    create?: XOR<InquiryCreateWithoutPhotoSetsInput, InquiryUncheckedCreateWithoutPhotoSetsInput>
+    connectOrCreate?: InquiryCreateOrConnectWithoutPhotoSetsInput
+    connect?: InquiryWhereUniqueInput
   }
 
   export type PhotoUncheckedCreateNestedManyWithoutPhotoSetInput = {
@@ -36083,6 +36150,16 @@ export namespace Prisma {
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCustomerPhotoSetsInput, UserUpdateWithoutCustomerPhotoSetsInput>, UserUncheckedUpdateWithoutCustomerPhotoSetsInput>
+  }
+
+  export type InquiryUpdateOneWithoutPhotoSetsNestedInput = {
+    create?: XOR<InquiryCreateWithoutPhotoSetsInput, InquiryUncheckedCreateWithoutPhotoSetsInput>
+    connectOrCreate?: InquiryCreateOrConnectWithoutPhotoSetsInput
+    upsert?: InquiryUpsertWithoutPhotoSetsInput
+    disconnect?: InquiryWhereInput | boolean
+    delete?: InquiryWhereInput | boolean
+    connect?: InquiryWhereUniqueInput
+    update?: XOR<XOR<InquiryUpdateToOneWithWhereWithoutPhotoSetsInput, InquiryUpdateWithoutPhotoSetsInput>, InquiryUncheckedUpdateWithoutPhotoSetsInput>
   }
 
   export type PhotoUncheckedUpdateManyWithoutPhotoSetNestedInput = {
@@ -36132,9 +36209,9 @@ export namespace Prisma {
     connect?: PhotoSetWhereUniqueInput | PhotoSetWhereUniqueInput[]
   }
 
-  export type UserCreateNestedOneWithoutMaintenanceWorkerInput = {
-    create?: XOR<UserCreateWithoutMaintenanceWorkerInput, UserUncheckedCreateWithoutMaintenanceWorkerInput>
-    connectOrCreate?: UserCreateOrConnectWithoutMaintenanceWorkerInput
+  export type UserCreateNestedOneWithoutWorkerInput = {
+    create?: XOR<UserCreateWithoutWorkerInput, UserUncheckedCreateWithoutWorkerInput>
+    connectOrCreate?: UserCreateOrConnectWithoutWorkerInput
     connect?: UserWhereUniqueInput
   }
 
@@ -36159,14 +36236,14 @@ export namespace Prisma {
     deleteMany?: PhotoSetScalarWhereInput | PhotoSetScalarWhereInput[]
   }
 
-  export type UserUpdateOneWithoutMaintenanceWorkerNestedInput = {
-    create?: XOR<UserCreateWithoutMaintenanceWorkerInput, UserUncheckedCreateWithoutMaintenanceWorkerInput>
-    connectOrCreate?: UserCreateOrConnectWithoutMaintenanceWorkerInput
-    upsert?: UserUpsertWithoutMaintenanceWorkerInput
+  export type UserUpdateOneWithoutWorkerNestedInput = {
+    create?: XOR<UserCreateWithoutWorkerInput, UserUncheckedCreateWithoutWorkerInput>
+    connectOrCreate?: UserCreateOrConnectWithoutWorkerInput
+    upsert?: UserUpsertWithoutWorkerInput
     disconnect?: UserWhereInput | boolean
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMaintenanceWorkerInput, UserUpdateWithoutMaintenanceWorkerInput>, UserUncheckedUpdateWithoutMaintenanceWorkerInput>
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutWorkerInput, UserUpdateWithoutWorkerInput>, UserUncheckedUpdateWithoutWorkerInput>
   }
 
   export type PhotoSetUncheckedUpdateManyWithoutMaintenanceWorkerNestedInput = {
@@ -36427,13 +36504,6 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type InvoiceLineItemCreateNestedManyWithoutInvoiceInput = {
-    create?: XOR<InvoiceLineItemCreateWithoutInvoiceInput, InvoiceLineItemUncheckedCreateWithoutInvoiceInput> | InvoiceLineItemCreateWithoutInvoiceInput[] | InvoiceLineItemUncheckedCreateWithoutInvoiceInput[]
-    connectOrCreate?: InvoiceLineItemCreateOrConnectWithoutInvoiceInput | InvoiceLineItemCreateOrConnectWithoutInvoiceInput[]
-    createMany?: InvoiceLineItemCreateManyInvoiceInputEnvelope
-    connect?: InvoiceLineItemWhereUniqueInput | InvoiceLineItemWhereUniqueInput[]
-  }
-
   export type PaymentCreateNestedManyWithoutInvoiceInput = {
     create?: XOR<PaymentCreateWithoutInvoiceInput, PaymentUncheckedCreateWithoutInvoiceInput> | PaymentCreateWithoutInvoiceInput[] | PaymentUncheckedCreateWithoutInvoiceInput[]
     connectOrCreate?: PaymentCreateOrConnectWithoutInvoiceInput | PaymentCreateOrConnectWithoutInvoiceInput[]
@@ -36441,7 +36511,7 @@ export namespace Prisma {
     connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
   }
 
-  export type InvoiceLineItemUncheckedCreateNestedManyWithoutInvoiceInput = {
+  export type InvoiceLineItemCreateNestedManyWithoutInvoiceInput = {
     create?: XOR<InvoiceLineItemCreateWithoutInvoiceInput, InvoiceLineItemUncheckedCreateWithoutInvoiceInput> | InvoiceLineItemCreateWithoutInvoiceInput[] | InvoiceLineItemUncheckedCreateWithoutInvoiceInput[]
     connectOrCreate?: InvoiceLineItemCreateOrConnectWithoutInvoiceInput | InvoiceLineItemCreateOrConnectWithoutInvoiceInput[]
     createMany?: InvoiceLineItemCreateManyInvoiceInputEnvelope
@@ -36455,12 +36525,11 @@ export namespace Prisma {
     connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
   }
 
-  export type FloatFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
+  export type InvoiceLineItemUncheckedCreateNestedManyWithoutInvoiceInput = {
+    create?: XOR<InvoiceLineItemCreateWithoutInvoiceInput, InvoiceLineItemUncheckedCreateWithoutInvoiceInput> | InvoiceLineItemCreateWithoutInvoiceInput[] | InvoiceLineItemUncheckedCreateWithoutInvoiceInput[]
+    connectOrCreate?: InvoiceLineItemCreateOrConnectWithoutInvoiceInput | InvoiceLineItemCreateOrConnectWithoutInvoiceInput[]
+    createMany?: InvoiceLineItemCreateManyInvoiceInputEnvelope
+    connect?: InvoiceLineItemWhereUniqueInput | InvoiceLineItemWhereUniqueInput[]
   }
 
   export type EnumInvoiceStatusFieldUpdateOperationsInput = {
@@ -36473,20 +36542,6 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutInvoicesInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutInvoicesInput, UserUpdateWithoutInvoicesInput>, UserUncheckedUpdateWithoutInvoicesInput>
-  }
-
-  export type InvoiceLineItemUpdateManyWithoutInvoiceNestedInput = {
-    create?: XOR<InvoiceLineItemCreateWithoutInvoiceInput, InvoiceLineItemUncheckedCreateWithoutInvoiceInput> | InvoiceLineItemCreateWithoutInvoiceInput[] | InvoiceLineItemUncheckedCreateWithoutInvoiceInput[]
-    connectOrCreate?: InvoiceLineItemCreateOrConnectWithoutInvoiceInput | InvoiceLineItemCreateOrConnectWithoutInvoiceInput[]
-    upsert?: InvoiceLineItemUpsertWithWhereUniqueWithoutInvoiceInput | InvoiceLineItemUpsertWithWhereUniqueWithoutInvoiceInput[]
-    createMany?: InvoiceLineItemCreateManyInvoiceInputEnvelope
-    set?: InvoiceLineItemWhereUniqueInput | InvoiceLineItemWhereUniqueInput[]
-    disconnect?: InvoiceLineItemWhereUniqueInput | InvoiceLineItemWhereUniqueInput[]
-    delete?: InvoiceLineItemWhereUniqueInput | InvoiceLineItemWhereUniqueInput[]
-    connect?: InvoiceLineItemWhereUniqueInput | InvoiceLineItemWhereUniqueInput[]
-    update?: InvoiceLineItemUpdateWithWhereUniqueWithoutInvoiceInput | InvoiceLineItemUpdateWithWhereUniqueWithoutInvoiceInput[]
-    updateMany?: InvoiceLineItemUpdateManyWithWhereWithoutInvoiceInput | InvoiceLineItemUpdateManyWithWhereWithoutInvoiceInput[]
-    deleteMany?: InvoiceLineItemScalarWhereInput | InvoiceLineItemScalarWhereInput[]
   }
 
   export type PaymentUpdateManyWithoutInvoiceNestedInput = {
@@ -36503,7 +36558,7 @@ export namespace Prisma {
     deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
   }
 
-  export type InvoiceLineItemUncheckedUpdateManyWithoutInvoiceNestedInput = {
+  export type InvoiceLineItemUpdateManyWithoutInvoiceNestedInput = {
     create?: XOR<InvoiceLineItemCreateWithoutInvoiceInput, InvoiceLineItemUncheckedCreateWithoutInvoiceInput> | InvoiceLineItemCreateWithoutInvoiceInput[] | InvoiceLineItemUncheckedCreateWithoutInvoiceInput[]
     connectOrCreate?: InvoiceLineItemCreateOrConnectWithoutInvoiceInput | InvoiceLineItemCreateOrConnectWithoutInvoiceInput[]
     upsert?: InvoiceLineItemUpsertWithWhereUniqueWithoutInvoiceInput | InvoiceLineItemUpsertWithWhereUniqueWithoutInvoiceInput[]
@@ -36531,10 +36586,32 @@ export namespace Prisma {
     deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
   }
 
+  export type InvoiceLineItemUncheckedUpdateManyWithoutInvoiceNestedInput = {
+    create?: XOR<InvoiceLineItemCreateWithoutInvoiceInput, InvoiceLineItemUncheckedCreateWithoutInvoiceInput> | InvoiceLineItemCreateWithoutInvoiceInput[] | InvoiceLineItemUncheckedCreateWithoutInvoiceInput[]
+    connectOrCreate?: InvoiceLineItemCreateOrConnectWithoutInvoiceInput | InvoiceLineItemCreateOrConnectWithoutInvoiceInput[]
+    upsert?: InvoiceLineItemUpsertWithWhereUniqueWithoutInvoiceInput | InvoiceLineItemUpsertWithWhereUniqueWithoutInvoiceInput[]
+    createMany?: InvoiceLineItemCreateManyInvoiceInputEnvelope
+    set?: InvoiceLineItemWhereUniqueInput | InvoiceLineItemWhereUniqueInput[]
+    disconnect?: InvoiceLineItemWhereUniqueInput | InvoiceLineItemWhereUniqueInput[]
+    delete?: InvoiceLineItemWhereUniqueInput | InvoiceLineItemWhereUniqueInput[]
+    connect?: InvoiceLineItemWhereUniqueInput | InvoiceLineItemWhereUniqueInput[]
+    update?: InvoiceLineItemUpdateWithWhereUniqueWithoutInvoiceInput | InvoiceLineItemUpdateWithWhereUniqueWithoutInvoiceInput[]
+    updateMany?: InvoiceLineItemUpdateManyWithWhereWithoutInvoiceInput | InvoiceLineItemUpdateManyWithWhereWithoutInvoiceInput[]
+    deleteMany?: InvoiceLineItemScalarWhereInput | InvoiceLineItemScalarWhereInput[]
+  }
+
   export type InvoiceCreateNestedOneWithoutLineItemsInput = {
     create?: XOR<InvoiceCreateWithoutLineItemsInput, InvoiceUncheckedCreateWithoutLineItemsInput>
     connectOrCreate?: InvoiceCreateOrConnectWithoutLineItemsInput
     connect?: InvoiceWhereUniqueInput
+  }
+
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type InvoiceUpdateOneRequiredWithoutLineItemsNestedInput = {
@@ -36772,6 +36849,23 @@ export namespace Prisma {
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
   }
+
+  export type NestedEnumInquiryStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.InquiryStatus | EnumInquiryStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InquiryStatus[] | ListEnumInquiryStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InquiryStatus[] | ListEnumInquiryStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumInquiryStatusFilter<$PrismaModel> | $Enums.InquiryStatus
+  }
+
+  export type NestedEnumInquiryStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InquiryStatus | EnumInquiryStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InquiryStatus[] | ListEnumInquiryStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InquiryStatus[] | ListEnumInquiryStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumInquiryStatusWithAggregatesFilter<$PrismaModel> | $Enums.InquiryStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumInquiryStatusFilter<$PrismaModel>
+    _max?: NestedEnumInquiryStatusFilter<$PrismaModel>
+  }
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -36857,6 +36951,23 @@ export namespace Prisma {
     _max?: NestedEnumPhotoTypeFilter<$PrismaModel>
   }
 
+  export type NestedEnumInvoiceStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.InvoiceStatus | EnumInvoiceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumInvoiceStatusFilter<$PrismaModel> | $Enums.InvoiceStatus
+  }
+
+  export type NestedEnumInvoiceStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InvoiceStatus | EnumInvoiceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumInvoiceStatusWithAggregatesFilter<$PrismaModel> | $Enums.InvoiceStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumInvoiceStatusFilter<$PrismaModel>
+    _max?: NestedEnumInvoiceStatusFilter<$PrismaModel>
+  }
+
   export type NestedFloatFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -36866,13 +36977,6 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
-  }
-
-  export type NestedEnumInvoiceStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.InvoiceStatus | EnumInvoiceStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumInvoiceStatusFilter<$PrismaModel> | $Enums.InvoiceStatus
   }
 
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
@@ -36889,16 +36993,6 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
-  }
-
-  export type NestedEnumInvoiceStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.InvoiceStatus | EnumInvoiceStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumInvoiceStatusWithAggregatesFilter<$PrismaModel> | $Enums.InvoiceStatus
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumInvoiceStatusFilter<$PrismaModel>
-    _max?: NestedEnumInvoiceStatusFilter<$PrismaModel>
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -37116,10 +37210,11 @@ export namespace Prisma {
     customerPhone?: string | null
     serviceNeeded?: string | null
     message: string
-    isArchived?: boolean
+    status?: $Enums.InquiryStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     attachments?: InquiryAttachmentCreateNestedManyWithoutInquiryInput
+    photoSets?: PhotoSetCreateNestedManyWithoutInquiryInput
   }
 
   export type InquiryUncheckedCreateWithoutCustomerInput = {
@@ -37129,10 +37224,11 @@ export namespace Prisma {
     customerPhone?: string | null
     serviceNeeded?: string | null
     message: string
-    isArchived?: boolean
+    status?: $Enums.InquiryStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     attachments?: InquiryAttachmentUncheckedCreateNestedManyWithoutInquiryInput
+    photoSets?: PhotoSetUncheckedCreateNestedManyWithoutInquiryInput
   }
 
   export type InquiryCreateOrConnectWithoutCustomerInput = {
@@ -37155,6 +37251,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     maintenanceWorker: MaintenanceWorkerCreateNestedOneWithoutPhotoSetsInput
     photos?: PhotoCreateNestedManyWithoutPhotoSetInput
+    inquiry?: InquiryCreateNestedOneWithoutPhotoSetsInput
   }
 
   export type PhotoSetUncheckedCreateWithoutCustomerInput = {
@@ -37166,6 +37263,7 @@ export namespace Prisma {
     status?: $Enums.ApprovalStatus
     submittedAt?: Date | string
     updatedAt?: Date | string
+    inquiryId?: string | null
     photos?: PhotoUncheckedCreateNestedManyWithoutPhotoSetInput
   }
 
@@ -37182,7 +37280,9 @@ export namespace Prisma {
   export type MaintenanceWorkerCreateWithoutUserInput = {
     id?: string
     name: string
+    email?: string | null
     isActive?: boolean
+    serviceFusionId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     photoSets?: PhotoSetCreateNestedManyWithoutMaintenanceWorkerInput
@@ -37191,7 +37291,9 @@ export namespace Prisma {
   export type MaintenanceWorkerUncheckedCreateWithoutUserInput = {
     id?: string
     name: string
+    email?: string | null
     isActive?: boolean
+    serviceFusionId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     photoSets?: PhotoSetUncheckedCreateNestedManyWithoutMaintenanceWorkerInput
@@ -37388,34 +37490,22 @@ export namespace Prisma {
 
   export type InvoiceCreateWithoutCustomerInput = {
     id?: string
-    invoiceNumber: string
-    issueDate?: Date | string
-    dueDate: Date | string
-    totalAmount: number
-    amountPaid?: number
     status?: $Enums.InvoiceStatus
-    notes?: string | null
+    dueDate: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
-    relatedServiceRequestId?: string | null
-    lineItems?: InvoiceLineItemCreateNestedManyWithoutInvoiceInput
     payments?: PaymentCreateNestedManyWithoutInvoiceInput
+    lineItems?: InvoiceLineItemCreateNestedManyWithoutInvoiceInput
   }
 
   export type InvoiceUncheckedCreateWithoutCustomerInput = {
     id?: string
-    invoiceNumber: string
-    issueDate?: Date | string
-    dueDate: Date | string
-    totalAmount: number
-    amountPaid?: number
     status?: $Enums.InvoiceStatus
-    notes?: string | null
+    dueDate: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
-    relatedServiceRequestId?: string | null
-    lineItems?: InvoiceLineItemUncheckedCreateNestedManyWithoutInvoiceInput
     payments?: PaymentUncheckedCreateNestedManyWithoutInvoiceInput
+    lineItems?: InvoiceLineItemUncheckedCreateNestedManyWithoutInvoiceInput
   }
 
   export type InvoiceCreateOrConnectWithoutCustomerInput = {
@@ -37661,7 +37751,7 @@ export namespace Prisma {
     customerPhone?: StringNullableFilter<"Inquiry"> | string | null
     serviceNeeded?: StringNullableFilter<"Inquiry"> | string | null
     message?: StringFilter<"Inquiry"> | string
-    isArchived?: BoolFilter<"Inquiry"> | boolean
+    status?: EnumInquiryStatusFilter<"Inquiry"> | $Enums.InquiryStatus
     createdAt?: DateTimeFilter<"Inquiry"> | Date | string
     updatedAt?: DateTimeFilter<"Inquiry"> | Date | string
     customerId?: StringNullableFilter<"Inquiry"> | string | null
@@ -37696,6 +37786,7 @@ export namespace Prisma {
     submittedAt?: DateTimeFilter<"PhotoSet"> | Date | string
     updatedAt?: DateTimeFilter<"PhotoSet"> | Date | string
     customerId?: StringNullableFilter<"PhotoSet"> | string | null
+    inquiryId?: StringNullableFilter<"PhotoSet"> | string | null
   }
 
   export type MaintenanceWorkerUpsertWithoutUserInput = {
@@ -37712,7 +37803,9 @@ export namespace Prisma {
   export type MaintenanceWorkerUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    serviceFusionId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     photoSets?: PhotoSetUpdateManyWithoutMaintenanceWorkerNestedInput
@@ -37721,7 +37814,9 @@ export namespace Prisma {
   export type MaintenanceWorkerUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    serviceFusionId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     photoSets?: PhotoSetUncheckedUpdateManyWithoutMaintenanceWorkerNestedInput
@@ -37890,17 +37985,11 @@ export namespace Prisma {
     OR?: InvoiceScalarWhereInput[]
     NOT?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
     id?: StringFilter<"Invoice"> | string
-    invoiceNumber?: StringFilter<"Invoice"> | string
-    customerId?: StringFilter<"Invoice"> | string
-    issueDate?: DateTimeFilter<"Invoice"> | Date | string
-    dueDate?: DateTimeFilter<"Invoice"> | Date | string
-    totalAmount?: FloatFilter<"Invoice"> | number
-    amountPaid?: FloatFilter<"Invoice"> | number
     status?: EnumInvoiceStatusFilter<"Invoice"> | $Enums.InvoiceStatus
-    notes?: StringNullableFilter<"Invoice"> | string | null
+    dueDate?: DateTimeFilter<"Invoice"> | Date | string
+    customerId?: StringFilter<"Invoice"> | string
     createdAt?: DateTimeFilter<"Invoice"> | Date | string
     updatedAt?: DateTimeFilter<"Invoice"> | Date | string
-    relatedServiceRequestId?: StringNullableFilter<"Invoice"> | string | null
   }
 
   export type ChatParticipantInfoUpsertWithWhereUniqueWithoutUserInput = {
@@ -37979,6 +38068,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     emailVerificationRequests?: EmailVerificationRequestCreateNestedManyWithoutUserInput
@@ -37986,7 +38076,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemCreateNestedManyWithoutUploadedByInput
     customerInquiries?: InquiryCreateNestedManyWithoutCustomerInput
     customerPhotoSets?: PhotoSetCreateNestedManyWithoutCustomerInput
-    maintenanceWorker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
+    worker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
     appearanceSetting?: AppearanceSettingsCreateNestedOneWithoutAdminInput
     createdConversations?: ChatConversationCreateNestedManyWithoutParticipantsInput
     sentMessages?: ChatMessageCreateNestedManyWithoutSenderInput
@@ -38008,6 +38098,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     emailVerificationRequests?: EmailVerificationRequestUncheckedCreateNestedManyWithoutUserInput
@@ -38015,7 +38106,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUncheckedCreateNestedManyWithoutUploadedByInput
     customerInquiries?: InquiryUncheckedCreateNestedManyWithoutCustomerInput
     customerPhotoSets?: PhotoSetUncheckedCreateNestedManyWithoutCustomerInput
-    maintenanceWorker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
+    worker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
     appearanceSetting?: AppearanceSettingsUncheckedCreateNestedOneWithoutAdminInput
     createdConversations?: ChatConversationUncheckedCreateNestedManyWithoutParticipantsInput
     sentMessages?: ChatMessageUncheckedCreateNestedManyWithoutSenderInput
@@ -38069,6 +38160,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     emailVerificationRequests?: EmailVerificationRequestUpdateManyWithoutUserNestedInput
@@ -38076,7 +38168,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUpdateManyWithoutUploadedByNestedInput
     customerInquiries?: InquiryUpdateManyWithoutCustomerNestedInput
     customerPhotoSets?: PhotoSetUpdateManyWithoutCustomerNestedInput
-    maintenanceWorker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
+    worker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
     appearanceSetting?: AppearanceSettingsUpdateOneWithoutAdminNestedInput
     createdConversations?: ChatConversationUpdateManyWithoutParticipantsNestedInput
     sentMessages?: ChatMessageUpdateManyWithoutSenderNestedInput
@@ -38098,6 +38190,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationRequests?: EmailVerificationRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -38105,7 +38198,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUncheckedUpdateManyWithoutUploadedByNestedInput
     customerInquiries?: InquiryUncheckedUpdateManyWithoutCustomerNestedInput
     customerPhotoSets?: PhotoSetUncheckedUpdateManyWithoutCustomerNestedInput
-    maintenanceWorker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
+    worker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
     appearanceSetting?: AppearanceSettingsUncheckedUpdateOneWithoutAdminNestedInput
     createdConversations?: ChatConversationUncheckedUpdateManyWithoutParticipantsNestedInput
     sentMessages?: ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
@@ -38154,6 +38247,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     emailVerificationRequests?: EmailVerificationRequestCreateNestedManyWithoutUserInput
@@ -38161,7 +38255,7 @@ export namespace Prisma {
     uploadedImages?: ImageCreateNestedManyWithoutUploaderInput
     customerInquiries?: InquiryCreateNestedManyWithoutCustomerInput
     customerPhotoSets?: PhotoSetCreateNestedManyWithoutCustomerInput
-    maintenanceWorker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
+    worker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
     appearanceSetting?: AppearanceSettingsCreateNestedOneWithoutAdminInput
     createdConversations?: ChatConversationCreateNestedManyWithoutParticipantsInput
     sentMessages?: ChatMessageCreateNestedManyWithoutSenderInput
@@ -38183,6 +38277,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     emailVerificationRequests?: EmailVerificationRequestUncheckedCreateNestedManyWithoutUserInput
@@ -38190,7 +38285,7 @@ export namespace Prisma {
     uploadedImages?: ImageUncheckedCreateNestedManyWithoutUploaderInput
     customerInquiries?: InquiryUncheckedCreateNestedManyWithoutCustomerInput
     customerPhotoSets?: PhotoSetUncheckedCreateNestedManyWithoutCustomerInput
-    maintenanceWorker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
+    worker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
     appearanceSetting?: AppearanceSettingsUncheckedCreateNestedOneWithoutAdminInput
     createdConversations?: ChatConversationUncheckedCreateNestedManyWithoutParticipantsInput
     sentMessages?: ChatMessageUncheckedCreateNestedManyWithoutSenderInput
@@ -38261,6 +38356,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     emailVerificationRequests?: EmailVerificationRequestUpdateManyWithoutUserNestedInput
@@ -38268,7 +38364,7 @@ export namespace Prisma {
     uploadedImages?: ImageUpdateManyWithoutUploaderNestedInput
     customerInquiries?: InquiryUpdateManyWithoutCustomerNestedInput
     customerPhotoSets?: PhotoSetUpdateManyWithoutCustomerNestedInput
-    maintenanceWorker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
+    worker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
     appearanceSetting?: AppearanceSettingsUpdateOneWithoutAdminNestedInput
     createdConversations?: ChatConversationUpdateManyWithoutParticipantsNestedInput
     sentMessages?: ChatMessageUpdateManyWithoutSenderNestedInput
@@ -38290,6 +38386,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationRequests?: EmailVerificationRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -38297,7 +38394,7 @@ export namespace Prisma {
     uploadedImages?: ImageUncheckedUpdateManyWithoutUploaderNestedInput
     customerInquiries?: InquiryUncheckedUpdateManyWithoutCustomerNestedInput
     customerPhotoSets?: PhotoSetUncheckedUpdateManyWithoutCustomerNestedInput
-    maintenanceWorker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
+    worker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
     appearanceSetting?: AppearanceSettingsUncheckedUpdateOneWithoutAdminNestedInput
     createdConversations?: ChatConversationUncheckedUpdateManyWithoutParticipantsNestedInput
     sentMessages?: ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
@@ -38319,6 +38416,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     emailVerificationRequests?: EmailVerificationRequestCreateNestedManyWithoutUserInput
@@ -38326,7 +38424,7 @@ export namespace Prisma {
     uploadedImages?: ImageCreateNestedManyWithoutUploaderInput
     uploadedPortfolioItems?: PortfolioItemCreateNestedManyWithoutUploadedByInput
     customerPhotoSets?: PhotoSetCreateNestedManyWithoutCustomerInput
-    maintenanceWorker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
+    worker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
     appearanceSetting?: AppearanceSettingsCreateNestedOneWithoutAdminInput
     createdConversations?: ChatConversationCreateNestedManyWithoutParticipantsInput
     sentMessages?: ChatMessageCreateNestedManyWithoutSenderInput
@@ -38348,6 +38446,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     emailVerificationRequests?: EmailVerificationRequestUncheckedCreateNestedManyWithoutUserInput
@@ -38355,7 +38454,7 @@ export namespace Prisma {
     uploadedImages?: ImageUncheckedCreateNestedManyWithoutUploaderInput
     uploadedPortfolioItems?: PortfolioItemUncheckedCreateNestedManyWithoutUploadedByInput
     customerPhotoSets?: PhotoSetUncheckedCreateNestedManyWithoutCustomerInput
-    maintenanceWorker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
+    worker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
     appearanceSetting?: AppearanceSettingsUncheckedCreateNestedOneWithoutAdminInput
     createdConversations?: ChatConversationUncheckedCreateNestedManyWithoutParticipantsInput
     sentMessages?: ChatMessageUncheckedCreateNestedManyWithoutSenderInput
@@ -38398,6 +38497,42 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PhotoSetCreateWithoutInquiryInput = {
+    id?: string
+    title?: string | null
+    serviceCategory: string
+    description?: string | null
+    status?: $Enums.ApprovalStatus
+    submittedAt?: Date | string
+    updatedAt?: Date | string
+    maintenanceWorker: MaintenanceWorkerCreateNestedOneWithoutPhotoSetsInput
+    photos?: PhotoCreateNestedManyWithoutPhotoSetInput
+    customer?: UserCreateNestedOneWithoutCustomerPhotoSetsInput
+  }
+
+  export type PhotoSetUncheckedCreateWithoutInquiryInput = {
+    id?: string
+    title?: string | null
+    maintenanceWorkerId: string
+    serviceCategory: string
+    description?: string | null
+    status?: $Enums.ApprovalStatus
+    submittedAt?: Date | string
+    updatedAt?: Date | string
+    customerId?: string | null
+    photos?: PhotoUncheckedCreateNestedManyWithoutPhotoSetInput
+  }
+
+  export type PhotoSetCreateOrConnectWithoutInquiryInput = {
+    where: PhotoSetWhereUniqueInput
+    create: XOR<PhotoSetCreateWithoutInquiryInput, PhotoSetUncheckedCreateWithoutInquiryInput>
+  }
+
+  export type PhotoSetCreateManyInquiryInputEnvelope = {
+    data: PhotoSetCreateManyInquiryInput | PhotoSetCreateManyInquiryInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutCustomerInquiriesInput = {
     update: XOR<UserUpdateWithoutCustomerInquiriesInput, UserUncheckedUpdateWithoutCustomerInquiriesInput>
     create: XOR<UserCreateWithoutCustomerInquiriesInput, UserUncheckedCreateWithoutCustomerInquiriesInput>
@@ -38421,6 +38556,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     emailVerificationRequests?: EmailVerificationRequestUpdateManyWithoutUserNestedInput
@@ -38428,7 +38564,7 @@ export namespace Prisma {
     uploadedImages?: ImageUpdateManyWithoutUploaderNestedInput
     uploadedPortfolioItems?: PortfolioItemUpdateManyWithoutUploadedByNestedInput
     customerPhotoSets?: PhotoSetUpdateManyWithoutCustomerNestedInput
-    maintenanceWorker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
+    worker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
     appearanceSetting?: AppearanceSettingsUpdateOneWithoutAdminNestedInput
     createdConversations?: ChatConversationUpdateManyWithoutParticipantsNestedInput
     sentMessages?: ChatMessageUpdateManyWithoutSenderNestedInput
@@ -38450,6 +38586,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationRequests?: EmailVerificationRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -38457,7 +38594,7 @@ export namespace Prisma {
     uploadedImages?: ImageUncheckedUpdateManyWithoutUploaderNestedInput
     uploadedPortfolioItems?: PortfolioItemUncheckedUpdateManyWithoutUploadedByNestedInput
     customerPhotoSets?: PhotoSetUncheckedUpdateManyWithoutCustomerNestedInput
-    maintenanceWorker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
+    worker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
     appearanceSetting?: AppearanceSettingsUncheckedUpdateOneWithoutAdminNestedInput
     createdConversations?: ChatConversationUncheckedUpdateManyWithoutParticipantsNestedInput
     sentMessages?: ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
@@ -38496,6 +38633,22 @@ export namespace Prisma {
     uploadedAt?: DateTimeFilter<"InquiryAttachment"> | Date | string
   }
 
+  export type PhotoSetUpsertWithWhereUniqueWithoutInquiryInput = {
+    where: PhotoSetWhereUniqueInput
+    update: XOR<PhotoSetUpdateWithoutInquiryInput, PhotoSetUncheckedUpdateWithoutInquiryInput>
+    create: XOR<PhotoSetCreateWithoutInquiryInput, PhotoSetUncheckedCreateWithoutInquiryInput>
+  }
+
+  export type PhotoSetUpdateWithWhereUniqueWithoutInquiryInput = {
+    where: PhotoSetWhereUniqueInput
+    data: XOR<PhotoSetUpdateWithoutInquiryInput, PhotoSetUncheckedUpdateWithoutInquiryInput>
+  }
+
+  export type PhotoSetUpdateManyWithWhereWithoutInquiryInput = {
+    where: PhotoSetScalarWhereInput
+    data: XOR<PhotoSetUpdateManyMutationInput, PhotoSetUncheckedUpdateManyWithoutInquiryInput>
+  }
+
   export type UserCreateWithoutUploadedImagesInput = {
     id?: string
     name?: string | null
@@ -38508,6 +38661,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     emailVerificationRequests?: EmailVerificationRequestCreateNestedManyWithoutUserInput
@@ -38515,7 +38669,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemCreateNestedManyWithoutUploadedByInput
     customerInquiries?: InquiryCreateNestedManyWithoutCustomerInput
     customerPhotoSets?: PhotoSetCreateNestedManyWithoutCustomerInput
-    maintenanceWorker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
+    worker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
     appearanceSetting?: AppearanceSettingsCreateNestedOneWithoutAdminInput
     createdConversations?: ChatConversationCreateNestedManyWithoutParticipantsInput
     sentMessages?: ChatMessageCreateNestedManyWithoutSenderInput
@@ -38537,6 +38691,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     emailVerificationRequests?: EmailVerificationRequestUncheckedCreateNestedManyWithoutUserInput
@@ -38544,7 +38699,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUncheckedCreateNestedManyWithoutUploadedByInput
     customerInquiries?: InquiryUncheckedCreateNestedManyWithoutCustomerInput
     customerPhotoSets?: PhotoSetUncheckedCreateNestedManyWithoutCustomerInput
-    maintenanceWorker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
+    worker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
     appearanceSetting?: AppearanceSettingsUncheckedCreateNestedOneWithoutAdminInput
     createdConversations?: ChatConversationUncheckedCreateNestedManyWithoutParticipantsInput
     sentMessages?: ChatMessageUncheckedCreateNestedManyWithoutSenderInput
@@ -38582,6 +38737,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     emailVerificationRequests?: EmailVerificationRequestUpdateManyWithoutUserNestedInput
@@ -38589,7 +38745,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUpdateManyWithoutUploadedByNestedInput
     customerInquiries?: InquiryUpdateManyWithoutCustomerNestedInput
     customerPhotoSets?: PhotoSetUpdateManyWithoutCustomerNestedInput
-    maintenanceWorker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
+    worker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
     appearanceSetting?: AppearanceSettingsUpdateOneWithoutAdminNestedInput
     createdConversations?: ChatConversationUpdateManyWithoutParticipantsNestedInput
     sentMessages?: ChatMessageUpdateManyWithoutSenderNestedInput
@@ -38611,6 +38767,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationRequests?: EmailVerificationRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -38618,7 +38775,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUncheckedUpdateManyWithoutUploadedByNestedInput
     customerInquiries?: InquiryUncheckedUpdateManyWithoutCustomerNestedInput
     customerPhotoSets?: PhotoSetUncheckedUpdateManyWithoutCustomerNestedInput
-    maintenanceWorker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
+    worker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
     appearanceSetting?: AppearanceSettingsUncheckedUpdateOneWithoutAdminNestedInput
     createdConversations?: ChatConversationUncheckedUpdateManyWithoutParticipantsNestedInput
     sentMessages?: ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
@@ -38631,17 +38788,21 @@ export namespace Prisma {
   export type MaintenanceWorkerCreateWithoutPhotoSetsInput = {
     id?: string
     name: string
+    email?: string | null
     isActive?: boolean
+    serviceFusionId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    user?: UserCreateNestedOneWithoutMaintenanceWorkerInput
+    user?: UserCreateNestedOneWithoutWorkerInput
   }
 
   export type MaintenanceWorkerUncheckedCreateWithoutPhotoSetsInput = {
     id?: string
     name: string
+    email?: string | null
     isActive?: boolean
     userId?: string | null
+    serviceFusionId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -38693,6 +38854,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     emailVerificationRequests?: EmailVerificationRequestCreateNestedManyWithoutUserInput
@@ -38700,7 +38862,7 @@ export namespace Prisma {
     uploadedImages?: ImageCreateNestedManyWithoutUploaderInput
     uploadedPortfolioItems?: PortfolioItemCreateNestedManyWithoutUploadedByInput
     customerInquiries?: InquiryCreateNestedManyWithoutCustomerInput
-    maintenanceWorker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
+    worker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
     appearanceSetting?: AppearanceSettingsCreateNestedOneWithoutAdminInput
     createdConversations?: ChatConversationCreateNestedManyWithoutParticipantsInput
     sentMessages?: ChatMessageCreateNestedManyWithoutSenderInput
@@ -38722,6 +38884,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     emailVerificationRequests?: EmailVerificationRequestUncheckedCreateNestedManyWithoutUserInput
@@ -38729,7 +38892,7 @@ export namespace Prisma {
     uploadedImages?: ImageUncheckedCreateNestedManyWithoutUploaderInput
     uploadedPortfolioItems?: PortfolioItemUncheckedCreateNestedManyWithoutUploadedByInput
     customerInquiries?: InquiryUncheckedCreateNestedManyWithoutCustomerInput
-    maintenanceWorker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
+    worker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
     appearanceSetting?: AppearanceSettingsUncheckedCreateNestedOneWithoutAdminInput
     createdConversations?: ChatConversationUncheckedCreateNestedManyWithoutParticipantsInput
     sentMessages?: ChatMessageUncheckedCreateNestedManyWithoutSenderInput
@@ -38742,6 +38905,39 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutCustomerPhotoSetsInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutCustomerPhotoSetsInput, UserUncheckedCreateWithoutCustomerPhotoSetsInput>
+  }
+
+  export type InquiryCreateWithoutPhotoSetsInput = {
+    id?: string
+    customerName: string
+    customerEmail: string
+    customerPhone?: string | null
+    serviceNeeded?: string | null
+    message: string
+    status?: $Enums.InquiryStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customer?: UserCreateNestedOneWithoutCustomerInquiriesInput
+    attachments?: InquiryAttachmentCreateNestedManyWithoutInquiryInput
+  }
+
+  export type InquiryUncheckedCreateWithoutPhotoSetsInput = {
+    id?: string
+    customerName: string
+    customerEmail: string
+    customerPhone?: string | null
+    serviceNeeded?: string | null
+    message: string
+    status?: $Enums.InquiryStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customerId?: string | null
+    attachments?: InquiryAttachmentUncheckedCreateNestedManyWithoutInquiryInput
+  }
+
+  export type InquiryCreateOrConnectWithoutPhotoSetsInput = {
+    where: InquiryWhereUniqueInput
+    create: XOR<InquiryCreateWithoutPhotoSetsInput, InquiryUncheckedCreateWithoutPhotoSetsInput>
   }
 
   export type MaintenanceWorkerUpsertWithoutPhotoSetsInput = {
@@ -38758,17 +38954,21 @@ export namespace Prisma {
   export type MaintenanceWorkerUpdateWithoutPhotoSetsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    serviceFusionId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneWithoutMaintenanceWorkerNestedInput
+    user?: UserUpdateOneWithoutWorkerNestedInput
   }
 
   export type MaintenanceWorkerUncheckedUpdateWithoutPhotoSetsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     userId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceFusionId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -38826,6 +39026,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     emailVerificationRequests?: EmailVerificationRequestUpdateManyWithoutUserNestedInput
@@ -38833,7 +39034,7 @@ export namespace Prisma {
     uploadedImages?: ImageUpdateManyWithoutUploaderNestedInput
     uploadedPortfolioItems?: PortfolioItemUpdateManyWithoutUploadedByNestedInput
     customerInquiries?: InquiryUpdateManyWithoutCustomerNestedInput
-    maintenanceWorker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
+    worker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
     appearanceSetting?: AppearanceSettingsUpdateOneWithoutAdminNestedInput
     createdConversations?: ChatConversationUpdateManyWithoutParticipantsNestedInput
     sentMessages?: ChatMessageUpdateManyWithoutSenderNestedInput
@@ -38855,6 +39056,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationRequests?: EmailVerificationRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -38862,7 +39064,7 @@ export namespace Prisma {
     uploadedImages?: ImageUncheckedUpdateManyWithoutUploaderNestedInput
     uploadedPortfolioItems?: PortfolioItemUncheckedUpdateManyWithoutUploadedByNestedInput
     customerInquiries?: InquiryUncheckedUpdateManyWithoutCustomerNestedInput
-    maintenanceWorker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
+    worker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
     appearanceSetting?: AppearanceSettingsUncheckedUpdateOneWithoutAdminNestedInput
     createdConversations?: ChatConversationUncheckedUpdateManyWithoutParticipantsNestedInput
     sentMessages?: ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
@@ -38870,6 +39072,45 @@ export namespace Prisma {
     staffConversations?: ChatConversationUncheckedUpdateManyWithoutStaffMemberNestedInput
     invoices?: InvoiceUncheckedUpdateManyWithoutCustomerNestedInput
     activityInConversations?: ChatParticipantInfoUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type InquiryUpsertWithoutPhotoSetsInput = {
+    update: XOR<InquiryUpdateWithoutPhotoSetsInput, InquiryUncheckedUpdateWithoutPhotoSetsInput>
+    create: XOR<InquiryCreateWithoutPhotoSetsInput, InquiryUncheckedCreateWithoutPhotoSetsInput>
+    where?: InquiryWhereInput
+  }
+
+  export type InquiryUpdateToOneWithWhereWithoutPhotoSetsInput = {
+    where?: InquiryWhereInput
+    data: XOR<InquiryUpdateWithoutPhotoSetsInput, InquiryUncheckedUpdateWithoutPhotoSetsInput>
+  }
+
+  export type InquiryUpdateWithoutPhotoSetsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    customerEmail?: StringFieldUpdateOperationsInput | string
+    customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceNeeded?: NullableStringFieldUpdateOperationsInput | string | null
+    message?: StringFieldUpdateOperationsInput | string
+    status?: EnumInquiryStatusFieldUpdateOperationsInput | $Enums.InquiryStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customer?: UserUpdateOneWithoutCustomerInquiriesNestedInput
+    attachments?: InquiryAttachmentUpdateManyWithoutInquiryNestedInput
+  }
+
+  export type InquiryUncheckedUpdateWithoutPhotoSetsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    customerEmail?: StringFieldUpdateOperationsInput | string
+    customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceNeeded?: NullableStringFieldUpdateOperationsInput | string | null
+    message?: StringFieldUpdateOperationsInput | string
+    status?: EnumInquiryStatusFieldUpdateOperationsInput | $Enums.InquiryStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customerId?: NullableStringFieldUpdateOperationsInput | string | null
+    attachments?: InquiryAttachmentUncheckedUpdateManyWithoutInquiryNestedInput
   }
 
   export type PhotoSetCreateWithoutPhotosInput = {
@@ -38882,6 +39123,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     maintenanceWorker: MaintenanceWorkerCreateNestedOneWithoutPhotoSetsInput
     customer?: UserCreateNestedOneWithoutCustomerPhotoSetsInput
+    inquiry?: InquiryCreateNestedOneWithoutPhotoSetsInput
   }
 
   export type PhotoSetUncheckedCreateWithoutPhotosInput = {
@@ -38894,6 +39136,7 @@ export namespace Prisma {
     submittedAt?: Date | string
     updatedAt?: Date | string
     customerId?: string | null
+    inquiryId?: string | null
   }
 
   export type PhotoSetCreateOrConnectWithoutPhotosInput = {
@@ -38922,6 +39165,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     maintenanceWorker?: MaintenanceWorkerUpdateOneRequiredWithoutPhotoSetsNestedInput
     customer?: UserUpdateOneWithoutCustomerPhotoSetsNestedInput
+    inquiry?: InquiryUpdateOneWithoutPhotoSetsNestedInput
   }
 
   export type PhotoSetUncheckedUpdateWithoutPhotosInput = {
@@ -38934,6 +39178,7 @@ export namespace Prisma {
     submittedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customerId?: NullableStringFieldUpdateOperationsInput | string | null
+    inquiryId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PhotoSetCreateWithoutMaintenanceWorkerInput = {
@@ -38946,6 +39191,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     photos?: PhotoCreateNestedManyWithoutPhotoSetInput
     customer?: UserCreateNestedOneWithoutCustomerPhotoSetsInput
+    inquiry?: InquiryCreateNestedOneWithoutPhotoSetsInput
   }
 
   export type PhotoSetUncheckedCreateWithoutMaintenanceWorkerInput = {
@@ -38957,6 +39203,7 @@ export namespace Prisma {
     submittedAt?: Date | string
     updatedAt?: Date | string
     customerId?: string | null
+    inquiryId?: string | null
     photos?: PhotoUncheckedCreateNestedManyWithoutPhotoSetInput
   }
 
@@ -38970,7 +39217,7 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type UserCreateWithoutMaintenanceWorkerInput = {
+  export type UserCreateWithoutWorkerInput = {
     id?: string
     name?: string | null
     email?: string | null
@@ -38982,6 +39229,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     emailVerificationRequests?: EmailVerificationRequestCreateNestedManyWithoutUserInput
@@ -38999,7 +39247,7 @@ export namespace Prisma {
     activityInConversations?: ChatParticipantInfoCreateNestedManyWithoutUserInput
   }
 
-  export type UserUncheckedCreateWithoutMaintenanceWorkerInput = {
+  export type UserUncheckedCreateWithoutWorkerInput = {
     id?: string
     name?: string | null
     email?: string | null
@@ -39011,6 +39259,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     emailVerificationRequests?: EmailVerificationRequestUncheckedCreateNestedManyWithoutUserInput
@@ -39028,9 +39277,9 @@ export namespace Prisma {
     activityInConversations?: ChatParticipantInfoUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type UserCreateOrConnectWithoutMaintenanceWorkerInput = {
+  export type UserCreateOrConnectWithoutWorkerInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutMaintenanceWorkerInput, UserUncheckedCreateWithoutMaintenanceWorkerInput>
+    create: XOR<UserCreateWithoutWorkerInput, UserUncheckedCreateWithoutWorkerInput>
   }
 
   export type PhotoSetUpsertWithWhereUniqueWithoutMaintenanceWorkerInput = {
@@ -39049,18 +39298,18 @@ export namespace Prisma {
     data: XOR<PhotoSetUpdateManyMutationInput, PhotoSetUncheckedUpdateManyWithoutMaintenanceWorkerInput>
   }
 
-  export type UserUpsertWithoutMaintenanceWorkerInput = {
-    update: XOR<UserUpdateWithoutMaintenanceWorkerInput, UserUncheckedUpdateWithoutMaintenanceWorkerInput>
-    create: XOR<UserCreateWithoutMaintenanceWorkerInput, UserUncheckedCreateWithoutMaintenanceWorkerInput>
+  export type UserUpsertWithoutWorkerInput = {
+    update: XOR<UserUpdateWithoutWorkerInput, UserUncheckedUpdateWithoutWorkerInput>
+    create: XOR<UserCreateWithoutWorkerInput, UserUncheckedCreateWithoutWorkerInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutMaintenanceWorkerInput = {
+  export type UserUpdateToOneWithWhereWithoutWorkerInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutMaintenanceWorkerInput, UserUncheckedUpdateWithoutMaintenanceWorkerInput>
+    data: XOR<UserUpdateWithoutWorkerInput, UserUncheckedUpdateWithoutWorkerInput>
   }
 
-  export type UserUpdateWithoutMaintenanceWorkerInput = {
+  export type UserUpdateWithoutWorkerInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
@@ -39072,6 +39321,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     emailVerificationRequests?: EmailVerificationRequestUpdateManyWithoutUserNestedInput
@@ -39089,7 +39339,7 @@ export namespace Prisma {
     activityInConversations?: ChatParticipantInfoUpdateManyWithoutUserNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutMaintenanceWorkerInput = {
+  export type UserUncheckedUpdateWithoutWorkerInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
@@ -39101,6 +39351,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationRequests?: EmailVerificationRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -39130,6 +39381,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
     sessions?: SessionCreateNestedManyWithoutUserInput
     emailVerificationRequests?: EmailVerificationRequestCreateNestedManyWithoutUserInput
     services?: ServiceCreateNestedManyWithoutManagedByInput
@@ -39137,7 +39389,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemCreateNestedManyWithoutUploadedByInput
     customerInquiries?: InquiryCreateNestedManyWithoutCustomerInput
     customerPhotoSets?: PhotoSetCreateNestedManyWithoutCustomerInput
-    maintenanceWorker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
+    worker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
     appearanceSetting?: AppearanceSettingsCreateNestedOneWithoutAdminInput
     createdConversations?: ChatConversationCreateNestedManyWithoutParticipantsInput
     sentMessages?: ChatMessageCreateNestedManyWithoutSenderInput
@@ -39159,6 +39411,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     emailVerificationRequests?: EmailVerificationRequestUncheckedCreateNestedManyWithoutUserInput
     services?: ServiceUncheckedCreateNestedManyWithoutManagedByInput
@@ -39166,7 +39419,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUncheckedCreateNestedManyWithoutUploadedByInput
     customerInquiries?: InquiryUncheckedCreateNestedManyWithoutCustomerInput
     customerPhotoSets?: PhotoSetUncheckedCreateNestedManyWithoutCustomerInput
-    maintenanceWorker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
+    worker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
     appearanceSetting?: AppearanceSettingsUncheckedCreateNestedOneWithoutAdminInput
     createdConversations?: ChatConversationUncheckedCreateNestedManyWithoutParticipantsInput
     sentMessages?: ChatMessageUncheckedCreateNestedManyWithoutSenderInput
@@ -39204,6 +39457,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
     sessions?: SessionUpdateManyWithoutUserNestedInput
     emailVerificationRequests?: EmailVerificationRequestUpdateManyWithoutUserNestedInput
     services?: ServiceUpdateManyWithoutManagedByNestedInput
@@ -39211,7 +39465,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUpdateManyWithoutUploadedByNestedInput
     customerInquiries?: InquiryUpdateManyWithoutCustomerNestedInput
     customerPhotoSets?: PhotoSetUpdateManyWithoutCustomerNestedInput
-    maintenanceWorker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
+    worker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
     appearanceSetting?: AppearanceSettingsUpdateOneWithoutAdminNestedInput
     createdConversations?: ChatConversationUpdateManyWithoutParticipantsNestedInput
     sentMessages?: ChatMessageUpdateManyWithoutSenderNestedInput
@@ -39233,6 +39487,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationRequests?: EmailVerificationRequestUncheckedUpdateManyWithoutUserNestedInput
     services?: ServiceUncheckedUpdateManyWithoutManagedByNestedInput
@@ -39240,7 +39495,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUncheckedUpdateManyWithoutUploadedByNestedInput
     customerInquiries?: InquiryUncheckedUpdateManyWithoutCustomerNestedInput
     customerPhotoSets?: PhotoSetUncheckedUpdateManyWithoutCustomerNestedInput
-    maintenanceWorker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
+    worker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
     appearanceSetting?: AppearanceSettingsUncheckedUpdateOneWithoutAdminNestedInput
     createdConversations?: ChatConversationUncheckedUpdateManyWithoutParticipantsNestedInput
     sentMessages?: ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
@@ -39262,6 +39517,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     emailVerificationRequests?: EmailVerificationRequestCreateNestedManyWithoutUserInput
     services?: ServiceCreateNestedManyWithoutManagedByInput
@@ -39269,7 +39525,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemCreateNestedManyWithoutUploadedByInput
     customerInquiries?: InquiryCreateNestedManyWithoutCustomerInput
     customerPhotoSets?: PhotoSetCreateNestedManyWithoutCustomerInput
-    maintenanceWorker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
+    worker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
     appearanceSetting?: AppearanceSettingsCreateNestedOneWithoutAdminInput
     createdConversations?: ChatConversationCreateNestedManyWithoutParticipantsInput
     sentMessages?: ChatMessageCreateNestedManyWithoutSenderInput
@@ -39291,6 +39547,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     emailVerificationRequests?: EmailVerificationRequestUncheckedCreateNestedManyWithoutUserInput
     services?: ServiceUncheckedCreateNestedManyWithoutManagedByInput
@@ -39298,7 +39555,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUncheckedCreateNestedManyWithoutUploadedByInput
     customerInquiries?: InquiryUncheckedCreateNestedManyWithoutCustomerInput
     customerPhotoSets?: PhotoSetUncheckedCreateNestedManyWithoutCustomerInput
-    maintenanceWorker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
+    worker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
     appearanceSetting?: AppearanceSettingsUncheckedCreateNestedOneWithoutAdminInput
     createdConversations?: ChatConversationUncheckedCreateNestedManyWithoutParticipantsInput
     sentMessages?: ChatMessageUncheckedCreateNestedManyWithoutSenderInput
@@ -39336,6 +39593,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     emailVerificationRequests?: EmailVerificationRequestUpdateManyWithoutUserNestedInput
     services?: ServiceUpdateManyWithoutManagedByNestedInput
@@ -39343,7 +39601,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUpdateManyWithoutUploadedByNestedInput
     customerInquiries?: InquiryUpdateManyWithoutCustomerNestedInput
     customerPhotoSets?: PhotoSetUpdateManyWithoutCustomerNestedInput
-    maintenanceWorker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
+    worker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
     appearanceSetting?: AppearanceSettingsUpdateOneWithoutAdminNestedInput
     createdConversations?: ChatConversationUpdateManyWithoutParticipantsNestedInput
     sentMessages?: ChatMessageUpdateManyWithoutSenderNestedInput
@@ -39365,6 +39623,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationRequests?: EmailVerificationRequestUncheckedUpdateManyWithoutUserNestedInput
     services?: ServiceUncheckedUpdateManyWithoutManagedByNestedInput
@@ -39372,7 +39631,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUncheckedUpdateManyWithoutUploadedByNestedInput
     customerInquiries?: InquiryUncheckedUpdateManyWithoutCustomerNestedInput
     customerPhotoSets?: PhotoSetUncheckedUpdateManyWithoutCustomerNestedInput
-    maintenanceWorker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
+    worker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
     appearanceSetting?: AppearanceSettingsUncheckedUpdateOneWithoutAdminNestedInput
     createdConversations?: ChatConversationUncheckedUpdateManyWithoutParticipantsNestedInput
     sentMessages?: ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
@@ -39394,6 +39653,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     services?: ServiceCreateNestedManyWithoutManagedByInput
@@ -39401,7 +39661,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemCreateNestedManyWithoutUploadedByInput
     customerInquiries?: InquiryCreateNestedManyWithoutCustomerInput
     customerPhotoSets?: PhotoSetCreateNestedManyWithoutCustomerInput
-    maintenanceWorker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
+    worker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
     appearanceSetting?: AppearanceSettingsCreateNestedOneWithoutAdminInput
     createdConversations?: ChatConversationCreateNestedManyWithoutParticipantsInput
     sentMessages?: ChatMessageCreateNestedManyWithoutSenderInput
@@ -39423,6 +39683,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     services?: ServiceUncheckedCreateNestedManyWithoutManagedByInput
@@ -39430,7 +39691,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUncheckedCreateNestedManyWithoutUploadedByInput
     customerInquiries?: InquiryUncheckedCreateNestedManyWithoutCustomerInput
     customerPhotoSets?: PhotoSetUncheckedCreateNestedManyWithoutCustomerInput
-    maintenanceWorker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
+    worker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
     appearanceSetting?: AppearanceSettingsUncheckedCreateNestedOneWithoutAdminInput
     createdConversations?: ChatConversationUncheckedCreateNestedManyWithoutParticipantsInput
     sentMessages?: ChatMessageUncheckedCreateNestedManyWithoutSenderInput
@@ -39468,6 +39729,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     services?: ServiceUpdateManyWithoutManagedByNestedInput
@@ -39475,7 +39737,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUpdateManyWithoutUploadedByNestedInput
     customerInquiries?: InquiryUpdateManyWithoutCustomerNestedInput
     customerPhotoSets?: PhotoSetUpdateManyWithoutCustomerNestedInput
-    maintenanceWorker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
+    worker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
     appearanceSetting?: AppearanceSettingsUpdateOneWithoutAdminNestedInput
     createdConversations?: ChatConversationUpdateManyWithoutParticipantsNestedInput
     sentMessages?: ChatMessageUpdateManyWithoutSenderNestedInput
@@ -39497,6 +39759,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     services?: ServiceUncheckedUpdateManyWithoutManagedByNestedInput
@@ -39504,7 +39767,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUncheckedUpdateManyWithoutUploadedByNestedInput
     customerInquiries?: InquiryUncheckedUpdateManyWithoutCustomerNestedInput
     customerPhotoSets?: PhotoSetUncheckedUpdateManyWithoutCustomerNestedInput
-    maintenanceWorker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
+    worker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
     appearanceSetting?: AppearanceSettingsUncheckedUpdateOneWithoutAdminNestedInput
     createdConversations?: ChatConversationUncheckedUpdateManyWithoutParticipantsNestedInput
     sentMessages?: ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
@@ -39526,6 +39789,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     emailVerificationRequests?: EmailVerificationRequestCreateNestedManyWithoutUserInput
@@ -39534,7 +39798,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemCreateNestedManyWithoutUploadedByInput
     customerInquiries?: InquiryCreateNestedManyWithoutCustomerInput
     customerPhotoSets?: PhotoSetCreateNestedManyWithoutCustomerInput
-    maintenanceWorker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
+    worker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
     createdConversations?: ChatConversationCreateNestedManyWithoutParticipantsInput
     sentMessages?: ChatMessageCreateNestedManyWithoutSenderInput
     customerConversations?: ChatConversationCreateNestedManyWithoutCustomerInput
@@ -39555,6 +39819,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     emailVerificationRequests?: EmailVerificationRequestUncheckedCreateNestedManyWithoutUserInput
@@ -39563,7 +39828,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUncheckedCreateNestedManyWithoutUploadedByInput
     customerInquiries?: InquiryUncheckedCreateNestedManyWithoutCustomerInput
     customerPhotoSets?: PhotoSetUncheckedCreateNestedManyWithoutCustomerInput
-    maintenanceWorker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
+    worker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
     createdConversations?: ChatConversationUncheckedCreateNestedManyWithoutParticipantsInput
     sentMessages?: ChatMessageUncheckedCreateNestedManyWithoutSenderInput
     customerConversations?: ChatConversationUncheckedCreateNestedManyWithoutCustomerInput
@@ -39600,6 +39865,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     emailVerificationRequests?: EmailVerificationRequestUpdateManyWithoutUserNestedInput
@@ -39608,7 +39874,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUpdateManyWithoutUploadedByNestedInput
     customerInquiries?: InquiryUpdateManyWithoutCustomerNestedInput
     customerPhotoSets?: PhotoSetUpdateManyWithoutCustomerNestedInput
-    maintenanceWorker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
+    worker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
     createdConversations?: ChatConversationUpdateManyWithoutParticipantsNestedInput
     sentMessages?: ChatMessageUpdateManyWithoutSenderNestedInput
     customerConversations?: ChatConversationUpdateManyWithoutCustomerNestedInput
@@ -39629,6 +39895,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationRequests?: EmailVerificationRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -39637,7 +39904,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUncheckedUpdateManyWithoutUploadedByNestedInput
     customerInquiries?: InquiryUncheckedUpdateManyWithoutCustomerNestedInput
     customerPhotoSets?: PhotoSetUncheckedUpdateManyWithoutCustomerNestedInput
-    maintenanceWorker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
+    worker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
     createdConversations?: ChatConversationUncheckedUpdateManyWithoutParticipantsNestedInput
     sentMessages?: ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
     customerConversations?: ChatConversationUncheckedUpdateManyWithoutCustomerNestedInput
@@ -39658,6 +39925,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     emailVerificationRequests?: EmailVerificationRequestCreateNestedManyWithoutUserInput
@@ -39666,7 +39934,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemCreateNestedManyWithoutUploadedByInput
     customerInquiries?: InquiryCreateNestedManyWithoutCustomerInput
     customerPhotoSets?: PhotoSetCreateNestedManyWithoutCustomerInput
-    maintenanceWorker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
+    worker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
     appearanceSetting?: AppearanceSettingsCreateNestedOneWithoutAdminInput
     sentMessages?: ChatMessageCreateNestedManyWithoutSenderInput
     customerConversations?: ChatConversationCreateNestedManyWithoutCustomerInput
@@ -39687,6 +39955,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     emailVerificationRequests?: EmailVerificationRequestUncheckedCreateNestedManyWithoutUserInput
@@ -39695,7 +39964,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUncheckedCreateNestedManyWithoutUploadedByInput
     customerInquiries?: InquiryUncheckedCreateNestedManyWithoutCustomerInput
     customerPhotoSets?: PhotoSetUncheckedCreateNestedManyWithoutCustomerInput
-    maintenanceWorker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
+    worker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
     appearanceSetting?: AppearanceSettingsUncheckedCreateNestedOneWithoutAdminInput
     sentMessages?: ChatMessageUncheckedCreateNestedManyWithoutSenderInput
     customerConversations?: ChatConversationUncheckedCreateNestedManyWithoutCustomerInput
@@ -39755,6 +40024,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     emailVerificationRequests?: EmailVerificationRequestCreateNestedManyWithoutUserInput
@@ -39763,7 +40033,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemCreateNestedManyWithoutUploadedByInput
     customerInquiries?: InquiryCreateNestedManyWithoutCustomerInput
     customerPhotoSets?: PhotoSetCreateNestedManyWithoutCustomerInput
-    maintenanceWorker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
+    worker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
     appearanceSetting?: AppearanceSettingsCreateNestedOneWithoutAdminInput
     createdConversations?: ChatConversationCreateNestedManyWithoutParticipantsInput
     sentMessages?: ChatMessageCreateNestedManyWithoutSenderInput
@@ -39784,6 +40054,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     emailVerificationRequests?: EmailVerificationRequestUncheckedCreateNestedManyWithoutUserInput
@@ -39792,7 +40063,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUncheckedCreateNestedManyWithoutUploadedByInput
     customerInquiries?: InquiryUncheckedCreateNestedManyWithoutCustomerInput
     customerPhotoSets?: PhotoSetUncheckedCreateNestedManyWithoutCustomerInput
-    maintenanceWorker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
+    worker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
     appearanceSetting?: AppearanceSettingsUncheckedCreateNestedOneWithoutAdminInput
     createdConversations?: ChatConversationUncheckedCreateNestedManyWithoutParticipantsInput
     sentMessages?: ChatMessageUncheckedCreateNestedManyWithoutSenderInput
@@ -39818,6 +40089,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     emailVerificationRequests?: EmailVerificationRequestCreateNestedManyWithoutUserInput
@@ -39826,7 +40098,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemCreateNestedManyWithoutUploadedByInput
     customerInquiries?: InquiryCreateNestedManyWithoutCustomerInput
     customerPhotoSets?: PhotoSetCreateNestedManyWithoutCustomerInput
-    maintenanceWorker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
+    worker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
     appearanceSetting?: AppearanceSettingsCreateNestedOneWithoutAdminInput
     createdConversations?: ChatConversationCreateNestedManyWithoutParticipantsInput
     sentMessages?: ChatMessageCreateNestedManyWithoutSenderInput
@@ -39847,6 +40119,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     emailVerificationRequests?: EmailVerificationRequestUncheckedCreateNestedManyWithoutUserInput
@@ -39855,7 +40128,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUncheckedCreateNestedManyWithoutUploadedByInput
     customerInquiries?: InquiryUncheckedCreateNestedManyWithoutCustomerInput
     customerPhotoSets?: PhotoSetUncheckedCreateNestedManyWithoutCustomerInput
-    maintenanceWorker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
+    worker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
     appearanceSetting?: AppearanceSettingsUncheckedCreateNestedOneWithoutAdminInput
     createdConversations?: ChatConversationUncheckedCreateNestedManyWithoutParticipantsInput
     sentMessages?: ChatMessageUncheckedCreateNestedManyWithoutSenderInput
@@ -39922,6 +40195,7 @@ export namespace Prisma {
     lastSeenAt?: DateTimeNullableFilter<"User"> | Date | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
+    maintenanceWorkerId?: StringNullableFilter<"User"> | string | null
   }
 
   export type ChatMessageUpsertWithWhereUniqueWithoutConversationInput = {
@@ -39963,6 +40237,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     emailVerificationRequests?: EmailVerificationRequestUpdateManyWithoutUserNestedInput
@@ -39971,7 +40246,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUpdateManyWithoutUploadedByNestedInput
     customerInquiries?: InquiryUpdateManyWithoutCustomerNestedInput
     customerPhotoSets?: PhotoSetUpdateManyWithoutCustomerNestedInput
-    maintenanceWorker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
+    worker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
     appearanceSetting?: AppearanceSettingsUpdateOneWithoutAdminNestedInput
     createdConversations?: ChatConversationUpdateManyWithoutParticipantsNestedInput
     sentMessages?: ChatMessageUpdateManyWithoutSenderNestedInput
@@ -39992,6 +40267,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationRequests?: EmailVerificationRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -40000,7 +40276,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUncheckedUpdateManyWithoutUploadedByNestedInput
     customerInquiries?: InquiryUncheckedUpdateManyWithoutCustomerNestedInput
     customerPhotoSets?: PhotoSetUncheckedUpdateManyWithoutCustomerNestedInput
-    maintenanceWorker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
+    worker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
     appearanceSetting?: AppearanceSettingsUncheckedUpdateOneWithoutAdminNestedInput
     createdConversations?: ChatConversationUncheckedUpdateManyWithoutParticipantsNestedInput
     sentMessages?: ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
@@ -40032,6 +40308,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     emailVerificationRequests?: EmailVerificationRequestUpdateManyWithoutUserNestedInput
@@ -40040,7 +40317,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUpdateManyWithoutUploadedByNestedInput
     customerInquiries?: InquiryUpdateManyWithoutCustomerNestedInput
     customerPhotoSets?: PhotoSetUpdateManyWithoutCustomerNestedInput
-    maintenanceWorker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
+    worker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
     appearanceSetting?: AppearanceSettingsUpdateOneWithoutAdminNestedInput
     createdConversations?: ChatConversationUpdateManyWithoutParticipantsNestedInput
     sentMessages?: ChatMessageUpdateManyWithoutSenderNestedInput
@@ -40061,6 +40338,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationRequests?: EmailVerificationRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -40069,7 +40347,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUncheckedUpdateManyWithoutUploadedByNestedInput
     customerInquiries?: InquiryUncheckedUpdateManyWithoutCustomerNestedInput
     customerPhotoSets?: PhotoSetUncheckedUpdateManyWithoutCustomerNestedInput
-    maintenanceWorker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
+    worker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
     appearanceSetting?: AppearanceSettingsUncheckedUpdateOneWithoutAdminNestedInput
     createdConversations?: ChatConversationUncheckedUpdateManyWithoutParticipantsNestedInput
     sentMessages?: ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
@@ -40106,6 +40384,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     emailVerificationRequests?: EmailVerificationRequestCreateNestedManyWithoutUserInput
@@ -40114,7 +40393,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemCreateNestedManyWithoutUploadedByInput
     customerInquiries?: InquiryCreateNestedManyWithoutCustomerInput
     customerPhotoSets?: PhotoSetCreateNestedManyWithoutCustomerInput
-    maintenanceWorker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
+    worker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
     appearanceSetting?: AppearanceSettingsCreateNestedOneWithoutAdminInput
     createdConversations?: ChatConversationCreateNestedManyWithoutParticipantsInput
     customerConversations?: ChatConversationCreateNestedManyWithoutCustomerInput
@@ -40135,6 +40414,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     emailVerificationRequests?: EmailVerificationRequestUncheckedCreateNestedManyWithoutUserInput
@@ -40143,7 +40423,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUncheckedCreateNestedManyWithoutUploadedByInput
     customerInquiries?: InquiryUncheckedCreateNestedManyWithoutCustomerInput
     customerPhotoSets?: PhotoSetUncheckedCreateNestedManyWithoutCustomerInput
-    maintenanceWorker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
+    worker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
     appearanceSetting?: AppearanceSettingsUncheckedCreateNestedOneWithoutAdminInput
     createdConversations?: ChatConversationUncheckedCreateNestedManyWithoutParticipantsInput
     customerConversations?: ChatConversationUncheckedCreateNestedManyWithoutCustomerInput
@@ -40213,6 +40493,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     emailVerificationRequests?: EmailVerificationRequestUpdateManyWithoutUserNestedInput
@@ -40221,7 +40502,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUpdateManyWithoutUploadedByNestedInput
     customerInquiries?: InquiryUpdateManyWithoutCustomerNestedInput
     customerPhotoSets?: PhotoSetUpdateManyWithoutCustomerNestedInput
-    maintenanceWorker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
+    worker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
     appearanceSetting?: AppearanceSettingsUpdateOneWithoutAdminNestedInput
     createdConversations?: ChatConversationUpdateManyWithoutParticipantsNestedInput
     customerConversations?: ChatConversationUpdateManyWithoutCustomerNestedInput
@@ -40242,6 +40523,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationRequests?: EmailVerificationRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -40250,7 +40532,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUncheckedUpdateManyWithoutUploadedByNestedInput
     customerInquiries?: InquiryUncheckedUpdateManyWithoutCustomerNestedInput
     customerPhotoSets?: PhotoSetUncheckedUpdateManyWithoutCustomerNestedInput
-    maintenanceWorker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
+    worker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
     appearanceSetting?: AppearanceSettingsUncheckedUpdateOneWithoutAdminNestedInput
     createdConversations?: ChatConversationUncheckedUpdateManyWithoutParticipantsNestedInput
     customerConversations?: ChatConversationUncheckedUpdateManyWithoutCustomerNestedInput
@@ -40310,6 +40592,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     emailVerificationRequests?: EmailVerificationRequestCreateNestedManyWithoutUserInput
@@ -40318,7 +40601,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemCreateNestedManyWithoutUploadedByInput
     customerInquiries?: InquiryCreateNestedManyWithoutCustomerInput
     customerPhotoSets?: PhotoSetCreateNestedManyWithoutCustomerInput
-    maintenanceWorker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
+    worker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
     appearanceSetting?: AppearanceSettingsCreateNestedOneWithoutAdminInput
     createdConversations?: ChatConversationCreateNestedManyWithoutParticipantsInput
     sentMessages?: ChatMessageCreateNestedManyWithoutSenderInput
@@ -40339,6 +40622,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     emailVerificationRequests?: EmailVerificationRequestUncheckedCreateNestedManyWithoutUserInput
@@ -40347,7 +40631,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUncheckedCreateNestedManyWithoutUploadedByInput
     customerInquiries?: InquiryUncheckedCreateNestedManyWithoutCustomerInput
     customerPhotoSets?: PhotoSetUncheckedCreateNestedManyWithoutCustomerInput
-    maintenanceWorker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
+    worker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
     appearanceSetting?: AppearanceSettingsUncheckedCreateNestedOneWithoutAdminInput
     createdConversations?: ChatConversationUncheckedCreateNestedManyWithoutParticipantsInput
     sentMessages?: ChatMessageUncheckedCreateNestedManyWithoutSenderInput
@@ -40359,36 +40643,6 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutInvoicesInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutInvoicesInput, UserUncheckedCreateWithoutInvoicesInput>
-  }
-
-  export type InvoiceLineItemCreateWithoutInvoiceInput = {
-    id?: string
-    description: string
-    quantity?: number
-    unitPrice: number
-    totalPrice: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type InvoiceLineItemUncheckedCreateWithoutInvoiceInput = {
-    id?: string
-    description: string
-    quantity?: number
-    unitPrice: number
-    totalPrice: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type InvoiceLineItemCreateOrConnectWithoutInvoiceInput = {
-    where: InvoiceLineItemWhereUniqueInput
-    create: XOR<InvoiceLineItemCreateWithoutInvoiceInput, InvoiceLineItemUncheckedCreateWithoutInvoiceInput>
-  }
-
-  export type InvoiceLineItemCreateManyInvoiceInputEnvelope = {
-    data: InvoiceLineItemCreateManyInvoiceInput | InvoiceLineItemCreateManyInvoiceInput[]
-    skipDuplicates?: boolean
   }
 
   export type PaymentCreateWithoutInvoiceInput = {
@@ -40425,6 +40679,36 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type InvoiceLineItemCreateWithoutInvoiceInput = {
+    id?: string
+    description: string
+    quantity?: number
+    unitPrice: number
+    totalPrice: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InvoiceLineItemUncheckedCreateWithoutInvoiceInput = {
+    id?: string
+    description: string
+    quantity?: number
+    unitPrice: number
+    totalPrice: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InvoiceLineItemCreateOrConnectWithoutInvoiceInput = {
+    where: InvoiceLineItemWhereUniqueInput
+    create: XOR<InvoiceLineItemCreateWithoutInvoiceInput, InvoiceLineItemUncheckedCreateWithoutInvoiceInput>
+  }
+
+  export type InvoiceLineItemCreateManyInvoiceInputEnvelope = {
+    data: InvoiceLineItemCreateManyInvoiceInput | InvoiceLineItemCreateManyInvoiceInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutInvoicesInput = {
     update: XOR<UserUpdateWithoutInvoicesInput, UserUncheckedUpdateWithoutInvoicesInput>
     create: XOR<UserCreateWithoutInvoicesInput, UserUncheckedCreateWithoutInvoicesInput>
@@ -40448,6 +40732,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     emailVerificationRequests?: EmailVerificationRequestUpdateManyWithoutUserNestedInput
@@ -40456,7 +40741,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUpdateManyWithoutUploadedByNestedInput
     customerInquiries?: InquiryUpdateManyWithoutCustomerNestedInput
     customerPhotoSets?: PhotoSetUpdateManyWithoutCustomerNestedInput
-    maintenanceWorker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
+    worker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
     appearanceSetting?: AppearanceSettingsUpdateOneWithoutAdminNestedInput
     createdConversations?: ChatConversationUpdateManyWithoutParticipantsNestedInput
     sentMessages?: ChatMessageUpdateManyWithoutSenderNestedInput
@@ -40477,6 +40762,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationRequests?: EmailVerificationRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -40485,43 +40771,13 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUncheckedUpdateManyWithoutUploadedByNestedInput
     customerInquiries?: InquiryUncheckedUpdateManyWithoutCustomerNestedInput
     customerPhotoSets?: PhotoSetUncheckedUpdateManyWithoutCustomerNestedInput
-    maintenanceWorker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
+    worker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
     appearanceSetting?: AppearanceSettingsUncheckedUpdateOneWithoutAdminNestedInput
     createdConversations?: ChatConversationUncheckedUpdateManyWithoutParticipantsNestedInput
     sentMessages?: ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
     customerConversations?: ChatConversationUncheckedUpdateManyWithoutCustomerNestedInput
     staffConversations?: ChatConversationUncheckedUpdateManyWithoutStaffMemberNestedInput
     activityInConversations?: ChatParticipantInfoUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type InvoiceLineItemUpsertWithWhereUniqueWithoutInvoiceInput = {
-    where: InvoiceLineItemWhereUniqueInput
-    update: XOR<InvoiceLineItemUpdateWithoutInvoiceInput, InvoiceLineItemUncheckedUpdateWithoutInvoiceInput>
-    create: XOR<InvoiceLineItemCreateWithoutInvoiceInput, InvoiceLineItemUncheckedCreateWithoutInvoiceInput>
-  }
-
-  export type InvoiceLineItemUpdateWithWhereUniqueWithoutInvoiceInput = {
-    where: InvoiceLineItemWhereUniqueInput
-    data: XOR<InvoiceLineItemUpdateWithoutInvoiceInput, InvoiceLineItemUncheckedUpdateWithoutInvoiceInput>
-  }
-
-  export type InvoiceLineItemUpdateManyWithWhereWithoutInvoiceInput = {
-    where: InvoiceLineItemScalarWhereInput
-    data: XOR<InvoiceLineItemUpdateManyMutationInput, InvoiceLineItemUncheckedUpdateManyWithoutInvoiceInput>
-  }
-
-  export type InvoiceLineItemScalarWhereInput = {
-    AND?: InvoiceLineItemScalarWhereInput | InvoiceLineItemScalarWhereInput[]
-    OR?: InvoiceLineItemScalarWhereInput[]
-    NOT?: InvoiceLineItemScalarWhereInput | InvoiceLineItemScalarWhereInput[]
-    id?: StringFilter<"InvoiceLineItem"> | string
-    invoiceId?: StringFilter<"InvoiceLineItem"> | string
-    description?: StringFilter<"InvoiceLineItem"> | string
-    quantity?: FloatFilter<"InvoiceLineItem"> | number
-    unitPrice?: FloatFilter<"InvoiceLineItem"> | number
-    totalPrice?: FloatFilter<"InvoiceLineItem"> | number
-    createdAt?: DateTimeFilter<"InvoiceLineItem"> | Date | string
-    updatedAt?: DateTimeFilter<"InvoiceLineItem"> | Date | string
   }
 
   export type PaymentUpsertWithWhereUniqueWithoutInvoiceInput = {
@@ -40556,35 +40812,53 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Payment"> | Date | string
   }
 
+  export type InvoiceLineItemUpsertWithWhereUniqueWithoutInvoiceInput = {
+    where: InvoiceLineItemWhereUniqueInput
+    update: XOR<InvoiceLineItemUpdateWithoutInvoiceInput, InvoiceLineItemUncheckedUpdateWithoutInvoiceInput>
+    create: XOR<InvoiceLineItemCreateWithoutInvoiceInput, InvoiceLineItemUncheckedCreateWithoutInvoiceInput>
+  }
+
+  export type InvoiceLineItemUpdateWithWhereUniqueWithoutInvoiceInput = {
+    where: InvoiceLineItemWhereUniqueInput
+    data: XOR<InvoiceLineItemUpdateWithoutInvoiceInput, InvoiceLineItemUncheckedUpdateWithoutInvoiceInput>
+  }
+
+  export type InvoiceLineItemUpdateManyWithWhereWithoutInvoiceInput = {
+    where: InvoiceLineItemScalarWhereInput
+    data: XOR<InvoiceLineItemUpdateManyMutationInput, InvoiceLineItemUncheckedUpdateManyWithoutInvoiceInput>
+  }
+
+  export type InvoiceLineItemScalarWhereInput = {
+    AND?: InvoiceLineItemScalarWhereInput | InvoiceLineItemScalarWhereInput[]
+    OR?: InvoiceLineItemScalarWhereInput[]
+    NOT?: InvoiceLineItemScalarWhereInput | InvoiceLineItemScalarWhereInput[]
+    id?: StringFilter<"InvoiceLineItem"> | string
+    invoiceId?: StringFilter<"InvoiceLineItem"> | string
+    description?: StringFilter<"InvoiceLineItem"> | string
+    quantity?: FloatFilter<"InvoiceLineItem"> | number
+    unitPrice?: FloatFilter<"InvoiceLineItem"> | number
+    totalPrice?: FloatFilter<"InvoiceLineItem"> | number
+    createdAt?: DateTimeFilter<"InvoiceLineItem"> | Date | string
+    updatedAt?: DateTimeFilter<"InvoiceLineItem"> | Date | string
+  }
+
   export type InvoiceCreateWithoutLineItemsInput = {
     id?: string
-    invoiceNumber: string
-    issueDate?: Date | string
-    dueDate: Date | string
-    totalAmount: number
-    amountPaid?: number
     status?: $Enums.InvoiceStatus
-    notes?: string | null
+    dueDate: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
-    relatedServiceRequestId?: string | null
     customer: UserCreateNestedOneWithoutInvoicesInput
     payments?: PaymentCreateNestedManyWithoutInvoiceInput
   }
 
   export type InvoiceUncheckedCreateWithoutLineItemsInput = {
     id?: string
-    invoiceNumber: string
-    customerId: string
-    issueDate?: Date | string
-    dueDate: Date | string
-    totalAmount: number
-    amountPaid?: number
     status?: $Enums.InvoiceStatus
-    notes?: string | null
+    dueDate: Date | string
+    customerId: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    relatedServiceRequestId?: string | null
     payments?: PaymentUncheckedCreateNestedManyWithoutInvoiceInput
   }
 
@@ -40606,65 +40880,41 @@ export namespace Prisma {
 
   export type InvoiceUpdateWithoutLineItemsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    invoiceNumber?: StringFieldUpdateOperationsInput | string
-    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    totalAmount?: FloatFieldUpdateOperationsInput | number
-    amountPaid?: FloatFieldUpdateOperationsInput | number
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    relatedServiceRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     customer?: UserUpdateOneRequiredWithoutInvoicesNestedInput
     payments?: PaymentUpdateManyWithoutInvoiceNestedInput
   }
 
   export type InvoiceUncheckedUpdateWithoutLineItemsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    invoiceNumber?: StringFieldUpdateOperationsInput | string
-    customerId?: StringFieldUpdateOperationsInput | string
-    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    totalAmount?: FloatFieldUpdateOperationsInput | number
-    amountPaid?: FloatFieldUpdateOperationsInput | number
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    customerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    relatedServiceRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     payments?: PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
   }
 
   export type InvoiceCreateWithoutPaymentsInput = {
     id?: string
-    invoiceNumber: string
-    issueDate?: Date | string
-    dueDate: Date | string
-    totalAmount: number
-    amountPaid?: number
     status?: $Enums.InvoiceStatus
-    notes?: string | null
+    dueDate: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
-    relatedServiceRequestId?: string | null
     customer: UserCreateNestedOneWithoutInvoicesInput
     lineItems?: InvoiceLineItemCreateNestedManyWithoutInvoiceInput
   }
 
   export type InvoiceUncheckedCreateWithoutPaymentsInput = {
     id?: string
-    invoiceNumber: string
-    customerId: string
-    issueDate?: Date | string
-    dueDate: Date | string
-    totalAmount: number
-    amountPaid?: number
     status?: $Enums.InvoiceStatus
-    notes?: string | null
+    dueDate: Date | string
+    customerId: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    relatedServiceRequestId?: string | null
     lineItems?: InvoiceLineItemUncheckedCreateNestedManyWithoutInvoiceInput
   }
 
@@ -40686,33 +40936,21 @@ export namespace Prisma {
 
   export type InvoiceUpdateWithoutPaymentsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    invoiceNumber?: StringFieldUpdateOperationsInput | string
-    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    totalAmount?: FloatFieldUpdateOperationsInput | number
-    amountPaid?: FloatFieldUpdateOperationsInput | number
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    relatedServiceRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     customer?: UserUpdateOneRequiredWithoutInvoicesNestedInput
     lineItems?: InvoiceLineItemUpdateManyWithoutInvoiceNestedInput
   }
 
   export type InvoiceUncheckedUpdateWithoutPaymentsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    invoiceNumber?: StringFieldUpdateOperationsInput | string
-    customerId?: StringFieldUpdateOperationsInput | string
-    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    totalAmount?: FloatFieldUpdateOperationsInput | number
-    amountPaid?: FloatFieldUpdateOperationsInput | number
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    customerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    relatedServiceRequestId?: NullableStringFieldUpdateOperationsInput | string | null
     lineItems?: InvoiceLineItemUncheckedUpdateManyWithoutInvoiceNestedInput
   }
 
@@ -40728,6 +40966,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     emailVerificationRequests?: EmailVerificationRequestCreateNestedManyWithoutUserInput
@@ -40736,7 +40975,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemCreateNestedManyWithoutUploadedByInput
     customerInquiries?: InquiryCreateNestedManyWithoutCustomerInput
     customerPhotoSets?: PhotoSetCreateNestedManyWithoutCustomerInput
-    maintenanceWorker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
+    worker?: MaintenanceWorkerCreateNestedOneWithoutUserInput
     appearanceSetting?: AppearanceSettingsCreateNestedOneWithoutAdminInput
     createdConversations?: ChatConversationCreateNestedManyWithoutParticipantsInput
     sentMessages?: ChatMessageCreateNestedManyWithoutSenderInput
@@ -40757,6 +40996,7 @@ export namespace Prisma {
     lastSeenAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    maintenanceWorkerId?: string | null
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     emailVerificationRequests?: EmailVerificationRequestUncheckedCreateNestedManyWithoutUserInput
@@ -40765,7 +41005,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUncheckedCreateNestedManyWithoutUploadedByInput
     customerInquiries?: InquiryUncheckedCreateNestedManyWithoutCustomerInput
     customerPhotoSets?: PhotoSetUncheckedCreateNestedManyWithoutCustomerInput
-    maintenanceWorker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
+    worker?: MaintenanceWorkerUncheckedCreateNestedOneWithoutUserInput
     appearanceSetting?: AppearanceSettingsUncheckedCreateNestedOneWithoutAdminInput
     createdConversations?: ChatConversationUncheckedCreateNestedManyWithoutParticipantsInput
     sentMessages?: ChatMessageUncheckedCreateNestedManyWithoutSenderInput
@@ -40835,6 +41075,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     emailVerificationRequests?: EmailVerificationRequestUpdateManyWithoutUserNestedInput
@@ -40843,7 +41084,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUpdateManyWithoutUploadedByNestedInput
     customerInquiries?: InquiryUpdateManyWithoutCustomerNestedInput
     customerPhotoSets?: PhotoSetUpdateManyWithoutCustomerNestedInput
-    maintenanceWorker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
+    worker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
     appearanceSetting?: AppearanceSettingsUpdateOneWithoutAdminNestedInput
     createdConversations?: ChatConversationUpdateManyWithoutParticipantsNestedInput
     sentMessages?: ChatMessageUpdateManyWithoutSenderNestedInput
@@ -40864,6 +41105,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationRequests?: EmailVerificationRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -40872,7 +41114,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUncheckedUpdateManyWithoutUploadedByNestedInput
     customerInquiries?: InquiryUncheckedUpdateManyWithoutCustomerNestedInput
     customerPhotoSets?: PhotoSetUncheckedUpdateManyWithoutCustomerNestedInput
-    maintenanceWorker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
+    worker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
     appearanceSetting?: AppearanceSettingsUncheckedUpdateOneWithoutAdminNestedInput
     createdConversations?: ChatConversationUncheckedUpdateManyWithoutParticipantsNestedInput
     sentMessages?: ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
@@ -40927,10 +41169,11 @@ export namespace Prisma {
     customerPhone?: string | null
     serviceNeeded?: string | null
     message: string
-    isArchived?: boolean
+    status?: $Enums.InquiryStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     customer?: UserCreateNestedOneWithoutCustomerInquiriesInput
+    photoSets?: PhotoSetCreateNestedManyWithoutInquiryInput
   }
 
   export type InquiryUncheckedCreateWithoutAttachmentsInput = {
@@ -40940,10 +41183,11 @@ export namespace Prisma {
     customerPhone?: string | null
     serviceNeeded?: string | null
     message: string
-    isArchived?: boolean
+    status?: $Enums.InquiryStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     customerId?: string | null
+    photoSets?: PhotoSetUncheckedCreateNestedManyWithoutInquiryInput
   }
 
   export type InquiryCreateOrConnectWithoutAttachmentsInput = {
@@ -40969,10 +41213,11 @@ export namespace Prisma {
     customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
     serviceNeeded?: NullableStringFieldUpdateOperationsInput | string | null
     message?: StringFieldUpdateOperationsInput | string
-    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumInquiryStatusFieldUpdateOperationsInput | $Enums.InquiryStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customer?: UserUpdateOneWithoutCustomerInquiriesNestedInput
+    photoSets?: PhotoSetUpdateManyWithoutInquiryNestedInput
   }
 
   export type InquiryUncheckedUpdateWithoutAttachmentsInput = {
@@ -40982,10 +41227,11 @@ export namespace Prisma {
     customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
     serviceNeeded?: NullableStringFieldUpdateOperationsInput | string | null
     message?: StringFieldUpdateOperationsInput | string
-    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumInquiryStatusFieldUpdateOperationsInput | $Enums.InquiryStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customerId?: NullableStringFieldUpdateOperationsInput | string | null
+    photoSets?: PhotoSetUncheckedUpdateManyWithoutInquiryNestedInput
   }
 
   export type AccountCreateManyUserInput = {
@@ -41060,7 +41306,7 @@ export namespace Prisma {
     customerPhone?: string | null
     serviceNeeded?: string | null
     message: string
-    isArchived?: boolean
+    status?: $Enums.InquiryStatus
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -41074,6 +41320,7 @@ export namespace Prisma {
     status?: $Enums.ApprovalStatus
     submittedAt?: Date | string
     updatedAt?: Date | string
+    inquiryId?: string | null
   }
 
   export type ChatMessageCreateManySenderInput = {
@@ -41112,16 +41359,10 @@ export namespace Prisma {
 
   export type InvoiceCreateManyCustomerInput = {
     id?: string
-    invoiceNumber: string
-    issueDate?: Date | string
-    dueDate: Date | string
-    totalAmount: number
-    amountPaid?: number
     status?: $Enums.InvoiceStatus
-    notes?: string | null
+    dueDate: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
-    relatedServiceRequestId?: string | null
   }
 
   export type ChatParticipantInfoCreateManyUserInput = {
@@ -41334,10 +41575,11 @@ export namespace Prisma {
     customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
     serviceNeeded?: NullableStringFieldUpdateOperationsInput | string | null
     message?: StringFieldUpdateOperationsInput | string
-    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumInquiryStatusFieldUpdateOperationsInput | $Enums.InquiryStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     attachments?: InquiryAttachmentUpdateManyWithoutInquiryNestedInput
+    photoSets?: PhotoSetUpdateManyWithoutInquiryNestedInput
   }
 
   export type InquiryUncheckedUpdateWithoutCustomerInput = {
@@ -41347,10 +41589,11 @@ export namespace Prisma {
     customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
     serviceNeeded?: NullableStringFieldUpdateOperationsInput | string | null
     message?: StringFieldUpdateOperationsInput | string
-    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumInquiryStatusFieldUpdateOperationsInput | $Enums.InquiryStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     attachments?: InquiryAttachmentUncheckedUpdateManyWithoutInquiryNestedInput
+    photoSets?: PhotoSetUncheckedUpdateManyWithoutInquiryNestedInput
   }
 
   export type InquiryUncheckedUpdateManyWithoutCustomerInput = {
@@ -41360,7 +41603,7 @@ export namespace Prisma {
     customerPhone?: NullableStringFieldUpdateOperationsInput | string | null
     serviceNeeded?: NullableStringFieldUpdateOperationsInput | string | null
     message?: StringFieldUpdateOperationsInput | string
-    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumInquiryStatusFieldUpdateOperationsInput | $Enums.InquiryStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -41375,6 +41618,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     maintenanceWorker?: MaintenanceWorkerUpdateOneRequiredWithoutPhotoSetsNestedInput
     photos?: PhotoUpdateManyWithoutPhotoSetNestedInput
+    inquiry?: InquiryUpdateOneWithoutPhotoSetsNestedInput
   }
 
   export type PhotoSetUncheckedUpdateWithoutCustomerInput = {
@@ -41386,6 +41630,7 @@ export namespace Prisma {
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     submittedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    inquiryId?: NullableStringFieldUpdateOperationsInput | string | null
     photos?: PhotoUncheckedUpdateManyWithoutPhotoSetNestedInput
   }
 
@@ -41398,6 +41643,7 @@ export namespace Prisma {
     status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
     submittedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    inquiryId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ChatConversationUpdateWithoutParticipantsInput = {
@@ -41556,48 +41802,30 @@ export namespace Prisma {
 
   export type InvoiceUpdateWithoutCustomerInput = {
     id?: StringFieldUpdateOperationsInput | string
-    invoiceNumber?: StringFieldUpdateOperationsInput | string
-    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    totalAmount?: FloatFieldUpdateOperationsInput | number
-    amountPaid?: FloatFieldUpdateOperationsInput | number
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    relatedServiceRequestId?: NullableStringFieldUpdateOperationsInput | string | null
-    lineItems?: InvoiceLineItemUpdateManyWithoutInvoiceNestedInput
     payments?: PaymentUpdateManyWithoutInvoiceNestedInput
+    lineItems?: InvoiceLineItemUpdateManyWithoutInvoiceNestedInput
   }
 
   export type InvoiceUncheckedUpdateWithoutCustomerInput = {
     id?: StringFieldUpdateOperationsInput | string
-    invoiceNumber?: StringFieldUpdateOperationsInput | string
-    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    totalAmount?: FloatFieldUpdateOperationsInput | number
-    amountPaid?: FloatFieldUpdateOperationsInput | number
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    relatedServiceRequestId?: NullableStringFieldUpdateOperationsInput | string | null
-    lineItems?: InvoiceLineItemUncheckedUpdateManyWithoutInvoiceNestedInput
     payments?: PaymentUncheckedUpdateManyWithoutInvoiceNestedInput
+    lineItems?: InvoiceLineItemUncheckedUpdateManyWithoutInvoiceNestedInput
   }
 
   export type InvoiceUncheckedUpdateManyWithoutCustomerInput = {
     id?: StringFieldUpdateOperationsInput | string
-    invoiceNumber?: StringFieldUpdateOperationsInput | string
-    issueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    totalAmount?: FloatFieldUpdateOperationsInput | number
-    amountPaid?: FloatFieldUpdateOperationsInput | number
     status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    dueDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    relatedServiceRequestId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ChatParticipantInfoUpdateWithoutUserInput = {
@@ -41683,6 +41911,18 @@ export namespace Prisma {
     uploadedAt?: Date | string
   }
 
+  export type PhotoSetCreateManyInquiryInput = {
+    id?: string
+    title?: string | null
+    maintenanceWorkerId: string
+    serviceCategory: string
+    description?: string | null
+    status?: $Enums.ApprovalStatus
+    submittedAt?: Date | string
+    updatedAt?: Date | string
+    customerId?: string | null
+  }
+
   export type InquiryAttachmentUpdateWithoutInquiryInput = {
     id?: StringFieldUpdateOperationsInput | string
     fileName?: StringFieldUpdateOperationsInput | string
@@ -41708,6 +41948,44 @@ export namespace Prisma {
     fileSize?: IntFieldUpdateOperationsInput | number
     filePath?: StringFieldUpdateOperationsInput | string
     uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PhotoSetUpdateWithoutInquiryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceCategory?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    submittedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorker?: MaintenanceWorkerUpdateOneRequiredWithoutPhotoSetsNestedInput
+    photos?: PhotoUpdateManyWithoutPhotoSetNestedInput
+    customer?: UserUpdateOneWithoutCustomerPhotoSetsNestedInput
+  }
+
+  export type PhotoSetUncheckedUpdateWithoutInquiryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    maintenanceWorkerId?: StringFieldUpdateOperationsInput | string
+    serviceCategory?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    submittedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customerId?: NullableStringFieldUpdateOperationsInput | string | null
+    photos?: PhotoUncheckedUpdateManyWithoutPhotoSetNestedInput
+  }
+
+  export type PhotoSetUncheckedUpdateManyWithoutInquiryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    maintenanceWorkerId?: StringFieldUpdateOperationsInput | string
+    serviceCategory?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumApprovalStatusFieldUpdateOperationsInput | $Enums.ApprovalStatus
+    submittedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customerId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PhotoCreateManyPhotoSetInput = {
@@ -41759,6 +42037,7 @@ export namespace Prisma {
     submittedAt?: Date | string
     updatedAt?: Date | string
     customerId?: string | null
+    inquiryId?: string | null
   }
 
   export type PhotoSetUpdateWithoutMaintenanceWorkerInput = {
@@ -41771,6 +42050,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     photos?: PhotoUpdateManyWithoutPhotoSetNestedInput
     customer?: UserUpdateOneWithoutCustomerPhotoSetsNestedInput
+    inquiry?: InquiryUpdateOneWithoutPhotoSetsNestedInput
   }
 
   export type PhotoSetUncheckedUpdateWithoutMaintenanceWorkerInput = {
@@ -41782,6 +42062,7 @@ export namespace Prisma {
     submittedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customerId?: NullableStringFieldUpdateOperationsInput | string | null
+    inquiryId?: NullableStringFieldUpdateOperationsInput | string | null
     photos?: PhotoUncheckedUpdateManyWithoutPhotoSetNestedInput
   }
 
@@ -41794,6 +42075,7 @@ export namespace Prisma {
     submittedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     customerId?: NullableStringFieldUpdateOperationsInput | string | null
+    inquiryId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ChatMessageCreateManyConversationInput = {
@@ -41826,6 +42108,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     emailVerificationRequests?: EmailVerificationRequestUpdateManyWithoutUserNestedInput
@@ -41834,7 +42117,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUpdateManyWithoutUploadedByNestedInput
     customerInquiries?: InquiryUpdateManyWithoutCustomerNestedInput
     customerPhotoSets?: PhotoSetUpdateManyWithoutCustomerNestedInput
-    maintenanceWorker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
+    worker?: MaintenanceWorkerUpdateOneWithoutUserNestedInput
     appearanceSetting?: AppearanceSettingsUpdateOneWithoutAdminNestedInput
     sentMessages?: ChatMessageUpdateManyWithoutSenderNestedInput
     customerConversations?: ChatConversationUpdateManyWithoutCustomerNestedInput
@@ -41855,6 +42138,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     emailVerificationRequests?: EmailVerificationRequestUncheckedUpdateManyWithoutUserNestedInput
@@ -41863,7 +42147,7 @@ export namespace Prisma {
     uploadedPortfolioItems?: PortfolioItemUncheckedUpdateManyWithoutUploadedByNestedInput
     customerInquiries?: InquiryUncheckedUpdateManyWithoutCustomerNestedInput
     customerPhotoSets?: PhotoSetUncheckedUpdateManyWithoutCustomerNestedInput
-    maintenanceWorker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
+    worker?: MaintenanceWorkerUncheckedUpdateOneWithoutUserNestedInput
     appearanceSetting?: AppearanceSettingsUncheckedUpdateOneWithoutAdminNestedInput
     sentMessages?: ChatMessageUncheckedUpdateManyWithoutSenderNestedInput
     customerConversations?: ChatConversationUncheckedUpdateManyWithoutCustomerNestedInput
@@ -41884,6 +42168,7 @@ export namespace Prisma {
     lastSeenAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    maintenanceWorkerId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ChatMessageUpdateWithoutConversationInput = {
@@ -41940,16 +42225,6 @@ export namespace Prisma {
     lastAccessedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type InvoiceLineItemCreateManyInvoiceInput = {
-    id?: string
-    description: string
-    quantity?: number
-    unitPrice: number
-    totalPrice: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
   export type PaymentCreateManyInvoiceInput = {
     id?: string
     paymentDate?: Date | string
@@ -41962,34 +42237,14 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-  export type InvoiceLineItemUpdateWithoutInvoiceInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    quantity?: FloatFieldUpdateOperationsInput | number
-    unitPrice?: FloatFieldUpdateOperationsInput | number
-    totalPrice?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type InvoiceLineItemUncheckedUpdateWithoutInvoiceInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    quantity?: FloatFieldUpdateOperationsInput | number
-    unitPrice?: FloatFieldUpdateOperationsInput | number
-    totalPrice?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type InvoiceLineItemUncheckedUpdateManyWithoutInvoiceInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    quantity?: FloatFieldUpdateOperationsInput | number
-    unitPrice?: FloatFieldUpdateOperationsInput | number
-    totalPrice?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  export type InvoiceLineItemCreateManyInvoiceInput = {
+    id?: string
+    description: string
+    quantity?: number
+    unitPrice: number
+    totalPrice: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type PaymentUpdateWithoutInvoiceInput = {
@@ -42024,6 +42279,36 @@ export namespace Prisma {
     transactionId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: NullableStringFieldUpdateOperationsInput | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvoiceLineItemUpdateWithoutInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    quantity?: FloatFieldUpdateOperationsInput | number
+    unitPrice?: FloatFieldUpdateOperationsInput | number
+    totalPrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvoiceLineItemUncheckedUpdateWithoutInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    quantity?: FloatFieldUpdateOperationsInput | number
+    unitPrice?: FloatFieldUpdateOperationsInput | number
+    totalPrice?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvoiceLineItemUncheckedUpdateManyWithoutInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    quantity?: FloatFieldUpdateOperationsInput | number
+    unitPrice?: FloatFieldUpdateOperationsInput | number
+    totalPrice?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

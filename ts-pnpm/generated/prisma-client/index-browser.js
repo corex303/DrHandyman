@@ -131,7 +131,8 @@ exports.Prisma.UserScalarFieldEnum = {
   role: 'role',
   lastSeenAt: 'lastSeenAt',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  maintenanceWorkerId: 'maintenanceWorkerId'
 };
 
 exports.Prisma.ServiceScalarFieldEnum = {
@@ -177,7 +178,7 @@ exports.Prisma.InquiryScalarFieldEnum = {
   customerPhone: 'customerPhone',
   serviceNeeded: 'serviceNeeded',
   message: 'message',
-  isArchived: 'isArchived',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   customerId: 'customerId'
@@ -220,7 +221,8 @@ exports.Prisma.PhotoSetScalarFieldEnum = {
   status: 'status',
   submittedAt: 'submittedAt',
   updatedAt: 'updatedAt',
-  customerId: 'customerId'
+  customerId: 'customerId',
+  inquiryId: 'inquiryId'
 };
 
 exports.Prisma.PhotoScalarFieldEnum = {
@@ -237,8 +239,10 @@ exports.Prisma.PhotoScalarFieldEnum = {
 exports.Prisma.MaintenanceWorkerScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  email: 'email',
   isActive: 'isActive',
   userId: 'userId',
+  serviceFusionId: 'serviceFusionId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -326,17 +330,11 @@ exports.Prisma.ChatMessageScalarFieldEnum = {
 
 exports.Prisma.InvoiceScalarFieldEnum = {
   id: 'id',
-  invoiceNumber: 'invoiceNumber',
-  customerId: 'customerId',
-  issueDate: 'issueDate',
-  dueDate: 'dueDate',
-  totalAmount: 'totalAmount',
-  amountPaid: 'amountPaid',
   status: 'status',
-  notes: 'notes',
+  dueDate: 'dueDate',
+  customerId: 'customerId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  relatedServiceRequestId: 'relatedServiceRequestId'
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.InvoiceLineItemScalarFieldEnum = {
@@ -414,6 +412,13 @@ exports.UserRole = exports.$Enums.UserRole = {
   ADMIN: 'ADMIN',
   MAINTENANCE: 'MAINTENANCE',
   CUSTOMER: 'CUSTOMER'
+};
+
+exports.InquiryStatus = exports.$Enums.InquiryStatus = {
+  NEW: 'NEW',
+  IN_PROGRESS: 'IN_PROGRESS',
+  COMPLETED: 'COMPLETED',
+  ARCHIVED: 'ARCHIVED'
 };
 
 exports.ApprovalStatus = exports.$Enums.ApprovalStatus = {

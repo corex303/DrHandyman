@@ -1,8 +1,6 @@
-import { type NextRequest,NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth/next';
-
-import { authOptions } from '@/lib/auth/options';
-import prisma from '@/lib/prisma'; // Corrected: Default import for prisma
+import { NextResponse } from 'next/server';
+import prisma from '@/lib/prisma';
+import { verifyAdminSession } from '@/lib/auth/admin';
 
 // Helper to get or create the single SiteSettings record
 async function getSiteSettings() {
@@ -37,65 +35,45 @@ async function getSiteSettings() {
   return settings;
 }
 
-export async function GET(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-  // Corrected: Check for session and session.user before accessing role
-  if (!session || !session.user || session.user.role !== 'ADMIN') {
+export async function GET() {
+  const { isAuthenticated } = verifyAdminSession();
+  if (!isAuthenticated) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
-    const settings = await getSiteSettings();
-    // Ensure settings and settings.appearance are not null before sending
-    if (!settings || !settings.appearance) {
-      // This case should ideally be handled by getSiteSettings, but as a safeguard:
-      console.error('[GET /api/admin/settings/appearance] Critical: getSiteSettings returned invalid data.');
-      // Return a default structure that the frontend expects for appearance
-      return NextResponse.json({ theme: 'default', logoUrl: '', faviconUrl: '' }); 
-    }
-    return NextResponse.json(settings.appearance);
+    const appearance = await prisma.appearanceSettings.findFirst();
+    return NextResponse.json(appearance);
   } catch (error) {
-    console.error('[GET /api/admin/settings/appearance] Error:', error);
+    console.error('Failed to fetch appearance settings:', error);
     return NextResponse.json({ error: 'Failed to fetch appearance settings' }, { status: 500 });
   }
 }
 
-export async function PUT(req: NextRequest) {
-  const session = await getServerSession(authOptions);
-  // Corrected: Check for session and session.user before accessing role
-  if (!session || !session.user || session.user.role !== 'ADMIN') {
+export async function POST(req: Request) {
+  const { isAuthenticated } = verifyAdminSession();
+  if (!isAuthenticated) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
-    const data = await req.json();
-    const currentSettings = await getSiteSettings();
+    const body = await req.json();
+    const { id, ...data } = body;
 
-    // Ensure currentSettings.appearance is a valid object for spreading
-    const currentAppearanceObject = (typeof currentSettings.appearance === 'object' && currentSettings.appearance !== null) 
-                                      ? currentSettings.appearance 
-                                      : {};
-
-    if (typeof data !== 'object' || data === null) {
-      return NextResponse.json({ error: 'Invalid data format' }, { status: 400 });
+    let appearance;
+    if (id) {
+      appearance = await prisma.appearanceSettings.update({
+        where: { id },
+        data,
+      });
+    } else {
+      appearance = await prisma.appearanceSettings.create({
+        data,
+      });
     }
-
-    const updatedSettings = await prisma.siteSettings.update({
-      where: { id: currentSettings.id },
-      data: {
-        // Ensure we are merging with existing appearance settings if a partial update is sent
-        appearance: { 
-          ...(currentAppearanceObject as object), 
-          ...data 
-        },
-      },
-    });
-    return NextResponse.json(updatedSettings.appearance);
+    return NextResponse.json(appearance);
   } catch (error) {
-    console.error('[PUT /api/admin/settings/appearance] Error:', error);
-    if (error instanceof SyntaxError) {
-        return NextResponse.json({ error: 'Invalid JSON payload' }, { status: 400 });
-    }
+    console.error('Failed to update appearance settings:', error);
     return NextResponse.json({ error: 'Failed to update appearance settings' }, { status: 500 });
   }
 }

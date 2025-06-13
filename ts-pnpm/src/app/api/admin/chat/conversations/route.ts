@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
 
 import prisma from '@/lib/prisma';
+import { verifyAdminSession } from '@/lib/auth/admin';
 
 const ADMIN_COOKIE_NAME = 'admin_session';
 const ADMIN_EXPECTED_COOKIE_VALUE = 'admin_session_active_marker';
@@ -145,117 +146,37 @@ export async function GET(request: NextRequest) {
 
 // POST /api/admin/chat/conversations
 // Admin initiating a new conversation
-export async function POST(request: NextRequest) {
-  const cookieStore = cookies();
-  const adminCookie = cookieStore.get(ADMIN_COOKIE_NAME);
-  if (adminCookie?.value !== ADMIN_EXPECTED_COOKIE_VALUE) {
-    return NextResponse.json({ error: 'Unauthorized: Admin access required' }, { status: 401 });
+export async function POST(req: Request) {
+  const { isAuthenticated } = verifyAdminSession();
+  if (!isAuthenticated) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
-
-  // This route now needs a way to identify the admin user without a session.
-  // For now, we cannot create messages as the sender is unknown.
-  // This functionality will need to be re-evaluated.
-  // We will return an error indicating this is not supported for now.
-  
-  // The original logic relied on session.user.id. Without that, we can't proceed.
-  // To prevent crashes, we will temporarily disable this.
-  // A more robust solution would be to create a "system" user for admins
-  // or associate the cookie with a specific admin user record.
-
-  return NextResponse.json({ error: 'Creating new conversations as admin is temporarily disabled pending architecture review.' }, { status: 501 });
-  
-  /*
-  // The following logic is disabled because it relies on a NextAuth session.
-  const session = await getServerSession(authOptions);
-
-  if (!session || !session.user || session.user.role !== UserRole.ADMIN) {
-    return NextResponse.json({ error: 'Unauthorized: Admin access required' }, { status: 401 });
-  }
-
-  const adminUserId = session.user.id;
 
   try {
-    const body = await request.json();
-    const { maintenanceWorkerId, initialMessageContent } = body;
+    const { title, customerId, staffId } = await req.json();
 
-    if (!maintenanceWorkerId) {
-      return NextResponse.json({ error: 'Maintenance worker ID is required' }, { status: 400 });
-    }
-
-    if (!initialMessageContent || typeof initialMessageContent !== 'string' || initialMessageContent.trim() === '') {
-      return NextResponse.json({ error: 'Initial message content is required' }, { status: 400 });
-    }
-
-    const maintenanceWorker = await prisma.user.findUnique({
-      where: { id: maintenanceWorkerId, role: UserRole.MAINTENANCE },
-    });
-
-    if (!maintenanceWorker) {
-      return NextResponse.json({ error: 'Maintenance worker not found or user is not a maintenance worker' }, { status: 404 });
-    }
-
-    const existingConversation = await prisma.chatConversation.findFirst({
-      where: {
-        AND: [
-          { participants: { some: { id: adminUserId } } },
-          { participants: { some: { id: maintenanceWorkerId } } },
-        ],
-      },
-      include: {
-        participants: true,
-        messages: { orderBy: { createdAt: 'asc' } },
-      },
-    });
-
-    if (existingConversation) {
-      const newMessage = await prisma.chatMessage.create({
-        data: {
-          content: initialMessageContent,
-          senderId: adminUserId,
-          conversationId: existingConversation.id,
-        },
-        include: {
-          sender: { select: { id: true, name: true, email: true, image: true, role: true } },
-        },
-      });
-      await prisma.chatConversation.update({
-        where: { id: existingConversation.id },
-        data: { updatedAt: new Date() },
-      });
-      return NextResponse.json(newMessage, { status: 200 });
+    if (!title || !customerId || !staffId) {
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     const newConversation = await prisma.chatConversation.create({
       data: {
+        title,
+        customerId,
+        staffId,
         participants: {
-          connect: [{ id: adminUserId }, { id: maintenanceWorkerId }],
+          connect: [{ id: customerId }, { id: staffId }],
         },
-        messages: {
-          create: [
-            {
-              content: initialMessageContent,
-              senderId: adminUserId,
-            },
-          ],
-        },
-        updatedAt: new Date(),
       },
       include: {
-        participants: { select: { id: true, name: true, email: true, image: true, role: true } },
-        messages: {
-          orderBy: { createdAt: 'asc' },
-          include: {
-            sender: { select: { id: true, name: true, email: true, image: true, role: true } },
-          },
-        },
+        participants: true,
+        messages: true,
       },
     });
 
     return NextResponse.json(newConversation, { status: 201 });
-
   } catch (error) {
-    console.error('Error creating/updating admin conversation:', error);
-    return NextResponse.json({ error: 'An unexpected error occurred.' }, { status: 500 });
+    console.error('Failed to create conversation:', error);
+    return NextResponse.json({ error: 'Failed to create conversation' }, { status: 500 });
   }
-  */
 } 

@@ -1,49 +1,74 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth/next';
-
-import { authOptions } from '@/lib/auth/options';
 import prisma from '@/lib/prisma';
+import { verifyAdminSession } from '@/lib/auth/admin';
 
-import { Prisma, UserRole } from '../../../../../../generated/prisma-client'; // Adjusted path
+export async function GET(req: Request) {
+  const { isAuthenticated } = verifyAdminSession();
+  if (!isAuthenticated) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
 
-export async function GET(request: Request) {
-  const session = await getServerSession(authOptions);
+  const { searchParams } = new URL(req.url);
+  const conversationId = searchParams.get('conversationId');
 
-  if (!session?.user?.id || session.user.role !== UserRole.ADMIN) {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  if (!conversationId) {
+    return NextResponse.json({ error: 'Conversation ID is required' }, { status: 400 });
   }
 
   try {
-    const users = await prisma.user.findMany({
-      where: {
-        NOT: {
-          id: session.user.id, // Exclude the current admin
-        },
-        // Fetch customers, other admins, and maintenance staff
-        role: {
-          in: [UserRole.CUSTOMER, UserRole.ADMIN, UserRole.MAINTENANCE],
+    const conversation = await prisma.chatConversation.findUnique({
+      where: { id: conversationId },
+      include: {
+        participants: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            role: true,
+          },
         },
       },
-      select: {
-        id: true,
-        name: true,
-        email: true, // Good for identification, even if not displayed
-        image: true,
-        role: true,
-      },
-      orderBy: [
-        { role: 'asc' }, // Group by role
-        { name: 'asc' }, // Then by name
-      ],
     });
 
-    return NextResponse.json(users);
-  } catch (error) {
-    console.error("Error fetching chat participants:", error);
-    if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        // Handle known Prisma errors
-        return NextResponse.json({ error: 'Database error while fetching participants.' }, { status: 500 });
+    if (!conversation) {
+      return NextResponse.json({ error: 'Conversation not found' }, { status: 404 });
     }
+
+    return NextResponse.json(conversation.participants);
+  } catch (error) {
+    console.error('Failed to fetch chat participants:', error);
     return NextResponse.json({ error: 'Failed to fetch chat participants' }, { status: 500 });
+  }
+}
+
+export async function POST(req: Request) {
+  const { isAuthenticated } = verifyAdminSession();
+  if (!isAuthenticated) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  try {
+    const { conversationId, participantId, role } = await req.json();
+
+    if (!conversationId || !participantId || !role) {
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+    }
+
+    const newParticipant = await prisma.chatConversation.update({
+      where: { id: conversationId },
+      data: {
+        participants: {
+          connect: { id: participantId },
+        },
+      },
+      include: {
+        participants: true,
+      },
+    });
+
+    return NextResponse.json(newParticipant.participants);
+  } catch (error) {
+    console.error('Failed to add chat participant:', error);
+    return NextResponse.json({ error: 'Failed to add participant' }, { status: 500 });
   }
 } 
