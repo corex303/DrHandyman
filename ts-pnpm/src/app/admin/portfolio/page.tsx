@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useCallback,useEffect, useState } from 'react';
+import React, { useCallback,useEffect, useState, useRef } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 import { ApprovalStatus, MaintenanceWorker,Photo, PhotoSet } from '@prisma/client';
 
@@ -63,6 +64,9 @@ const AdminPortfolioPage = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deletingPhotoSetId, setDeletingPhotoSetId] = useState<string | null>(null);
   const [deleteError, setDeleteError] = useState<string | null>(null);
+
+  const searchParams = useSearchParams();
+  const photoSetRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   // Fetch maintenance workers for the filter dropdown
   useEffect(() => {
@@ -149,7 +153,20 @@ const AdminPortfolioPage = () => {
     // For simplicity, we assume API returns what's needed based on fetchPhotoSets params.
     setFilteredPhotoSets(setsToFilter); 
 
-  }, [allPhotoSets, activeTab, selectedWorker, selectedCategoryFilter]);
+    const photosetId = searchParams.get('photoset_id');
+    if (photosetId && setsToFilter.some(set => set.id === photosetId)) {
+        setTimeout(() => {
+            const el = photoSetRefs.current[photosetId];
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                el.classList.add('ring-2', 'ring-primary', 'ring-offset-2', 'transition-shadow', 'duration-1000');
+                setTimeout(() => {
+                    el.classList.remove('ring-2', 'ring-primary', 'ring-offset-2');
+                }, 3000);
+            }
+        }, 100); // Small delay to ensure rendering
+    }
+  }, [allPhotoSets, activeTab, selectedWorker, selectedCategoryFilter, searchParams]);
 
 
   const handleUpdateStatus = async (photoSetId: string, newStatus: ApprovalStatus) => {
@@ -463,40 +480,46 @@ const AdminPortfolioPage = () => {
 
       <div className="space-y-6">
         {filteredPhotoSets.map((ps) => (
-          <div key={ps.id} className="bg-white shadow-md rounded-lg p-4 md:p-6">
-            <div className="flex flex-col md:flex-row justify-between md:items-center mb-4">
-              <div>
-                <h2 className="text-lg font-semibold text-gray-800">Set ID: <span className="font-normal">{ps.id}</span></h2>
-                <p className="text-sm text-gray-600">Worker: <span className="font-medium">{ps.maintenanceWorker?.name || 'N/A'}</span></p>
-                <p className="text-sm text-gray-600">Service: <span className="font-medium">{ps.serviceCategory}</span></p>
-                <p className="text-sm text-gray-600">Submitted: <span className="font-medium">{new Date(ps.submittedAt).toLocaleDateString()}</span></p>
-                {ps.description && <p className="text-sm text-gray-500 mt-1">Description: {ps.description}</p>}
-              </div>
-              {activeTab === ApprovalStatus.PENDING && (
-                <div className="flex space-x-2 mt-4 md:mt-0">
-                  <button 
-                    onClick={() => handleUpdateStatus(ps.id, ApprovalStatus.APPROVED)}
-                    className="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                  >
-                    Approve
-                  </button>
-                  <button 
-                    onClick={() => handleUpdateStatus(ps.id, ApprovalStatus.REJECTED)}
-                    className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                  >
-                    Reject
-                  </button>
+          <div 
+            key={ps.id} 
+            ref={el => { photoSetRefs.current[ps.id] = el; }}
+            className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-200 dark:border-gray-700"
+          >
+            <div className="p-4">
+              <div className="flex justify-between items-start">
+                <div>
+                  <h2 className="text-lg font-semibold text-gray-800">Set ID: <span className="font-normal">{ps.id}</span></h2>
+                  <p className="text-sm text-gray-600">Worker: <span className="font-medium">{ps.maintenanceWorker?.name || 'N/A'}</span></p>
+                  <p className="text-sm text-gray-600">Service: <span className="font-medium">{ps.serviceCategory}</span></p>
+                  <p className="text-sm text-gray-600">Submitted: <span className="font-medium">{new Date(ps.submittedAt).toLocaleDateString()}</span></p>
+                  {ps.description && <p className="text-sm text-gray-500 mt-1">Description: {ps.description}</p>}
                 </div>
-              )}
-            </div>
-            
-            <div>
-              <h3 className="text-md font-semibold text-gray-700 mb-1">Before Photos:</h3>
-              {renderPhotoGrid(ps.photos, 'BEFORE')}
-            </div>
-            <div className="mt-4">
-              <h3 className="text-md font-semibold text-gray-700 mb-1">After Photos:</h3>
-              {renderPhotoGrid(ps.photos, 'AFTER')}
+                {activeTab === ApprovalStatus.PENDING && (
+                  <div className="flex space-x-2 mt-4 md:mt-0">
+                    <button 
+                      onClick={() => handleUpdateStatus(ps.id, ApprovalStatus.APPROVED)}
+                      className="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                    >
+                      Approve
+                    </button>
+                    <button 
+                      onClick={() => handleUpdateStatus(ps.id, ApprovalStatus.REJECTED)}
+                      className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                    >
+                      Reject
+                    </button>
+                  </div>
+                )}
+              </div>
+              
+              <div>
+                <h3 className="text-md font-semibold text-gray-700 mb-1">Before Photos:</h3>
+                {renderPhotoGrid(ps.photos, 'BEFORE')}
+              </div>
+              <div className="mt-4">
+                <h3 className="text-md font-semibold text-gray-700 mb-1">After Photos:</h3>
+                {renderPhotoGrid(ps.photos, 'AFTER')}
+              </div>
             </div>
           </div>
         ))}
