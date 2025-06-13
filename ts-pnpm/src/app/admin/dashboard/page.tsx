@@ -9,6 +9,7 @@ import { FiBriefcase, FiCheckCircle, FiDollarSign, FiImage, FiLayers, FiTool, Fi
 import Button from '@/components/buttons/Button';
 import WrappedReactIcon from '@/components/ui/WrappedReactIcon';
 import RecentInquiries from '@/components/admin/RecentInquiries';
+import PendingApprovals from '@/components/admin/PendingApprovals';
 
 const FiLogOut = (props: SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
@@ -187,12 +188,12 @@ export default function AdminDashboardPage() {
     <div className="bg-white shadow-2xl rounded-xl p-6 sm:p-8 w-full">
       <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-8 pb-4 border-b border-gray-200">Admin Dashboard</h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 space-y-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="space-y-8">
           <RecentInquiries />
         </div>
         <div className="space-y-8">
-          {/* Placeholder for other widgets */}
+          <PendingApprovals />
         </div>
       </div>
       
