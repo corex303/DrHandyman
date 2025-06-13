@@ -50,21 +50,22 @@ export async function middleware(req: NextRequest) {
       if (isLoginPage) {
         return NextResponse.redirect(new URL('/maintenance/dashboard', req.url));
       }
-      // Otherwise, allow access
+      // Otherwise, allow access to any other maintenance route
       return NextResponse.next();
     }
 
     // If the user is NOT authenticated
     if (!isAuthenticated) {
-      // If they are trying to access a protected route (dashboard or its children), redirect to login
-      if (isDashboardOrSubpath) {
-        const loginUrl = new URL('/maintenance/login', req.url);
-        loginUrl.searchParams.set('from', pathname);
-        loginUrl.searchParams.set('error', 'SessionRequired');
-        return NextResponse.redirect(loginUrl);
+      // If they are trying to access the login page, allow them
+      if (isLoginPage) {
+        return NextResponse.next();
       }
-      // If they are on the login page or other public maintenance page, allow access
-      return NextResponse.next();
+      
+      // For any other route under /maintenance, they must be redirected to login
+      const loginUrl = new URL('/maintenance/login', req.url);
+      loginUrl.searchParams.set('from', pathname);
+      loginUrl.searchParams.set('error', 'SessionRequired');
+      return NextResponse.redirect(loginUrl);
     }
   }
 
